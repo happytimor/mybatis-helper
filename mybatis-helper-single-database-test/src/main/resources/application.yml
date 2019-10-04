@@ -1,7 +1,7 @@
 server.port: 8080
 
 #打印执行sql
-logging.level.com.happytimor.mybatis.helper.test.mapper: debug
+logging.level.com.github.happytimor.mybatis.helper.test.mapper: debug
 
 #配置数据源
 spring:

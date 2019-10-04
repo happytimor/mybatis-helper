@@ -8,7 +8,7 @@
         <version>2.1.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.happytimor.mybatis.helper.test</groupId>
+    <groupId>com.github.happytimor</groupId>
     <artifactId>mybatis-helper-test</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>mybatis-helper-test</name>
@@ -40,12 +40,18 @@
             <version>2.1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.happytimor</groupId>
+            <groupId>com.github.happytimor</groupId>
             <artifactId>mybatis-helper-core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.8.0-beta2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

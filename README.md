@@ -44,7 +44,7 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.registSingleDatabase("com.happytimor.mybatis.helper.test.mapper");
+        this.registSingleDatabase("com.github.happytimor.mybatis.helper.test.mapper");
     }
 }
 ```
@@ -58,7 +58,7 @@ public class MyHelper extends MybatisHelper {
 ```
 ``` java
 //在创建 SqlSessionTemplate 时,注入方法。 具体可以参考源码
-myHelper.regist(sqlSessionFactory, "com.happytimor.mybatis.helper.test.mapper");
+myHelper.regist(sqlSessionFactory, "com.github.happytimor.mybatis.helper.test.mapper");
 ```
 ## 3.API
 
