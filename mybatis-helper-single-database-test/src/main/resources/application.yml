@@ -1,0 +1,12 @@
+server.port: 8080
+
+#打印执行sql
+logging.level.com.happytimor.mybatis.helper.test.mapper: debug
+
+#配置数据源
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/demo?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8"
+    username: "root"
+    password: "123456"
+    driverClassName: "com.mysql.cj.jdbc.Driver"
