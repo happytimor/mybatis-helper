@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.github.happytimor</groupId>
-    <artifactId>mybatis-helper-test</artifactId>
+    <artifactId>mybatis-helper-single-database-test</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>mybatis-helper-test</name>
+    <name>mybatis-helper-single-database-test</name>
     <description>mybatis-helper-single-database-test</description>
 
     <properties>
@@ -43,13 +43,6 @@
             <groupId>io.github.happytimor</groupId>
             <artifactId>mybatis-helper-core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.8.0-beta2</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

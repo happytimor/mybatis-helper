@@ -1,5 +1,4 @@
 # mybatis-helper
-[TOC]
 ## 1.什么是mybatis-helper
 无意间看到过`mybatis-plus` 这个开源项目，发现真的非常好用，完全不用写xml文件，开发起来(小项目)，速度飞快。但是简单使用的时候，发现有一些问题:
 1. 多数据源支持还需要单独引入jar包,更改了原本的多数据源配置方式
@@ -44,7 +43,7 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.registSingleDatabase("io.github.happytimor.mybatis.helper.test.mapper");
+        this.registSingleDatabase("io.github.happytimor.mybatis.helper.single.database.test.mapper");
     }
 }
 ```
@@ -58,7 +57,7 @@ public class MyHelper extends MybatisHelper {
 ```
 ``` java
 //在创建 SqlSessionTemplate 时,注入方法。 具体可以参考源码
-myHelper.regist(sqlSessionFactory, "io.github.happytimor.mybatis.helper.test.mapper");
+myHelper.regist(sqlSessionFactory, "io.github.happytimor.mybatis.helper.single.database.test.mapper");
 ```
 ## 3.API
 

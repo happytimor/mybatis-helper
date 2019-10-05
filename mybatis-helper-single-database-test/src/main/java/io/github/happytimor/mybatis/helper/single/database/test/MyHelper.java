@@ -1,4 +1,4 @@
-package io.github.happytimor.mybatis.helper.test;
+package io.github.happytimor.mybatis.helper.single.database.test;
 
 import io.github.happytimor.mybatis.helper.core.MybatisHelper;
 import org.springframework.beans.factory.InitializingBean;
@@ -13,6 +13,6 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        this.registSingleDatabase("io.github.happytimor.mybatis.helper.test.mapper");
+        this.registSingleDatabase("io.github.happytimor.mybatis.helper.single.database.test.mapper");
     }
 }

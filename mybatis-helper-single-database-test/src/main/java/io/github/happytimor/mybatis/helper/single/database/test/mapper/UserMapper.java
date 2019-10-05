@@ -1,7 +1,7 @@
-package io.github.happytimor.mybatis.helper.test.mapper;
+package io.github.happytimor.mybatis.helper.single.database.test.mapper;
 
 import io.github.happytimor.mybatis.helper.core.common.BaseMapper;
-import io.github.happytimor.mybatis.helper.test.domain.User;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 
 /**
  * @author chenpeng

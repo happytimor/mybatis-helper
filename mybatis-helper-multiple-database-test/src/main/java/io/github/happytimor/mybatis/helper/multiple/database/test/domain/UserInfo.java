@@ -1,4 +1,4 @@
-package io.github.happytimor.mybatis.helper.test.domain;
+package io.github.happytimor.mybatis.helper.multiple.database.test.domain;
 
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
 
@@ -8,18 +8,18 @@ import java.io.Serializable;
  * @author chenpeng
  * @date 2019-08-17
  */
-@TableName("user")
-public class User implements Serializable {
+@TableName("user_info")
+public class UserInfo implements Serializable {
     private Integer id;
     private String name;
     private Integer age;
     private Boolean married;
     private String birthday;
 
-    public User() {
+    public UserInfo() {
     }
 
-    public User(String name) {
+    public UserInfo(String name) {
         this.name = name;
     }
 

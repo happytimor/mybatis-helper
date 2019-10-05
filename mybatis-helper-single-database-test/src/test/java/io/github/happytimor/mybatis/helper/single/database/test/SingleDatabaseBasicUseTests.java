@@ -1,11 +1,11 @@
-package io.github.happytimor.mybatis.helper.test;
+package io.github.happytimor.mybatis.helper.single.database.test;
 
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.wrapper.DeleteWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
-import io.github.happytimor.mybatis.helper.test.domain.User;
-import io.github.happytimor.mybatis.helper.test.service.UserService;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
+import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BasicUseTests {
+public class SingleDatabaseBasicUseTests {
     @Resource
     private UserService userService;
 

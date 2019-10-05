@@ -1,8 +1,8 @@
-package io.github.happytimor.mybatis.helper.test.service;
+package io.github.happytimor.mybatis.helper.single.database.test.service;
 
 import io.github.happytimor.mybatis.helper.core.service.BaseService;
-import io.github.happytimor.mybatis.helper.test.domain.User;
-import io.github.happytimor.mybatis.helper.test.mapper.UserMapper;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
+import io.github.happytimor.mybatis.helper.single.database.test.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 /**
