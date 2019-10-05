@@ -8,7 +8,7 @@
         <version>2.1.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.github.happytimor</groupId>
+    <groupId>io.github.happytimor</groupId>
     <artifactId>mybatis-helper-test</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>mybatis-helper-test</name>
@@ -40,7 +40,7 @@
             <version>2.1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.github.happytimor</groupId>
+            <groupId>io.github.happytimor</groupId>
             <artifactId>mybatis-helper-core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
