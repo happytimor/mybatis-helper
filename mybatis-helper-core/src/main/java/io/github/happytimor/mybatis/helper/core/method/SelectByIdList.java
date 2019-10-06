@@ -1,5 +1,6 @@
 package io.github.happytimor.mybatis.helper.core.method;
 
+import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.common.SqlMethod;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
@@ -19,7 +20,7 @@ public class SelectByIdList extends AbstractMethod {
         SqlMethod sqlMethod = SqlMethod.SELECT_BY_ID_LIST;
         String script = String.format(sqlMethod.getSql(), ColumnUtils.getAllColumnStr(tableInfo),
                 this.parseTableName(), tableInfo.getKeyColumn(),
-                SqlScriptUtils.convertForeach("#{item}", "idList", "(", ")", null, "item", ","));
+                SqlScriptUtils.convertForeach("#{item}", Params.ID_LIST, "(", ")", null, "item", ","));
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, Object.class);
         return this.addMappedStatement(sqlMethod.getMethod(), sqlSource, tableInfo.getModelClass());
     }

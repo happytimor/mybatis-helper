@@ -1,5 +1,6 @@
 package io.github.happytimor.mybatis.helper.core.method;
 
+import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
@@ -86,7 +87,7 @@ public abstract class AbstractMethod {
         StringBuilder sql = new StringBuilder();
         sql.append("<set>");
         for (Result result : tableInfo.getResultList()) {
-            sql.append("<if test=\"entity.").append(result.getProperty()).append(" != null\">").append("\n").append("`").append(result.getColumn()).append("`=#{entity.").append(result.getProperty()).append("},").append("\n").append("</if>");
+            sql.append("<if test=\"" + Params.ENTITY + ".").append(result.getProperty()).append(" != null\">").append("\n").append("`").append(result.getColumn()).append("`=#{" + Params.ENTITY + ".").append(result.getProperty()).append("},").append("\n").append("</if>");
         }
         sql.append("</set>");
         return sql.toString();
@@ -97,7 +98,7 @@ public abstract class AbstractMethod {
      */
     protected String parseTableName() {
         if (this.tableInfo.isMultipleTable()) {
-            return this.tableInfo.getTableName() + this.tableInfo.getMultipleTableConnector() + "${tableNum}";
+            return this.tableInfo.getTableName() + this.tableInfo.getMultipleTableConnector() + "${" + Params.TABLE_NUM + "}";
         }
         return this.tableInfo.getTableName();
     }

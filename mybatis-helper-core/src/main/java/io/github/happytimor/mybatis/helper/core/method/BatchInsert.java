@@ -1,5 +1,6 @@
 package io.github.happytimor.mybatis.helper.core.method;
 
+import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.common.SqlMethod;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
@@ -18,7 +19,7 @@ public class BatchInsert extends AbstractMethod {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         SqlMethod sqlMethod = SqlMethod.BATCH_INSERT;
-        String valuesScript = SqlScriptUtils.convertForeach(this.generateValueScript(tableInfo), "list", null, null, null, "item", ",");
+        String valuesScript = SqlScriptUtils.convertForeach(this.generateValueScript(tableInfo), Params.LIST, null, null, null, "item", ",");
         String script = String.format(sqlMethod.getSql(), this.parseTableName(), generateColumnScript(tableInfo), valuesScript);
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, modelClass);
         return this.addInsertMappedStatement(java.util.Map.class, sqlMethod.getMethod(), sqlSource, new NoKeyGenerator(), null, null);

@@ -1,5 +1,6 @@
 package io.github.happytimor.mybatis.helper.core.method;
 
+import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.common.SqlMethod;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -17,7 +18,7 @@ public class UpdateById extends AbstractMethod {
         SqlMethod sqlMethod = SqlMethod.UPDATE_BY_ID;
         String script = String.format(sqlMethod.getSql(), this.parseTableName(),
                 generateSingleSetSql(tableInfo),
-                tableInfo.getKeyColumn(), "entity." + tableInfo.getKeyProperty());
+                tableInfo.getKeyColumn(), Params.ENTITY + "." + tableInfo.getKeyProperty());
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, modelClass);
         return addUpdateMappedStatement(modelClass, sqlMethod.getMethod(), sqlSource);
     }

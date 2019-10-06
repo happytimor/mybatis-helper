@@ -309,4 +309,29 @@ public class SingleDatabaseBasicUseTests {
 
         userService.deleteByIdList(userIdList);
     }
+
+    /**
+     * sql注入攻击测试
+     */
+    @Test
+    public void sqlInject() {
+        User user = new User();
+        user.setName("mybatis-helper");
+        userService.insert(user);
+        assert user.getId() != null;
+
+        String injectSql = "mybatis-helper or 1=1";
+
+        List<User> users = userService.selectList(new SelectWrapper<User>()
+                .eq(User::getName, injectSql)
+                .or().like(User::getName, injectSql)
+                .or().likeLeft(User::getName, injectSql)
+                .or().likeRight(User::getName, injectSql)
+        );
+
+        assert users.isEmpty();
+
+        boolean deleteSuccess = userService.deleteById(user.getId());
+        assert deleteSuccess;
+    }
 }

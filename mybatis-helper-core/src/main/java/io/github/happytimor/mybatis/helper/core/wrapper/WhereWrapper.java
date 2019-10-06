@@ -1,6 +1,8 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
 
+import io.github.happytimor.mybatis.helper.core.common.Constants;
+import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.metadata.DefaultCompare;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.DefaultConnector;
@@ -196,7 +198,7 @@ public class WhereWrapper<T> extends OrderWrapper<T>
         int count = counter.incrementAndGet();
         String key = "params_" + count + "_" + columnName;
         paramNameValuePairs.put(key, value);
-        conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " #{wrapper.paramNameValuePairs." + key + "}"));
+        conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " #{" + Params.WRAPPER + ".paramNameValuePairs." + key + "}"));
     }
 
     private void addCondition(ColumnFunction<T, ?> column, String operator, Object start, String connector, Object end) {
@@ -207,7 +209,7 @@ public class WhereWrapper<T> extends OrderWrapper<T>
         String endKey = "params_end_" + columnName;
         paramNameValuePairs.put(endKey, end);
 
-        conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " #{wrapper.paramNameValuePairs." + startKey + "} " + connector + " #{wrapper.paramNameValuePairs." + endKey + "}"));
+        conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " #{" + Params.WRAPPER + ".paramNameValuePairs." + startKey + "} " + connector + " #{" + Params.WRAPPER + ".paramNameValuePairs." + endKey + "}"));
     }
 
     public Map<String, Object> getParamNameValuePairs() {

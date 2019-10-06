@@ -1,5 +1,6 @@
 package io.github.happytimor.mybatis.helper.core.mapper;
 
+import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,14 +20,14 @@ public interface BaseMapper<T> {
      *
      * @param entity 对象
      */
-    void insert(@Param("entity") T entity);
+    void insert(@Param(Params.ENTITY) T entity);
 
     /**
      * 批量插入
      *
      * @param list 对象列表
      */
-    void batchInsert(@Param("list") Collection<T> list);
+    void batchInsert(@Param(Params.LIST) Collection<T> list);
 
     /**
      * 根据主键删除
@@ -34,7 +35,7 @@ public interface BaseMapper<T> {
      * @param id 主键id
      * @return 删除结果
      */
-    boolean deleteById(@Param("id") Number id);
+    boolean deleteById(@Param(Params.ID) Number id);
 
     /**
      * 根据主键删除
@@ -42,7 +43,7 @@ public interface BaseMapper<T> {
      * @param idList 主键列表
      * @return 删除结果
      */
-    int deleteByIdList(@Param("idList") Collection<? extends Number> idList);
+    int deleteByIdList(@Param(Params.ID_LIST) Collection<? extends Number> idList);
 
     /**
      * 根据主键更新
@@ -50,7 +51,7 @@ public interface BaseMapper<T> {
      * @param entity 对象
      * @return 更新结果
      */
-    boolean updateById(@Param("entity") T entity);
+    boolean updateById(@Param(Params.ENTITY) T entity);
 
     /**
      * 根据主键批量更新
@@ -58,7 +59,7 @@ public interface BaseMapper<T> {
      * @param list 对象列表
      * @return 更新结果
      */
-    boolean batchUpdateById(@Param("list") Collection<T> list);
+    boolean batchUpdateById(@Param(Params.LIST) Collection<T> list);
 
     /**
      * 根据主键查询
@@ -66,7 +67,7 @@ public interface BaseMapper<T> {
      * @param id 主键id
      * @return 返回对象
      */
-    T selectById(@Param("id") Number id);
+    T selectById(@Param(Params.ID) Number id);
 
     /**
      * 根据主键列表查询
@@ -74,7 +75,7 @@ public interface BaseMapper<T> {
      * @param idList 主键列表
      * @return 返回对象列表
      */
-    List<T> selectByIdList(@Param("idList") Collection<? extends Number> idList);
+    List<T> selectByIdList(@Param(Params.ID_LIST) Collection<? extends Number> idList);
 
     /**
      * 列表查询
@@ -82,7 +83,7 @@ public interface BaseMapper<T> {
      * @param selectWrapper 条件组合
      * @return 返回结果
      */
-    List<T> selectList(@Param("wrapper") AbstractWrapper<T> selectWrapper);
+    List<T> selectList(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
      * 查询总数
@@ -90,7 +91,7 @@ public interface BaseMapper<T> {
      * @param selectWrapper 查询条件
      * @return 数据总数
      */
-    long selectCount(@Param("wrapper") AbstractWrapper<T> selectWrapper);
+    long selectCount(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
      * 最多返回一条
@@ -98,7 +99,7 @@ public interface BaseMapper<T> {
      * @param selectWrapper 条件组合
      * @return 返回结果
      */
-    T selectOne(@Param("wrapper") AbstractWrapper<T> selectWrapper);
+    T selectOne(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
      * 数据更新
@@ -106,7 +107,7 @@ public interface BaseMapper<T> {
      * @param updateWrapper 条件组合
      * @return 更新条数
      */
-    int update(@Param("wrapper") AbstractWrapper<T> updateWrapper);
+    int update(@Param(Params.WRAPPER) AbstractWrapper<T> updateWrapper);
 
     /**
      * 数据删除
@@ -114,7 +115,7 @@ public interface BaseMapper<T> {
      * @param deleteWrapper 条件组合
      * @return 删除条数
      */
-    int delete(@Param("wrapper") AbstractWrapper<T> deleteWrapper);
+    int delete(@Param(Params.WRAPPER) AbstractWrapper<T> deleteWrapper);
 
     /**
      * 有唯一索引的前提下插入或更新数据
@@ -123,5 +124,5 @@ public interface BaseMapper<T> {
      * @param entity 对象
      * @return 操作是否成功
      */
-    boolean insertOrUpdateWithUniqueIndex(@Param("entity") T entity);
+    boolean insertOrUpdateWithUniqueIndex(@Param(Params.ENTITY) T entity);
 }

@@ -5,6 +5,7 @@ import io.github.happytimor.mybatis.helper.core.wrapper.DeleteWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.multiple.database.test.domain.User;
+import io.github.happytimor.mybatis.helper.multiple.database.test.domain.UserInfo;
 import io.github.happytimor.mybatis.helper.multiple.database.test.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -308,5 +309,30 @@ public class Datasource2Tests {
         assert userIdList.size() == total;
 
         userService.deleteByIdList(userIdList);
+    }
+
+    /**
+     * sql注入攻击测试
+     */
+    @Test
+    public void sqlInject() {
+        User user = new User();
+        user.setName("mybatis-helper");
+        userService.insert(user);
+        assert user.getId() != null;
+
+        String injectSql = "mybatis-helper or 1=1";
+
+        List<User> users = userService.selectList(new SelectWrapper<User>()
+                .eq(User::getName, injectSql)
+                .or().like(User::getName, injectSql)
+                .or().likeLeft(User::getName, injectSql)
+                .or().likeRight(User::getName, injectSql)
+        );
+
+        assert users.isEmpty();
+
+        boolean deleteSuccess = userService.deleteById(user.getId());
+        assert deleteSuccess;
     }
 }

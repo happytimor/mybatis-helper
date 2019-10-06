@@ -1,9 +1,10 @@
 package io.github.happytimor.mybatis.helper.core.method;
 
-import io.github.happytimor.mybatis.helper.core.util.SqlScriptUtils;
+import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.common.SqlMethod;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
+import io.github.happytimor.mybatis.helper.core.util.SqlScriptUtils;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
 import org.apache.ibatis.executor.keygen.NoKeyGenerator;
@@ -35,7 +36,7 @@ public class InsertOrUpdateWithUniqueIndex extends AbstractMethod {
         // 表包含主键处理逻辑,如果不包含主键当普通字段处理
         if (tableInfo.getKeyProperty() != null && tableInfo.getKeyProperty().length() > 0) {
             keyGenerator = new Jdbc3KeyGenerator();
-            keyProperty = "entity." + tableInfo.getKeyProperty();
+            keyProperty = Params.ENTITY+"." + tableInfo.getKeyProperty();
             keyColumn = tableInfo.getKeyColumn();
         }
 
@@ -45,7 +46,7 @@ public class InsertOrUpdateWithUniqueIndex extends AbstractMethod {
     private String generateColumnScript(TableInfo tableInfo) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Result result : tableInfo.getResultList()) {
-            stringBuilder.append("<if test=\"entity.").append(result.getProperty()).append(" != null\">`").append(result.getColumn()).append("`,</if>\n");
+            stringBuilder.append("<if test=\""+Params.ENTITY+".").append(result.getProperty()).append(" != null\">`").append(result.getColumn()).append("`,</if>\n");
         }
         return stringBuilder.toString();
     }
@@ -53,7 +54,7 @@ public class InsertOrUpdateWithUniqueIndex extends AbstractMethod {
     private String generateValueScript(TableInfo tableInfo) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Result result : tableInfo.getResultList()) {
-            stringBuilder.append("<if test=\"entity.").append(result.getProperty()).append(" != null\">#{entity.").append(result.getProperty()).append("},</if>\n");
+            stringBuilder.append("<if test=\""+Params.ENTITY+".").append(result.getProperty()).append(" != null\">#{"+Params.ENTITY+".").append(result.getProperty()).append("},</if>\n");
         }
         return stringBuilder.toString();
     }
@@ -66,7 +67,7 @@ public class InsertOrUpdateWithUniqueIndex extends AbstractMethod {
             if (Objects.equals(result.getColumn(), tableInfo.getKeyColumn())) {
                 continue;
             }
-            stringBuilder.append("<if test=\"entity.").append(result.getProperty()).append(" != null\">`").append(result.getColumn()).append("` = #{entity.").append(result.getProperty()).append("},</if>\n");
+            stringBuilder.append("<if test=\""+Params.ENTITY+".").append(result.getProperty()).append(" != null\">`").append(result.getColumn()).append("` = #{"+Params.ENTITY+".").append(result.getProperty()).append("},</if>\n");
         }
         return stringBuilder.toString();
     }

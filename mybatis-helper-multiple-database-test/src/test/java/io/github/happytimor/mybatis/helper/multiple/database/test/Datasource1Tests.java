@@ -310,4 +310,29 @@ public class Datasource1Tests {
 
         userInfoService.deleteByIdList(userIdList);
     }
+
+    /**
+     * sql注入攻击测试
+     */
+    @Test
+    public void sqlInject() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setName("mybatis-helper");
+        userInfoService.insert(userInfo);
+        assert userInfo.getId() != null;
+
+        String injectSql = "mybatis-helper or 1=1";
+
+        List<UserInfo> users = userInfoService.selectList(new SelectWrapper<UserInfo>()
+                .eq(UserInfo::getName, injectSql)
+                .or().like(UserInfo::getName, injectSql)
+                .or().likeLeft(UserInfo::getName, injectSql)
+                .or().likeRight(UserInfo::getName, injectSql)
+        );
+
+        assert users.isEmpty();
+
+        boolean deleteSuccess = userInfoService.deleteById(userInfo.getId());
+        assert deleteSuccess;
+    }
 }

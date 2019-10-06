@@ -184,8 +184,8 @@ public class MybatisHelper implements ApplicationContextAware {
             return null;
         }
         TableInfo tableInfo = new TableInfo();
-        MultipleTableConnector multipleTableConnector = modelClass.getAnnotation(MultipleTableConnector.class);
         //分表连接符
+        MultipleTableConnector multipleTableConnector = modelClass.getAnnotation(MultipleTableConnector.class);
         tableInfo.setMultipleTableConnector(multipleTableConnector != null ? multipleTableConnector.value() : "_");
 
         tableInfo.setModelClass(modelClass);
@@ -196,22 +196,23 @@ public class MybatisHelper implements ApplicationContextAware {
         List<Result> resultList = new ArrayList<>();
         Field[] declaredFields = modelClass.getDeclaredFields();
         for (Field declaredField : declaredFields) {
-            String fieldName = declaredField.getName();
-            TableId tableId = declaredField.getAnnotation(TableId.class);
-            if (tableId != null) {
-                tableInfo.setKeyColumn(tableId.value());
-                tableInfo.setKeyProperty(fieldName);
-                continue;
-            }
-
-            //result不需要包含主键
+            //剔除不存在于数据库的字段
             TableField tableField = declaredField.getAnnotation(TableField.class);
             if (tableField != null && !tableField.exist()) {
                 continue;
             }
 
+            //填充result映射
+            String fieldName = declaredField.getName();
             String columnName = (tableField != null) ? tableField.value() : Convertor.propertyToColumn(fieldName);
             resultList.add(new Result(fieldName, columnName));
+
+            //覆盖默认主键
+            TableId tableId = declaredField.getAnnotation(TableId.class);
+            if (tableId != null) {
+                tableInfo.setKeyColumn(tableId.value());
+                tableInfo.setKeyProperty(fieldName);
+            }
         }
         tableInfo.setResultList(resultList);
         return tableInfo;

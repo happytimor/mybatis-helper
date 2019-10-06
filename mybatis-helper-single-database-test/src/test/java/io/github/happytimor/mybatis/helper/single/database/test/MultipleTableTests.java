@@ -315,4 +315,29 @@ public class MultipleTableTests {
 
         multipleUserService.deleteByIdList(tableNum, userIdList);
     }
+
+    /**
+     * sql注入攻击测试
+     */
+    @Test
+    public void sqlInject() {
+        User user = new User();
+        user.setName("mybatis-helper");
+        multipleUserService.insert(tableNum, user);
+        assert user.getId() != null;
+
+        String injectSql = "mybatis-helper or 1=1";
+
+        List<User> users = multipleUserService.selectList(tableNum, new SelectWrapper<User>()
+                .eq(User::getName, injectSql)
+                .or().like(User::getName, injectSql)
+                .or().likeLeft(User::getName, injectSql)
+                .or().likeRight(User::getName, injectSql)
+        );
+
+        assert users.isEmpty();
+
+        boolean deleteSuccess = multipleUserService.deleteById(tableNum, user.getId());
+        assert deleteSuccess;
+    }
 }
