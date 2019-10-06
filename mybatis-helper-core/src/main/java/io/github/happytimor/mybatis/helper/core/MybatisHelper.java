@@ -1,8 +1,8 @@
 package io.github.happytimor.mybatis.helper.core;
 
 import io.github.happytimor.mybatis.helper.core.annotation.MultipleTableConnector;
-import io.github.happytimor.mybatis.helper.core.annotation.TableField;
-import io.github.happytimor.mybatis.helper.core.annotation.TableId;
+import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
+import io.github.happytimor.mybatis.helper.core.annotation.TablePrimaryKey;
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
 import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
@@ -197,20 +197,20 @@ public class MybatisHelper implements ApplicationContextAware {
         Field[] declaredFields = modelClass.getDeclaredFields();
         for (Field declaredField : declaredFields) {
             //剔除不存在于数据库的字段
-            TableField tableField = declaredField.getAnnotation(TableField.class);
-            if (tableField != null && !tableField.exist()) {
+            TableColumn tableColumn = declaredField.getAnnotation(TableColumn.class);
+            if (tableColumn != null && !tableColumn.exist()) {
                 continue;
             }
 
             //填充result映射
             String fieldName = declaredField.getName();
-            String columnName = (tableField != null) ? tableField.value() : Convertor.propertyToColumn(fieldName);
+            String columnName = (tableColumn != null) ? tableColumn.value() : Convertor.propertyToColumn(fieldName);
             resultList.add(new Result(fieldName, columnName));
 
             //覆盖默认主键
-            TableId tableId = declaredField.getAnnotation(TableId.class);
-            if (tableId != null) {
-                tableInfo.setKeyColumn(tableId.value());
+            TablePrimaryKey tablePrimaryKey = declaredField.getAnnotation(TablePrimaryKey.class);
+            if (tablePrimaryKey != null) {
+                tableInfo.setKeyColumn(tablePrimaryKey.value());
                 tableInfo.setKeyProperty(fieldName);
             }
         }
