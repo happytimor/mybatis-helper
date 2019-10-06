@@ -14,10 +14,9 @@ import org.apache.ibatis.mapping.SqlSource;
 public class Delete extends AbstractMethod {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
-        String sql;
         SqlMethod sqlMethod = SqlMethod.DELETE;
-        sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(), "${whereSegment}");
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, Object.class);
+        String script = String.format(sqlMethod.getSql(), this.parseTableName(), "${wrapper.whereSegment}");
+        SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, Object.class);
         return this.addDeleteMappedStatement(sqlMethod.getMethod(), sqlSource);
     }
 }

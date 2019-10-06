@@ -25,15 +25,15 @@ public class Insert extends AbstractMethod {
         String valuesScript = SqlScriptUtils.wrapTrim(this.generateValueScript(tableInfo), "(", ")", ",");
 
 
-        String sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(), columnScript, valuesScript);
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
+        String script = String.format(sqlMethod.getSql(), this.parseTableName(), columnScript, valuesScript);
+        SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, modelClass);
         KeyGenerator keyGenerator = new NoKeyGenerator();
         String keyProperty = null;
         String keyColumn = null;
         // 表包含主键处理逻辑,如果不包含主键当普通字段处理
         if (tableInfo.getKeyProperty() != null && tableInfo.getKeyProperty().length() > 0) {
             keyGenerator = new Jdbc3KeyGenerator();
-            keyProperty = tableInfo.getKeyProperty();
+            keyProperty = "entity." + tableInfo.getKeyProperty();
             keyColumn = tableInfo.getKeyColumn();
         }
 
@@ -43,7 +43,7 @@ public class Insert extends AbstractMethod {
     private String generateColumnScript(TableInfo tableInfo) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Result result : tableInfo.getResultList()) {
-            stringBuilder.append("<if test=\"").append(result.getProperty()).append(" != null\">`").append(result.getColumn()).append("`,</if>\n");
+            stringBuilder.append("<if test=\"entity.").append(result.getProperty()).append(" != null\">`").append(result.getColumn()).append("`,</if>\n");
         }
         return stringBuilder.toString();
     }
@@ -51,7 +51,7 @@ public class Insert extends AbstractMethod {
     private String generateValueScript(TableInfo tableInfo) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Result result : tableInfo.getResultList()) {
-            stringBuilder.append("<if test=\"").append(result.getProperty()).append(" != null\">#{").append(result.getProperty()).append("},</if>\n");
+            stringBuilder.append("<if test=\"entity.").append(result.getProperty()).append(" != null\">#{entity.").append(result.getProperty()).append("},</if>\n");
         }
         return stringBuilder.toString();
     }

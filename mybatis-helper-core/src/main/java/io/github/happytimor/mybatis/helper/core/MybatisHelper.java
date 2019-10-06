@@ -1,10 +1,12 @@
 package io.github.happytimor.mybatis.helper.core;
 
+import io.github.happytimor.mybatis.helper.core.annotation.MultipleTableConnector;
 import io.github.happytimor.mybatis.helper.core.annotation.TableField;
 import io.github.happytimor.mybatis.helper.core.annotation.TableId;
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
-import io.github.happytimor.mybatis.helper.core.common.BaseMapper;
+import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
+import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import io.github.happytimor.mybatis.helper.core.method.*;
@@ -120,7 +122,7 @@ public class MybatisHelper implements ApplicationContextAware {
                 MetadataReader metadataReader = new CachingMetadataReaderFactory().getMetadataReader(resource);
                 String[] interfaceNames = metadataReader.getClassMetadata().getInterfaceNames();
                 for (String interfaceName : interfaceNames) {
-                    if (Objects.equals(interfaceName, BaseMapper.class.getName())) {
+                    if (Objects.equals(interfaceName, BaseMapper.class.getName()) || Objects.equals(interfaceName, MultipleTableMapper.class.getName())) {
                         classNameSet.add(Class.forName(metadataReader.getClassMetadata().getClassName()));
                         break;
                     }
@@ -147,6 +149,10 @@ public class MybatisHelper implements ApplicationContextAware {
 
         Collection<String> mappedStatementNames = mapperBuilderAssistant.getConfiguration().getMappedStatementNames();
         TableInfo tableInfo = parseTableInfo(modelClass);
+        if (tableInfo == null) {
+            throw new RuntimeException("fail to parse tableInfo");
+        }
+        tableInfo.setMultipleTable(MultipleTableMapper.class.isAssignableFrom(mapperClass));
         mapperBuilderAssistant.setCurrentNamespace(mapperClass.getName());
         for (AbstractMethod abstractMethod : methodList) {
             String mapperdStatementId = mapperClass.getName() + "." + ColumnUtils.makeFirstCharacterLower(abstractMethod.getClass().getSimpleName());
@@ -177,8 +183,11 @@ public class MybatisHelper implements ApplicationContextAware {
             }
             return null;
         }
-
         TableInfo tableInfo = new TableInfo();
+        MultipleTableConnector multipleTableConnector = modelClass.getAnnotation(MultipleTableConnector.class);
+        //分表连接符
+        tableInfo.setMultipleTableConnector(multipleTableConnector != null ? multipleTableConnector.value() : "_");
+
         tableInfo.setModelClass(modelClass);
         tableInfo.setTableName(tableName.value());
         tableInfo.setKeyColumn(Constants.DEFAULT_KEY_COLUMN);

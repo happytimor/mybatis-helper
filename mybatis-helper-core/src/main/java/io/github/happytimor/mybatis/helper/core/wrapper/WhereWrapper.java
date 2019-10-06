@@ -196,7 +196,7 @@ public class WhereWrapper<T> extends OrderWrapper<T>
         int count = counter.incrementAndGet();
         String key = "params_" + count + "_" + columnName;
         paramNameValuePairs.put(key, value);
-        conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " #{paramNameValuePairs." + key + "}"));
+        conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " #{wrapper.paramNameValuePairs." + key + "}"));
     }
 
     private void addCondition(ColumnFunction<T, ?> column, String operator, Object start, String connector, Object end) {
@@ -207,7 +207,7 @@ public class WhereWrapper<T> extends OrderWrapper<T>
         String endKey = "params_end_" + columnName;
         paramNameValuePairs.put(endKey, end);
 
-        conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " #{paramNameValuePairs." + startKey + "} " + connector + " #{paramNameValuePairs." + endKey + "}"));
+        conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " #{wrapper.paramNameValuePairs." + startKey + "} " + connector + " #{wrapper.paramNameValuePairs." + endKey + "}"));
     }
 
     public Map<String, Object> getParamNameValuePairs() {

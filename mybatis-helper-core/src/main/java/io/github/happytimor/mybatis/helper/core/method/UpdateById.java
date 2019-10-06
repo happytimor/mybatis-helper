@@ -15,10 +15,10 @@ public class UpdateById extends AbstractMethod {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         SqlMethod sqlMethod = SqlMethod.UPDATE_BY_ID;
-        String sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(),
+        String script = String.format(sqlMethod.getSql(), this.parseTableName(),
                 generateSingleSetSql(tableInfo),
-                tableInfo.getKeyColumn(), tableInfo.getKeyProperty());
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
+                tableInfo.getKeyColumn(), "entity." + tableInfo.getKeyProperty());
+        SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, modelClass);
         return addUpdateMappedStatement(modelClass, sqlMethod.getMethod(), sqlSource);
     }
 }

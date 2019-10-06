@@ -17,20 +17,12 @@ import org.apache.ibatis.mapping.SqlSource;
 public class BatchUpdateById extends AbstractMethod {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
-
-        try {
-            SqlMethod sqlMethod = SqlMethod.BATCH_UPDATE_BY_ID;
-
-            String script = "update `" + tableInfo.getTableName() + "` " + this.generateSetScript(tableInfo) + " WHERE `" + tableInfo.getKeyProperty() + "`=#{item." + tableInfo.getKeyProperty() + "}";
-            String allScript = SqlScriptUtils.convertForeach(script, "list", null, null, null, "item", ";");
-            String sql = String.format(sqlMethod.getSql(), allScript);
-            SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
-            return this.addInsertMappedStatement(java.util.List.class, sqlMethod.getMethod(), sqlSource, new NoKeyGenerator(), null, null);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        SqlMethod sqlMethod = SqlMethod.BATCH_UPDATE_BY_ID;
+        String sql = "update `" + this.parseTableName() + "` " + this.generateSetScript(tableInfo) + " WHERE `" + tableInfo.getKeyProperty() + "`=#{item." + tableInfo.getKeyProperty() + "}";
+        String allScript = SqlScriptUtils.convertForeach(sql, "list", null, null, null, "item", ";");
+        String script = String.format(sqlMethod.getSql(), allScript);
+        SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, modelClass);
+        return this.addInsertMappedStatement(java.util.List.class, sqlMethod.getMethod(), sqlSource, new NoKeyGenerator(), null, null);
     }
 
     private String generateSetScript(TableInfo tableInfo) {

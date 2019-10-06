@@ -17,10 +17,10 @@ public class SelectByIdList extends AbstractMethod {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         SqlMethod sqlMethod = SqlMethod.SELECT_BY_ID_LIST;
-        String statemnet = String.format(sqlMethod.getSql(), ColumnUtils.getAllColumnStr(tableInfo),
-                tableInfo.getTableName(), tableInfo.getKeyColumn(),
+        String script = String.format(sqlMethod.getSql(), ColumnUtils.getAllColumnStr(tableInfo),
+                this.parseTableName(), tableInfo.getKeyColumn(),
                 SqlScriptUtils.convertForeach("#{item}", "idList", "(", ")", null, "item", ","));
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, statemnet, Object.class);
+        SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, Object.class);
         return this.addMappedStatement(sqlMethod.getMethod(), sqlSource, tableInfo.getModelClass());
     }
 }

@@ -17,7 +17,7 @@ public class DeleteByIdList extends AbstractMethod {
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         String sql;
         SqlMethod sqlMethod = SqlMethod.DELETE_BY_ID_LIST;
-        sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(), tableInfo.getKeyColumn(),
+        sql = String.format(sqlMethod.getSql(), this.parseTableName(), tableInfo.getKeyColumn(),
                 SqlScriptUtils.convertForeach("#{item}", "idList", "(", ")", null, "item", ","));
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, Object.class);
         return this.addDeleteMappedStatement(sqlMethod.getMethod(), sqlSource);

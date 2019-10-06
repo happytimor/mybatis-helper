@@ -19,8 +19,8 @@ public class BatchInsert extends AbstractMethod {
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         SqlMethod sqlMethod = SqlMethod.BATCH_INSERT;
         String valuesScript = SqlScriptUtils.convertForeach(this.generateValueScript(tableInfo), "list", null, null, null, "item", ",");
-        String sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(), generateColumnScript(tableInfo), valuesScript);
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
+        String script = String.format(sqlMethod.getSql(), this.parseTableName(), generateColumnScript(tableInfo), valuesScript);
+        SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, modelClass);
         return this.addInsertMappedStatement(java.util.Map.class, sqlMethod.getMethod(), sqlSource, new NoKeyGenerator(), null, null);
     }
 

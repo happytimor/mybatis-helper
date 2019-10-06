@@ -30,12 +30,12 @@ public abstract class AbstractMethod {
 
     protected TableInfo tableInfo;
 
+
     public void inject(MapperBuilderAssistant builderAssistant, Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         this.builderAssistant = builderAssistant;
         this.configuration = builderAssistant.getConfiguration();
         this.languageDriver = configuration.getDefaultScriptingLanguageInstance();
         this.tableInfo = tableInfo;
-
         injectMappedStatement(mapperClass, modelClass, tableInfo);
     }
 
@@ -86,10 +86,20 @@ public abstract class AbstractMethod {
         StringBuilder sql = new StringBuilder();
         sql.append("<set>");
         for (Result result : tableInfo.getResultList()) {
-            sql.append("<if test=\"").append(result.getProperty()).append(" != null\">").append("\n").append("`").append(result.getColumn()).append("`=#{").append(result.getProperty()).append("},").append("\n").append("</if>");
+            sql.append("<if test=\"entity.").append(result.getProperty()).append(" != null\">").append("\n").append("`").append(result.getColumn()).append("`=#{entity.").append(result.getProperty()).append("},").append("\n").append("</if>");
         }
         sql.append("</set>");
         return sql.toString();
+    }
+
+    /**
+     * 获取表名
+     */
+    protected String parseTableName() {
+        if (this.tableInfo.isMultipleTable()) {
+            return this.tableInfo.getTableName() + this.tableInfo.getMultipleTableConnector() + "${tableNum}";
+        }
+        return this.tableInfo.getTableName();
     }
 
     /**

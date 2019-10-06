@@ -26,6 +26,14 @@ public class TableInfo {
      */
     private List<Result> resultList;
 
+    /**
+     * 是否分表, user_01,user_02
+     */
+    private boolean multipleTable;
+    /**
+     * 分表连接符
+     */
+    private String multipleTableConnector;
 
     public Class<?> getModelClass() {
         return modelClass;
@@ -65,5 +73,21 @@ public class TableInfo {
 
     public void setResultList(List<Result> resultList) {
         this.resultList = resultList;
+    }
+
+    public boolean isMultipleTable() {
+        return multipleTable;
+    }
+
+    public void setMultipleTable(boolean multipleTable) {
+        this.multipleTable = multipleTable;
+    }
+
+    public String getMultipleTableConnector() {
+        return multipleTableConnector;
+    }
+
+    public void setMultipleTableConnector(String multipleTableConnector) {
+        this.multipleTableConnector = multipleTableConnector;
     }
 }

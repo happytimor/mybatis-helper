@@ -1,11 +1,10 @@
 package io.github.happytimor.mybatis.helper.core.service;
 
-import io.github.happytimor.mybatis.helper.core.common.BaseMapper;
+import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
+import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.OrderWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
-import io.github.happytimor.mybatis.helper.core.metadata.Page;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -13,6 +12,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * 基础service, 适用于单表，有主键的普通数据库表映射
+ *
  * @author chenpeng
  * @date 2019-09-07
  */
@@ -85,7 +86,7 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @param idList 主键列表
      * @return 删除结果
      */
-    public int deleteByIdList(@Param("idList") Collection<? extends Number> idList) {
+    public int deleteByIdList(Collection<? extends Number> idList) {
         return this.baseMapper.deleteByIdList(idList);
     }
 
@@ -125,7 +126,7 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @param idList 主键列表
      * @return 返回对象列表
      */
-    public List<T> selectByIdList(@Param("idList") Collection<? extends Number> idList) {
+    public List<T> selectByIdList(Collection<? extends Number> idList) {
         return this.baseMapper.selectByIdList(idList);
     }
 

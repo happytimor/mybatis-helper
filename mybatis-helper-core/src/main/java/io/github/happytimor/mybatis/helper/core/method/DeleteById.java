@@ -16,8 +16,7 @@ public class DeleteById extends AbstractMethod {
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         String sql;
         SqlMethod sqlMethod = SqlMethod.DELETE_BY_ID;
-        sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(), tableInfo.getKeyColumn(),
-                tableInfo.getKeyProperty());
+        sql = String.format(sqlMethod.getSql(), this.parseTableName(), tableInfo.getKeyColumn(), tableInfo.getKeyProperty());
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, Object.class);
         return this.addDeleteMappedStatement(sqlMethod.getMethod(), sqlSource);
     }
