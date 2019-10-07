@@ -1,7 +1,7 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
-import io.github.happytimor.mybatis.helper.core.util.Convertor;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 
 import java.beans.Introspector;
 import java.lang.invoke.SerializedLambda;
@@ -18,7 +18,7 @@ public abstract class AbstractWrapper<T> {
     }
 
     protected String getColumnName(ColumnFunction<T, ?> column, boolean wrap) {
-        String columnName = Convertor.propertyToColumn(this.getFieldName(column));
+        String columnName = ColumnUtils.camelCaseToUnderscore(this.getFieldName(column));
         return wrap ? "`" + columnName + "`" : columnName;
     }
 

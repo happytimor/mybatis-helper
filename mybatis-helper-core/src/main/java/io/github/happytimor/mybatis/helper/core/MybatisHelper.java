@@ -2,17 +2,16 @@ package io.github.happytimor.mybatis.helper.core;
 
 import io.github.happytimor.mybatis.helper.core.annotation.MultipleTableConnector;
 import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
-import io.github.happytimor.mybatis.helper.core.annotation.TablePrimaryKey;
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
-import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
+import io.github.happytimor.mybatis.helper.core.annotation.TablePrimaryKey;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
+import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
 import io.github.happytimor.mybatis.helper.core.mapper.NoPrimaryKeyMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import io.github.happytimor.mybatis.helper.core.method.*;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
-import io.github.happytimor.mybatis.helper.core.util.Convertor;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
@@ -200,17 +199,17 @@ public class MybatisHelper implements ApplicationContextAware {
      * @return 表映射信息
      */
     private TableInfo parseTableInfo(Class<?> modelClass, boolean hasPrimaryKey) {
-        TableName tableName = modelClass.getAnnotation(TableName.class);
-        if (tableName == null) {
-            throw new RuntimeException(modelClass.getName() + " has no @TableName annotation");
-        }
-        TableInfo tableInfo = new TableInfo();
+        TableName tableNameAnnotation = modelClass.getAnnotation(TableName.class);
+
+        //如果没有TableName注解, 则自动对model名称下划线处理, 拿到的表名(如果表名是t_user这种,则必须要有@TableName注解)
+        String tableName = tableNameAnnotation != null ? tableNameAnnotation.value() : ColumnUtils.camelCaseToUnderscore(modelClass.getSimpleName());
         //分表连接符
         MultipleTableConnector multipleTableConnector = modelClass.getAnnotation(MultipleTableConnector.class);
+        TableInfo tableInfo = new TableInfo();
         tableInfo.setMultipleTableConnector(multipleTableConnector != null ? multipleTableConnector.value() : "_");
 
         tableInfo.setModelClass(modelClass);
-        tableInfo.setTableName(tableName.value());
+        tableInfo.setTableName(tableName);
         if (hasPrimaryKey) {
             tableInfo.setKeyColumn(Constants.DEFAULT_KEY_COLUMN);
             tableInfo.setKeyProperty(Constants.DEFAULT_KEY_PROPERTY);
@@ -227,7 +226,7 @@ public class MybatisHelper implements ApplicationContextAware {
 
             //填充result映射
             String fieldName = declaredField.getName();
-            String columnName = (tableColumn != null) ? tableColumn.value() : Convertor.propertyToColumn(fieldName);
+            String columnName = (tableColumn != null) ? tableColumn.value() : ColumnUtils.camelCaseToUnderscore(fieldName);
             resultList.add(new Result(fieldName, columnName));
 
             //覆盖默认主键

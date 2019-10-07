@@ -280,5 +280,4 @@ public void updateOnDuplate() throws Exception {
 
 TODO:
 1. 自动驼峰转换
-2. 自动解析表名
 3. timestamp插入比较问题

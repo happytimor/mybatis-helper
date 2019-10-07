@@ -65,4 +65,32 @@ public class ColumnUtils {
         }
         return str;
     }
+
+    /**
+     * 驼峰转下划线
+     *
+     * @param camelCase 驼峰字段名称
+     * @return 下划线名称
+     */
+    public static String camelCaseToUnderscore(String camelCase) {
+        if (camelCase == null || camelCase.trim().length() == 0) {
+            throw new RuntimeException("camelCaseToUnderscore error, camelCase is empty");
+        }
+
+        int len = camelCase.length();
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            char c = camelCase.charAt(i);
+            if (Character.isUpperCase(c) && i > 0) {
+                sb.append("_");
+            }
+            sb.append(Character.toLowerCase(c));
+        }
+        return sb.toString();
+    }
+
+    public static void main(String... args) {
+
+        System.out.println(ColumnUtils.camelCaseToUnderscore("UserNoKey"));
+    }
 }
