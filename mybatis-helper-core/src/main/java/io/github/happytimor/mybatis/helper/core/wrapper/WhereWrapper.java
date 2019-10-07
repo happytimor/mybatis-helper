@@ -23,7 +23,18 @@ public class WhereWrapper<T> extends OrderWrapper<T>
     private final static Logger logger = LoggerFactory.getLogger(WhereWrapper.class);
     private List<Condition> conditionList = new ArrayList<>();
 
-    private Map<String, Object> paramNameValuePairs = new HashMap<>();
+    private Map<String, Object> paramNameValuePairs;
+    private AtomicInteger counter;
+
+    public WhereWrapper() {
+        this.paramNameValuePairs = new HashMap<>();
+        this.counter = new AtomicInteger(0);
+    }
+
+    public WhereWrapper(Map<String, Object> paramNameValuePairs, AtomicInteger counter) {
+        this.paramNameValuePairs = paramNameValuePairs;
+        this.counter = counter;
+    }
 
     /**
      * 获取where片段
@@ -70,7 +81,7 @@ public class WhereWrapper<T> extends OrderWrapper<T>
     @Override
     public WhereWrapper<T> and(boolean executeIf, Function<WhereWrapper<T>, WhereWrapper<T>> function) {
         if (executeIf) {
-            WhereWrapper<T> apply = function.apply(new WhereWrapper<T>());
+            WhereWrapper<T> apply = function.apply(new WhereWrapper<>(this.paramNameValuePairs, counter));
             String whereSegment = apply.getWhereSegment(false);
             this.conditionList.add(new Condition("AND", "(" + whereSegment + ")"));
         }
@@ -205,8 +216,6 @@ public class WhereWrapper<T> extends OrderWrapper<T>
         }
         return this;
     }
-
-    private AtomicInteger counter = new AtomicInteger(0);
 
     /**
      * in 和not in查询
