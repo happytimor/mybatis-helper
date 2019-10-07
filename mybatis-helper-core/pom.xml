@@ -7,7 +7,34 @@
     <version>1.0.0.RELEASE</version>
     <name>mybatis-helper-core</name>
     <packaging>jar</packaging>
-    <description>Demo project for Spring Boot</description>
+    <url>https://happytimor.github.io/mybatis-helper/index.html</url>
+    <scm>
+        <url>https://github.com/happytimor/mybatis-helper</url>
+        <connection>scm:git:https://github.com/happytimor/mybatis-helper.git</connection>
+    </scm>
+    <description>mybatis-helper is an enchance toolkit for mybatis to remove xml file</description>
+
+    <organization>
+        <name>happytimor</name>
+        <url>https://github.com/happytimor/mybatis-helper</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>happytimor</id>
+            <name>happytimor</name>
+            <email>ichenpeng@qq.com</email>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
 
     <properties>
         <java.version>1.8</java.version>
@@ -50,6 +77,31 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
                         </goals>
                     </execution>
                 </executions>
