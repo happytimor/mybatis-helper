@@ -10,7 +10,6 @@ import org.apache.ibatis.mapping.SqlSource;
  * 根据主键进行更新
  *
  * @author chenpeng
- * @date 2019-08-25
  */
 public class UpdateById extends AbstractMethod {
     @Override

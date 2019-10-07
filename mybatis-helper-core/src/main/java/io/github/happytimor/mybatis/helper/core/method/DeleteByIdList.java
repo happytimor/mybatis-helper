@@ -11,7 +11,6 @@ import org.apache.ibatis.mapping.SqlSource;
  * 根据主键批量删除
  *
  * @author chenpeng
- * @date 2019-08-25
  */
 public class DeleteByIdList extends AbstractMethod {
     @Override

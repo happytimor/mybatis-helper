@@ -32,7 +32,6 @@ import java.util.*;
 
 /**
  * @author chenpeng
- * @date 2019-08-21
  */
 public class MybatisHelper implements ApplicationContextAware {
     private final static Logger logger = LoggerFactory.getLogger(MybatisHelper.class);

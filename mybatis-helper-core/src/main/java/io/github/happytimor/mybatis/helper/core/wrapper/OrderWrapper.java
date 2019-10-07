@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * @author chenpeng
- * @date 2019-09-07
  */
 public class OrderWrapper<T> extends LimitWrapper<T> {
 
@@ -38,9 +37,10 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     }
 
     /**
-     * 降序
+     * 升序
      *
-     * @param column 字段名称
+     * @param executeIf 是否执行
+     * @param column    字段名称
      * @return children
      */
     public OrderWrapper<T> orderByAsc(boolean executeIf, ColumnFunction<T, ?> column) {
@@ -50,6 +50,13 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
         return this;
     }
 
+    /**
+     * 降序
+     *
+     * @param executeIf 是否执行
+     * @param column    字段名称
+     * @return children
+     */
     public OrderWrapper<T> orderByDesc(boolean executeIf, ColumnFunction<T, ?> column) {
         if (executeIf) {
             this.orderList.add(new Order(this.getColumnName(column), "DESC"));

@@ -15,7 +15,6 @@ import org.apache.ibatis.mapping.SqlSource;
  * 单条插入方法
  *
  * @author chenpeng
- * @date 2019-08-25
  */
 public class Insert extends AbstractMethod {
     @Override

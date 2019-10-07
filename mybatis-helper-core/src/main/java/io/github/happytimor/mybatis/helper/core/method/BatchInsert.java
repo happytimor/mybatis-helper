@@ -13,7 +13,6 @@ import org.apache.ibatis.mapping.SqlSource;
  * 批量插入方法
  *
  * @author chenpeng
- * @date 2019-08-25
  */
 public class BatchInsert extends AbstractMethod {
     @Override

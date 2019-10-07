@@ -19,7 +19,6 @@ import java.io.IOException;
 
 /**
  * @author chenpeng
- * @date 2018/8/16
  */
 @Configuration
 @MapperScan(basePackages = Datasource1Config.PACKAGE,

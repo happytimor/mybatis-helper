@@ -3,7 +3,6 @@ package io.github.happytimor.mybatis.helper.core.wrapper;
 
 /**
  * @author chenpeng
- * @date 2019-09-07
  */
 public class LimitWrapper<T> extends AbstractWrapper<T> {
 

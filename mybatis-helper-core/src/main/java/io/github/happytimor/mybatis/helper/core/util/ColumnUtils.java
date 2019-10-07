@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * @author chenpeng
- * @date 2019-09-08
  */
 public class ColumnUtils {
 

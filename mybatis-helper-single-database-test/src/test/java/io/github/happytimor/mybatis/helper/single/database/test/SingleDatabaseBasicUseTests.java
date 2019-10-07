@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
  * 测试环境: 单表,有主键且主键就是id
  *
  * @author chenpeng
- * @date 2019-09-07
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest

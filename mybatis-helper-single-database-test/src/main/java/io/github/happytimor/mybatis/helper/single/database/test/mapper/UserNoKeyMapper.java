@@ -5,7 +5,6 @@ import io.github.happytimor.mybatis.helper.single.database.test.domain.UserNoKey
 
 /**
  * @author chenpeng
- * @date 2019-10-07
  */
 public interface UserNoKeyMapper extends NoPrimaryKeyMapper<UserNoKey> {
 }

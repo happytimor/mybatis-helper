@@ -13,7 +13,6 @@ import java.util.List;
  * 基础service, 适用于单表，有主键的普通数据库表映射
  *
  * @author chenpeng
- * @date 2019-09-07
  */
 public class BaseService<M extends BaseMapper<T>, T> {
     @Autowired(required = false)
@@ -173,6 +172,7 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * 查询总数
      *
      * @param selectWrapper 查询条件
+     * @param <R>           返回类型
      * @return 数据总数
      */
     public <R extends Number> R selectCount(AbstractWrapper<T> selectWrapper) {

@@ -6,7 +6,6 @@ import java.lang.annotation.*;
  * 分表连接符
  *
  * @author chenpeng
- * @date 2019-08-21
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

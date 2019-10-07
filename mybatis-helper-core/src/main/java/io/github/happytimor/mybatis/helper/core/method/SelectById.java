@@ -11,7 +11,6 @@ import org.apache.ibatis.mapping.SqlSource;
  * 根据主键查找
  *
  * @author chenpeng
- * @date 2019-08-21
  */
 public class SelectById extends AbstractMethod {
     @Override

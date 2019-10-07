@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 /**
  * @author chenpeng
- * @date 2019-08-26
  */
 public class SelectWrapper<T> extends WhereWrapper<T> {
 

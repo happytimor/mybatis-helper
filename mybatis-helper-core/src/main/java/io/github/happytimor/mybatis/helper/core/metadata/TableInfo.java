@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * @author chenpeng
- * @date 2019-08-21
  */
 public class TableInfo {
     private Class<?> modelClass;

@@ -2,7 +2,6 @@ package io.github.happytimor.mybatis.helper.core.util;
 
 /**
  * @author chenpeng
- * @date 2019-08-22
  */
 public class SqlScriptUtils {
     private static final String QUOTE = "\"";
@@ -10,12 +9,12 @@ public class SqlScriptUtils {
     private static final String RIGHT_CHEV = ">";
 
     /**
-     * <p>
      * 生成 foreach 标签的脚本
-     * </p>
      *
      * @param sqlScript  foreach 内部的 sql 脚本
      * @param collection collection
+     * @param open       open
+     * @param close      close
      * @param index      index
      * @param item       item
      * @param separator  separator

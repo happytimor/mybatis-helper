@@ -17,7 +17,6 @@ import java.util.Objects;
  * 插入时唯一索引冲突，插入改成更新
  *
  * @author chenpeng
- * @date 2019-09-03
  */
 public class InsertOrUpdateWithUniqueIndex extends AbstractMethod {
     @Override

@@ -8,7 +8,6 @@ import java.util.Date;
 
 /**
  * @author chenpeng
- * @date 2019-10-06
  */
 @TableName("user_uid")
 public class UserUid {

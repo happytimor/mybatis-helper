@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 /**
  * @author chenpeng
- * @date 2019-08-17
  */
 @TableName("user_info")
 public class UserInfo implements Serializable {

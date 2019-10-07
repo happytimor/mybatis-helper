@@ -9,7 +9,6 @@ import java.lang.reflect.Method;
 
 /**
  * @author chenpeng
- * @date 2019-08-25
  */
 public abstract class AbstractWrapper<T> {
 

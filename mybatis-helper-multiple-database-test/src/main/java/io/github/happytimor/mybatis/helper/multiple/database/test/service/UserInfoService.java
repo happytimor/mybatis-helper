@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author chenpeng
- * @date 2019-09-07
  */
 @Service
 public class UserInfoService extends BaseService<UserInfoMapper, UserInfo> {

@@ -1,6 +1,5 @@
 package io.github.happytimor.mybatis.helper.core.method;
 
-import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.common.SqlMethod;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
@@ -11,7 +10,6 @@ import org.apache.ibatis.mapping.SqlSource;
  * 根据主键单条删除
  *
  * @author chenpeng
- * @date 2019-08-25
  */
 public class DeleteById extends AbstractMethod {
     @Override

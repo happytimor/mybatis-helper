@@ -2,7 +2,6 @@ package io.github.happytimor.mybatis.helper.core.common;
 
 /**
  * @author chenpeng
- * @date 2019-10-07
  */
 public class Config {
     /**

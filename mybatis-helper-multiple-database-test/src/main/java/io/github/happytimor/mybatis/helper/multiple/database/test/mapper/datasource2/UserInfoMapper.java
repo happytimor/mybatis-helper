@@ -6,7 +6,6 @@ import io.github.happytimor.mybatis.helper.multiple.database.test.domain.UserInf
 
 /**
  * @author chenpeng
- * @date 2019-08-17
  */
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
 

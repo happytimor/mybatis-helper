@@ -10,7 +10,6 @@ import org.apache.ibatis.mapping.SqlSource;
  * 自定义条件删除
  *
  * @author chenpeng
- * @date 2019-08-25
  */
 public class Delete extends AbstractMethod {
     @Override

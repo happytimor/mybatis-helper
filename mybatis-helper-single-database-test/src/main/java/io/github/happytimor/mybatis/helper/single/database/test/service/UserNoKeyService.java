@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author chenpeng
- * @date 2019-10-07
  */
 @Service
 public class UserNoKeyService extends NoPrimaryKeyService<UserNoKeyMapper, UserNoKey> {

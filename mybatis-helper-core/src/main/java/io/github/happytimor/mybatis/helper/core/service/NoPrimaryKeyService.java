@@ -12,7 +12,6 @@ import java.util.List;
  * 单表无主键service, 适用于单表，无主键的数据库表映射
  *
  * @author chenpeng
- * @date 2019-10-07
  */
 public class NoPrimaryKeyService<M extends NoPrimaryKeyMapper<T>, T> {
     @Autowired(required = false)
@@ -109,6 +108,7 @@ public class NoPrimaryKeyService<M extends NoPrimaryKeyMapper<T>, T> {
      * 查询总数
      *
      * @param selectWrapper 查询条件
+     * @param <R>           返回类型
      * @return 数据总数
      */
     public <R extends Number> R selectCount(AbstractWrapper<T> selectWrapper) {

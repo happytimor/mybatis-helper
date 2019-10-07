@@ -6,11 +6,10 @@ import java.util.function.Function;
 
 /**
  * @author chenpeng
- * @date 2019-09-08
  */
 public interface Connector<T, Children> {
     /**
-     * 显示使用and连接符 => and (xxx)
+     * 显示使用and连接符 =&gt; and (xxx)
      *
      * @param executeIf 是否执行片段
      * @param function  嵌入的片段

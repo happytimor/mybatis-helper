@@ -8,7 +8,6 @@ import java.util.List;
 
 /**
  * @author chenpeng
- * @date 2019-08-26
  */
 public class UpdateWrapper<T> extends WhereWrapper<T> {
 

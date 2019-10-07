@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
  * 抽象方法, 将 injectMappedStatement 交由子类实现
  *
  * @author chenpeng
- * @date 2019-08-21
  */
 public abstract class AbstractMethod {
     private final static Logger logger = LoggerFactory.getLogger(AbstractMethod.class);
@@ -40,12 +39,24 @@ public abstract class AbstractMethod {
         injectMappedStatement(mapperClass, modelClass, tableInfo);
     }
 
+    /**
+     * add
+     *
+     * @param id         ignore
+     * @param sqlSource  ignore
+     * @param resultType ignore
+     * @return ignore
+     */
     MappedStatement addMappedStatement(String id, SqlSource sqlSource, Class<?> resultType) {
         return addMappedStatement(id, sqlSource, SqlCommandType.SELECT, null, null, resultType, new NoKeyGenerator(), null, null);
     }
 
     /**
      * 删除
+     *
+     * @param id        ignore
+     * @param sqlSource ignore
+     * @return ignore
      */
     MappedStatement addDeleteMappedStatement(String id, SqlSource sqlSource) {
         return addMappedStatement(id, sqlSource, SqlCommandType.DELETE, null, null, Integer.class, new NoKeyGenerator(), null, null);
@@ -53,6 +64,11 @@ public abstract class AbstractMethod {
 
     /**
      * 更新
+     *
+     * @param parameterType ignore
+     * @param id            ignore
+     * @param sqlSource     ignore
+     * @return ignore
      */
     MappedStatement addUpdateMappedStatement(Class<?> parameterType, String id, SqlSource sqlSource) {
         return addMappedStatement(id, sqlSource, SqlCommandType.UPDATE, parameterType, null, Integer.class, new NoKeyGenerator(), null, null);
@@ -60,6 +76,14 @@ public abstract class AbstractMethod {
 
     /**
      * 插入
+     *
+     * @param parameterType ignore
+     * @param id            ignore
+     * @param sqlSource     ignore
+     * @param keyGenerator  ignore
+     * @param keyProperty   ignore
+     * @param keyColumn     ignore
+     * @return ignore
      */
     MappedStatement addInsertMappedStatement(Class<?> parameterType, String id, SqlSource sqlSource, KeyGenerator keyGenerator, String keyProperty, String keyColumn) {
         return addMappedStatement(id, sqlSource, SqlCommandType.INSERT, parameterType, null, Integer.class, keyGenerator, keyProperty, keyColumn);
@@ -67,6 +91,17 @@ public abstract class AbstractMethod {
 
     /**
      * 添加 MappedStatement 到 Mybatis 容器
+     *
+     * @param id             id
+     * @param sqlSource      sqlSource
+     * @param sqlCommandType sqlCommandType
+     * @param parameterType  parameterType
+     * @param resultMap      resultMap
+     * @param resultType     resultType
+     * @param keyGenerator   keyGenerator
+     * @param keyProperty    keyProperty
+     * @param keyColumn      keyColumn
+     * @return mappedStatement
      */
     private MappedStatement addMappedStatement(String id, SqlSource sqlSource,
                                                SqlCommandType sqlCommandType, Class<?> parameterType,
@@ -83,6 +118,12 @@ public abstract class AbstractMethod {
                 configuration.getDatabaseId(), languageDriver, null);
     }
 
+    /**
+     * 生成set语句
+     *
+     * @param tableInfo tableInfo
+     * @return set语句
+     */
     String generateSingleSetSql(TableInfo tableInfo) {
         StringBuilder sql = new StringBuilder();
         sql.append("<set>");
@@ -95,6 +136,8 @@ public abstract class AbstractMethod {
 
     /**
      * 获取表名
+     *
+     * @return 表名
      */
     protected String parseTableName() {
         if (this.tableInfo.isMultipleTable()) {

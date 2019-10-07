@@ -6,7 +6,6 @@ import org.apache.ibatis.type.JdbcType;
  * 数据库与对象的映射
  *
  * @author chenpeng
- * @date 2019-08-25
  */
 public class Result {
     /**

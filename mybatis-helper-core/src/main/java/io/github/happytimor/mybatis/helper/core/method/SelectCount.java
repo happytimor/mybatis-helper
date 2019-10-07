@@ -10,7 +10,6 @@ import org.apache.ibatis.mapping.SqlSource;
  * 条数查询
  *
  * @author chenpeng
- * @date 2019-08-25
  */
 public class SelectCount extends AbstractMethod {
     @Override

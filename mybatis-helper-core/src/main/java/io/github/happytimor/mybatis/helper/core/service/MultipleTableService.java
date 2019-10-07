@@ -13,7 +13,6 @@ import java.util.List;
  * 分表service, 适用于多表，有主键的普通数据库表映射
  *
  * @author chenpeng
- * @date 2019-10-06
  */
 public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
     @Autowired(required = false)
@@ -182,6 +181,7 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
      *
      * @param tableNum      表号
      * @param selectWrapper 查询条件
+     * @param <R>           返回类型
      * @return 数据总数
      */
     public <R extends Number> R selectCount(String tableNum, AbstractWrapper<T> selectWrapper) {

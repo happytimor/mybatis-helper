@@ -11,7 +11,6 @@ import java.util.List;
  * 分表mapper, 适用于多表，有主键的普通数据库表映射
  *
  * @author chenpeng
- * @date 2019-08-21
  */
 public interface MultipleTableMapper<T> {
 
@@ -99,6 +98,7 @@ public interface MultipleTableMapper<T> {
      *
      * @param tableNum      表号
      * @param selectWrapper 查询条件
+     * @param <R>           返回类型
      * @return 数据总数
      */
     <R extends Number> R selectCount(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);

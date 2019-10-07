@@ -11,7 +11,6 @@ import java.util.List;
  * 基础mapper, 适用于单表，有主键的普通数据库表映射
  *
  * @author chenpeng
- * @date 2019-08-21
  */
 public interface BaseMapper<T> {
 
@@ -89,6 +88,7 @@ public interface BaseMapper<T> {
      * 查询总数
      *
      * @param selectWrapper 查询条件
+     * @param <R>           返回类型
      * @return 数据总数
      */
     <R extends Number> R selectCount(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);

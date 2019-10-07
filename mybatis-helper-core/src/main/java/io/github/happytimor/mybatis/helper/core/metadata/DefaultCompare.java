@@ -2,13 +2,11 @@ package io.github.happytimor.mybatis.helper.core.metadata;
 
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Compare的默认实现，如果不指定判断条件，默认会将column和value纳入查询条件内
  *
  * @author chenpeng
- * @date 2019-08-26
  */
 public interface DefaultCompare<Children, Column> extends Compare<Children, Column> {
     /**

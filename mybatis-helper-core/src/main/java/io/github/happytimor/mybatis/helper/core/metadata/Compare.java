@@ -7,7 +7,6 @@ import java.util.Collection;
  * 值比较接口
  *
  * @author chenpeng
- * @date 2019-08-26
  */
 public interface Compare<Children, Column> extends Serializable {
 

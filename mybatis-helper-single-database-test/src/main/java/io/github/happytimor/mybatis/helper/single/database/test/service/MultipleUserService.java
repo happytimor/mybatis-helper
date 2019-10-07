@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author chenpeng
- * @date 2019-10-06
  */
 @Service
 public class MultipleUserService extends MultipleTableService<MultipleUserMapper, User> {

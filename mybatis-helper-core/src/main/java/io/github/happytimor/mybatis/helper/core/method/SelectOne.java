@@ -10,7 +10,6 @@ import org.apache.ibatis.mapping.SqlSource;
  * 只返回一条数据(加了一个limit1)
  *
  * @author chenpeng
- * @date 2019-08-25
  */
 public class SelectOne extends AbstractMethod {
     @Override
