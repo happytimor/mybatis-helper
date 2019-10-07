@@ -1,6 +1,7 @@
 package io.github.happytimor.mybatis.helper.core.metadata;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * 值比较接口
@@ -151,4 +152,24 @@ public interface Compare<Children, Column> extends Serializable {
      */
     Children isNotNull(boolean executeIf, Column column);
 
+    /**
+     * in
+     *
+     * @param executeIf 是否执行片段
+     * @param column    字段名称
+     * @param values    对象列表
+     * @return children
+     */
+    Children in(boolean executeIf, Column column, Collection<?> values);
+
+
+    /**
+     * notIn
+     *
+     * @param executeIf 是否执行片段
+     * @param column    字段名称
+     * @param values    对象列表
+     * @return children
+     */
+    Children notIn(boolean executeIf, Column column, Collection<?> values);
 }

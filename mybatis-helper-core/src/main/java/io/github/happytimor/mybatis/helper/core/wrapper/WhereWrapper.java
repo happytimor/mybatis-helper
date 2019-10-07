@@ -1,10 +1,9 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
 
-import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.common.Params;
-import io.github.happytimor.mybatis.helper.core.metadata.DefaultCompare;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.metadata.DefaultCompare;
 import io.github.happytimor.mybatis.helper.core.metadata.DefaultConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -191,7 +190,48 @@ public class WhereWrapper<T> extends OrderWrapper<T>
         return this;
     }
 
+    @Override
+    public WhereWrapper<T> in(boolean executeIf, ColumnFunction<T, ?> column, Collection<?> values) {
+        if (executeIf) {
+            this.inExpression(column, "IN", values);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> notIn(boolean executeIf, ColumnFunction<T, ?> column, Collection<?> values) {
+        if (executeIf) {
+            this.inExpression(column, "NOT IN", values);
+        }
+        return this;
+    }
+
     private AtomicInteger counter = new AtomicInteger(0);
+
+    /**
+     * in 和not in查询
+     */
+    private void inExpression(ColumnFunction<T, ?> column, String operator, Collection<?> values) {
+        String columnName = this.getColumnName(column, false);
+
+        //如果只有一个元素,退化成 = 或者 !=
+        if (values.size() == 1) {
+            this.addCondition(column, "IN".equals(operator) ? "=" : "!=", values.iterator().next());
+            return;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Object value : values) {
+            String key = "params_" + counter.incrementAndGet() + "_" + columnName;
+            stringBuilder.append("#{" + Params.WRAPPER + ".paramNameValuePairs.").append(key).append("}").append(",");
+            paramNameValuePairs.put(key, value);
+        }
+
+        if (stringBuilder.length() > 0) {
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        }
+        conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " (" + stringBuilder.toString() + ")"));
+    }
+
 
     private void addCondition(ColumnFunction<T, ?> column, String operator, Object value) {
         String columnName = this.getColumnName(column, false);

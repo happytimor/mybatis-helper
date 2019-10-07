@@ -1,6 +1,9 @@
 package io.github.happytimor.mybatis.helper.core.metadata;
 
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Compare的默认实现，如果不指定判断条件，默认会将column和value纳入查询条件内
  *
@@ -163,5 +166,27 @@ public interface DefaultCompare<Children, Column> extends Compare<Children, Colu
      */
     default Children isNotNull(Column column) {
         return isNotNull(true, column);
+    }
+
+    /**
+     * in
+     *
+     * @param column 字段名称
+     * @param values 对象列表
+     * @return children
+     */
+    default Children in(Column column, Collection<?> values) {
+        return in(true, column, values);
+    }
+
+    /**
+     * notIn
+     *
+     * @param column 字段名称
+     * @param values 对象列表
+     * @return children
+     */
+    default Children notIn(Column column, Collection<?> values) {
+        return notIn(true, column, values);
     }
 }
