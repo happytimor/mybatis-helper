@@ -1,11 +1,12 @@
 -- 单数据源和多数据源测试都会用到(SingleDatabaseBasicUseTests.java)
 CREATE TABLE `user`
 (
-    `id`       int(11) unsigned NOT NULL AUTO_INCREMENT,
-    `name`     varchar(32)           DEFAULT '',
-    `age`      int(11)               DEFAULT '-1',
-    `married`  tinyint(4)            DEFAULT '0',
-    `birthday` timestamp        NULL DEFAULT '2000-01-01 00:00:00',
+    `id`         int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `name`       varchar(32)           DEFAULT '',
+    `age`        int(11)               DEFAULT '-1',
+    `married`    tinyint(4)            DEFAULT '0',
+    `user_grade` int(11)               DEFAULT '0',
+    `birthday`   timestamp        NULL DEFAULT '2000-01-01 00:00:00',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -18,6 +19,7 @@ CREATE TABLE `user_info`
     `name`     varchar(32)           DEFAULT '',
     `age`      int(11)               DEFAULT '-1',
     `married`  tinyint(4)            DEFAULT '0',
+    `user_grade` int(11)               DEFAULT '0',
     `birthday` timestamp        NULL DEFAULT '2000-01-01 00:00:00',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
@@ -30,6 +32,7 @@ CREATE TABLE `user_01`
     `name`     varchar(32)           DEFAULT '',
     `age`      int(11)               DEFAULT '-1',
     `married`  tinyint(4)            DEFAULT '0',
+    `user_grade` int(11)               DEFAULT '0',
     `birthday` timestamp        NULL DEFAULT '2000-01-01 00:00:00',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
@@ -42,6 +45,7 @@ CREATE TABLE `user_uid`
     `name`     varchar(32)           DEFAULT '',
     `age`      int(11)               DEFAULT '-1',
     `married`  tinyint(4)            DEFAULT '0',
+    `user_grade` int(11)               DEFAULT '0',
     `birthday` timestamp        NULL DEFAULT '2000-01-01 00:00:00',
     PRIMARY KEY (`uid`)
 ) ENGINE = InnoDB
@@ -53,6 +57,7 @@ CREATE TABLE `user_no_key`
     `name`     varchar(32)    DEFAULT '',
     `age`      int(11)        DEFAULT '-1',
     `married`  tinyint(4)     DEFAULT '0',
+    `user_grade` int(11)               DEFAULT '0',
     `birthday` timestamp NULL DEFAULT '2000-01-01 00:00:00'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

@@ -2,6 +2,8 @@ package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
 
+import java.util.Date;
+
 /**
  * @author chenpeng
  * @date 2019-08-17
@@ -12,7 +14,8 @@ public class User {
     private String name;
     private Integer age;
     private Boolean married;
-    private String birthday;
+    private Integer userGrade;
+    private Date birthday;
 
     public User() {
     }
@@ -53,11 +56,19 @@ public class User {
         this.married = married;
     }
 
-    public String getBirthday() {
+    public Integer getUserGrade() {
+        return userGrade;
+    }
+
+    public void setUserGrade(Integer userGrade) {
+        this.userGrade = userGrade;
+    }
+
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 }

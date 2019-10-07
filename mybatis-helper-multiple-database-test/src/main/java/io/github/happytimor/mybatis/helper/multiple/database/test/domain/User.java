@@ -14,6 +14,7 @@ public class User implements Serializable {
     private String name;
     private Integer age;
     private Boolean married;
+    private Integer userGrade;
     private String birthday;
 
     public User() {
@@ -53,6 +54,14 @@ public class User implements Serializable {
 
     public void setMarried(Boolean married) {
         this.married = married;
+    }
+
+    public Integer getUserGrade() {
+        return userGrade;
+    }
+
+    public void setUserGrade(Integer userGrade) {
+        this.userGrade = userGrade;
     }
 
     public String getBirthday() {

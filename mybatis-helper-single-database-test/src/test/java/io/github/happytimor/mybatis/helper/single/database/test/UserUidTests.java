@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -234,7 +235,7 @@ public class UserUidTests {
         userUid.setName(name);
         userUid.setAge(11);
         userUid.setMarried(true);
-        userUid.setBirthday("1999-09-09");
+        userUid.setBirthday(new Date());
         userUidService.insert(userUid);
         assert userUid.getUid() != null;
 
@@ -242,7 +243,6 @@ public class UserUidTests {
                 .eq(UserUid::getName, name)
                 .likeRight(UserUid::getName, "mybatis-helper")
                 .eq(UserUid::getAge, 11)
-                .eq(UserUid::getBirthday, userUid.getBirthday())
         );
         assert deleteCount == 1;
 

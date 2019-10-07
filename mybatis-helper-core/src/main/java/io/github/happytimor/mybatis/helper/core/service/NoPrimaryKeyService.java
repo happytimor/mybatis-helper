@@ -2,9 +2,7 @@ package io.github.happytimor.mybatis.helper.core.service;
 
 import io.github.happytimor.mybatis.helper.core.mapper.NoPrimaryKeyMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
-import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
-import io.github.happytimor.mybatis.helper.core.wrapper.OrderWrapper;
-import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -76,6 +74,9 @@ public class NoPrimaryKeyService<M extends NoPrimaryKeyMapper<T>, T> {
      * @return 返回结果
      */
     public List<T> selectList(AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
         return this.noPrimaryKeyMapper.selectList(selectWrapper);
     }
 
@@ -87,14 +88,14 @@ public class NoPrimaryKeyService<M extends NoPrimaryKeyMapper<T>, T> {
      * @return 分页结果
      */
     public Page<T> selectPage(Page<T> page, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
         long total = this.selectCount(selectWrapper);
         page.setTotal(total);
         if (total <= 0) {
             page.setRecords(new ArrayList<>());
             return page;
-        }
-        if (selectWrapper == null) {
-            selectWrapper = new SelectWrapper<>();
         }
         if (selectWrapper instanceof OrderWrapper) {
             ((OrderWrapper) selectWrapper).limit(page.getStartRow(), page.getPageSize());
@@ -111,6 +112,9 @@ public class NoPrimaryKeyService<M extends NoPrimaryKeyMapper<T>, T> {
      * @return 数据总数
      */
     public <R extends Number> R selectCount(AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
         return this.noPrimaryKeyMapper.selectCount(selectWrapper);
     }
 
@@ -121,6 +125,9 @@ public class NoPrimaryKeyService<M extends NoPrimaryKeyMapper<T>, T> {
      * @return 返回结果
      */
     public T selectOne(AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
         return this.noPrimaryKeyMapper.selectOne(selectWrapper);
     }
 
@@ -131,6 +138,9 @@ public class NoPrimaryKeyService<M extends NoPrimaryKeyMapper<T>, T> {
      * @return 更新条数
      */
     public int update(AbstractWrapper<T> updateWrapper) {
+        if (updateWrapper == null) {
+            throw new RuntimeException("updateWrapper can not be null");
+        }
         return this.noPrimaryKeyMapper.update(updateWrapper);
     }
 
@@ -141,6 +151,9 @@ public class NoPrimaryKeyService<M extends NoPrimaryKeyMapper<T>, T> {
      * @return 删除条数
      */
     public int delete(AbstractWrapper<T> deleteWrapper) {
+        if (deleteWrapper == null) {
+            throw new RuntimeException("deleteWrapper can not be null");
+        }
         return this.noPrimaryKeyMapper.delete(deleteWrapper);
     }
 

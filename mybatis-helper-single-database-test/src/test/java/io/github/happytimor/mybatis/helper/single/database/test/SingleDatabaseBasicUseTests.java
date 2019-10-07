@@ -12,10 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -148,12 +145,13 @@ public class SingleDatabaseBasicUseTests {
         );
         assert updateCount == 0;
 
-        updateCount = userService.update(new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getBirthday, "2019-09-09")
+        Date date = new Date();
+        updateCount = userService.update(new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getBirthday, date)
                 .eq(User::getName, newName)
         );
 
         User dbUser = userService.selectById(user.getId());
-        assert updateCount == 1 && dbUser.getAge() == 12 && "2019-09-09".equals(dbUser.getBirthday());
+        assert updateCount == 1 && dbUser.getAge() == 12 && date.equals(dbUser.getBirthday());
         boolean deleteSuccess = userService.deleteById(dbUser.getId());
         assert deleteSuccess;
     }
@@ -235,7 +233,7 @@ public class SingleDatabaseBasicUseTests {
         user.setName(name);
         user.setAge(11);
         user.setMarried(true);
-        user.setBirthday("1999-09-09");
+        user.setBirthday(new Date());
         userService.insert(user);
         assert user.getId() != null;
 
@@ -243,7 +241,6 @@ public class SingleDatabaseBasicUseTests {
                 .eq(User::getName, name)
                 .likeRight(User::getName, "mybatis-helper")
                 .eq(User::getAge, 11)
-                .eq(User::getBirthday, user.getBirthday())
         );
         assert deleteCount == 1;
 

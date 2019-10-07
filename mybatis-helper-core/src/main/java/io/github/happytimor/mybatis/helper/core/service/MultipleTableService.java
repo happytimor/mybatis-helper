@@ -2,9 +2,7 @@ package io.github.happytimor.mybatis.helper.core.service;
 
 import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
-import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
-import io.github.happytimor.mybatis.helper.core.wrapper.OrderWrapper;
-import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -147,6 +145,9 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
      * @return 返回结果
      */
     public List<T> selectList(String tableNum, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
         return this.multipleTableMapper.selectList(tableNum, selectWrapper);
     }
 
@@ -184,6 +185,9 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
      * @return 数据总数
      */
     public <R extends Number> R selectCount(String tableNum, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
         return this.multipleTableMapper.selectCount(tableNum, selectWrapper);
     }
 
@@ -195,6 +199,9 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
      * @return 返回结果
      */
     public T selectOne(String tableNum, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
         return this.multipleTableMapper.selectOne(tableNum, selectWrapper);
     }
 
@@ -206,6 +213,9 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
      * @return 更新条数
      */
     public int update(String tableNum, AbstractWrapper<T> updateWrapper) {
+        if (updateWrapper == null) {
+            throw new RuntimeException("updateWrapper can not be null");
+        }
         return this.multipleTableMapper.update(tableNum, updateWrapper);
     }
 
@@ -217,6 +227,9 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
      * @return 删除条数
      */
     public int delete(String tableNum, AbstractWrapper<T> deleteWrapper) {
+        if (deleteWrapper == null) {
+            throw new RuntimeException("deleteWrapper can not be null");
+        }
         return this.multipleTableMapper.delete(tableNum, deleteWrapper);
     }
 

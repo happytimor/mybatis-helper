@@ -276,3 +276,9 @@ public void updateOnDuplate() throws Exception {
 2019-09-04 20:28:26.588 DEBUG : <==    Updates: 1
 2019-09-04 20:28:26.606  INFO : success:true
 ```
+
+
+TODO:
+1. 自动驼峰转换
+2. 自动解析表名
+3. timestamp插入比较问题

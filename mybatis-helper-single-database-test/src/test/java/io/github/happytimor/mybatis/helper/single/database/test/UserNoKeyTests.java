@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -167,14 +168,13 @@ public class UserNoKeyTests {
         userNoKey.setName(name);
         userNoKey.setAge(11);
         userNoKey.setMarried(true);
-        userNoKey.setBirthday("1999-09-09");
+        userNoKey.setBirthday(new Date());
         userNoKeyService.insert(userNoKey);
 
         int deleteCount = userNoKeyService.delete(new DeleteWrapper<UserNoKey>()
                 .eq(UserNoKey::getName, name)
                 .likeRight(UserNoKey::getName, "mybatis-helper")
                 .eq(UserNoKey::getAge, 11)
-                .eq(UserNoKey::getBirthday, userNoKey.getBirthday())
         );
         assert deleteCount == 1;
 

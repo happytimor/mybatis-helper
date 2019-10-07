@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -240,7 +241,7 @@ public class MultipleTableTests {
         user.setName(name);
         user.setAge(11);
         user.setMarried(true);
-        user.setBirthday("1999-09-09");
+        user.setBirthday(new Date());
         multipleUserService.insert(tableNum, user);
         assert user.getId() != null;
 
@@ -248,7 +249,6 @@ public class MultipleTableTests {
                 .eq(User::getName, name)
                 .likeRight(User::getName, "mybatis-helper")
                 .eq(User::getAge, 11)
-                .eq(User::getBirthday, user.getBirthday())
         );
         assert deleteCount == 1;
 

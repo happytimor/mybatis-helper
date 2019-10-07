@@ -2,9 +2,7 @@ package io.github.happytimor.mybatis.helper.core.service;
 
 import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
-import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
-import io.github.happytimor.mybatis.helper.core.wrapper.OrderWrapper;
-import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -137,6 +135,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 返回结果
      */
     public List<T> selectList(AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
         return this.baseMapper.selectList(selectWrapper);
     }
 
@@ -185,6 +186,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 返回结果
      */
     public T selectOne(AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
         return this.baseMapper.selectOne(selectWrapper);
     }
 
@@ -195,6 +199,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 更新条数
      */
     public int update(AbstractWrapper<T> updateWrapper) {
+        if (updateWrapper == null) {
+            throw new RuntimeException("updateWrapper can not be null");
+        }
         return this.baseMapper.update(updateWrapper);
     }
 
@@ -205,6 +212,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 删除条数
      */
     public int delete(AbstractWrapper<T> deleteWrapper) {
+        if (deleteWrapper == null) {
+            throw new RuntimeException("deleteWrapper can not be null");
+        }
         return this.baseMapper.delete(deleteWrapper);
     }
 
