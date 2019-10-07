@@ -183,7 +183,7 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
      * @param selectWrapper 查询条件
      * @return 数据总数
      */
-    public long selectCount(String tableNum, AbstractWrapper<T> selectWrapper) {
+    public <R extends Number> R selectCount(String tableNum, AbstractWrapper<T> selectWrapper) {
         return this.multipleTableMapper.selectCount(tableNum, selectWrapper);
     }
 

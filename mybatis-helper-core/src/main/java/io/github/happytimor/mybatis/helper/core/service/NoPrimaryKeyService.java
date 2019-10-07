@@ -110,7 +110,7 @@ public class NoPrimaryKeyService<M extends NoPrimaryKeyMapper<T>, T> {
      * @param selectWrapper 查询条件
      * @return 数据总数
      */
-    public long selectCount(AbstractWrapper<T> selectWrapper) {
+    public <R extends Number> R selectCount(AbstractWrapper<T> selectWrapper) {
         return this.noPrimaryKeyMapper.selectCount(selectWrapper);
     }
 

@@ -91,7 +91,7 @@ public interface BaseMapper<T> {
      * @param selectWrapper 查询条件
      * @return 数据总数
      */
-    long selectCount(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
+    <R extends Number> R selectCount(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
      * 最多返回一条
