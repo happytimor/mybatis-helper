@@ -25,6 +25,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.*;
@@ -104,10 +105,10 @@ public class MybatisHelper implements ApplicationContextAware {
 
     public void regist(SqlSessionFactory sqlSessionFactory, String mapperSearchPath) throws IOException {
         if (mapperSearchPath.contains(".")) {
-            mapperSearchPath = mapperSearchPath.replace(".", "//");
+            mapperSearchPath = mapperSearchPath.replace(".", File.separator);
         }
 
-        mapperSearchPath = "classpath:" + mapperSearchPath + "/*.class";
+        mapperSearchPath = "classpath:" + mapperSearchPath + File.separator + "*.class";
 
 
         Set<Class> mapperClassList = this.parseMapper(mapperSearchPath);
@@ -201,10 +202,7 @@ public class MybatisHelper implements ApplicationContextAware {
     private TableInfo parseTableInfo(Class<?> modelClass, boolean hasPrimaryKey) {
         TableName tableName = modelClass.getAnnotation(TableName.class);
         if (tableName == null) {
-            if (logger.isWarnEnabled()) {
-                logger.warn("{} has no @tableName annotation, skip regist", modelClass.getName());
-            }
-            return null;
+            throw new RuntimeException(modelClass.getName() + " has no @TableName annotation");
         }
         TableInfo tableInfo = new TableInfo();
         //分表连接符
@@ -213,7 +211,7 @@ public class MybatisHelper implements ApplicationContextAware {
 
         tableInfo.setModelClass(modelClass);
         tableInfo.setTableName(tableName.value());
-        if (hasPrimaryKey){
+        if (hasPrimaryKey) {
             tableInfo.setKeyColumn(Constants.DEFAULT_KEY_COLUMN);
             tableInfo.setKeyProperty(Constants.DEFAULT_KEY_PROPERTY);
         }
