@@ -149,15 +149,16 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 分页结果
      */
     public Page<T> selectPage(int pageNo, int pageSize, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
+
         Page<T> page = new Page<>(pageNo, pageSize);
         long total = this.selectCount(selectWrapper);
         page.setTotal(total);
         if (total <= 0) {
             page.setRecords(new ArrayList<>());
             return page;
-        }
-        if (selectWrapper == null) {
-            selectWrapper = new SelectWrapper<>();
         }
         if (selectWrapper instanceof OrderWrapper) {
             ((OrderWrapper) selectWrapper).limit(page.getStartRow(), page.getPageSize());
