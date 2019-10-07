@@ -1,6 +1,6 @@
-# mybatis-helper基础使用
+# mybatis-helper介绍
 ## 1. 基本用法
-举一个具体的例子, 例如需要对用户列表进行分页查询
+举一个具体的例子, 例如需要在controller里面提供一个分页查询的接口
 ``` java
 @RequestMapping("/list")
 @ResponseBody
@@ -38,8 +38,11 @@ public class User implements Serializable {
 }
 ```
 @TableName指定数据库表名, @TablePrimaryKey指定数据库表主键。
+
 如果你的表名是一个标准下划线写法(例如: user_info), @TableName可以省略掉
+
 如果你的表有主键且主键名称就是默认的id, @TablePrimarkKey可以省略掉
+
 **大部分情况下, 不需要写这两个注解**。
 
 ## 2.3 定义mapper和service
