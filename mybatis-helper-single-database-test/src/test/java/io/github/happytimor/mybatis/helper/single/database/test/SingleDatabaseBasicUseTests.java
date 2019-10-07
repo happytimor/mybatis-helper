@@ -294,7 +294,7 @@ public class SingleDatabaseBasicUseTests {
         }
         userService.batchInsert(list);
 
-        Page<User> page = userService.selectPage(new Page<>(1, 10), new SelectWrapper<User>()
+        Page<User> page = userService.selectPage(1, 10, new SelectWrapper<User>()
                 .likeRight(User::getName, "mybatis-helper-" + now)
         );
         assert page.getRecords().size() == 10 && page.getTotal() == total;

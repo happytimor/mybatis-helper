@@ -293,7 +293,7 @@ public class Datasource1Tests {
         }
         userInfoService.batchInsert(list);
 
-        Page<UserInfo> page = userInfoService.selectPage(new Page<>(1, 10), new SelectWrapper<UserInfo>()
+        Page<UserInfo> page = userInfoService.selectPage(1, 10, new SelectWrapper<UserInfo>()
                 .likeRight(UserInfo::getName, "mybatis-helper-" + now)
         );
         assert page.getRecords().size() == 10 && page.getTotal() == total;

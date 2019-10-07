@@ -294,7 +294,7 @@ public class UserUidTests {
         }
         userUidService.batchInsert(list);
 
-        Page<UserUid> page = userUidService.selectPage(new Page<>(1, 10), new SelectWrapper<UserUid>()
+        Page<UserUid> page = userUidService.selectPage(1, 10, new SelectWrapper<UserUid>()
                 .likeRight(UserUid::getName, "mybatis-helper-" + now)
         );
         assert page.getRecords().size() == 10 && page.getTotal() == total;
