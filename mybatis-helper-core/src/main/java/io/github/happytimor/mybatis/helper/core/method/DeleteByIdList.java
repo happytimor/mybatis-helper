@@ -16,11 +16,10 @@ import org.apache.ibatis.mapping.SqlSource;
 public class DeleteByIdList extends AbstractMethod {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
-        String sql;
         SqlMethod sqlMethod = SqlMethod.DELETE_BY_ID_LIST;
-        sql = String.format(sqlMethod.getSql(), this.parseTableName(), tableInfo.getKeyColumn(),
+        String script = String.format(sqlMethod.getSql(), this.parseTableName(), "`" + tableInfo.getKeyColumn() + "`",
                 SqlScriptUtils.convertForeach("#{item}", Params.ID_LIST, "(", ")", null, "item", ","));
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, Object.class);
+        SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, Object.class);
         return this.addDeleteMappedStatement(sqlMethod.getMethod(), sqlSource);
     }
 }

@@ -7,6 +7,7 @@ import io.github.happytimor.mybatis.helper.core.annotation.TableName;
 import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
+import io.github.happytimor.mybatis.helper.core.mapper.NoPrimaryKeyMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import io.github.happytimor.mybatis.helper.core.method.*;
@@ -60,6 +61,18 @@ public class MybatisHelper implements ApplicationContextAware {
             new SelectCount(),
 
             new InsertOrUpdateWithUniqueIndex()
+    );
+
+    /**
+     * 无主键mapper跳过方法
+     */
+    private List<String> skipMethodListForNoPrimaryKeyMapper = Arrays.asList(
+            DeleteById.class.getSimpleName(),
+            DeleteByIdList.class.getSimpleName(),
+            UpdateById.class.getSimpleName(),
+            BatchUpdateById.class.getSimpleName(),
+            SelectById.class.getSimpleName(),
+            SelectByIdList.class.getSimpleName()
     );
 
     @Override
@@ -122,7 +135,9 @@ public class MybatisHelper implements ApplicationContextAware {
                 MetadataReader metadataReader = new CachingMetadataReaderFactory().getMetadataReader(resource);
                 String[] interfaceNames = metadataReader.getClassMetadata().getInterfaceNames();
                 for (String interfaceName : interfaceNames) {
-                    if (Objects.equals(interfaceName, BaseMapper.class.getName()) || Objects.equals(interfaceName, MultipleTableMapper.class.getName())) {
+                    if (Objects.equals(interfaceName, BaseMapper.class.getName())
+                            || Objects.equals(interfaceName, MultipleTableMapper.class.getName())
+                            || Objects.equals(interfaceName, NoPrimaryKeyMapper.class.getName())) {
                         classNameSet.add(Class.forName(metadataReader.getClassMetadata().getClassName()));
                         break;
                     }
@@ -146,15 +161,22 @@ public class MybatisHelper implements ApplicationContextAware {
         if (modelClass == null) {
             return;
         }
+        boolean isNoPrimaryKeyMapper = NoPrimaryKeyMapper.class.isAssignableFrom(mapperClass);
 
         Collection<String> mappedStatementNames = mapperBuilderAssistant.getConfiguration().getMappedStatementNames();
-        TableInfo tableInfo = parseTableInfo(modelClass);
+        TableInfo tableInfo = parseTableInfo(modelClass, !isNoPrimaryKeyMapper);
         if (tableInfo == null) {
             throw new RuntimeException("fail to parse tableInfo");
         }
         tableInfo.setMultipleTable(MultipleTableMapper.class.isAssignableFrom(mapperClass));
         mapperBuilderAssistant.setCurrentNamespace(mapperClass.getName());
+
         for (AbstractMethod abstractMethod : methodList) {
+            if (isNoPrimaryKeyMapper && skipMethodListForNoPrimaryKeyMapper.contains(abstractMethod.getClass().getSimpleName())) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("{} has no primary key, skip inject", mapperClass.getName());
+                }
+            }
             String mapperdStatementId = mapperClass.getName() + "." + ColumnUtils.makeFirstCharacterLower(abstractMethod.getClass().getSimpleName());
             if (mappedStatementNames.contains(mapperdStatementId)) {
                 if (logger.isWarnEnabled()) {
@@ -169,13 +191,14 @@ public class MybatisHelper implements ApplicationContextAware {
         }
     }
 
+
     /**
      * 从model中解析出table信息
      *
      * @param modelClass 对象模型
      * @return 表映射信息
      */
-    private TableInfo parseTableInfo(Class<?> modelClass) {
+    private TableInfo parseTableInfo(Class<?> modelClass, boolean hasPrimaryKey) {
         TableName tableName = modelClass.getAnnotation(TableName.class);
         if (tableName == null) {
             if (logger.isWarnEnabled()) {
@@ -190,8 +213,10 @@ public class MybatisHelper implements ApplicationContextAware {
 
         tableInfo.setModelClass(modelClass);
         tableInfo.setTableName(tableName.value());
-        tableInfo.setKeyColumn(Constants.DEFAULT_KEY_COLUMN);
-        tableInfo.setKeyProperty(Constants.DEFAULT_KEY_PROPERTY);
+        if (hasPrimaryKey){
+            tableInfo.setKeyColumn(Constants.DEFAULT_KEY_COLUMN);
+            tableInfo.setKeyProperty(Constants.DEFAULT_KEY_PROPERTY);
+        }
 
         List<Result> resultList = new ArrayList<>();
         Field[] declaredFields = modelClass.getDeclaredFields();
