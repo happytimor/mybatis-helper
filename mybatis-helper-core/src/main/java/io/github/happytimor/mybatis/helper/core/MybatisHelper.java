@@ -4,6 +4,7 @@ import io.github.happytimor.mybatis.helper.core.annotation.MultipleTableConnecto
 import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
 import io.github.happytimor.mybatis.helper.core.annotation.TablePrimaryKey;
+import io.github.happytimor.mybatis.helper.core.common.Config;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
@@ -38,6 +39,13 @@ public class MybatisHelper implements ApplicationContextAware {
 
 
     private SqlSessionFactory sqlSessionFactory;
+
+    protected Config config = new Config();
+
+    public MybatisHelper() {
+        //自动开启驼峰转换,可以在子类关闭
+        this.config.setMapUnderscoreToCamelCase(true);
+    }
 
     /**
      * 待注入通用方法
@@ -109,6 +117,9 @@ public class MybatisHelper implements ApplicationContextAware {
 
         mapperSearchPath = "classpath:" + mapperSearchPath + File.separator + "*.class";
 
+        if (this.config != null) {
+            sqlSessionFactory.getConfiguration().setMapUnderscoreToCamelCase(this.config.isMapUnderscoreToCamelCase());
+        }
 
         Set<Class> mapperClassList = this.parseMapper(mapperSearchPath);
         Set<String> registed = new HashSet<>();

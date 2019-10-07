@@ -279,5 +279,4 @@ public void updateOnDuplate() throws Exception {
 
 
 TODO:
-1. 自动驼峰转换
 3. timestamp插入比较问题

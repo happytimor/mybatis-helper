@@ -34,6 +34,7 @@ public class SingleDatabaseBasicUseTests {
     public void insert() {
         User user = new User();
         user.setName("mybatis-helper");
+        user.setUserGrade(new Random().nextInt(100));
         userService.insert(user);
         assert user.getId() != null;
 
