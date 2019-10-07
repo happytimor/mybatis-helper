@@ -164,7 +164,7 @@ public class WhereWrapper<T> extends OrderWrapper<T>
     @Override
     public WhereWrapper<T> notLike(boolean executeIf, ColumnFunction<T, ?> column, String value) {
         if (executeIf) {
-            this.addCondition(column, "LIKE", value + "%");
+            this.addCondition(column, "LIKE", "%" + value + "%");
         }
         return this;
     }
