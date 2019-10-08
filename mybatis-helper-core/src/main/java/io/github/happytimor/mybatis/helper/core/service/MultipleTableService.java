@@ -181,10 +181,9 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
      *
      * @param tableNum      表号
      * @param selectWrapper 查询条件
-     * @param <R>           返回类型
      * @return 数据总数
      */
-    public <R extends Number> R selectCount(String tableNum, AbstractWrapper<T> selectWrapper) {
+    public long selectCount(String tableNum, AbstractWrapper<T> selectWrapper) {
         if (selectWrapper == null) {
             selectWrapper = new SelectWrapper<>();
         }

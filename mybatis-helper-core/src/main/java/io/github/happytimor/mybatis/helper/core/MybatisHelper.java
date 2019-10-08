@@ -228,6 +228,14 @@ public class MybatisHelper implements ApplicationContextAware {
         List<Result> resultList = new ArrayList<>();
         Field[] declaredFields = modelClass.getDeclaredFields();
         for (Field declaredField : declaredFields) {
+            //跳过final修饰变量
+            if (java.lang.reflect.Modifier.isFinal(declaredField.getModifiers())) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("skip final field:{}.{}", modelClass.getSimpleName(), declaredField.getName());
+                }
+                continue;
+            }
+
             //剔除不存在于数据库的字段
             TableColumn tableColumn = declaredField.getAnnotation(TableColumn.class);
             if (tableColumn != null && !tableColumn.exist()) {

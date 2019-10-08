@@ -98,10 +98,9 @@ public interface MultipleTableMapper<T> {
      *
      * @param tableNum      表号
      * @param selectWrapper 查询条件
-     * @param <R>           返回类型
      * @return 数据总数
      */
-    <R extends Number> R selectCount(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
+    long selectCount(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
      * 最多返回一条

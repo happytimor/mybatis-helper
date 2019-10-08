@@ -88,10 +88,9 @@ public interface BaseMapper<T> {
      * 查询总数
      *
      * @param selectWrapper 查询条件
-     * @param <R>           返回类型
      * @return 数据总数
      */
-    <R extends Number> R selectCount(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
+    long selectCount(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
      * 最多返回一条
