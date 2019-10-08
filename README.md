@@ -1,4 +1,8 @@
 # mybatis-helper介绍
+
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.happytimor/mybatis-helper-core.svg?label=Maven%20Central)](https://mvnrepository.com/artifact/io.github.happytimor/mybatis-helper-core)
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 ## 1. 基本用法
 举一个具体的例子, 例如需要在controller里面提供一个分页查询的接口
 ``` java
