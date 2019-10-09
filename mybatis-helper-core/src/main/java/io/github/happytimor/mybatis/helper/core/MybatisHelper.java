@@ -37,7 +37,7 @@ public class MybatisHelper implements ApplicationContextAware {
     private final static Logger logger = LoggerFactory.getLogger(MybatisHelper.class);
 
 
-    private SqlSessionFactory sqlSessionFactory;
+    private ApplicationContext applicationContext;
 
     protected Config config = new Config();
 
@@ -84,14 +84,20 @@ public class MybatisHelper implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    /**
+     * 单数据库获取sqlSessionFactory
+     */
+    public SqlSessionFactory parseSqlSessionFactory() {
         String[] beanNamesForType = applicationContext.getBeanNamesForType(SqlSessionFactory.class);
         if (beanNamesForType.length != 1) {
             logger.info("there is no database or multiple database, skip default regist");
-            return;
+            return null;
         }
-        this.sqlSessionFactory = (SqlSessionFactory) applicationContext.getBean(beanNamesForType[0]);
+        return (SqlSessionFactory) applicationContext.getBean(beanNamesForType[0]);
     }
-
 
     /**
      * 单数据库,可以拿到默认的 sqlSessionFactory, 直接指定 mapperSearchPath进行注入即可
@@ -99,6 +105,7 @@ public class MybatisHelper implements ApplicationContextAware {
      * @param mapperSearchPath mapper类路径
      */
     public void registSingleDatabase(String mapperSearchPath) {
+        SqlSessionFactory sqlSessionFactory = this.parseSqlSessionFactory();
         if (sqlSessionFactory == null || mapperSearchPath == null || "".equals(mapperSearchPath.trim())) {
             throw new RuntimeException("inject error");
         }

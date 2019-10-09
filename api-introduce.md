@@ -6,9 +6,8 @@ mybatis-helper包含了三种基础service
 - MultipleTableService: 适用于多表有主键的表
 - NoPrimaryKeyService: 适用于无主键表
 
-方法列表:
-| 方法名   |  方法描述   | BaseService | MultipleTableService | NoPrimaryKeyService |
-| --- | --- | --- | --- | --- | --- |
+|  方法名   |  方法描述   | BaseService | MultipleTableService | NoPrimaryKeyService |
+| --- | --- | --- | --- | --- |
 |   insert  |  单条插入   |  支持  |  支持   |  支持   |
 |   batchInsert  |   批量插入  |  支持  |  支持   |  支持   |
 |   deleteById  |   根据主键单条删除  |  支持  |  支持   | 不支持    |
@@ -24,6 +23,7 @@ mybatis-helper包含了三种基础service
 |   selectCount  |   自定义条件查询总数  |   支持 |   支持  |    支持 |
 |   selectOne  |  自定义条件查询一条数据   |  支持  |   支持  |  支持   |
 |   insertOrUpdateWithUniqueIndex  |  存在唯一索引前提下, 插入或更新   |   支持 |   支持  |   支持  |
+
 
 正常是使用是这样的
 ``` java
