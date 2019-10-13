@@ -124,6 +124,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 返回对象列表
      */
     public List<T> selectByIdList(Collection<? extends Number> idList) {
+        if (idList == null || idList.isEmpty()) {
+            return new ArrayList<>();
+        }
         return this.baseMapper.selectByIdList(idList);
     }
 
