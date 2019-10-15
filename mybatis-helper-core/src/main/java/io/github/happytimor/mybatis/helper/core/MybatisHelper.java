@@ -118,10 +118,10 @@ public class MybatisHelper implements ApplicationContextAware {
 
     public void regist(SqlSessionFactory sqlSessionFactory, String mapperSearchPath) throws IOException {
         if (mapperSearchPath.contains(".")) {
-            mapperSearchPath = mapperSearchPath.replace(".", File.separator);
+            mapperSearchPath = mapperSearchPath.replace(".", "/");
         }
 
-        mapperSearchPath = "classpath:" + mapperSearchPath + File.separator + "*.class";
+        mapperSearchPath = "classpath:" + mapperSearchPath + "/" + "*.class";
 
         if (this.config != null) {
             sqlSessionFactory.getConfiguration().setMapUnderscoreToCamelCase(this.config.isMapUnderscoreToCamelCase());
