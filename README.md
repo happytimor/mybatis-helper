@@ -1,10 +1,10 @@
-# mybatis-helper介绍
+# mybatis-helper简单介绍
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.happytimor/mybatis-helper-core.svg?label=Maven%20Central)](https://mvnrepository.com/artifact/io.github.happytimor/mybatis-helper-core)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ## 1. 基本用法
-举一个具体的例子, 例如需要在controller里面提供一个分页查询的接口
+例如需要在controller提供一个分页查询的API接口,代码可以这么写:
 ``` java
 @RequestMapping("/list")
 @ResponseBody
@@ -26,7 +26,7 @@ curl http://localhost:8080/list?pageNo=1&pageSize=10&realName=realName
 -> SELECT * FROM `user` WHERE `real_name` = 'realName' AND `deleted` = false ORDER BY `id` DESC LIMIT 0,10
 
 ```
-## 2.如何引入
+## 2.如何使用
 ### 2.1 引入maven依赖
 ``` xml
 <dependency>
@@ -38,22 +38,13 @@ curl http://localhost:8080/list?pageNo=1&pageSize=10&realName=realName
 
 ### 2.2 定义一个对象
 ``` java
-@TableName("user")
-public class User implements Serializable {
-    @TablePrimaryKey(value = "id")
+public class User {
     private Integer id;
     private String realName;
     private Boolean deleted;
     //getter & setter
 }
 ```
-@TableName指定数据库表名, @TablePrimaryKey指定数据库表主键。
-
-如果你的表名是一个标准下划线写法(例如: user_info), @TableName可以省略掉
-
-如果你的表有主键且主键名称就是默认的id, @TablePrimarkKey可以省略掉
-
-**大部分情况下, 不需要写这两个注解**。
 
 ## 2.3 定义mapper和service
 ``` java
@@ -78,7 +69,7 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
     }
 }
 ```
-全部配置已完成,可以完成步骤一的代码了。
+全部配置已完成,可以愉快的增删改查了。
 
 ## 3.特性
 - 不需要写任何xml文件,即可完成最基本的增删改查操作
