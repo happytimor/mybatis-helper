@@ -1,7 +1,11 @@
 package io.github.happytimor.mybatis.helper.core.metadata;
 
 
+import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.WhereWrapper;
+
 import java.util.Collection;
+import java.util.function.Function;
 
 /**
  * Compare的默认实现，如果不指定判断条件，默认会将column和value纳入查询条件内
@@ -175,6 +179,28 @@ public interface DefaultCompare<Children, Column> extends Compare<Children, Colu
      */
     default Children in(Column column, Collection<?> values) {
         return in(true, column, values);
+    }
+
+    /**
+     * 嵌套子查询
+     *
+     * @param column   字段
+     * @param function 子查询转换
+     * @return children
+     */
+    default Children in(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return in(true, column, function);
+    }
+
+    /**
+     * 嵌套子查询
+     *
+     * @param column   字段
+     * @param function 子查询转换
+     * @return children
+     */
+    default Children notIn(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return notIn(true, column, function);
     }
 
     /**

@@ -1,7 +1,11 @@
 package io.github.happytimor.mybatis.helper.core.metadata;
 
+import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.WhereWrapper;
+
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.function.Function;
 
 /**
  * 值比较接口
@@ -161,6 +165,26 @@ public interface Compare<Children, Column> extends Serializable {
      */
     Children in(boolean executeIf, Column column, Collection<?> values);
 
+
+    /**
+     * 嵌套in查询
+     *
+     * @param executeIf 是否执行
+     * @param column    字段
+     * @param function  生成子查询
+     * @return children
+     */
+    Children in(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+
+    /**
+     * 嵌套not in查询
+     *
+     * @param executeIf 是否执行
+     * @param column    字段
+     * @param function  生成子查询
+     * @return children
+     */
+    Children notIn(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
      * notIn

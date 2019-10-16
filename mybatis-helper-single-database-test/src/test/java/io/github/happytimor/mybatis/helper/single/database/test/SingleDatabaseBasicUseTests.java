@@ -5,6 +5,8 @@ import io.github.happytimor.mybatis.helper.core.wrapper.DeleteWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.UserNoKey;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.UserUid;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +27,17 @@ import java.util.stream.Collectors;
 public class SingleDatabaseBasicUseTests {
     @Resource
     private UserService userService;
+
+    @Test
+    public void testtt() throws Exception {
+
+        userService.selectList(new SelectWrapper<User>()
+                .eq(User::getName, "aaa").ge(User::getAge, 15)
+                .in(true, User::getId, t -> t.applySelectWrapper(UserUid.class).select(UserUid::getAge).eq(UserUid::getName, "王五"))
+                .in(true, User::getId, t -> t.applySelectWrapper(UserNoKey.class).select(UserNoKey::getAge).eq(UserNoKey::getName, "赵六"))
+                .in(true, User::getId, t -> t.applySelectWrapper(User.class).select(User::getId).in(User::getId, Arrays.asList(1, 2, 3, 4, 5)))
+        );
+    }
 
     /**
      * 单条插入、根据主键查找、根据主键删除联合测试
