@@ -8,9 +8,9 @@
 ``` java
 @RequestMapping("/list")
 @ResponseBody
-public Object list(int pageNo, int pageSize, String realName) throws Exception {
+public Object list(int pageNo, int pageSize, String name) throws Exception {
     Page<User> page = userService.selectPage(pageNo, pageSize, new SelectWrapper<User>()
-            .eq(StringUtils.isNotBlank(realName), User::getRealName, realName)
+            .eq(StringUtils.isNotBlank(name), User::getName, name)
             .eq(User::getDeleted, false)
             .orderByDesc(User::getId)
     );
@@ -23,7 +23,7 @@ curl http://localhost:8080/list?pageNo=1&pageSize=10
 
 
 curl http://localhost:8080/list?pageNo=1&pageSize=10&realName=realName
--> SELECT * FROM `user` WHERE `real_name` = 'realName' AND `deleted` = false ORDER BY `id` DESC LIMIT 0,10
+-> SELECT * FROM `user` WHERE `name` = 'name' AND `deleted` = false ORDER BY `id` DESC LIMIT 0,10
 
 ```
 ## 2.如何使用
@@ -78,6 +78,7 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
 - 支持多数据源,不需要额外引入jar包
 - 支持分表查询(例如: user_01), 支持无主键表
 - 全程lambda表达式链式调用 (需要jdk1.8+)
+- 自动对数据库字段进行包裹(例如: `order`)
 
 
 [更多介绍](api-introduce.md)
