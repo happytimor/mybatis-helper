@@ -89,6 +89,8 @@ public class MybatisHelper implements ApplicationContextAware {
 
     /**
      * 单数据库获取sqlSessionFactory
+     *
+     * @return SqlSessionFactory
      */
     public SqlSessionFactory parseSqlSessionFactory() {
         String[] beanNamesForType = applicationContext.getBeanNamesForType(SqlSessionFactory.class);

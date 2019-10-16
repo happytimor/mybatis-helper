@@ -14,10 +14,17 @@ public Object list(int pageNo, int pageSize, String realName) throws Exception {
             .eq(User::getDeleted, false)
             .orderByDesc(User::getId)
     );
-    //realName为空  =>  SELECT * FROM `user` WHERE `deleted` = false ORDER BY `id` DESC LIMIT 0,10
-    //realName不为空 => SELECT * FROM `user` WHERE `real_name` = 'realName' AND `deleted` = false ORDER BY `id` DESC LIMIT 0,10
     return page;
 }
+```
+``` linux
+curl http://localhost:8080/list?pageNo=1&pageSize=10
+-> SELECT * FROM `user` WHERE `deleted` = false ORDER BY `id` DESC LIMIT 0,10
+
+
+curl http://localhost:8080/list?pageNo=1&pageSize=10&realName=realName
+-> SELECT * FROM `user` WHERE `real_name` = 'realName' AND `deleted` = false ORDER BY `id` DESC LIMIT 0,10
+
 ```
 ## 2.如何引入
 ### 2.1 引入maven依赖
@@ -25,10 +32,9 @@ public Object list(int pageNo, int pageSize, String realName) throws Exception {
 <dependency>
     <groupId>io.github.happytimor</groupId>
     <artifactId>mybatis-helper-core</artifactId>
-    <version>1.0.0.RELEASE</version>
+    <version>1.0.1</version>
 </dependency>
 ```
-公共仓库还未审核成功, 暂时只能自己手动本地clean install
 
 ### 2.2 定义一个对象
 ``` java
