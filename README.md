@@ -22,7 +22,7 @@ curl http://localhost:8080/list?pageNo=1&pageSize=10
 -> SELECT * FROM `user` WHERE `deleted` = false ORDER BY `id` DESC LIMIT 0,10
 
 
-curl http://localhost:8080/list?pageNo=1&pageSize=10&realName=realName
+curl http://localhost:8080/list?pageNo=1&pageSize=10&name=name
 -> SELECT * FROM `user` WHERE `name` = 'name' AND `deleted` = false ORDER BY `id` DESC LIMIT 0,10
 
 ```
@@ -36,7 +36,7 @@ curl http://localhost:8080/list?pageNo=1&pageSize=10&realName=realName
 </dependency>
 ```
 
-### 2.2 定义一个对象
+## 2.2 定义对象、mapper和service
 ``` java
 public class User {
     private Integer id;
@@ -45,8 +45,6 @@ public class User {
     //getter & setter
 }
 ```
-
-## 2.3 定义mapper和service
 ``` java
 public interface UserMapper extends BaseMapper<User> {
     //不需要写任何方法
@@ -58,7 +56,7 @@ public class UserService extends BaseService<UserMapper, User> {
     //不需要写任何方法
 }
 ```
-## 2.4 启用mybatisHelper
+## 2.3 启用mybatisHelper
 ``` java
 @Component
 public class MyHelper extends MybatisHelper implements InitializingBean {
@@ -69,6 +67,7 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
     }
 }
 ```
+
 全部配置已完成,可以愉快的增删改查了。
 
 ## 3.特性
@@ -79,6 +78,15 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
 - 支持分表查询(例如: user_01), 支持无主键表
 - 全程lambda表达式链式调用 (需要jdk1.8+)
 - 自动对数据库字段进行包裹(例如: `order`)
+
+## 4.导航
+4.1 单数据库可以参考 `mybatis-helper-single-database-test` 模块代码
+SingleDatabaseBasicUseTests.java -> 适用于 有主键单表(主键就是id)
+MultipleTableTests.java -> 适用于 有主键多表(主键就是id)
+UserNoKeyTests.java -> 适用于 无主键单表
+UserUidTests.java -> 适用于 有主键单表(主键名称不是id)
+
+多数据库可以参考 `mybatis-helper-multiple-database-test` 模块代码
 
 
 [更多介绍](api-introduce.md)

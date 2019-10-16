@@ -1,16 +1,11 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
-import io.github.happytimor.mybatis.helper.core.annotation.TableName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author chenpeng
  */
-@TableName("user")
 public class User implements Serializable {
     private Integer id;
     private String name;

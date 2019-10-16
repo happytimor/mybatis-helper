@@ -9,7 +9,6 @@ import java.util.Date;
 /**
  * @author chenpeng
  */
-@TableName("user_uid")
 public class UserUid {
     @TablePrimaryKey(value = "uid")
     private Integer uid;

@@ -19,7 +19,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
- * 测试环境: 单表,有主键但是主键名称不是id
+ * 测试环境: 单表,无主键
  *
  * @author chenpeng
  */

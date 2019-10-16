@@ -1,15 +1,11 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
-import io.github.happytimor.mybatis.helper.core.annotation.TableName;
-import io.github.happytimor.mybatis.helper.core.annotation.TablePrimaryKey;
-
 import java.util.Date;
 
 
 /**
  * @author chenpeng
  */
-@TableName("user_no_key")
 public class UserNoKey {
     private String name;
     private Integer age;
