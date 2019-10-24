@@ -32,7 +32,7 @@ curl http://localhost:8080/list?pageNo=1&pageSize=10&name=name
 <dependency>
     <groupId>io.github.happytimor</groupId>
     <artifactId>mybatis-helper-core</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
