@@ -1,12 +1,11 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author chenpeng
  */
-public class User implements Serializable {
+public class User {
     private Integer id;
     private String name;
     private Integer age;

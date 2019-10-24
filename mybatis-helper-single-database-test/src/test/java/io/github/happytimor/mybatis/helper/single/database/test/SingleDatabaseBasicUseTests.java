@@ -29,8 +29,17 @@ public class SingleDatabaseBasicUseTests {
     private UserService userService;
 
     @Test
-    public void testtt() throws Exception {
+    public void test() throws Exception {
+        List<User> list = userService.selectList(new SelectWrapper<User>()
+                .eq(User::getName, "zhangsan")
+                .gt(User::getAge, 20)
+        );
+        //SELECT * FROM `user` WHERE `name` = 'zhangsan' AND `age` > 20
+    }
 
+
+    @Test
+    public void testtt() throws Exception {
         userService.selectList(new SelectWrapper<User>()
                 .eq(User::getName, "aaa").ge(User::getAge, 15)
                 .in(true, User::getId, t -> t.applySelectWrapper(UserUid.class).select(UserUid::getAge).eq(UserUid::getName, "王五"))

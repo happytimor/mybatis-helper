@@ -26,6 +26,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @param entity 对象
      */
     public void insert(T entity) {
+        if (entity == null) {
+            return;
+        }
         this.baseMapper.insert(entity);
     }
 
@@ -74,6 +77,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 删除结果
      */
     public boolean deleteById(Number id) {
+        if (id == null) {
+            return false;
+        }
         return this.baseMapper.deleteById(id);
     }
 
@@ -84,6 +90,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 删除结果
      */
     public int deleteByIdList(Collection<? extends Number> idList) {
+        if (idList == null || idList.size() == 0) {
+            return 0;
+        }
         return this.baseMapper.deleteByIdList(idList);
     }
 
@@ -94,6 +103,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 更新结果
      */
     public boolean updateById(T entity) {
+        if (entity == null) {
+            return false;
+        }
         return this.baseMapper.updateById(entity);
     }
 
@@ -104,6 +116,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 更新结果
      */
     public boolean batchUpdateById(Collection<T> list) {
+        if (list == null || list.size() == 0) {
+            return false;
+        }
         return this.baseMapper.batchUpdateById(list);
     }
 
@@ -114,6 +129,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 返回对象
      */
     public T selectById(Number id) {
+        if (id == null) {
+            return null;
+        }
         return this.baseMapper.selectById(id);
     }
 
@@ -228,6 +246,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @return 操作是否成功
      */
     public boolean insertOrUpdateWithUniqueIndex(T entity) {
+        if (entity == null) {
+            return false;
+        }
         return this.baseMapper.insertOrUpdateWithUniqueIndex(entity);
     }
 }

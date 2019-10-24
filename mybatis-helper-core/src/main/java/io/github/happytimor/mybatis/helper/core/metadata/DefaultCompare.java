@@ -79,7 +79,7 @@ public interface DefaultCompare<Children, Column> extends Compare<Children, Colu
      * @return children
      */
     default Children ne(Column column, Object value) {
-        return le(true, column, value);
+        return ne(true, column, value);
     }
 
     /**

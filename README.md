@@ -81,9 +81,13 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
 
 ## 4.导航
 4.1 单数据库可以参考 `mybatis-helper-single-database-test` 模块代码
+
 SingleDatabaseBasicUseTests.java -> 适用于 有主键单表(主键就是id)
+
 MultipleTableTests.java -> 适用于 有主键多表(主键就是id)
+
 UserNoKeyTests.java -> 适用于 无主键单表
+
 UserUidTests.java -> 适用于 有主键单表(主键名称不是id)
 
 多数据库可以参考 `mybatis-helper-multiple-database-test` 模块代码
