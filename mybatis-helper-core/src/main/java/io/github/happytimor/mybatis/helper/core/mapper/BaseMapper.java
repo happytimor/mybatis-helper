@@ -1,6 +1,7 @@
 package io.github.happytimor.mybatis.helper.core.mapper;
 
 import io.github.happytimor.mybatis.helper.core.common.Params;
+import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
 import org.apache.ibatis.annotations.Param;
 

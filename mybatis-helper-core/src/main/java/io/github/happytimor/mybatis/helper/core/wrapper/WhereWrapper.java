@@ -96,6 +96,54 @@ public class WhereWrapper<T> extends OrderWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> gt(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (executeIf) {
+            this.addCondition(column, ">", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ge(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (executeIf) {
+            this.addCondition(column, ">=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> eq(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (executeIf) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> le(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (executeIf) {
+            this.addCondition(column, "<=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> lt(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (executeIf) {
+            this.addCondition(column, "<", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ne(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (executeIf) {
+            this.addCondition(column, "<>", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> like(boolean executeIf, ColumnFunction<T, ?> column, String value) {
         if (executeIf) {
             this.addCondition(column, "LIKE", "%" + value + "%");
@@ -239,6 +287,10 @@ public class WhereWrapper<T> extends OrderWrapper<T>
         String key = "params_" + count + "_" + columnName;
         paramNameValuePairs.put(key, value);
         conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " #{" + Params.WRAPPER + ".paramNameValuePairs." + key + "}"));
+    }
+
+    private void addCondition(ColumnFunction<T, ?> column, String operator, ColumnFunction<T, ?> value) {
+        conditionList.add(new Condition(this.getColumnName(column, true) + " " + operator + " " + this.getColumnName(value, true)));
     }
 
     private void addCondition(ColumnFunction<T, ?> column, String operator, Object start, String connector, Object end) {

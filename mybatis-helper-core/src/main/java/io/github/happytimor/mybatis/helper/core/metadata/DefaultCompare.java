@@ -12,7 +12,7 @@ import java.util.function.Function;
  *
  * @author chenpeng
  */
-public interface DefaultCompare<Children, Column> extends Compare<Children, Column> {
+public interface DefaultCompare<Children, Column extends ColumnFunction> extends Compare<Children, Column> {
     /**
      * 大于
      *
@@ -47,7 +47,6 @@ public interface DefaultCompare<Children, Column> extends Compare<Children, Colu
         return eq(true, column, value);
     }
 
-
     /**
      * 小于等于
      *
@@ -70,7 +69,6 @@ public interface DefaultCompare<Children, Column> extends Compare<Children, Colu
         return lt(true, column, value);
     }
 
-
     /**
      * 不等于
      *
@@ -79,6 +77,73 @@ public interface DefaultCompare<Children, Column> extends Compare<Children, Colu
      * @return children
      */
     default Children ne(Column column, Object value) {
+        return ne(true, column, value);
+    }
+
+    /**
+     * 大于
+     *
+     * @param column 字段
+     * @param value  比较值
+     * @return children
+     */
+    default Children gt(Column column, Column value) {
+        return gt(true, column, value);
+    }
+
+    /**
+     * 大于等于
+     *
+     * @param column 字段
+     * @param value  比较值
+     * @return children
+     */
+    default Children ge(Column column, Column value) {
+        return ge(true, column, value);
+    }
+
+
+    /**
+     * 等于
+     *
+     * @param column 字段
+     * @param value  比较值
+     * @return children
+     */
+    default Children eq(Column column, Column value) {
+        return eq(true, column, value);
+    }
+
+    /**
+     * 小于等于
+     *
+     * @param column 字段
+     * @param value  比较值
+     * @return children
+     */
+    default Children le(Column column, Column value) {
+        return le(true, column, value);
+    }
+
+    /**
+     * 小于
+     *
+     * @param column 字段
+     * @param value  比较值
+     * @return children
+     */
+    default Children lt(Column column, Column value) {
+        return lt(true, column, value);
+    }
+
+    /**
+     * 不等于
+     *
+     * @param column 字段
+     * @param value  比较值
+     * @return children
+     */
+    default Children ne(Column column, Column value) {
         return ne(true, column, value);
     }
 

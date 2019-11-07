@@ -12,7 +12,7 @@ import java.util.function.Function;
  *
  * @author chenpeng
  */
-public interface Compare<Children, Column> extends Serializable {
+public interface Compare<Children, Column extends ColumnFunction> extends Serializable {
 
     /**
      * 大于
@@ -74,6 +74,67 @@ public interface Compare<Children, Column> extends Serializable {
      * @return children
      */
     Children ne(boolean executeIf, Column column, Object value);
+
+    /**
+     * 大于
+     *
+     * @param executeIf 是否执行片段
+     * @param column    字段名称
+     * @param value     字段值
+     * @return children
+     */
+    Children gt(boolean executeIf, Column column, Column value);
+
+    /**
+     * 大于等于
+     *
+     * @param executeIf 是否执行片段
+     * @param column    字段名称
+     * @param value     字段值
+     * @return children
+     */
+    Children ge(boolean executeIf, Column column, Column value);
+
+    /**
+     * 等于
+     *
+     * @param executeIf 是否执行片段
+     * @param column    字段名称
+     * @param value     字段值
+     * @return children
+     */
+    Children eq(boolean executeIf, Column column, Column value);
+
+    /**
+     * 小于等于
+     *
+     * @param executeIf 是否执行片段
+     * @param column    字段名称
+     * @param value     字段值
+     * @return children
+     */
+    Children le(boolean executeIf, Column column, Column value);
+
+    /**
+     * 小于
+     *
+     * @param executeIf 是否执行片段
+     * @param column    字段名称
+     * @param value     字段值
+     * @return children
+     */
+    Children lt(boolean executeIf, Column column, Column value);
+
+
+    /**
+     * 不等于
+     *
+     * @param executeIf 是否执行片段
+     * @param column    字段名称
+     * @param value     字段值
+     * @return children
+     */
+    Children ne(boolean executeIf, Column column, Column value);
 
     /**
      * 模糊匹配

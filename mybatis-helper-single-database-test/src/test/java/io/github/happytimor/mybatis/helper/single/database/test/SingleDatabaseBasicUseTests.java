@@ -7,6 +7,7 @@ import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.UserNoKey;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.UserUid;
+import io.github.happytimor.mybatis.helper.single.database.test.mapper.UserMapper;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,10 +29,14 @@ public class SingleDatabaseBasicUseTests {
     @Resource
     private UserService userService;
 
+    @Resource
+    private UserMapper userMapper;
+
     @Test
     public void test() throws Exception {
         List<User> list = userService.selectList(new SelectWrapper<User>()
                 .eq(User::getName, "zhangsan")
+                .eq(User::getName, User::getName)
                 .gt(User::getAge, 20)
         );
         //SELECT * FROM `user` WHERE `name` = 'zhangsan' AND `age` > 20
