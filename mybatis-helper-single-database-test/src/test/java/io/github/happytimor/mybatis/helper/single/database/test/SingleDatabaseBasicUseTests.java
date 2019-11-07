@@ -34,12 +34,19 @@ public class SingleDatabaseBasicUseTests {
 
     @Test
     public void test() throws Exception {
-        List<User> list = userService.selectList(new SelectWrapper<User>()
-                .eq(User::getName, "zhangsan")
-                .eq(User::getName, User::getName)
-                .gt(User::getAge, 20)
+        userService.update(new UpdateWrapper<User>().minus(User::getAge, -12).set(User::getMarried, true).set(User::getBirthday, "2019-09-09")
+                .eq(User::getName, "111" + System.currentTimeMillis())
+                .gt(User::getAge, 12)
+                .lt(User::getAge, 13)
+                .isNotNull(User::getMarried)
+                .isNull(User::getAge)
+                .between(User::getAge, 12, 15)
+                .notBetween(User::getAge, 14, 19)
+                .like(User::getName, "mybatis")
+                .notLike(User::getName, "mybatis")
+                .likeLeft(User::getName, "mybatis")
+                .likeRight(User::getName, "mybatis")
         );
-        //SELECT * FROM `user` WHERE `name` = 'zhangsan' AND `age` > 20
     }
 
 
