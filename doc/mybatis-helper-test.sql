@@ -1,3 +1,5 @@
+# 需要创建3个database(demo,database1,database2), 然后使用下面的sql直接建表即可
+
 -- 单数据源和多数据源测试都会用到(SingleDatabaseBasicUseTests.java)
 CREATE TABLE `user`
 (

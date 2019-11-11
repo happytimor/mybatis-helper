@@ -13,6 +13,6 @@ before_install:
   - mysql -e 'USE demo; SOURCE doc/mybatis-helper-test.sql;'
   - mysql -e 'USE database1; SOURCE doc/mybatis-helper-test.sql;'
   - mysql -e 'USE database2; SOURCE doc/mybatis-helper-test.sql;'
-#  - mysql -u root --password="" < doc/mybatis-helper-test.sql
+  - mysql -e "USE mysql;UPDATE user SET password=PASSWORD('123456') WHERE user='root';FLUSH PRIVILEGES;"
 after_success:
   - bash <(curl -s https://codecov.io/bash)
