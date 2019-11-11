@@ -15,6 +15,22 @@
     <packaging>pom</packaging>
     <description>mybatis-helper-parent</description>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <formats>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
+                    <check/>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <modules>
         <module>mybatis-helper-core</module>
         <module>mybatis-helper-single-database-test</module>
