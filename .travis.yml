@@ -7,6 +7,7 @@ services:
   - mysql
 
 before_install:
+  - pip install --user codecov
   - mysql -e 'CREATE DATABASE IF NOT EXISTS demo;'
   - mysql -e 'CREATE DATABASE IF NOT EXISTS database1;'
   - mysql -e 'CREATE DATABASE IF NOT EXISTS database2;'
@@ -15,5 +16,6 @@ before_install:
   - mysql -e 'USE database2; SOURCE doc/mybatis-helper-test.sql;'
   - mysql -e "USE mysql;GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '123456' WITH GRANT OPTION;FLUSH PRIVILEGES;"
 
+
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - codecov
