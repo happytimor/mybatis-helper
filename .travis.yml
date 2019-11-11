@@ -7,6 +7,12 @@ services:
   - mysql
 
 before_install:
-  - mysql -u root --password="" < doc/mybatis-helper-test.sql
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS demo;'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS database1;'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS database2;'
+  - mysql -e 'USE demo; SOURCE doc/mybatis-helper-test.sql;'
+  - mysql -e 'USE database1; SOURCE doc/mybatis-helper-test.sql;'
+  - mysql -e 'USE database2; SOURCE doc/mybatis-helper-test.sql;'
+#  - mysql -u root --password="" < doc/mybatis-helper-test.sql
 after_success:
   - bash <(curl -s https://codecov.io/bash)
