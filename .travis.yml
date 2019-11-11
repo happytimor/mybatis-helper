@@ -1,6 +1,7 @@
 language: java
 sudo: true
-
+jdk:
+  - oraclejdk8
 script: "mvn cobertura:cobertura"
 services:
   - mysql
