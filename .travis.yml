@@ -14,3 +14,6 @@ before_install:
   - mysql -e 'USE database1; SOURCE doc/mybatis-helper-test.sql;'
   - mysql -e 'USE database2; SOURCE doc/mybatis-helper-test.sql;'
   - mysql -e "USE mysql;GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '123456' WITH GRANT OPTION;FLUSH PRIVILEGES;"
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
