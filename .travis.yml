@@ -2,12 +2,11 @@ language: java
 sudo: true
 jdk:
   - openjdk8
-script: "mvn cobertura:cobertura"
 services:
   - mysql
 
 before_install:
-  - pip install --user codecov
+  - pip install codecov
   - mysql -e 'CREATE DATABASE IF NOT EXISTS demo;'
   - mysql -e 'CREATE DATABASE IF NOT EXISTS database1;'
   - mysql -e 'CREATE DATABASE IF NOT EXISTS database2;'
