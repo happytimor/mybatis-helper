@@ -2,7 +2,9 @@ language: java
 sudo: true
 jdk:
   - openjdk8
-
+env:
+  global:
+    - CODECOV_TOKEN=17250443-7c26-4881-b499-ba660e61613c
 services:
   - mysql
 
