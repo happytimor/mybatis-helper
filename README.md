@@ -1,6 +1,7 @@
 # mybatis-helper简单介绍
 
 [![Build Status](https://api.travis-ci.org/happytimor/mybatis-helper.svg?branch=master)](https://travis-ci.org/happytimor/mybatis-helper)
+[![Codecov](https://codecov.io/gh/happytimor/mybatis-helper/branch/master/graph/badge.svg)](https://codecov.io/gh/happytimor/mybatis-helper/branch/master)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.happytimor/mybatis-helper-core.svg?label=Maven%20Central)](https://mvnrepository.com/artifact/io.github.happytimor/mybatis-helper-core)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
