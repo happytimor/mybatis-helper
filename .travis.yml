@@ -1,6 +1,11 @@
 language: java
+sudo: true
 
 script: "mvn cobertura:cobertura"
+services:
+  - mysql
 
+before_install:
+  - mysql -u root --password="" < doc/mybatis-helper-test.sql
 after_success:
   - bash <(curl -s https://codecov.io/bash)
