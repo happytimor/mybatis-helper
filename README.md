@@ -1,7 +1,9 @@
 # mybatis-helper简单介绍
 
+[![Build Status](https://api.travis-ci.org/happytimor/mybatis-helper.svg?branch=master)](https://travis-ci.org/happytimor/mybatis-helper)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.happytimor/mybatis-helper-core.svg?label=Maven%20Central)](https://mvnrepository.com/artifact/io.github.happytimor/mybatis-helper-core)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 
 ## 1. 基本用法
 例如需要在controller提供一个分页查询的API接口,代码可以这么写:
