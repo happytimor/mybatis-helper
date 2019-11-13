@@ -56,7 +56,9 @@ public class SingleDatabaseBasicUseTests {
     @Test
     public void testtt() throws Exception {
         Item item = userService.selectObject(Item.class, new SelectWrapper<User>().select(SqlFunction.max(User::getAge, User::getAge), SqlFunction.min(User::getUserGrade, "userGrade")));
-        logger.info("item:{} {}", item.getAge(), item.getUserGrade());
+        if (item != null) {
+            logger.info("item:{} {}", item.getAge(), item.getUserGrade());
+        }
 
         /*userService.selectList(new SelectWrapper<User>()
                 .select(SqlFunction.max(User::getAge), User::getAge, SqlFunction.max(User::getId))

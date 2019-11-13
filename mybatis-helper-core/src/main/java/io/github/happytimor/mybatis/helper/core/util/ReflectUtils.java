@@ -18,6 +18,9 @@ public class ReflectUtils {
      */
     public static <M> M map2Obj(Map<String, Object> map, Class<M> clz) {
         try {
+            if (map == null || map.isEmpty()) {
+                return null;
+            }
             M obj = clz.newInstance();
             Field[] declaredFields = obj.getClass().getDeclaredFields();
             for (Field field : declaredFields) {
