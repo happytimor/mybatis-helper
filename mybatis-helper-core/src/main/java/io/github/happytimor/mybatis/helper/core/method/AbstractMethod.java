@@ -51,6 +51,7 @@ public abstract class AbstractMethod {
         return addMappedStatement(id, sqlSource, SqlCommandType.SELECT, null, null, resultType, new NoKeyGenerator(), null, null);
     }
 
+
     /**
      * 删除
      *

@@ -1,16 +1,18 @@
 package io.github.happytimor.mybatis.helper.single.database.test;
 
+import io.github.happytimor.mybatis.helper.single.database.test.domain.Item;
+import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.wrapper.DeleteWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
-import io.github.happytimor.mybatis.helper.single.database.test.domain.UserNoKey;
-import io.github.happytimor.mybatis.helper.single.database.test.domain.UserUid;
 import io.github.happytimor.mybatis.helper.single.database.test.mapper.UserMapper;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SingleDatabaseBasicUseTests {
+    private final static Logger logger = LoggerFactory.getLogger(SingleDatabaseBasicUseTests.class);
     @Resource
     private UserService userService;
 
@@ -52,12 +55,16 @@ public class SingleDatabaseBasicUseTests {
 
     @Test
     public void testtt() throws Exception {
-        userService.selectList(new SelectWrapper<User>()
+        Item item = userService.selectObject(Item.class, new SelectWrapper<User>().select(SqlFunction.max(User::getAge, User::getAge), SqlFunction.min(User::getUserGrade, "userGrade")));
+        logger.info("item:{} {}", item.getAge(), item.getUserGrade());
+
+        /*userService.selectList(new SelectWrapper<User>()
+                .select(SqlFunction.max(User::getAge), User::getAge, SqlFunction.max(User::getId))
                 .eq(User::getName, "aaa").ge(User::getAge, 15)
                 .in(true, User::getId, t -> t.applySelectWrapper(UserUid.class).select(UserUid::getAge).eq(UserUid::getName, "王五"))
                 .in(true, User::getId, t -> t.applySelectWrapper(UserNoKey.class).select(UserNoKey::getAge).eq(UserNoKey::getName, "赵六"))
                 .in(true, User::getId, t -> t.applySelectWrapper(User.class).select(User::getId).in(User::getId, Arrays.asList(1, 2, 3, 4, 5)))
-        );
+        );*/
     }
 
     /**

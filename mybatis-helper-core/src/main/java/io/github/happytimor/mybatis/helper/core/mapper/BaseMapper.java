@@ -1,12 +1,12 @@
 package io.github.happytimor.mybatis.helper.core.mapper;
 
 import io.github.happytimor.mybatis.helper.core.common.Params;
-import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 基础mapper, 适用于单表，有主键的普通数据库表映射
@@ -84,6 +84,14 @@ public interface BaseMapper<T> {
      * @return 返回结果
      */
     List<T> selectList(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
+
+    /**
+     * 查询某个对象
+     *
+     * @param selectWrapper 条件组合
+     * @return 返回对象
+     */
+    Map<String, Object> selectMap(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
      * 查询总数

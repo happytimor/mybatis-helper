@@ -2,12 +2,16 @@ package io.github.happytimor.mybatis.helper.core.service;
 
 import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
+import io.github.happytimor.mybatis.helper.core.util.ReflectUtils;
 import io.github.happytimor.mybatis.helper.core.wrapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 基础service, 适用于单表，有主键的普通数据库表映射
@@ -160,6 +164,34 @@ public class BaseService<M extends BaseMapper<T>, T> {
         }
         return this.baseMapper.selectList(selectWrapper);
     }
+
+    /**
+     * map查询
+     *
+     * @param selectWrapper 条件组合
+     * @return 返回map
+     */
+    public Map<String, Object> selectMap(AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
+        return this.baseMapper.selectMap(selectWrapper);
+    }
+
+    /**
+     * 自定义对象查询
+     *
+     * @param selectWrapper 条件组合
+     * @return 返回map
+     */
+    public <N> N selectObject(Class<N> resultType, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
+        Map<String, Object> map = this.selectMap(selectWrapper);
+        return ReflectUtils.map2Obj(map, resultType);
+    }
+
 
     /**
      * 分页查询

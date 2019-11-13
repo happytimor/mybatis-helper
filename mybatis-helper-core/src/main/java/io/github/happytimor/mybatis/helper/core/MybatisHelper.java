@@ -25,7 +25,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.*;
@@ -67,6 +66,7 @@ public class MybatisHelper implements ApplicationContextAware {
             new SelectOne(),
             new SelectCount(),
 
+            new SelectMap(),
             new InsertOrUpdateWithUniqueIndex()
     );
 
@@ -184,9 +184,6 @@ public class MybatisHelper implements ApplicationContextAware {
 
         Collection<String> mappedStatementNames = mapperBuilderAssistant.getConfiguration().getMappedStatementNames();
         TableInfo tableInfo = parseTableInfo(modelClass, !isNoPrimaryKeyMapper);
-        if (tableInfo == null) {
-            throw new RuntimeException("fail to parse tableInfo");
-        }
         tableInfo.setMultipleTable(MultipleTableMapper.class.isAssignableFrom(mapperClass));
         mapperBuilderAssistant.setCurrentNamespace(mapperClass.getName());
 
@@ -208,6 +205,8 @@ public class MybatisHelper implements ApplicationContextAware {
             }
             abstractMethod.inject(mapperBuilderAssistant, mapperClass, modelClass, tableInfo);
         }
+
+
     }
 
 
