@@ -94,6 +94,14 @@ public interface BaseMapper<T> {
     Map<String, Object> selectMap(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
+     * 查询某个对象列表
+     *
+     * @param selectWrapper 条件组合
+     * @return 对象列表
+     */
+    List<Map<String, Object>> selectMapList(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
+
+    /**
      * 查询总数
      *
      * @param selectWrapper 查询条件

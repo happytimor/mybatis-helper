@@ -2,6 +2,7 @@ package io.github.happytimor.mybatis.helper.core.wrapper;
 
 
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
+import io.github.happytimor.mybatis.helper.core.common.SqlFunctionName;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnWrapper;
@@ -9,6 +10,7 @@ import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -37,7 +39,7 @@ public class SelectWrapper<T> extends WhereWrapper<T> {
                 return this.wrapperFunctionColumn(columnWrapper, columnName);
             }
             return columnName;
-        }).collect(Collectors.joining(","));
+        }).collect(Collectors.joining(", "));
         return this;
     }
 
@@ -46,10 +48,12 @@ public class SelectWrapper<T> extends WhereWrapper<T> {
         return this;
     }
 
-
     private String wrapperFunctionColumn(ColumnWrapper columnWrapper, String columnName) {
         String function = columnWrapper.getFunction();
-        String alias = "".equals(columnWrapper.getAlias()) ? "" : "AS '" + columnWrapper.getAlias() + "'";
+        String alias = "".equals(columnWrapper.getAlias()) ? "" : " AS '" + columnWrapper.getAlias() + "'";
+        if (Objects.equals(function, SqlFunctionName.AS)) {
+            return columnName + alias;
+        }
         return function + "(" + columnName + ")" + alias;
     }
 }

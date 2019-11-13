@@ -6,6 +6,7 @@ package io.github.happytimor.mybatis.helper.core.common;
  * @author chenpeng
  */
 public interface SqlFunctionName {
+    String AS = "AS";
     String MAX = "MAX";
     String MIN = "MIN";
     String AVG = "AVG";

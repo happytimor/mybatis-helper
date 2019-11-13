@@ -53,6 +53,11 @@ public enum SqlMethod {
      */
     SELECT_LIST("selectList", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s` %s %s %s\n</script>"),
     /**
+     * 自定义条件查找
+     */
+    SELECT_MAP_LIST("selectMapList", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s` %s %s %s\n</script>"),
+
+    /**
      * 自定义条件查找总数
      */
     SELECT_COUNT("selectCount", "查询总数", "<script>\nSELECT COUNT(*) FROM `%s` %s\n</script>"),

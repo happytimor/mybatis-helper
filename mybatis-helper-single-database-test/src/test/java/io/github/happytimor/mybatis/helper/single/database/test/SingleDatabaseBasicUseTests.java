@@ -36,7 +36,7 @@ public class SingleDatabaseBasicUseTests {
     private UserMapper userMapper;
 
     @Test
-    public void test() throws Exception {
+    public void test() {
         userService.update(new UpdateWrapper<User>().minus(User::getAge, -12).set(User::getMarried, true).set(User::getBirthday, "2019-09-09")
                 .eq(User::getName, "111" + System.currentTimeMillis())
                 .gt(User::getAge, 12)
@@ -55,10 +55,14 @@ public class SingleDatabaseBasicUseTests {
 
     @Test
     public void testtt() throws Exception {
-        Item item = userService.selectObject(Item.class, new SelectWrapper<User>().select(SqlFunction.max(User::getAge, User::getAge), SqlFunction.min(User::getUserGrade, "userGrade")));
+        List<Item> items = userService.selectObjectList(Item.class, new SelectWrapper<User>().select(User::getAge, SqlFunction.as(User::getUserGrade)));
+        for (Item item : items) {
+            logger.info("item:{}", item.getAge() + "-" + item.getUserGrade());
+        }
+        /*Item item = userService.selectObject(Item.class, new SelectWrapper<User>().select(SqlFunction.as(User::getAge), SqlFunction.as(User::getUserGrade)).eq(User::getAge, 1));
         if (item != null) {
             logger.info("item:{} {}", item.getAge(), item.getUserGrade());
-        }
+        }*/
 
         /*userService.selectList(new SelectWrapper<User>()
                 .select(SqlFunction.max(User::getAge), User::getAge, SqlFunction.max(User::getId))

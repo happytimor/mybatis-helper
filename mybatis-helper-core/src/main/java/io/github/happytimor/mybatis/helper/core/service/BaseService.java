@@ -179,6 +179,19 @@ public class BaseService<M extends BaseMapper<T>, T> {
     }
 
     /**
+     * map查询
+     *
+     * @param selectWrapper 条件组合
+     * @return 返回map
+     */
+    public List<Map<String, Object>> selectMapList(AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
+        return this.baseMapper.selectMapList(selectWrapper);
+    }
+
+    /**
      * 自定义对象查询
      *
      * @param selectWrapper 条件组合
@@ -192,6 +205,23 @@ public class BaseService<M extends BaseMapper<T>, T> {
         return ReflectUtils.map2Obj(map, resultType);
     }
 
+    /**
+     * 自定义对象列表查询
+     *
+     * @param selectWrapper 条件组合
+     * @return 返回map
+     */
+    public <N> List<N> selectObjectList(Class<N> resultType, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
+        List<N> list = new ArrayList<>();
+        List<Map<String, Object>> mapList = this.selectMapList(selectWrapper);
+        for (Map<String, Object> map : mapList) {
+            list.add(ReflectUtils.map2Obj(map, resultType));
+        }
+        return list;
+    }
 
     /**
      * 分页查询
