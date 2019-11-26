@@ -118,6 +118,15 @@ public interface BaseMapper<T> {
     T selectOne(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
+     * 单值查询
+     *
+     * @param selectWrapper selectWrapper
+     * @param <R>           返回类型
+     * @return 返回数据
+     */
+    <R> R selectSingleValue(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
+
+    /**
      * 数据更新
      *
      * @param updateWrapper 条件组合

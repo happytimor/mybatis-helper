@@ -6,8 +6,6 @@ import io.github.happytimor.mybatis.helper.core.util.ReflectUtils;
 import io.github.happytimor.mybatis.helper.core.wrapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -197,7 +195,7 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @param selectWrapper 条件组合
      * @return 返回map
      */
-    public <N> N selectObject(Class<N> resultType, AbstractWrapper<T> selectWrapper) {
+    public <R> R selectObject(Class<R> resultType, AbstractWrapper<T> selectWrapper) {
         if (selectWrapper == null) {
             selectWrapper = new SelectWrapper<>();
         }
@@ -211,16 +209,23 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @param selectWrapper 条件组合
      * @return 返回map
      */
-    public <N> List<N> selectObjectList(Class<N> resultType, AbstractWrapper<T> selectWrapper) {
+    public <R> List<R> selectObjectList(Class<R> resultType, AbstractWrapper<T> selectWrapper) {
         if (selectWrapper == null) {
             selectWrapper = new SelectWrapper<>();
         }
-        List<N> list = new ArrayList<>();
+        List<R> list = new ArrayList<>();
         List<Map<String, Object>> mapList = this.selectMapList(selectWrapper);
         for (Map<String, Object> map : mapList) {
             list.add(ReflectUtils.map2Obj(map, resultType));
         }
         return list;
+    }
+
+    public <R> R selectSingleValue(AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
+        return this.baseMapper.selectSingleValue(selectWrapper);
     }
 
     /**

@@ -68,6 +68,7 @@ public class MybatisHelper implements ApplicationContextAware {
 
             new SelectMap(),
             new SelectMapList(),
+            new SelectSingleValue(),
             new InsertOrUpdateWithUniqueIndex()
     );
 

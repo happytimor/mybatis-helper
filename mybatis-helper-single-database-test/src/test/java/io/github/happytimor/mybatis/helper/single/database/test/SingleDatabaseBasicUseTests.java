@@ -55,10 +55,13 @@ public class SingleDatabaseBasicUseTests {
 
     @Test
     public void testtt() throws Exception {
-        List<Item> items = userService.selectObjectList(Item.class, new SelectWrapper<User>().select(User::getAge, SqlFunction.as(User::getUserGrade)));
+        Number o = userService.selectSingleValue(new SelectWrapper<User>().select(SqlFunction.max(User::getAge)));
+        logger.info("o: {}", o);
+        /*List<Item> items = userService.selectObjectList(Item.class, new SelectWrapper<User>().select(User::getAge, SqlFunction.as(User::getUserGrade)));
         for (Item item : items) {
             logger.info("item:{}", item.getAge() + "-" + item.getUserGrade());
-        }
+        }*/
+
         /*Item item = userService.selectObject(Item.class, new SelectWrapper<User>().select(SqlFunction.as(User::getAge), SqlFunction.as(User::getUserGrade)).eq(User::getAge, 1));
         if (item != null) {
             logger.info("item:{} {}", item.getAge(), item.getUserGrade());
@@ -71,6 +74,12 @@ public class SingleDatabaseBasicUseTests {
                 .in(true, User::getId, t -> t.applySelectWrapper(UserNoKey.class).select(UserNoKey::getAge).eq(UserNoKey::getName, "赵六"))
                 .in(true, User::getId, t -> t.applySelectWrapper(User.class).select(User::getId).in(User::getId, Arrays.asList(1, 2, 3, 4, 5)))
         );*/
+    }
+
+    @Test
+    public void selectSingleValue() {
+        Integer o = userService.selectSingleValue(new SelectWrapper<User>().select(User::getAge).limit(1));
+        logger.info("o: {}", o);
     }
 
     /**
