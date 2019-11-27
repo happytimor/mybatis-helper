@@ -54,6 +54,11 @@ public class SelectWrapper<T> extends WhereWrapper<T> {
         if (Objects.equals(function, SqlFunctionName.AS)) {
             return columnName + alias;
         }
+
+
+        if (columnWrapper.getChildWrapper() != null) {
+            columnName = this.wrapperFunctionColumn(columnWrapper.getChildWrapper(), columnName);
+        }
         return function + "(" + columnName + ")" + alias;
     }
 }

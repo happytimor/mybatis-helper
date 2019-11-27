@@ -7,6 +7,7 @@ public class ColumnWrapper {
     private String function;
     private String alias;
 
+    private ColumnWrapper childWrapper;
 
     public ColumnWrapper(String function) {
         this.function = function;
@@ -31,5 +32,13 @@ public class ColumnWrapper {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    public ColumnWrapper getChildWrapper() {
+        return childWrapper;
+    }
+
+    public void setChildWrapper(ColumnWrapper childWrapper) {
+        this.childWrapper = childWrapper;
     }
 }

@@ -1,6 +1,5 @@
 package io.github.happytimor.mybatis.helper.single.database.test;
 
-import io.github.happytimor.mybatis.helper.single.database.test.domain.Item;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.wrapper.DeleteWrapper;
@@ -17,7 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -55,25 +57,10 @@ public class SingleDatabaseBasicUseTests {
 
     @Test
     public void testtt() throws Exception {
-        Number o = userService.selectSingleValue(new SelectWrapper<User>().select(SqlFunction.max(User::getAge)));
-        logger.info("o: {}", o);
-        /*List<Item> items = userService.selectObjectList(Item.class, new SelectWrapper<User>().select(User::getAge, SqlFunction.as(User::getUserGrade)));
-        for (Item item : items) {
-            logger.info("item:{}", item.getAge() + "-" + item.getUserGrade());
-        }*/
-
-        /*Item item = userService.selectObject(Item.class, new SelectWrapper<User>().select(SqlFunction.as(User::getAge), SqlFunction.as(User::getUserGrade)).eq(User::getAge, 1));
-        if (item != null) {
-            logger.info("item:{} {}", item.getAge(), item.getUserGrade());
-        }*/
-
-        /*userService.selectList(new SelectWrapper<User>()
-                .select(SqlFunction.max(User::getAge), User::getAge, SqlFunction.max(User::getId))
-                .eq(User::getName, "aaa").ge(User::getAge, 15)
-                .in(true, User::getId, t -> t.applySelectWrapper(UserUid.class).select(UserUid::getAge).eq(UserUid::getName, "王五"))
-                .in(true, User::getId, t -> t.applySelectWrapper(UserNoKey.class).select(UserNoKey::getAge).eq(UserNoKey::getName, "赵六"))
-                .in(true, User::getId, t -> t.applySelectWrapper(User.class).select(User::getId).in(User::getId, Arrays.asList(1, 2, 3, 4, 5)))
-        );*/
+        Object o = userService.selectSingleValue(new SelectWrapper<User>()
+                .select(SqlFunction.distinct(SqlFunction.count(SqlFunction.distinct(User::getAge))))
+        );
+        logger.info("{}", o);
     }
 
     @Test
