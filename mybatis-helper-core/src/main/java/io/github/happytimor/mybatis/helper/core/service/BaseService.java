@@ -192,7 +192,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
     /**
      * 自定义对象查询
      *
+     * @param resultType    返回对象类型
      * @param selectWrapper 条件组合
+     * @param <R>           动态返回对象
      * @return 返回map
      */
     public <R> R selectObject(Class<R> resultType, AbstractWrapper<T> selectWrapper) {
@@ -206,7 +208,9 @@ public class BaseService<M extends BaseMapper<T>, T> {
     /**
      * 自定义对象列表查询
      *
+     * @param resultType    返回对象类型
      * @param selectWrapper 条件组合
+     * @param <R>           动态返回对象
      * @return 返回map
      */
     public <R> List<R> selectObjectList(Class<R> resultType, AbstractWrapper<T> selectWrapper) {
@@ -221,11 +225,31 @@ public class BaseService<M extends BaseMapper<T>, T> {
         return list;
     }
 
+    /**
+     * 单值查询
+     *
+     * @param selectWrapper 条件组合
+     * @param <R>           动态返回对象列席
+     * @return 返回对象
+     */
     public <R> R selectSingleValue(AbstractWrapper<T> selectWrapper) {
         if (selectWrapper == null) {
             selectWrapper = new SelectWrapper<>();
         }
         return this.baseMapper.selectSingleValue(selectWrapper);
+    }
+
+    /**
+     * 单值查询, 返回默认值
+     *
+     * @param selectWrapper 条件组合
+     * @param defaultValue  结果为空时, 返回默认值
+     * @param <R>           动态返回对象列席
+     * @return 返回对象
+     */
+    public <R> R selectSingleValue(AbstractWrapper<T> selectWrapper, R defaultValue) {
+        R r = this.selectSingleValue(selectWrapper);
+        return r != null ? r : defaultValue;
     }
 
     /**
