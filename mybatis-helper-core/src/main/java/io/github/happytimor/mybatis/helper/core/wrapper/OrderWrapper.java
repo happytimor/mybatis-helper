@@ -44,9 +44,9 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * @param column    字段名称
      * @return children
      */
-    public OrderWrapper<T> orderByAsc(boolean executeIf, ColumnFunction<T, ?> column, boolean asc) {
+    public OrderWrapper<T> orderByAsc(boolean executeIf, ColumnFunction<T, ?> column, Boolean asc) {
         if (executeIf) {
-            this.orderList.add(new Order(this.getColumnName(column), asc ? "ASC" : "DESC"));
+            this.orderList.add(new Order(this.getColumnName(column), asc != null && asc ? "ASC" : "DESC"));
         }
         return this;
     }
@@ -82,9 +82,9 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * @param column    字段名称
      * @return children
      */
-    public OrderWrapper<T> orderByDesc(boolean executeIf, ColumnFunction<T, ?> column, boolean desc) {
+    public OrderWrapper<T> orderByDesc(boolean executeIf, ColumnFunction<T, ?> column, Boolean desc) {
         if (executeIf) {
-            this.orderList.add(new Order(this.getColumnName(column), desc ? "DESC" : "ASC"));
+            this.orderList.add(new Order(this.getColumnName(column), desc != null && desc ? "DESC" : "ASC"));
         }
         return this;
     }
