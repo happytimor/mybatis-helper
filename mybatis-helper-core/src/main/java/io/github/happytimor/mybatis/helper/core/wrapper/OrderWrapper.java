@@ -27,13 +27,14 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     }
 
     /**
-     * 降序
+     * 升序
      *
-     * @param column 字段名称
+     * @param executeIf 是否执行
+     * @param column    字段名称
      * @return children
      */
-    public OrderWrapper<T> orderByDesc(ColumnFunction<T, ?> column) {
-        return orderByDesc(true, column);
+    public OrderWrapper<T> orderByAsc(boolean executeIf, ColumnFunction<T, ?> column) {
+        return this.orderByAsc(executeIf, column, true);
     }
 
     /**
@@ -43,11 +44,21 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * @param column    字段名称
      * @return children
      */
-    public OrderWrapper<T> orderByAsc(boolean executeIf, ColumnFunction<T, ?> column) {
+    public OrderWrapper<T> orderByAsc(boolean executeIf, ColumnFunction<T, ?> column, boolean asc) {
         if (executeIf) {
-            this.orderList.add(new Order(this.getColumnName(column), "ASC"));
+            this.orderList.add(new Order(this.getColumnName(column), asc ? "ASC" : "DESC"));
         }
         return this;
+    }
+
+    /**
+     * 降序
+     *
+     * @param column 字段名称
+     * @return children
+     */
+    public OrderWrapper<T> orderByDesc(ColumnFunction<T, ?> column) {
+        return orderByDesc(true, column);
     }
 
     /**
@@ -60,6 +71,20 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     public OrderWrapper<T> orderByDesc(boolean executeIf, ColumnFunction<T, ?> column) {
         if (executeIf) {
             this.orderList.add(new Order(this.getColumnName(column), "DESC"));
+        }
+        return this;
+    }
+
+    /**
+     * 降序
+     *
+     * @param executeIf 是否执行
+     * @param column    字段名称
+     * @return children
+     */
+    public OrderWrapper<T> orderByDesc(boolean executeIf, ColumnFunction<T, ?> column, boolean desc) {
+        if (executeIf) {
+            this.orderList.add(new Order(this.getColumnName(column), desc ? "DESC" : "ASC"));
         }
         return this;
     }
