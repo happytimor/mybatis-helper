@@ -2,6 +2,8 @@ package io.github.happytimor.mybatis.helper.core.method;
 
 import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.common.SqlMethod;
+import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
+import io.github.happytimor.mybatis.helper.core.mapper.NoPrimaryKeyMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import io.github.happytimor.mybatis.helper.core.util.SqlScriptUtils;
@@ -33,7 +35,12 @@ public class Insert extends AbstractMethod {
         // 表包含主键处理逻辑,如果不包含主键当普通字段处理
         if (tableInfo.getKeyProperty() != null && tableInfo.getKeyProperty().length() > 0) {
             keyGenerator = new Jdbc3KeyGenerator();
+            boolean splitTable = MultipleTableMapper.class.isAssignableFrom(mapperClass);
+
             keyProperty = tableInfo.getKeyProperty();
+            if (splitTable) {
+                keyProperty = Params.ENTITY + "." + keyProperty;
+            }
             keyColumn = tableInfo.getKeyColumn();
         }
 
