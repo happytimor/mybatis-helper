@@ -33,7 +33,7 @@ public class Insert extends AbstractMethod {
         // 表包含主键处理逻辑,如果不包含主键当普通字段处理
         if (tableInfo.getKeyProperty() != null && tableInfo.getKeyProperty().length() > 0) {
             keyGenerator = new Jdbc3KeyGenerator();
-            keyProperty = Params.ENTITY + "." + tableInfo.getKeyProperty();
+            keyProperty = tableInfo.getKeyProperty();
             keyColumn = tableInfo.getKeyColumn();
         }
 
@@ -51,7 +51,7 @@ public class Insert extends AbstractMethod {
     private String generateValueScript(TableInfo tableInfo) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Result result : tableInfo.getResultList()) {
-            stringBuilder.append("<if test=\""+Params.ENTITY+".").append(result.getProperty()).append(" != null\">#{"+Params.ENTITY+".").append(result.getProperty()).append("},</if>\n");
+            stringBuilder.append("<if test=\"" + Params.ENTITY + ".").append(result.getProperty()).append(" != null\">#{" + Params.ENTITY + ".").append(result.getProperty()).append("},</if>\n");
         }
         return stringBuilder.toString();
     }
