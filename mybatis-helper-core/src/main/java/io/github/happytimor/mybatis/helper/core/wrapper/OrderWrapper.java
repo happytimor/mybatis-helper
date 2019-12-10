@@ -42,6 +42,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      *
      * @param executeIf 是否执行
      * @param column    字段名称
+     * @param asc       是否升序 true-升序 false-降序
      * @return children
      */
     public OrderWrapper<T> orderByAsc(boolean executeIf, ColumnFunction<T, ?> column, Boolean asc) {
@@ -80,6 +81,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      *
      * @param executeIf 是否执行
      * @param column    字段名称
+     * @param desc      是否降序 true-降序 false-升序
      * @return children
      */
     public OrderWrapper<T> orderByDesc(boolean executeIf, ColumnFunction<T, ?> column, Boolean desc) {
