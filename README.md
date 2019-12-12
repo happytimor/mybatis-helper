@@ -83,21 +83,6 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
 - 自动对数据库字段进行包裹(例如: `order`)
 
 ## 4.导航
-4.1 单数据库可以参考 `mybatis-helper-single-database-test` 模块代码
-
-SingleDatabaseBasicUseTests.java -> 适用于 有主键单表(主键就是id)
-
-MultipleTableTests.java -> 适用于 有主键多表(主键就是id)
-
-UserNoKeyTests.java -> 适用于 无主键单表
-
-UserUidTests.java -> 适用于 有主键单表(主键名称不是id)
-
-多数据库可以参考 `mybatis-helper-multiple-database-test` 模块代码
-
-
-[本地运行单元测试](http://www.ichenpeng.net/1428013)
-
-[注解介绍](http://www.ichenpeng.net/1428014)
-
-[更多介绍](api-introduce.md)
+- [本地运行单元测试](http://www.ichenpeng.net/1428013)
+- [注解介绍](http://www.ichenpeng.net/1428014)
+- [更多介绍](api-introduce.md)
