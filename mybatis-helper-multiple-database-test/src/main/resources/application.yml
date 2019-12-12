@@ -7,12 +7,12 @@ logging.level.io.github.happytimor.mybatis.helper.multiple.database.test.mapper:
 spring:
   datasource:
     datasource1:
-      jdbc-url: "jdbc:mysql://localhost:3306/database1?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8"
+      jdbc-url: "jdbc:mysql://localhost:3306/mybatis_helper_database1?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8"
       username: "root"
       password: "123456"
       driver-class-name: "com.mysql.cj.jdbc.Driver"
     datasource2:
-      jdbc-url: "jdbc:mysql://localhost:3306/database2?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8"
+      jdbc-url: "jdbc:mysql://localhost:3306/mybatis_helper_database2?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8"
       username: "root"
       password: "123456"
       driver-class-name: "com.mysql.cj.jdbc.Driver"

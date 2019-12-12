@@ -10,7 +10,7 @@ import java.util.Date;
  * @author chenpeng
  */
 public class UserUid {
-    @TablePrimaryKey(value = "uid")
+    @TablePrimaryKey("uid")
     private Integer uid;
     private String name;
     private Integer age;
