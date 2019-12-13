@@ -3,7 +3,6 @@ package io.github.happytimor.mybatis.helper.core;
 import io.github.happytimor.mybatis.helper.core.annotation.MultipleTableConnector;
 import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
-import io.github.happytimor.mybatis.helper.core.annotation.TablePrimaryKey;
 import io.github.happytimor.mybatis.helper.core.common.Config;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
@@ -258,9 +257,11 @@ public class MybatisHelper implements ApplicationContextAware {
             resultList.add(new Result(fieldName, columnName));
 
             //覆盖默认主键
-            TablePrimaryKey tablePrimaryKey = declaredField.getAnnotation(TablePrimaryKey.class);
-            if (tablePrimaryKey != null) {
-                tableInfo.setKeyColumn(tablePrimaryKey.value());
+            if (tableColumn != null && tableColumn.primaryKey()) {
+                if ("".equals(tableColumn.value())) {
+                    throw new RuntimeException(String.format("the value should be assigned when setting primary key for %s.java with @TableColumn", modelClass.getSimpleName()));
+                }
+                tableInfo.setKeyColumn(tableColumn.value());
                 tableInfo.setKeyProperty(fieldName);
             }
         }

@@ -1,7 +1,6 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
-import io.github.happytimor.mybatis.helper.core.annotation.TablePrimaryKey;
-import io.github.happytimor.mybatis.helper.core.annotation.TableName;
+import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
 
 import java.util.Date;
 
@@ -10,7 +9,7 @@ import java.util.Date;
  * @author chenpeng
  */
 public class UserUid {
-    @TablePrimaryKey("uid")
+    @TableColumn(primaryKey = true, value = "uid")
     private Integer uid;
     private String name;
     private Integer age;

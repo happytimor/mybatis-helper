@@ -24,4 +24,9 @@ public @interface TableColumn {
      * @return true-存在 false-不存在
      */
     boolean exist() default true;
+
+    /**
+     * 是否是主键
+     */
+    boolean primaryKey() default false;
 }

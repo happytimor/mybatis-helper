@@ -1,5 +1,7 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
+import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
+
 import java.util.Date;
 
 /**
