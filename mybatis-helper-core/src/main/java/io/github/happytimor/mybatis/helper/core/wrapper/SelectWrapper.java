@@ -32,33 +32,12 @@ public class SelectWrapper<T> extends WhereWrapper<T> {
 
     @SafeVarargs
     public final WhereWrapper<T> select(ColumnFunction<T, ?>... functions) {
-        this.selectSegment = Arrays.stream(functions).map(columnFunction -> {
-            String columnName = this.getColumnName(columnFunction);
-            ColumnWrapper columnWrapper = SqlFunction.FUNCTION_MAP.remove(columnFunction);
-            if (columnWrapper != null) {
-                return this.wrapperFunctionColumn(columnWrapper, columnName);
-            }
-            return columnName;
-        }).collect(Collectors.joining(", "));
+        this.selectSegment = Arrays.stream(functions).map(this::parseColumnName).collect(Collectors.joining(", "));
         return this;
     }
 
     public final WhereWrapper<T> select(String... columns) {
         this.selectSegment = String.join(",", columns);
         return this;
-    }
-
-    private String wrapperFunctionColumn(ColumnWrapper columnWrapper, String columnName) {
-        String function = columnWrapper.getFunction();
-        String alias = "".equals(columnWrapper.getAlias()) ? "" : " AS '" + columnWrapper.getAlias() + "'";
-        if (Objects.equals(function, SqlFunctionName.AS)) {
-            return columnName + alias;
-        }
-
-
-        if (columnWrapper.getChildWrapper() != null) {
-            columnName = this.wrapperFunctionColumn(columnWrapper.getChildWrapper(), columnName);
-        }
-        return function + "(" + columnName + ")" + alias;
     }
 }

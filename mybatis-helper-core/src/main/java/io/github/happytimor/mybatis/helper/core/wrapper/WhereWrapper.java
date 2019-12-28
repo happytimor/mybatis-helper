@@ -14,7 +14,7 @@ import java.util.function.Function;
 /**
  * @author chenpeng
  */
-public class WhereWrapper<T> extends OrderWrapper<T>
+public class WhereWrapper<T> extends GroupWrapper<T>
         implements DefaultCompare<WhereWrapper<T>, ColumnFunction<T, ?>>,
         DefaultConnector<T, WhereWrapper<T>> {
 

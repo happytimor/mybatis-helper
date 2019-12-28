@@ -112,7 +112,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
         return stringBuffer.toString();
     }
 
-    class Order {
+    static class Order {
         /**
          * 字段名
          */

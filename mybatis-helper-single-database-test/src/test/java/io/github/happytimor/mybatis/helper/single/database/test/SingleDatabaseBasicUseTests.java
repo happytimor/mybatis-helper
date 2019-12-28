@@ -5,6 +5,7 @@ import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.wrapper.DeleteWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.AgeInfo;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.single.database.test.mapper.UserMapper;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
@@ -57,10 +58,16 @@ public class SingleDatabaseBasicUseTests {
 
     @Test
     public void testtt() throws Exception {
-        Object o = userService.selectSingleValue(new SelectWrapper<User>()
-                .select(SqlFunction.distinct(SqlFunction.count(SqlFunction.distinct(User::getAge))))
+        List<AgeInfo> ageInfos = userService.selectObjectList(AgeInfo.class, new SelectWrapper<User>().select(User::getAge, SqlFunction.count(User::getAge))
+                .eq(User::getAge, 12)
+                .groupBy(User::getAge, User::getBirthday)
+                .havingGt(SqlFunction.count(User::getAge), 1)
+                .limit(3)
         );
-        logger.info("{}", o);
+
+        for (AgeInfo ageInfo : ageInfos) {
+            logger.info("{}", ageInfo);
+        }
     }
 
     @Test

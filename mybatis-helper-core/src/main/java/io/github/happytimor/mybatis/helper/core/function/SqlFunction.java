@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author chenpeng
  */
 public class SqlFunction {
-    public static final Map<ColumnFunction, ColumnWrapper> FUNCTION_MAP = new ConcurrentHashMap<>();
+    public static final Map<ColumnFunction<?, ?>, ColumnWrapper> FUNCTION_MAP = new ConcurrentHashMap<>();
 
     public static <T> ColumnFunction<T, ?> as(ColumnFunction<T, ?> columnFunction) {
         return as(columnFunction, ColumnUtils.getFieldName(columnFunction));

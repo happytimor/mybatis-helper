@@ -1,6 +1,9 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
+import io.github.happytimor.mybatis.helper.core.common.SqlFunctionName;
+import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.metadata.ColumnWrapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Condition;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 
@@ -104,5 +107,41 @@ public abstract class AbstractWrapper<T> {
 
     public void setSelectSegment(String selectSegment) {
         this.selectSegment = selectSegment;
+    }
+
+    /**
+     * 解析字段名
+     *
+     * @param columnFunction 字段函数
+     * @return 字段名
+     */
+    protected String parseColumnName(ColumnFunction<T, ?> columnFunction) {
+        String columnName = this.getColumnName(columnFunction);
+        ColumnWrapper columnWrapper = SqlFunction.FUNCTION_MAP.remove(columnFunction);
+        if (columnWrapper != null) {
+            return this.wrapperFunctionColumn(columnWrapper, columnName);
+        }
+        return columnName;
+    }
+
+    /**
+     * 解析带函数字段名
+     *
+     * @param columnWrapper 函数wrapper
+     * @param columnName    字段名
+     * @return 包装后的字段名
+     */
+    protected String wrapperFunctionColumn(ColumnWrapper columnWrapper, String columnName) {
+        String function = columnWrapper.getFunction();
+        String alias = "".equals(columnWrapper.getAlias()) ? "" : " AS '" + columnWrapper.getAlias() + "'";
+        if (Objects.equals(function, SqlFunctionName.AS)) {
+            return columnName + alias;
+        }
+
+
+        if (columnWrapper.getChildWrapper() != null) {
+            columnName = this.wrapperFunctionColumn(columnWrapper.getChildWrapper(), columnName);
+        }
+        return function + "(" + columnName + ")" + alias;
     }
 }
