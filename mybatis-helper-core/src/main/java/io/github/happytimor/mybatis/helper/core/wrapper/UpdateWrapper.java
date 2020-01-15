@@ -14,6 +14,14 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
 
     private List<String> set = new ArrayList<>();
 
+    /**
+     * 设置数据库字段值
+     *
+     * @param executeIf 是否执行
+     * @param column    字段
+     * @param value     设置值
+     * @return updateWrapper
+     */
     public UpdateWrapper<T> set(boolean executeIf, ColumnFunction<T, ?> column, Object value) {
         if (executeIf) {
             String columnName = this.getColumnName(column, false);
@@ -25,6 +33,13 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
         return this;
     }
 
+    /**
+     * 设置数据库字段值
+     *
+     * @param column 字段
+     * @param value  设置值
+     * @return updateWrapper
+     */
     public UpdateWrapper<T> set(ColumnFunction<T, ?> column, Object value) {
         return this.set(true, column, value);
     }
