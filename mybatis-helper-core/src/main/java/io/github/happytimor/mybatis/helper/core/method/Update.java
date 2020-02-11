@@ -15,7 +15,7 @@ public class Update extends AbstractMethod {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         SqlMethod sqlMethod = SqlMethod.UPDATE;
-        String script = String.format(sqlMethod.getSql(), tableInfo.getTableName(), "${" + Params.WRAPPER + ".setSegment}", "${" + Params.WRAPPER + ".whereSegment}");
+        String script = String.format(sqlMethod.getSql(), this.parseTableName(), "${" + Params.WRAPPER + ".setSegment}", "${" + Params.WRAPPER + ".whereSegment}");
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, modelClass);
         return addUpdateMappedStatement(modelClass, sqlMethod.getMethod(), sqlSource);
     }
