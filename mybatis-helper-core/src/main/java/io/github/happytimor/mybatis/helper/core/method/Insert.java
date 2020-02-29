@@ -35,12 +35,8 @@ public class Insert extends AbstractMethod {
         // 表包含主键处理逻辑,如果不包含主键当普通字段处理
         if (tableInfo.getKeyProperty() != null && tableInfo.getKeyProperty().length() > 0) {
             keyGenerator = new Jdbc3KeyGenerator();
-            boolean splitTable = MultipleTableMapper.class.isAssignableFrom(mapperClass);
-
             keyProperty = tableInfo.getKeyProperty();
-            if (splitTable) {
-                keyProperty = Params.ENTITY + "." + keyProperty;
-            }
+            keyProperty = Params.ENTITY + "." + keyProperty;
             keyColumn = tableInfo.getKeyColumn();
         }
 
