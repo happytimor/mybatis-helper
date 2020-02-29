@@ -1,7 +1,5 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
-import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
-
 import java.util.Date;
 
 /**
@@ -14,6 +12,10 @@ public class User {
     private Boolean married;
     private Integer userGrade;
     private Date birthday;
+    /**
+     * 删除标记位
+     */
+    private String flag;
 
     public User() {
     }
@@ -68,5 +70,13 @@ public class User {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 }

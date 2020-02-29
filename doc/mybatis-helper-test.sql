@@ -9,11 +9,12 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
     `id`         int(11) unsigned NOT NULL AUTO_INCREMENT,
-    `name`       varchar(32)           DEFAULT '',
+    `name`       varchar(64)           DEFAULT '',
     `age`        int(11)               DEFAULT '-1',
     `married`    tinyint(4)            DEFAULT '0',
     `user_grade` int(11)               DEFAULT '0',
     `birthday`   timestamp        NULL DEFAULT '2000-01-01 00:00:00',
+     `flag` varchar(64)                 DEFAULT '',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -23,11 +24,12 @@ DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info`
 (
     `id`       int(11) unsigned NOT NULL AUTO_INCREMENT,
-    `name`     varchar(32)           DEFAULT '',
+    `name`     varchar(64)           DEFAULT '',
     `age`      int(11)               DEFAULT '-1',
     `married`  tinyint(4)            DEFAULT '0',
     `user_grade` int(11)               DEFAULT '0',
     `birthday` timestamp        NULL DEFAULT '2000-01-01 00:00:00',
+    `flag` varchar(64)                 DEFAULT '',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -37,11 +39,12 @@ DROP TABLE IF EXISTS `user_01`;
 CREATE TABLE `user_01`
 (
     `id`       int(11) unsigned NOT NULL AUTO_INCREMENT,
-    `name`     varchar(32)           DEFAULT '',
+    `name`     varchar(64)           DEFAULT '',
     `age`      int(11)               DEFAULT '-1',
     `married`  tinyint(4)            DEFAULT '0',
     `user_grade` int(11)               DEFAULT '0',
     `birthday` timestamp        NULL DEFAULT '2000-01-01 00:00:00',
+     `flag` varchar(64)                 DEFAULT '',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -51,11 +54,13 @@ DROP TABLE IF EXISTS `user_uid`;
 CREATE TABLE `user_uid`
 (
     `uid`      int(11) unsigned NOT NULL AUTO_INCREMENT,
-    `name`     varchar(32)           DEFAULT '',
+    `name`     varchar(64)           DEFAULT '',
     `age`      int(11)               DEFAULT '-1',
     `married`  tinyint(4)            DEFAULT '0',
     `user_grade` int(11)               DEFAULT '0',
     `birthday` timestamp        NULL DEFAULT '2000-01-01 00:00:00',
+     `flag` varchar(64)                 DEFAULT '',
+
     PRIMARY KEY (`uid`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -64,11 +69,13 @@ CREATE TABLE `user_uid`
 DROP TABLE IF EXISTS `user_no_key`;
 CREATE TABLE `user_no_key`
 (
-    `name`     varchar(32)    DEFAULT '',
+    `name`     varchar(64)    DEFAULT '',
     `age`      int(11)        DEFAULT '-1',
     `married`  tinyint(4)     DEFAULT '0',
     `user_grade` int(11)               DEFAULT '0',
     `birthday` timestamp NULL DEFAULT '2000-01-01 00:00:00'
+     `flag` varchar(64)                 DEFAULT '',
+
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 

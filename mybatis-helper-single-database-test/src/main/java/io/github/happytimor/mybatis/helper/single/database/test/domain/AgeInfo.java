@@ -5,7 +5,7 @@ package io.github.happytimor.mybatis.helper.single.database.test.domain;
  */
 public class AgeInfo {
     private int age;
-    private int count;
+    private long count;
 
     public int getAge() {
         return age;
@@ -15,11 +15,11 @@ public class AgeInfo {
         this.age = age;
     }
 
-    public int getCount() {
+    public long getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(long count) {
         this.count = count;
     }
 }

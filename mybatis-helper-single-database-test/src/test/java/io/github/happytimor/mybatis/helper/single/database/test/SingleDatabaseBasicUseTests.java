@@ -8,6 +8,7 @@ import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.AgeInfo;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.single.database.test.mapper.UserMapper;
+import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,10 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -38,61 +36,33 @@ public class SingleDatabaseBasicUseTests {
     @Resource
     private UserMapper userMapper;
 
-    @Test
-    public void test() {
-        userService.update(new UpdateWrapper<User>().minus(User::getAge, -12).set(User::getMarried, true).set(User::getBirthday, "2019-09-09")
-                .eq(User::getName, "111" + System.currentTimeMillis())
-                .gt(User::getAge, 12)
-                .lt(User::getAge, 13)
-                .isNotNull(User::getMarried)
-                .isNull(User::getAge)
-                .between(User::getAge, 12, 15)
-                .notBetween(User::getAge, 14, 19)
-                .like(User::getName, "mybatis")
-                .notLike(User::getName, "mybatis")
-                .likeLeft(User::getName, "mybatis")
-                .likeRight(User::getName, "mybatis")
-        );
-    }
-
-
-    @Test
-    public void testtt() throws Exception {
-        List<AgeInfo> ageInfos = userService.selectObjectList(AgeInfo.class, new SelectWrapper<User>().select(User::getAge, SqlFunction.count(User::getAge))
-                .eq(User::getAge, 12)
-                .groupBy(User::getAge, User::getBirthday)
-                .havingGt(SqlFunction.count(User::getAge), 1)
-                .limit(3)
-        );
-
-        for (AgeInfo ageInfo : ageInfos) {
-            logger.info("{}", ageInfo);
-        }
-    }
-
-    @Test
-    public void selectSingleValue() {
-        Integer o = userService.selectSingleValue(new SelectWrapper<User>().select(User::getAge).limit(1));
-        logger.info("o: {}", o);
-    }
+    @Resource
+    private GenerateService generateService;
 
     /**
      * 单条插入、根据主键查找、根据主键删除联合测试
      */
     @Test
     public void insert() {
+        //插入
+        String name = "insert-test-" + System.currentTimeMillis();
         User user = new User();
-        user.setName("mybatis-helper");
+        user.setName(name);
         user.setUserGrade(new Random().nextInt(100));
         userService.insert(user);
+
+        //是否返回主键
         assert user.getId() != null;
 
+        //插入结果判断
         User dbUser = userService.selectById(user.getId());
         assert dbUser.getName().equals(user.getName());
 
+        //删除
         boolean deleteSuccess = userService.deleteById(user.getId());
         assert deleteSuccess;
 
+        //判断是否删除成功
         dbUser = userService.selectById(user.getId());
         assert dbUser == null;
     }
@@ -102,20 +72,26 @@ public class SingleDatabaseBasicUseTests {
      */
     @Test
     public void updateById() {
+        //插入新数据
+        String name = "update-by-id-test-" + System.currentTimeMillis();
         User user = new User();
-        user.setName("mybatis-helper");
+        user.setName(name);
         userService.insert(user);
         assert user.getId() != null;
 
-        String newName = "mybatis-helper-" + System.currentTimeMillis();
+        //数据更新
+        String newName = name + "-new";
         user.setName(newName);
         user.setAge(22);
         user.setMarried(true);
         boolean updateSuccess = userService.updateById(user);
         assert updateSuccess;
 
+        //判断更新结果
         User dbUser = userService.selectById(user.getId());
         assert newName.equals(dbUser.getName()) && dbUser.getAge() == 22 && dbUser.getMarried();
+
+        //数据删除
         boolean deleteSuccess = userService.deleteById(dbUser.getId());
         assert deleteSuccess;
     }
@@ -125,13 +101,13 @@ public class SingleDatabaseBasicUseTests {
      */
     @Test
     public void selectList() {
-        String name = "mybatis-helper-" + System.currentTimeMillis();
+        String name = "select-list-" + System.currentTimeMillis();
         User user = new User();
         user.setName(name);
         userService.insert(user);
         assert user.getId() != null;
 
-        //测试各种条件能否生效
+        //测试各种条件是否会报错
         List<User> userList = userService.selectList(new SelectWrapper<User>()
                 .eq(User::getName, name + System.currentTimeMillis())
                 .gt(User::getAge, 12)
@@ -171,12 +147,13 @@ public class SingleDatabaseBasicUseTests {
      * 自定义更新测试
      */
     public void update() {
+        String name = "update-" + System.currentTimeMillis();
         User user = new User();
-        user.setName("mybatis-helper");
+        user.setName(name);
         userService.insert(user);
         assert user.getId() != null;
 
-        String newName = "mybatis-helper-" + System.currentTimeMillis();
+        String newName = name + "-new";
 
 
         //自定义条件更新测试(填充很多的查询条件,主要用于检测条件是否能正常组成sql)
@@ -211,19 +188,20 @@ public class SingleDatabaseBasicUseTests {
      */
     @Test
     public void insertOrUpdateWithUniqueIndex() {
-        String name = "mybatis-helper-" + System.currentTimeMillis();
+        String name = "insert-or-update-with-uni-" + System.currentTimeMillis();
         User user = new User();
         user.setName(name);
         userService.insert(user);
         assert user.getId() != null;
 
 
-        //唯一索引冲突更新测试
-        user.setName("mybatis-helper");
+        //唯一索引冲突更新测试(id冲突)
+        String newName = name + "-new";
+        user.setName(newName);
         boolean updateSuccess = userService.insertOrUpdateWithUniqueIndex(user);
         assert updateSuccess;
         User dbUser = userService.selectById(user.getId());
-        assert "mybatis-helper".equals(dbUser.getName());
+        assert newName.equals(dbUser.getName());
 
         boolean deleteSuccess = userService.deleteById(dbUser.getId());
         assert deleteSuccess;
@@ -235,14 +213,14 @@ public class SingleDatabaseBasicUseTests {
     @Test
     public void batchOperation() {
         List<User> list = new ArrayList<>();
-        long now = System.currentTimeMillis();
+        String name = "batch-operation-" + System.currentTimeMillis();
         int total = new Random().nextInt(1000) + 10;
 
         for (int i = 0; i < total; i++) {
-            list.add(new User("mybatis-helper-" + now + i));
+            list.add(new User(name + i));
         }
         userService.batchInsert(list);
-        List<User> userList = userService.selectList(new SelectWrapper<User>().select(User::getId).likeRight(User::getName, "mybatis-helper-" + now));
+        List<User> userList = userService.selectList(new SelectWrapper<User>().select(User::getId).likeRight(User::getName, name));
         assert userList.size() == total;
 
         //批量查找
@@ -251,15 +229,16 @@ public class SingleDatabaseBasicUseTests {
         assert userList.size() == total;
 
 
+        String newName = name + "-new";
         //根据id批量更新
         for (User user : userList) {
-            user.setName("mybatis-helper");
+            user.setName(newName);
         }
         boolean updateSuucess = userService.batchUpdateById(userList);
         assert updateSuucess;
         userList = userService.selectByIdList(userIdList);
         for (User user : userList) {
-            assert "mybatis-helper".equals(user.getName());
+            assert newName.equals(user.getName());
         }
 
 
@@ -278,9 +257,9 @@ public class SingleDatabaseBasicUseTests {
      */
     @Test
     public void delete() {
-        String name = "mybatis-helper-" + System.currentTimeMillis();
+        String name = "delete-";
         User user = new User();
-        user.setName(name);
+        user.setName(name + System.currentTimeMillis());
         user.setAge(11);
         user.setMarried(true);
         user.setBirthday(new Date());
@@ -288,8 +267,8 @@ public class SingleDatabaseBasicUseTests {
         assert user.getId() != null;
 
         int deleteCount = userService.delete(new DeleteWrapper<User>()
-                .eq(User::getName, name)
-                .likeRight(User::getName, "mybatis-helper")
+                .eq(User::getName, user.getName())
+                .likeRight(User::getName, name)
                 .eq(User::getAge, 11)
         );
         assert deleteCount == 1;
@@ -304,20 +283,20 @@ public class SingleDatabaseBasicUseTests {
     @Test
     public void count() {
         List<User> list = new ArrayList<>();
-        long now = System.currentTimeMillis();
+        String name = "count-" + System.currentTimeMillis();
         int total = new Random().nextInt(1000) + 10;
         for (int i = 0; i < total; i++) {
-            list.add(new User("mybatis-helper-" + now + i));
+            list.add(new User(name + i));
         }
         userService.batchInsert(list);
         List<User> userList = userService.selectList(new SelectWrapper<User>()
                 .select(User::getId)
-                .likeRight(User::getName, "mybatis-helper-" + now)
+                .likeRight(User::getName, name)
         );
         assert userList.size() == total;
 
         //总数查询测试
-        long count = userService.selectCount(new SelectWrapper<User>().likeRight(User::getName, "mybatis-helper-" + now));
+        long count = userService.selectCount(new SelectWrapper<User>().likeRight(User::getName, name));
         assert count == total;
 
 
@@ -335,28 +314,30 @@ public class SingleDatabaseBasicUseTests {
     @Test
     public void selectPage() {
         List<User> list = new ArrayList<>();
-        long now = System.currentTimeMillis();
+        String name = "select-page-" + System.currentTimeMillis();
+        //随机插入若干条数据
         int total = new Random().nextInt(1000) + 10;
         for (int i = 0; i < total; i++) {
-            list.add(new User("mybatis-helper-" + now + i));
+            list.add(new User(name + i));
         }
         userService.batchInsert(list);
 
+        //分页查询
         Page<User> page = userService.selectPage(1, 10, new SelectWrapper<User>()
-                .likeRight(User::getName, "mybatis-helper-" + now)
+                .likeRight(User::getName, name)
         );
         assert page.getRecords().size() == 10 && page.getTotal() == total;
 
         List<User> userList = userService.selectList(new SelectWrapper<User>()
                 .select(User::getId)
-                .likeRight(User::getName, "mybatis-helper-" + now)
+                .likeRight(User::getName, name)
         );
         assert userList.size() == total;
 
 
         List<Integer> userIdList = userList.stream().map(User::getId).distinct().collect(Collectors.toList());
         assert userIdList.size() == total;
-
+        //数据清理
         userService.deleteByIdList(userIdList);
     }
 
@@ -365,12 +346,13 @@ public class SingleDatabaseBasicUseTests {
      */
     @Test
     public void sqlInject() {
+        String name = "sql-inject";
         User user = new User();
-        user.setName("mybatis-helper");
+        user.setName(name);
         userService.insert(user);
         assert user.getId() != null;
 
-        String injectSql = "mybatis-helper or 1=1";
+        String injectSql = name + " or 1=1";
 
         List<User> users = userService.selectList(new SelectWrapper<User>()
                 .eq(User::getName, injectSql)
@@ -384,4 +366,55 @@ public class SingleDatabaseBasicUseTests {
         boolean deleteSuccess = userService.deleteById(user.getId());
         assert deleteSuccess;
     }
+
+    /**
+     * 单值查询
+     */
+    @Test
+    public void selectSingleValue() {
+        final int count = 1000;
+        this.generateService.generateBatch(count, (flag, userList) -> {
+            int maxAge = -1;
+            int sumAge = 0;
+            for (User user : userList) {
+                if (maxAge < user.getAge()) {
+                    maxAge = user.getAge();
+                }
+                sumAge += user.getAge();
+            }
+
+            Number dbCount = this.userService.selectSingleValue(new SelectWrapper<User>().select(SqlFunction.count(User::getId)).eq(User::getFlag, flag));
+            assert dbCount.intValue() == count;
+
+            Number dbMaxAge = this.userService.selectSingleValue(new SelectWrapper<User>().select(SqlFunction.max(User::getAge)).eq(User::getFlag, flag));
+            assert dbMaxAge.intValue() == maxAge;
+
+            Number dbSumAge = this.userService.selectSingleValue(new SelectWrapper<User>().select(SqlFunction.sum(User::getAge)).eq(User::getFlag, flag));
+            assert dbSumAge.intValue() == sumAge;
+
+        });
+    }
+
+    /**
+     * 对象转换测试
+     */
+    @Test
+    public void selectObjectList() {
+        generateService.generateBatch(1000, (flag, userList) -> {
+            //对生成的数据按照年龄进行分组, 为后续比对做准备
+            Map<Integer, List<User>> ageMap = userList.stream().collect(Collectors.groupingBy(User::getAge));
+            List<AgeInfo> ageInfoList = userService.selectObjectList(AgeInfo.class, new SelectWrapper<User>().select(User::getAge, SqlFunction.count(User::getAge, "count"))
+                    .eq(User::getFlag, flag)
+                    .groupBy(User::getAge)
+            );
+
+            //数据校验
+            for (AgeInfo ageInfo : ageInfoList) {
+                assert ageMap.get(ageInfo.getAge()).size() == ageInfo.getCount();
+            }
+        });
+
+
+    }
+
 }
