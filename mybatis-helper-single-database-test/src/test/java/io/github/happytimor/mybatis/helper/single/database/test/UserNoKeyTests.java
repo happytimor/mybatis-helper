@@ -12,11 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * 测试环境: 单表,无主键
@@ -109,7 +109,7 @@ public class UserNoKeyTests {
 
 
         //自定义条件更新测试(填充很多的查询条件,主要用于检测条件是否能正常组成sql)
-        int updateCount = userNoKeyService.update(new UpdateWrapper<UserNoKey>().set(UserNoKey::getAge, 12).set(UserNoKey::getMarried, true).set(UserNoKey::getBirthday, "2019-09-09")
+        int updateCount = userNoKeyService.update(new UpdateWrapper<UserNoKey>().set(UserNoKey::getAge, 12).set(UserNoKey::getMarried, true).set(UserNoKey::getLastLoginTime, "2019-09-09")
                 .eq(UserNoKey::getName, newName + System.currentTimeMillis())
                 .gt(UserNoKey::getAge, 12)
                 .lt(UserNoKey::getAge, 13)
@@ -124,14 +124,14 @@ public class UserNoKeyTests {
         );
         assert updateCount == 0;
 
-        updateCount = userNoKeyService.update(new UpdateWrapper<UserNoKey>().set(UserNoKey::getAge, 12).set(UserNoKey::getMarried, true).set(UserNoKey::getBirthday, "2019-09-09")
+        updateCount = userNoKeyService.update(new UpdateWrapper<UserNoKey>().set(UserNoKey::getAge, 12).set(UserNoKey::getMarried, true).set(UserNoKey::getLastLoginTime, "2019-09-09")
                 .eq(UserNoKey::getName, newName)
         );
 
         UserNoKey dbUser = userNoKeyService.selectOne(new SelectWrapper<UserNoKey>()
                 .select(UserNoKey::getName)
                 .eq(UserNoKey::getName, newName));
-        assert updateCount == 1 && dbUser.getAge() == 12 && "2019-09-09".equals(dbUser.getBirthday());
+        assert updateCount == 1 && dbUser.getAge() == 12 && "2019-09-09".equals(dbUser.getLastLoginTime());
         int deleteCount = userNoKeyService.delete(new DeleteWrapper<UserNoKey>().eq(UserNoKey::getName, newName));
         assert deleteCount == 1;
     }
@@ -167,7 +167,7 @@ public class UserNoKeyTests {
         userNoKey.setName(name);
         userNoKey.setAge(11);
         userNoKey.setMarried(true);
-        userNoKey.setBirthday(new Date());
+        userNoKey.setLastLoginTime(LocalDateTime.now());
         userNoKeyService.insert(userNoKey);
 
         int deleteCount = userNoKeyService.delete(new DeleteWrapper<UserNoKey>()

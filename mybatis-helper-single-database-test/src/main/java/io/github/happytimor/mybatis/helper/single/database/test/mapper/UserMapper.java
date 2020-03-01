@@ -11,8 +11,8 @@ public interface UserMapper extends BaseMapper<User> {
 
     /**
      * 原生xml测试专用
+     *
      * @param user
      */
     void insertOrg(@Param("entity") User user);
-
 }

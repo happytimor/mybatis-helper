@@ -1,5 +1,6 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -11,7 +12,7 @@ public class UserNoKey {
     private Integer age;
     private Boolean married;
     private Integer userGrade;
-    private Date birthday;
+    private LocalDateTime lastLoginTime;
 
     public UserNoKey() {
     }
@@ -52,11 +53,11 @@ public class UserNoKey {
         this.userGrade = userGrade;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public LocalDateTime getLastLoginTime() {
+        return lastLoginTime;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setLastLoginTime(LocalDateTime lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 }

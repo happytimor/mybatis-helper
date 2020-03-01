@@ -4,7 +4,6 @@ import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.wrapper.DeleteWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
-import io.github.happytimor.mybatis.helper.multiple.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.multiple.database.test.domain.UserInfo;
 import io.github.happytimor.mybatis.helper.multiple.database.test.service.UserInfoService;
 import org.junit.Test;
@@ -13,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -130,7 +130,7 @@ public class Datasource1Tests {
 
 
         //自定义条件更新测试(填充很多的查询条件,主要用于检测条件是否能正常组成sql)
-        int updateCount = userInfoService.update(new UpdateWrapper<UserInfo>().set(UserInfo::getAge, 12).set(UserInfo::getMarried, true).set(UserInfo::getBirthday, "2019-09-09")
+        int updateCount = userInfoService.update(new UpdateWrapper<UserInfo>().set(UserInfo::getAge, 12).set(UserInfo::getMarried, true).set(UserInfo::getLastLoginTime, "2019-09-09")
                 .eq(UserInfo::getName, newName + System.currentTimeMillis())
                 .gt(UserInfo::getAge, 12)
                 .lt(UserInfo::getAge, 13)
@@ -145,12 +145,12 @@ public class Datasource1Tests {
         );
         assert updateCount == 0;
 
-        updateCount = userInfoService.update(new UpdateWrapper<UserInfo>().set(UserInfo::getAge, 12).set(UserInfo::getMarried, true).set(UserInfo::getBirthday, "2019-09-09")
+        updateCount = userInfoService.update(new UpdateWrapper<UserInfo>().set(UserInfo::getAge, 12).set(UserInfo::getMarried, true).set(UserInfo::getLastLoginTime, "2019-09-09")
                 .eq(UserInfo::getName, newName)
         );
 
         UserInfo dbUserInfo = userInfoService.selectById(userInfo.getId());
-        assert updateCount == 1 && dbUserInfo.getAge() == 12 && "2019-09-09".equals(dbUserInfo.getBirthday());
+        assert updateCount == 1 && dbUserInfo.getAge() == 12 && "2019-09-09".equals(dbUserInfo.getLastLoginTime());
         boolean deleteSuccess = userInfoService.deleteById(dbUserInfo.getId());
         assert deleteSuccess;
     }
@@ -232,7 +232,7 @@ public class Datasource1Tests {
         userInfo.setName(name);
         userInfo.setAge(11);
         userInfo.setMarried(true);
-        userInfo.setBirthday("1999-09-09");
+        userInfo.setLastLoginTime(LocalDateTime.now().withNano(0));
         userInfoService.insert(userInfo);
         assert userInfo.getId() != null;
 
@@ -240,7 +240,7 @@ public class Datasource1Tests {
                 .eq(UserInfo::getName, name)
                 .likeLeft(UserInfo::getName, "mybatis-helper")
                 .eq(UserInfo::getAge, 11)
-                .eq(UserInfo::getBirthday, userInfo.getBirthday())
+                .eq(UserInfo::getLastLoginTime, userInfo.getLastLoginTime())
         );
         assert deleteCount == 1;
 

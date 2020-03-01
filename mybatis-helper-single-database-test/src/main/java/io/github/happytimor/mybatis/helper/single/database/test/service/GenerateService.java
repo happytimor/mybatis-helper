@@ -7,6 +7,7 @@ import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -48,7 +49,12 @@ public class GenerateService {
             user.setNullableAge(user.getAge());
         }
         user.setMarried(new Random().nextBoolean());
-        user.setBirthday(new Date());
+        //不要毫秒, 否则数据库和内存保存不一致, 随机生成近一个月内的日期
+        user.setLastLoginTime(LocalDateTime.now()
+                .minusDays(new Random().nextInt(30))
+                .minusHours(new Random().nextInt(24))
+                .minusSeconds(new Random().nextInt(60))
+                .withNano(0));
         user.setUserGrade(new Random().nextInt(700));
         user.setFlag(flag);
         return user;

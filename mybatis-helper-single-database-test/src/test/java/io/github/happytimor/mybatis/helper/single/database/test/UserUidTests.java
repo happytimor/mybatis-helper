@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -132,7 +133,7 @@ public class UserUidTests {
 
 
         //自定义条件更新测试(填充很多的查询条件,主要用于检测条件是否能正常组成sql)
-        int updateCount = userUidService.update(new UpdateWrapper<UserUid>().set(UserUid::getAge, 12).set(UserUid::getMarried, true).set(UserUid::getBirthday, "2019-09-09")
+        int updateCount = userUidService.update(new UpdateWrapper<UserUid>().set(UserUid::getAge, 12).set(UserUid::getMarried, true).set(UserUid::getLastLoginTime, "2019-09-09")
                 .eq(UserUid::getName, newName + System.currentTimeMillis())
                 .gt(UserUid::getAge, 12)
                 .lt(UserUid::getAge, 13)
@@ -147,12 +148,12 @@ public class UserUidTests {
         );
         assert updateCount == 0;
 
-        updateCount = userUidService.update(new UpdateWrapper<UserUid>().set(UserUid::getAge, 12).set(UserUid::getMarried, true).set(UserUid::getBirthday, "2019-09-09")
+        updateCount = userUidService.update(new UpdateWrapper<UserUid>().set(UserUid::getAge, 12).set(UserUid::getMarried, true).set(UserUid::getLastLoginTime, "2019-09-09")
                 .eq(UserUid::getName, newName)
         );
 
         UserUid dbUser = userUidService.selectById(userUid.getUid());
-        assert updateCount == 1 && dbUser.getAge() == 12 && "2019-09-09".equals(dbUser.getBirthday());
+        assert updateCount == 1 && dbUser.getAge() == 12 && "2019-09-09".equals(dbUser.getLastLoginTime());
         boolean deleteSuccess = userUidService.deleteById(dbUser.getUid());
         assert deleteSuccess;
     }
@@ -234,7 +235,7 @@ public class UserUidTests {
         userUid.setName(name);
         userUid.setAge(11);
         userUid.setMarried(true);
-        userUid.setBirthday(new Date());
+        userUid.setLastLoginTime(LocalDateTime.now());
         userUidService.insert(userUid);
         assert userUid.getUid() != null;
 

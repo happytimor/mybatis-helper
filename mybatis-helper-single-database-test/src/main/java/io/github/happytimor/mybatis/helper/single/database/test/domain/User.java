@@ -1,5 +1,8 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,7 +16,7 @@ public class User {
     private Integer nullableAge;
     private Boolean married;
     private Integer userGrade;
-    private Date birthday;
+    private LocalDateTime lastLoginTime;
     /**
      * 删除标记位
      */
@@ -33,12 +36,15 @@ public class User {
 
         if (obj instanceof User) {
             User other = (User) obj;
-            if (this.birthday == null && other.birthday != null || this.birthday != null && other.birthday == null) {
+            if (this.lastLoginTime == null && other.lastLoginTime != null || this.lastLoginTime != null && other.lastLoginTime == null) {
                 return false;
             }
 
-            if (this.birthday != null && Math.abs(this.birthday.getTime() - other.getBirthday().getTime()) >= 1000) {
-                return false;
+            if (this.lastLoginTime != null) {
+                if (Math.abs(this.lastLoginTime.toEpochSecond(ZoneOffset.of("+8")) - other.getLastLoginTime().toEpochSecond(ZoneOffset.of("+8"))) > 1000) {
+                    return false;
+                }
+
             }
             return Objects.equals(this.getId(), other.getId())
                     && Objects.equals(this.getAge(), other.getAge())
@@ -103,12 +109,12 @@ public class User {
         this.userGrade = userGrade;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public LocalDateTime getLastLoginTime() {
+        return lastLoginTime;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setLastLoginTime(LocalDateTime lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 
     public String getFlag() {

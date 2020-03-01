@@ -5,7 +5,6 @@ import io.github.happytimor.mybatis.helper.core.wrapper.DeleteWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.multiple.database.test.domain.User;
-import io.github.happytimor.mybatis.helper.multiple.database.test.domain.UserInfo;
 import io.github.happytimor.mybatis.helper.multiple.database.test.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -130,7 +130,7 @@ public class Datasource2Tests {
 
 
         //自定义条件更新测试(填充很多的查询条件,主要用于检测条件是否能正常组成sql)
-        int updateCount = userService.update(new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getBirthday, "2019-09-09")
+        int updateCount = userService.update(new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getLastLoginTime, "2019-09-09")
                 .eq(User::getName, newName + System.currentTimeMillis())
                 .gt(User::getAge, 12)
                 .lt(User::getAge, 13)
@@ -145,12 +145,12 @@ public class Datasource2Tests {
         );
         assert updateCount == 0;
 
-        updateCount = userService.update(new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getBirthday, "2019-09-09")
+        updateCount = userService.update(new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getLastLoginTime, "2019-09-09")
                 .eq(User::getName, newName)
         );
 
         User dbUser = userService.selectById(user.getId());
-        assert updateCount == 1 && dbUser.getAge() == 12 && "2019-09-09".equals(dbUser.getBirthday());
+        assert updateCount == 1 && dbUser.getAge() == 12 && "2019-09-09".equals(dbUser.getLastLoginTime());
         boolean deleteSuccess = userService.deleteById(dbUser.getId());
         assert deleteSuccess;
     }
@@ -232,7 +232,8 @@ public class Datasource2Tests {
         user.setName(name);
         user.setAge(11);
         user.setMarried(true);
-        user.setBirthday("1999-09-09");
+        //TODO: fixme | chenpeng 2020/3/1
+        user.setLastLoginTime(LocalDateTime.now().withNano(0));
         userService.insert(user);
         assert user.getId() != null;
 
@@ -240,7 +241,7 @@ public class Datasource2Tests {
                 .eq(User::getName, name)
                 .likeLeft(User::getName, "mybatis-helper")
                 .eq(User::getAge, 11)
-                .eq(User::getBirthday, user.getBirthday())
+                .eq(User::getLastLoginTime, user.getLastLoginTime())
         );
         assert deleteCount == 1;
 

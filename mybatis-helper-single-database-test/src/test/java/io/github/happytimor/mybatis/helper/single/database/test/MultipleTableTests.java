@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -138,7 +139,7 @@ public class MultipleTableTests {
 
 
         //自定义条件更新测试(填充很多的查询条件,主要用于检测条件是否能正常组成sql)
-        int updateCount = multipleUserService.update(tableNum, new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getBirthday, "2019-09-09")
+        int updateCount = multipleUserService.update(tableNum, new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getLastLoginTime, "2019-09-09")
                 .eq(User::getName, newName + System.currentTimeMillis())
                 .gt(User::getAge, 12)
                 .lt(User::getAge, 13)
@@ -153,12 +154,12 @@ public class MultipleTableTests {
         );
         assert updateCount == 0;
 
-        updateCount = multipleUserService.update(tableNum, new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getBirthday, "2019-09-09")
+        updateCount = multipleUserService.update(tableNum, new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getLastLoginTime, "2019-09-09")
                 .eq(User::getName, newName)
         );
 
         User dbUser = multipleUserService.selectById(tableNum, user.getId());
-        assert updateCount == 1 && dbUser.getAge() == 12 && "2019-09-09".equals(dbUser.getBirthday());
+        assert updateCount == 1 && dbUser.getAge() == 12 && "2019-09-09".equals(dbUser.getLastLoginTime());
         boolean deleteSuccess = multipleUserService.deleteById(tableNum, dbUser.getId());
         assert deleteSuccess;
     }
@@ -240,7 +241,7 @@ public class MultipleTableTests {
         user.setName(name);
         user.setAge(11);
         user.setMarried(true);
-        user.setBirthday(new Date());
+        user.setLastLoginTime(LocalDateTime.now());
         multipleUserService.insert(tableNum, user);
         assert user.getId() != null;
 

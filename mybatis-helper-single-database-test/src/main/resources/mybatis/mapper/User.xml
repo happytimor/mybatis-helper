@@ -9,7 +9,7 @@
             <if test="entity.age != null">`age`,</if>
             <if test="entity.married != null">`married`,</if>
             <if test="entity.userGrade != null">`user_grade`,</if>
-            <if test="entity.birthday != null">`birthday`,</if>
+            <if test="entity.lastLoginTime != null">`last_login_time`,</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -18,7 +18,7 @@
             <if test="entity.age != null">#{entity.age},</if>
             <if test="entity.married != null">#{entity.married},</if>
             <if test="entity.userGrade != null">#{entity.userGrade},</if>
-            <if test="entity.birthday != null">#{entity.birthday},</if>
+            <if test="entity.lastLoginTime != null">#{entity.lastLoginTime},</if>
 
         </trim>
     </insert>

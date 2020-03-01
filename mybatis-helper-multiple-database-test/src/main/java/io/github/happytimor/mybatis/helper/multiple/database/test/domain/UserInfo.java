@@ -3,6 +3,7 @@ package io.github.happytimor.mybatis.helper.multiple.database.test.domain;
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author chenpeng
@@ -13,7 +14,7 @@ public class UserInfo implements Serializable {
     private String name;
     private Integer age;
     private Boolean married;
-    private String birthday;
+    private LocalDateTime lastLoginTime;
 
     public UserInfo() {
     }
@@ -54,11 +55,11 @@ public class UserInfo implements Serializable {
         this.married = married;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public LocalDateTime getLastLoginTime() {
+        return lastLoginTime;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
+    public void setLastLoginTime(LocalDateTime lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -96,6 +97,24 @@ public class SingleDatabaseBasicUseTests {
         assert deleteSuccess;
     }
 
+
+    /**
+     * localDateTime测试
+     */
+    @Test
+    public void localDateTime() {
+        this.generateService.generateBatch((flag, userList) -> {
+            LocalDateTime end = LocalDateTime.now().minusDays(new Random().nextInt(15));
+            LocalDateTime start = end.minusDays(new Random().nextInt(15));
+            long hitCount = userList.stream().filter(user ->
+                    user.getLastLoginTime().isAfter(start) && user.getLastLoginTime().isBefore(end)
+            ).count();
+
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>().gt(User::getLastLoginTime, start).lt(User::getLastLoginTime, end));
+            assert hitCount == dbCount;
+        });
+    }
+
     /**
      * 自定义条件查询测试
      */
@@ -157,7 +176,7 @@ public class SingleDatabaseBasicUseTests {
 
 
         //自定义条件更新测试(填充很多的查询条件,主要用于检测条件是否能正常组成sql)
-        int updateCount = userService.update(new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getBirthday, "2019-09-09")
+        int updateCount = userService.update(new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getLastLoginTime, "2019-09-09")
                 .eq(User::getName, newName + System.currentTimeMillis())
                 .gt(User::getAge, 12)
                 .lt(User::getAge, 13)
@@ -173,12 +192,12 @@ public class SingleDatabaseBasicUseTests {
         assert updateCount == 0;
 
         Date date = new Date();
-        updateCount = userService.update(new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getBirthday, date)
+        updateCount = userService.update(new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getLastLoginTime, date)
                 .eq(User::getName, newName)
         );
 
         User dbUser = userService.selectById(user.getId());
-        assert updateCount == 1 && dbUser.getAge() == 12 && date.equals(dbUser.getBirthday());
+        assert updateCount == 1 && dbUser.getAge() == 12 && date.equals(dbUser.getLastLoginTime());
         boolean deleteSuccess = userService.deleteById(dbUser.getId());
         assert deleteSuccess;
     }
@@ -262,7 +281,7 @@ public class SingleDatabaseBasicUseTests {
         user.setName(name + System.currentTimeMillis());
         user.setAge(11);
         user.setMarried(true);
-        user.setBirthday(new Date());
+        user.setLastLoginTime(LocalDateTime.now());
         userService.insert(user);
         assert user.getId() != null;
 
