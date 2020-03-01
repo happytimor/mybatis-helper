@@ -154,7 +154,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public WhereWrapper<T> likeLeft(boolean executeIf, ColumnFunction<T, ?> column, String value) {
         if (executeIf) {
-            this.addCondition(column, "LIKE", "%" + value);
+            this.addCondition(column, "LIKE", value + "%");
         }
         return this;
     }
@@ -162,7 +162,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public WhereWrapper<T> likeRight(boolean executeIf, ColumnFunction<T, ?> column, String value) {
         if (executeIf) {
-            this.addCondition(column, "LIKE", value + "%");
+            this.addCondition(column, "LIKE", "%" + value);
         }
         return this;
     }

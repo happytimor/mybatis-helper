@@ -199,7 +199,7 @@ public class MultipleTableTests {
             list.add(new User("mybatis-helper-" + now + i));
         }
         multipleUserService.batchInsert(tableNum, list);
-        List<User> userList = multipleUserService.selectList(tableNum, new SelectWrapper<User>().select(User::getId).likeRight(User::getName, "mybatis-helper-" + now));
+        List<User> userList = multipleUserService.selectList(tableNum, new SelectWrapper<User>().select(User::getId).likeLeft(User::getName, "mybatis-helper-" + now));
         assert userList.size() == total;
 
         //批量查找
@@ -246,7 +246,7 @@ public class MultipleTableTests {
 
         int deleteCount = multipleUserService.delete(tableNum, new DeleteWrapper<User>()
                 .eq(User::getName, name)
-                .likeRight(User::getName, "mybatis-helper")
+                .likeLeft(User::getName, "mybatis-helper")
                 .eq(User::getAge, 11)
         );
         assert deleteCount == 1;
@@ -269,12 +269,12 @@ public class MultipleTableTests {
         multipleUserService.batchInsert(tableNum, list);
         List<User> userList = multipleUserService.selectList(tableNum, new SelectWrapper<User>()
                 .select(User::getId)
-                .likeRight(User::getName, "mybatis-helper-" + now)
+                .likeLeft(User::getName, "mybatis-helper-" + now)
         );
         assert userList.size() == total;
 
         //总数查询测试
-        long count = multipleUserService.selectCount(tableNum, new SelectWrapper<User>().likeRight(User::getName, "mybatis-helper-" + now));
+        long count = multipleUserService.selectCount(tableNum, new SelectWrapper<User>().likeLeft(User::getName, "mybatis-helper-" + now));
         assert count == total;
 
 
@@ -300,13 +300,13 @@ public class MultipleTableTests {
         multipleUserService.batchInsert(tableNum, list);
 
         Page<User> page = multipleUserService.selectPage(tableNum, new Page<>(1, 10), new SelectWrapper<User>()
-                .likeRight(User::getName, "mybatis-helper-" + now)
+                .likeLeft(User::getName, "mybatis-helper-" + now)
         );
         assert page.getRecords().size() == 10 && page.getTotal() == total;
 
         List<User> userList = multipleUserService.selectList(tableNum, new SelectWrapper<User>()
                 .select(User::getId)
-                .likeRight(User::getName, "mybatis-helper-" + now)
+                .likeLeft(User::getName, "mybatis-helper-" + now)
         );
         assert userList.size() == total;
 

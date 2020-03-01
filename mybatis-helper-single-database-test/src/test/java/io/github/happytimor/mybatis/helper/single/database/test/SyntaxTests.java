@@ -1,9 +1,21 @@
 package io.github.happytimor.mybatis.helper.single.database.test;
 
+import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
+import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
+import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
+import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * 语法单元测试
@@ -14,13 +26,26 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class SyntaxTests {
 
+    @Resource
+    private GenerateService generateService;
+
+    @Resource
+    private UserService userService;
 
     /**
      * 大于
      */
     @Test
     public void gt() {
-
+        this.generateService.generateBatch( (flag, userList) -> {
+            int randomAge = new Random().nextInt(100);
+            long count = userList.stream().filter(user -> user.getAge() > randomAge).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .gt(User::getAge, randomAge)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
     /**
@@ -28,7 +53,15 @@ public class SyntaxTests {
      */
     @Test
     public void ge() {
-
+        this.generateService.generateBatch( (flag, userList) -> {
+            int randomAge = new Random().nextInt(100);
+            long count = userList.stream().filter(user -> user.getAge() >= randomAge).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .ge(User::getAge, randomAge)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
     /**
@@ -36,6 +69,15 @@ public class SyntaxTests {
      */
     @Test
     public void eq() {
+        this.generateService.generateBatch( (flag, userList) -> {
+            int randomAge = new Random().nextInt(100);
+            long count = userList.stream().filter(user -> user.getAge() == randomAge).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .eq(User::getAge, randomAge)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
     /**
@@ -43,6 +85,15 @@ public class SyntaxTests {
      */
     @Test
     public void le() {
+        this.generateService.generateBatch( (flag, userList) -> {
+            int randomAge = new Random().nextInt(100);
+            long count = userList.stream().filter(user -> user.getAge() <= randomAge).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .le(User::getAge, randomAge)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
     /**
@@ -50,6 +101,15 @@ public class SyntaxTests {
      */
     @Test
     public void lt() {
+        this.generateService.generateBatch( (flag, userList) -> {
+            int randomAge = new Random().nextInt(100);
+            long count = userList.stream().filter(user -> user.getAge() < randomAge).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .lt(User::getAge, randomAge)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
 
@@ -58,34 +118,80 @@ public class SyntaxTests {
      */
     @Test
     public void ne() {
+        this.generateService.generateBatch( (flag, userList) -> {
+            int randomAge = new Random().nextInt(100);
+            long count = userList.stream().filter(user -> user.getAge() != randomAge).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .ne(User::getAge, randomAge)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
 
     /**
-     * 模糊匹配
+     * 模糊匹配(%abc%)
      */
     @Test
     public void like() {
+        this.generateService.generateBatch( (flag, userList) -> {
+            String randomName = String.valueOf(new Random().nextInt(500));
+            long count = userList.stream().filter(user -> user.getName().contains(randomName)).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .like(User::getName, randomName)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
     /**
-     * 左模糊匹配
+     * 左模糊匹配(abc%)
      */
     @Test
     public void likeLeft() {
+        this.generateService.generateBatch( (flag, userList) -> {
+            String randomName = userList.get(0).getName().substring(7);
+            long count = userList.stream().filter(user -> user.getName().startsWith(randomName)).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .likeLeft(User::getName, randomName)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
     /**
-     * 右模糊匹配
+     * 右模糊匹配(%abc)
      */
     @Test
     public void likeRight() {
+        this.generateService.generateBatch((flag, userList) -> {
+            String name = userList.get(0).getName();
+            String randomName = name.substring(name.length() - 3);
+            long count = userList.stream().filter(user -> user.getName().endsWith(randomName)).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .likeRight(User::getName, randomName)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
     /**
      * 反向模糊匹配
      */
     public void notLike() {
+        this.generateService.generateBatch((flag, userList) -> {
+            String randomName = String.valueOf(new Random().nextInt(100));
+            long count = userList.stream().filter(user -> !user.getName().contains(randomName)).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .notLike(User::getName, randomName)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
     /**
@@ -93,6 +199,17 @@ public class SyntaxTests {
      */
     @Test
     public void between() {
+        this.generateService.generateBatch((flag, userList) -> {
+            int start = new Random().nextInt(50);
+            int end = start + new Random().nextInt(50);
+
+            long count = userList.stream().filter(user -> user.getAge() >= start && user.getAge() <= end).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .between(User::getAge, start, end)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
     /**
@@ -100,6 +217,17 @@ public class SyntaxTests {
      */
     @Test
     public void notBetween() {
+        this.generateService.generateBatch((flag, userList) -> {
+            int start = new Random().nextInt(50);
+            int end = start + new Random().nextInt(50);
+
+            long count = userList.stream().filter(user -> user.getAge() < start || user.getAge() > end).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .notBetween(User::getAge, start, end)
+                    .eq(User::getFlag, flag)
+            );
+            assert count == dbCount;
+        });
     }
 
     /**
@@ -107,6 +235,14 @@ public class SyntaxTests {
      */
     @Test
     public void isNull() {
+        this.generateService.generateBatch((flag, userList) -> {
+            long nullCount = userList.stream().filter(user -> user.getNullableAge() == null).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .isNull(User::getNullableAge)
+                    .eq(User::getFlag, flag)
+            );
+            assert nullCount == dbCount;
+        });
     }
 
     /**
@@ -114,6 +250,14 @@ public class SyntaxTests {
      */
     @Test
     public void isNotNull() {
+        this.generateService.generateBatch((flag, userList) -> {
+            long notNullCount = userList.stream().filter(user -> user.getNullableAge() != null).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .isNotNull(User::getNullableAge)
+                    .eq(User::getFlag, flag)
+            );
+            assert notNullCount == dbCount;
+        });
     }
 
 
@@ -122,6 +266,19 @@ public class SyntaxTests {
      */
     @Test
     public void in() {
+        this.generateService.generateBatch((flag, userList) -> {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < 50; i++) {
+                list.add(new Random().nextInt(1000));
+            }
+
+            long inCount = userList.stream().filter(user -> list.contains(user.getAge())).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .in(User::getAge, list)
+                    .eq(User::getFlag, flag)
+            );
+            assert inCount == dbCount;
+        });
     }
 
     /**
@@ -129,6 +286,68 @@ public class SyntaxTests {
      */
     @Test
     public void notIn() {
+        this.generateService.generateBatch((flag, userList) -> {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < 50; i++) {
+                list.add(new Random().nextInt(1000));
+            }
+
+            long notInCount = userList.stream().filter(user -> !list.contains(user.getAge())).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .notIn(User::getAge, list)
+                    .eq(User::getFlag, flag)
+            );
+            assert notInCount == dbCount;
+        });
+    }
+
+    /**
+     * 排序测试
+     */
+    @Test
+    public void orderBy() {
+        this.generateService.generateBatch((flag, userList) -> {
+            //重新查一遍数据库，需要带上id
+            List<User> idUserList = this.userService.selectList(new SelectWrapper<User>()
+                    .eq(User::getFlag, flag)
+            );
+            //内存排序(年龄升序+id降序)
+            idUserList.sort((o1, o2) -> {
+                if (o1.getAge().equals(o2.getAge())) {
+                    return o2.getId() - o1.getId();
+                }
+                return o1.getAge() - o2.getAge();
+            });
+
+
+            List<User> dbUserList = this.userService.selectList(new SelectWrapper<User>()
+                    .eq(User::getFlag, flag)
+                    .orderByAsc(User::getAge)
+                    .orderByDesc(User::getId)
+            );
+
+            for (int i = 0; i < dbUserList.size(); i++) {
+                assert dbUserList.get(i).getId().equals(idUserList.get(i).getId());
+            }
+        });
+    }
+
+    /**
+     * 分组测试
+     */
+    @Test
+    public void group() {
+        this.generateService.generateBatch((flag, userList) -> {
+            Map<Integer, List<User>> ageGroup = userList.stream().collect(Collectors.groupingBy(User::getAge));
+
+            List<Map<String, Object>> dbAgeMapList = this.userService.selectMapList(new SelectWrapper<User>().select(User::getAge, SqlFunction.count(User::getAge, "count")).eq(User::getFlag, flag).groupBy(User::getAge));
+            for (Map<String, Object> dbAgeMap : dbAgeMapList) {
+                Number age = (Number) dbAgeMap.get("age");
+                Number count = (Number) dbAgeMap.get("count");
+                assert ageGroup.get(age.intValue()).size() == count.intValue();
+
+            }
+        });
     }
 
 }

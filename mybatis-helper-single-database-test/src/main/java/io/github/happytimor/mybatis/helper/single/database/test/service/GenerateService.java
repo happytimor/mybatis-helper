@@ -17,17 +17,15 @@ public class GenerateService {
     @Resource
     private UserService userService;
 
+    public void generateBatch(GenerateInterface generateInterfaceInterface) {
+        this.generateBatch(new Random().nextInt(1000 + 1), generateInterfaceInterface);
+    }
+
     public void generateBatch(int count, GenerateInterface generateInterfaceInterface) {
         String flag = UUID.randomUUID().toString();
         List<User> list = new ArrayList<User>();
         for (int i = 0; i < count; i++) {
-            User user = new User();
-            user.setName("name_" + new Random().nextInt(10000));
-            user.setAge(new Random().nextInt(100));
-            user.setMarried(new Random().nextBoolean());
-            user.setBirthday(new Date());
-            user.setFlag(flag);
-            list.add(user);
+            list.add(this.generateOne(flag));
         }
         this.userService.batchInsert(list);
         Number insertCount = this.userService.selectCount(new SelectWrapper<User>().eq(User::getFlag, flag));
@@ -39,5 +37,20 @@ public class GenerateService {
             Number existsCount = this.userService.selectCount(new SelectWrapper<User>().eq(User::getFlag, flag));
             assert existsCount.intValue() == 0;
         }
+    }
+
+    public User generateOne(String flag) {
+        User user = new User();
+        user.setName("name_" + new Random().nextInt(10000));
+        user.setAge(new Random().nextInt(100));
+        //10%的概率产生null值
+        if (new Random().nextInt(100) > 10) {
+            user.setNullableAge(user.getAge());
+        }
+        user.setMarried(new Random().nextBoolean());
+        user.setBirthday(new Date());
+        user.setUserGrade(new Random().nextInt(700));
+        user.setFlag(flag);
+        return user;
     }
 }

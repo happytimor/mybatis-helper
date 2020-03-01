@@ -220,7 +220,7 @@ public class SingleDatabaseBasicUseTests {
             list.add(new User(name + i));
         }
         userService.batchInsert(list);
-        List<User> userList = userService.selectList(new SelectWrapper<User>().select(User::getId).likeRight(User::getName, name));
+        List<User> userList = userService.selectList(new SelectWrapper<User>().select(User::getId).likeLeft(User::getName, name));
         assert userList.size() == total;
 
         //批量查找
@@ -268,7 +268,7 @@ public class SingleDatabaseBasicUseTests {
 
         int deleteCount = userService.delete(new DeleteWrapper<User>()
                 .eq(User::getName, user.getName())
-                .likeRight(User::getName, name)
+                .likeLeft(User::getName, name)
                 .eq(User::getAge, 11)
         );
         assert deleteCount == 1;
@@ -291,12 +291,12 @@ public class SingleDatabaseBasicUseTests {
         userService.batchInsert(list);
         List<User> userList = userService.selectList(new SelectWrapper<User>()
                 .select(User::getId)
-                .likeRight(User::getName, name)
+                .likeLeft(User::getName, name)
         );
         assert userList.size() == total;
 
         //总数查询测试
-        long count = userService.selectCount(new SelectWrapper<User>().likeRight(User::getName, name));
+        long count = userService.selectCount(new SelectWrapper<User>().likeLeft(User::getName, name));
         assert count == total;
 
 
@@ -324,13 +324,13 @@ public class SingleDatabaseBasicUseTests {
 
         //分页查询
         Page<User> page = userService.selectPage(1, 10, new SelectWrapper<User>()
-                .likeRight(User::getName, name)
+                .likeLeft(User::getName, name)
         );
         assert page.getRecords().size() == 10 && page.getTotal() == total;
 
         List<User> userList = userService.selectList(new SelectWrapper<User>()
                 .select(User::getId)
-                .likeRight(User::getName, name)
+                .likeLeft(User::getName, name)
         );
         assert userList.size() == total;
 

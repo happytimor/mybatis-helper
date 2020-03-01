@@ -1,6 +1,7 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author chenpeng
@@ -9,6 +10,7 @@ public class User {
     private Integer id;
     private String name;
     private Integer age;
+    private Integer nullableAge;
     private Boolean married;
     private Integer userGrade;
     private Date birthday;
@@ -18,6 +20,35 @@ public class User {
     private String flag;
 
     public User() {
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj instanceof User) {
+            User other = (User) obj;
+            if (this.birthday == null && other.birthday != null || this.birthday != null && other.birthday == null) {
+                return false;
+            }
+
+            if (this.birthday != null && Math.abs(this.birthday.getTime() - other.getBirthday().getTime()) >= 1000) {
+                return false;
+            }
+            return Objects.equals(this.getId(), other.getId())
+                    && Objects.equals(this.getAge(), other.getAge())
+                    && Objects.equals(this.getName(), other.getName())
+                    && Objects.equals(this.getFlag(), other.getFlag())
+                    && Objects.equals(this.getUserGrade(), other.getUserGrade())
+                    && Objects.equals(this.getMarried(), other.getMarried());
+        }
+
+        return false;
     }
 
     public User(String name) {
@@ -46,6 +77,14 @@ public class User {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Integer getNullableAge() {
+        return nullableAge;
+    }
+
+    public void setNullableAge(Integer nullableAge) {
+        this.nullableAge = nullableAge;
     }
 
     public Boolean getMarried() {

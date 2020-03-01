@@ -150,10 +150,10 @@ public class UserNoKeyTests {
             list.add(new UserNoKey(name + i));
         }
         userNoKeyService.batchInsert(list);
-        List<UserNoKey> userList = userNoKeyService.selectList(new SelectWrapper<UserNoKey>().likeRight(UserNoKey::getName, name));
+        List<UserNoKey> userList = userNoKeyService.selectList(new SelectWrapper<UserNoKey>().likeLeft(UserNoKey::getName, name));
         assert userList.size() == total;
 
-        int deleteCount = userNoKeyService.delete(new DeleteWrapper<UserNoKey>().likeRight(UserNoKey::getName, name));
+        int deleteCount = userNoKeyService.delete(new DeleteWrapper<UserNoKey>().likeLeft(UserNoKey::getName, name));
         assert deleteCount == total;
     }
 
@@ -172,7 +172,7 @@ public class UserNoKeyTests {
 
         int deleteCount = userNoKeyService.delete(new DeleteWrapper<UserNoKey>()
                 .eq(UserNoKey::getName, name)
-                .likeRight(UserNoKey::getName, "mybatis-helper")
+                .likeLeft(UserNoKey::getName, "mybatis-helper")
                 .eq(UserNoKey::getAge, 11)
         );
         assert deleteCount == 1;
@@ -197,16 +197,16 @@ public class UserNoKeyTests {
         }
         userNoKeyService.batchInsert(list);
         List<UserNoKey> userList = userNoKeyService.selectList(new SelectWrapper<UserNoKey>()
-                .likeRight(UserNoKey::getName, name)
+                .likeLeft(UserNoKey::getName, name)
         );
         assert userList.size() == total;
 
         //总数查询测试
-        long count = userNoKeyService.selectCount(new SelectWrapper<UserNoKey>().likeRight(UserNoKey::getName, name));
+        long count = userNoKeyService.selectCount(new SelectWrapper<UserNoKey>().likeLeft(UserNoKey::getName, name));
         assert count == total;
 
         //根据id批量删除
-        int deleteCount = userNoKeyService.delete(new DeleteWrapper<UserNoKey>().likeRight(UserNoKey::getName, name));
+        int deleteCount = userNoKeyService.delete(new DeleteWrapper<UserNoKey>().likeLeft(UserNoKey::getName, name));
         assert deleteCount == total;
     }
 
@@ -224,17 +224,17 @@ public class UserNoKeyTests {
         userNoKeyService.batchInsert(list);
 
         Page<UserNoKey> page = userNoKeyService.selectPage(new Page<>(1, 10), new SelectWrapper<UserNoKey>()
-                .likeRight(UserNoKey::getName, name)
+                .likeLeft(UserNoKey::getName, name)
         );
         assert page.getRecords().size() == 10 && page.getTotal() == total;
 
         List<UserNoKey> userList = userNoKeyService.selectList(new SelectWrapper<UserNoKey>()
-                .likeRight(UserNoKey::getName, name)
+                .likeLeft(UserNoKey::getName, name)
         );
         assert userList.size() == total;
 
 
-        int deleteCount = userNoKeyService.delete(new DeleteWrapper<UserNoKey>().likeRight(UserNoKey::getName, name));
+        int deleteCount = userNoKeyService.delete(new DeleteWrapper<UserNoKey>().likeLeft(UserNoKey::getName, name));
         assert deleteCount == total;
     }
 

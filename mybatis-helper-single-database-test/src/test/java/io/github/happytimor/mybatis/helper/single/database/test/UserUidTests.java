@@ -193,7 +193,7 @@ public class UserUidTests {
             list.add(new UserUid("mybatis-helper-" + now + i));
         }
         userUidService.batchInsert(list);
-        List<UserUid> userList = userUidService.selectList(new SelectWrapper<UserUid>().select(UserUid::getUid).likeRight(UserUid::getName, "mybatis-helper-" + now));
+        List<UserUid> userList = userUidService.selectList(new SelectWrapper<UserUid>().select(UserUid::getUid).likeLeft(UserUid::getName, "mybatis-helper-" + now));
         assert userList.size() == total;
 
         //批量查找
@@ -240,7 +240,7 @@ public class UserUidTests {
 
         int deleteCount = userUidService.delete(new DeleteWrapper<UserUid>()
                 .eq(UserUid::getName, name)
-                .likeRight(UserUid::getName, "mybatis-helper")
+                .likeLeft(UserUid::getName, "mybatis-helper")
                 .eq(UserUid::getAge, 11)
         );
         assert deleteCount == 1;
@@ -263,12 +263,12 @@ public class UserUidTests {
         userUidService.batchInsert(list);
         List<UserUid> userList = userUidService.selectList(new SelectWrapper<UserUid>()
                 .select(UserUid::getUid)
-                .likeRight(UserUid::getName, "mybatis-helper-" + now)
+                .likeLeft(UserUid::getName, "mybatis-helper-" + now)
         );
         assert userList.size() == total;
 
         //总数查询测试
-        long count = userUidService.selectCount(new SelectWrapper<UserUid>().likeRight(UserUid::getName, "mybatis-helper-" + now));
+        long count = userUidService.selectCount(new SelectWrapper<UserUid>().likeLeft(UserUid::getName, "mybatis-helper-" + now));
         assert count == total;
 
 
@@ -294,13 +294,13 @@ public class UserUidTests {
         userUidService.batchInsert(list);
 
         Page<UserUid> page = userUidService.selectPage(1, 10, new SelectWrapper<UserUid>()
-                .likeRight(UserUid::getName, "mybatis-helper-" + now)
+                .likeLeft(UserUid::getName, "mybatis-helper-" + now)
         );
         assert page.getRecords().size() == 10 && page.getTotal() == total;
 
         List<UserUid> userList = userUidService.selectList(new SelectWrapper<UserUid>()
                 .select(UserUid::getUid)
-                .likeRight(UserUid::getName, "mybatis-helper-" + now)
+                .likeLeft(UserUid::getName, "mybatis-helper-" + now)
         );
         assert userList.size() == total;
 
