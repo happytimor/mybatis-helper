@@ -36,7 +36,11 @@ public class Insert extends AbstractMethod {
         if (tableInfo.getKeyProperty() != null && tableInfo.getKeyProperty().length() > 0) {
             keyGenerator = new Jdbc3KeyGenerator();
             keyProperty = tableInfo.getKeyProperty();
-            keyProperty = Params.ENTITY + "." + keyProperty;
+            boolean splitTable = MultipleTableMapper.class.isAssignableFrom(mapperClass);
+            if (splitTable) {
+                keyProperty = Params.ENTITY + "." + keyProperty;
+            }
+
             keyColumn = tableInfo.getKeyColumn();
         }
 
