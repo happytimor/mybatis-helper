@@ -40,6 +40,21 @@ public class GenerateService {
         }
     }
 
+    /**
+     * 随机生成一条数据
+     *
+     * @return User对象
+     */
+    public User generateOne() {
+        return this.generateOne(UUID.randomUUID().toString());
+    }
+
+    /**
+     * 随机生成一条数据
+     *
+     * @param flag 随机数
+     * @return User对象
+     */
     public User generateOne(String flag) {
         User user = new User();
         user.setName("name_" + new Random().nextInt(10000));

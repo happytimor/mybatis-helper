@@ -9,7 +9,8 @@ public interface GenerateInterface {
     /**
      * 批量用户生成
      *
-     * @param list 生成的用户数据
+     * @param flag 数据批次标记
+     * @param userList 生成的用户数据
      */
-    void test(String flag, List<User> list);
+    void test(String flag, List<User> userList);
 }

@@ -1,7 +1,10 @@
 package io.github.happytimor.mybatis.helper.single.database.test;
 
 import ch.qos.logback.core.joran.util.beans.BeanUtil;
+import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
+import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.AgeInfo;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
@@ -10,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -29,6 +33,24 @@ public class MethodTests {
 
     @Resource
     private UserService userService;
+
+    /**
+     * 单条插入测试
+     */
+    @Test
+    public void insert() {
+        User user = this.generateService.generateOne();
+        assert user.getId() == null;
+        this.userService.insert(user);
+        assert user.getId() != null;
+
+        User dbExistsUser = this.userService.selectById(user.getId());
+        assert Objects.equals(user, dbExistsUser);
+
+        this.userService.deleteById(user.getId());
+        User dbUnExistsUser = this.userService.selectById(user.getId());
+        assert dbUnExistsUser == null;
+    }
 
     /**
      * 单主键查询
@@ -148,4 +170,136 @@ public class MethodTests {
             }
         });
     }
+
+    /**
+     * 条数查询测试
+     */
+    @Test
+    public void selectCount() {
+        this.generateService.generateBatch(((flag, userList) -> {
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>().eq(User::getFlag, flag));
+            assert userList.size() == dbCount;
+
+            List<User> dbUserList = this.userService.selectList(new SelectWrapper<User>().eq(User::getFlag, flag));
+            for (User user : dbUserList) {
+                long onlyOne = this.userService.selectCount(new SelectWrapper<User>()
+                        .eq(User::getId, user.getId())
+                        .eq(User::getAge, user.getAge())
+                        .eq(User::getFlag, user.getFlag())
+                        .eq(User::getName, user.getName())
+                        .eq(User::getLastLoginTime, user.getLastLoginTime())
+                        .eq(User::getMarried, user.getMarried())
+                        .eq(User::getUserGrade, user.getUserGrade())
+                );
+                assert onlyOne == 1;
+            }
+        }));
+    }
+
+    /**
+     * 唯一索引冲突更新测试
+     */
+    @Test
+    public void insertOrUpdateWithUniqueIndex() {
+        this.generateService.generateBatch((flag, userList) -> {
+            List<User> dbUserList = this.userService.selectList(new SelectWrapper<User>().eq(User::getFlag, flag));
+            for (User user : dbUserList) {
+                //唯一索引冲突更新测试(id冲突)
+                User newUser = this.generateService.generateOne(flag);
+                newUser.setId(user.getId());
+                this.userService.insertOrUpdateWithUniqueIndex(newUser);
+
+                User dbNewUser = this.userService.selectById(user.getId());
+                assert Objects.equals(dbNewUser, newUser);
+            }
+        });
+    }
+
+    /**
+     * 单值查询
+     */
+    @Test
+    public void selectSingleValue() {
+        this.generateService.generateBatch((flag, userList) -> {
+            int maxAge = -1;
+            int sumAge = 0;
+            for (User user : userList) {
+                if (maxAge < user.getAge()) {
+                    maxAge = user.getAge();
+                }
+                sumAge += user.getAge();
+            }
+
+            Number dbCount = this.userService.selectSingleValue(new SelectWrapper<User>()
+                    .select(SqlFunction.count(User::getId))
+                    .eq(User::getFlag, flag));
+            assert dbCount.intValue() == userList.size();
+
+            Number dbMaxAge = this.userService.selectSingleValue(new SelectWrapper<User>()
+                    .select(SqlFunction.max(User::getAge))
+                    .eq(User::getFlag, flag));
+            assert dbMaxAge.intValue() == maxAge;
+
+            Number dbSumAge = this.userService.selectSingleValue(new SelectWrapper<User>()
+                    .select(SqlFunction.sum(User::getAge))
+                    .eq(User::getFlag, flag));
+            assert dbSumAge.intValue() == sumAge;
+
+        });
+    }
+
+    /**
+     * 对象转换测试
+     */
+    @Test
+    public void selectObjectList() {
+        generateService.generateBatch(1000, (flag, userList) -> {
+            //对生成的数据按照年龄进行分组, 为后续比对做准备
+            Map<Integer, List<User>> ageMap = userList.stream().collect(Collectors.groupingBy(User::getAge));
+            List<AgeInfo> ageInfoList = userService.selectObjectList(AgeInfo.class, new SelectWrapper<User>().select(User::getAge, SqlFunction.count(User::getAge, "count"))
+                    .eq(User::getFlag, flag)
+                    .groupBy(User::getAge)
+            );
+
+            //数据校验
+            for (AgeInfo ageInfo : ageInfoList) {
+                assert ageMap.get(ageInfo.getAge()).size() == ageInfo.getCount();
+            }
+        });
+    }
+
+
+    /**
+     * 分页测试
+     */
+    @Test
+    public void selectPage() {
+        this.generateService.generateBatch((flag, userList) -> {
+            List<User> dbUserList = this.userService.selectList(new SelectWrapper<User>()
+                    .eq(User::getFlag, flag)
+                    .orderByAsc(User::getId)
+            );
+
+            int pageSize = 10;
+            int pageNo = 0;
+            while (true) {
+                pageNo++;
+                Page<User> page = this.userService.selectPage(pageNo, pageSize, new SelectWrapper<User>()
+                        .eq(User::getFlag, flag)
+                        .orderByAsc(User::getId));
+                assert page.getTotal() == userList.size();
+
+                List<User> records = page.getRecords();
+                if (CollectionUtils.isEmpty(records)) {
+                    break;
+                }
+                //数据库分页和内存分页做比较
+                long sum = records.stream().map(User::getId).reduce(0, Integer::sum);
+                List<User> partList = dbUserList.subList((pageNo - 1) * pageSize, Math.min(pageNo * pageSize, userList.size()));
+                long checkSum = partList.stream().map(User::getId).reduce(0, Integer::sum);
+                assert sum == checkSum;
+            }
+        });
+    }
+
 }
