@@ -58,6 +58,7 @@ public class GenerateService {
     public User generateOne(String flag) {
         User user = new User();
         user.setName("name_" + new Random().nextInt(10000));
+        user.setStrangeName(user.getName() + "_strange");
         user.setAge(new Random().nextInt(100));
         //10%的概率产生null值
         if (new Random().nextInt(100) > 10) {

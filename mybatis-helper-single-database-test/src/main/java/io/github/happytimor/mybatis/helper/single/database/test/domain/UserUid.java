@@ -13,6 +13,8 @@ public class UserUid {
     @TableColumn(primaryKey = true, value = "uid")
     private Integer uid;
     private String name;
+    @TableColumn(value = "abc")
+    private String strangeName;
     private Integer age;
     private Boolean married;
     private Integer userGrade;
@@ -71,5 +73,13 @@ public class UserUid {
 
     public void setLastLoginTime(LocalDateTime lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
+    }
+
+    public String getStrangeName() {
+        return strangeName;
+    }
+
+    public void setStrangeName(String strangeName) {
+        this.strangeName = strangeName;
     }
 }

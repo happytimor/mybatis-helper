@@ -26,6 +26,10 @@ public class TableInfo {
     private List<Result> resultList;
 
     /**
+     * 需要做映射干预
+     */
+    private boolean needResultRefactor;
+    /**
      * 是否分表, user_01,user_02
      */
     private boolean multipleTable;
@@ -88,5 +92,13 @@ public class TableInfo {
 
     public void setMultipleTableConnector(String multipleTableConnector) {
         this.multipleTableConnector = multipleTableConnector;
+    }
+
+    public boolean isNeedResultRefactor() {
+        return needResultRefactor;
+    }
+
+    public void setNeedResultRefactor(boolean needResultRefactor) {
+        this.needResultRefactor = needResultRefactor;
     }
 }

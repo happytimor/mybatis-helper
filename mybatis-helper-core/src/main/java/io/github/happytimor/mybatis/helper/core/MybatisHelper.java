@@ -13,6 +13,9 @@ import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import io.github.happytimor.mybatis.helper.core.method.*;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.apache.ibatis.reflection.MetaClass;
+import org.apache.ibatis.reflection.Reflector;
+import org.apache.ibatis.reflection.ReflectorFactory;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -207,9 +210,41 @@ public class MybatisHelper implements ApplicationContextAware {
             abstractMethod.inject(mapperBuilderAssistant, mapperClass, modelClass, tableInfo);
         }
 
+        this.injectFieldRelation(modelClass, tableInfo, mapperBuilderAssistant.getConfiguration().getReflectorFactory());
 
     }
 
+    /**
+     * 动态注入非标准字段映射
+     *
+     * @param modelClass       类名
+     * @param tableInfo        解析出的表信息
+     * @param reflectorFactory reflectorFactory
+     */
+    private void injectFieldRelation(Class<?> modelClass, TableInfo tableInfo, ReflectorFactory reflectorFactory) {
+        if (!tableInfo.isNeedResultRefactor()) {
+            return;
+        }
+        MetaClass metaClass = MetaClass.forClass(modelClass, reflectorFactory);
+        try {
+            Field field = MetaClass.class.getDeclaredField(ColumnUtils.makeFirstCharacterLower(Reflector.class.getSimpleName()));
+            field.setAccessible(true);
+            Reflector reflector = (Reflector) field.get(metaClass);
+            Field caseInsensitivePropertyMapField = Reflector.class.getDeclaredField("caseInsensitivePropertyMap");
+            caseInsensitivePropertyMapField.setAccessible(true);
+            Map<String, String> caseInsensitivePropertyMap = (Map<String, String>) caseInsensitivePropertyMapField.get(reflector);
+            for (Result result : tableInfo.getResultList()) {
+                String column = result.getColumn().replaceAll("_", "").toUpperCase();
+                if (column.equals(result.getProperty().toUpperCase())) {
+                    continue;
+                }
+                logger.info("dymamic inject for class:{}, {} -> {}", modelClass.getName(), column, result.getProperty());
+                caseInsensitivePropertyMap.put(column, result.getProperty());
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
 
     /**
      * 从model中解析出table信息
@@ -254,6 +289,11 @@ public class MybatisHelper implements ApplicationContextAware {
             //填充result映射
             String fieldName = declaredField.getName();
             String columnName = (tableColumn != null) ? tableColumn.value() : ColumnUtils.camelCaseToUnderscore(fieldName);
+            if (tableColumn != null && !"".equals(tableColumn.value())) {
+                if (!columnName.replaceAll("_", "").toUpperCase().equals(fieldName.toUpperCase())) {
+                    tableInfo.setNeedResultRefactor(true);
+                }
+            }
             resultList.add(new Result(fieldName, columnName));
 
             //覆盖默认主键

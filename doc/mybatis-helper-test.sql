@@ -8,6 +8,7 @@ USE `mybatis_helper_demo`;
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT '',
+  `abc` varchar(64) DEFAULT '',
   `age` int(11) DEFAULT '-1',
   `nullable_age` int(11) DEFAULT '-1',
   `married` tinyint(4) DEFAULT '0',
@@ -21,6 +22,7 @@ CREATE TABLE `user` (
 CREATE TABLE `user_info` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT '',
+  `abc` varchar(64) DEFAULT '',
   `age` int(11) DEFAULT '-1',
   `nullable_age` int(11) DEFAULT '-1',
   `married` tinyint(4) DEFAULT '0',
@@ -34,6 +36,7 @@ CREATE TABLE `user_info` (
 CREATE TABLE `user_01` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT '',
+  `abc` varchar(64) DEFAULT '',
   `age` int(11) DEFAULT '-1',
   `nullable_age` int(11) DEFAULT '-1',
   `married` tinyint(4) DEFAULT '0',
@@ -47,6 +50,7 @@ CREATE TABLE `user_01` (
 CREATE TABLE `user_uid` (
   `uid` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT '',
+  `abc` varchar(64) DEFAULT '',
   `age` int(11) DEFAULT '-1',
   `nullable_age` int(11) DEFAULT '-1',
   `married` tinyint(4) DEFAULT '0',
@@ -59,6 +63,7 @@ CREATE TABLE `user_uid` (
 -- 无主键测试(UserNoKeyTests.java)
 CREATE TABLE `user_no_key` (
   `name` varchar(64) DEFAULT '',
+  `abc` varchar(64) DEFAULT '',
   `age` int(11) DEFAULT '-1',
   `nullable_age` int(11) DEFAULT '-1',
   `married` tinyint(4) DEFAULT '0',

@@ -1,9 +1,9 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
+import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
+
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -12,6 +12,8 @@ import java.util.Objects;
 public class User {
     private Integer id;
     private String name;
+    @TableColumn(value = "abc")
+    private String strangeName;
     private Integer age;
     private Integer nullableAge;
     private Boolean married;
@@ -49,6 +51,7 @@ public class User {
             return Objects.equals(this.getId(), other.getId())
                     && Objects.equals(this.getAge(), other.getAge())
                     && Objects.equals(this.getName(), other.getName())
+                    && Objects.equals(this.getStrangeName(), other.getStrangeName())
                     && Objects.equals(this.getFlag(), other.getFlag())
                     && Objects.equals(this.getUserGrade(), other.getUserGrade())
                     && Objects.equals(this.getMarried(), other.getMarried());
@@ -123,5 +126,13 @@ public class User {
 
     public void setFlag(String flag) {
         this.flag = flag;
+    }
+
+    public String getStrangeName() {
+        return strangeName;
+    }
+
+    public void setStrangeName(String strangeName) {
+        this.strangeName = strangeName;
     }
 }

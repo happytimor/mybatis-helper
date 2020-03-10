@@ -8,13 +8,14 @@ import io.github.happytimor.mybatis.helper.single.database.test.domain.UserNoKey
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserNoKeyService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -26,6 +27,7 @@ import java.util.Random;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserNoKeyTests {
+    private final static Logger logger = LoggerFactory.getLogger(UserNoKeyTests.class);
     @Resource
     private UserNoKeyService userNoKeyService;
 
@@ -37,6 +39,7 @@ public class UserNoKeyTests {
         String name = "mybatis-helper-" + System.currentTimeMillis();
         UserNoKey userNoKey = new UserNoKey();
         userNoKey.setName(name);
+        userNoKey.setStrangeName(name);
         userNoKeyService.insert(userNoKey);
 
         UserNoKey dbUser = userNoKeyService.selectOne(new SelectWrapper<UserNoKey>().eq(UserNoKey::getName, userNoKey.getName()));

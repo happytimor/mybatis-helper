@@ -1,5 +1,7 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
+import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
+
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -9,6 +11,8 @@ import java.util.Date;
  */
 public class UserNoKey {
     private String name;
+    @TableColumn(value = "abc")
+    private String strangeName;
     private Integer age;
     private Boolean married;
     private Integer userGrade;
@@ -59,5 +63,13 @@ public class UserNoKey {
 
     public void setLastLoginTime(LocalDateTime lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
+    }
+
+    public String getStrangeName() {
+        return strangeName;
+    }
+
+    public void setStrangeName(String strangeName) {
+        this.strangeName = strangeName;
     }
 }
