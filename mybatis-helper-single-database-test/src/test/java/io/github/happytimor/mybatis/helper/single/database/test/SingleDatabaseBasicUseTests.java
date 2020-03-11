@@ -52,7 +52,10 @@ public class SingleDatabaseBasicUseTests {
                     user.getLastLoginTime().isAfter(start) && user.getLastLoginTime().isBefore(end)
             ).count();
 
-            long dbCount = this.userService.selectCount(new SelectWrapper<User>().gt(User::getLastLoginTime, start).lt(User::getLastLoginTime, end));
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .eq(User::getFlag, flag)
+                    .gt(User::getLastLoginTime, start)
+                    .lt(User::getLastLoginTime, end));
             assert hitCount == dbCount;
         });
     }

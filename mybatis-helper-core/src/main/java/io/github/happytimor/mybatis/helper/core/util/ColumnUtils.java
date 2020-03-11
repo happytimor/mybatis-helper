@@ -1,5 +1,6 @@
 package io.github.happytimor.mybatis.helper.core.util;
 
+import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
@@ -8,6 +9,9 @@ import java.beans.Introspector;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author chenpeng
@@ -92,6 +96,21 @@ public class ColumnUtils {
         return sb.toString();
     }
 
+    private static Pattern linePattern = Pattern.compile("_(\\w)");
+
+    /**
+     * 下划线转驼峰
+     */
+    public static String underscoreToCamelCase(String underscore) {
+        Matcher matcher = linePattern.matcher(underscore);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
     /**
      * 驼峰转下划线
      *
@@ -116,7 +135,12 @@ public class ColumnUtils {
             SerializedLambda serializedLambda = (SerializedLambda) method.invoke(column);
             String getter = serializedLambda.getImplMethodName();
             String prefix = getter.startsWith("is") ? "is" : "get";
-            return Introspector.decapitalize(getter.replace(prefix, ""));
+            String fieldName = Introspector.decapitalize(getter.replace(prefix, ""));
+            String implClass = serializedLambda.getImplClass();
+            if (!Constants.COLUMN_RELATION.containsKey(implClass)) {
+                return fieldName;
+            }
+            return Constants.COLUMN_RELATION.get(implClass).getOrDefault(fieldName, fieldName);
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }

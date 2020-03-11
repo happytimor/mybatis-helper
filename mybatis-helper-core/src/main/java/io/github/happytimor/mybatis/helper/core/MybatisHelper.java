@@ -233,14 +233,18 @@ public class MybatisHelper implements ApplicationContextAware {
             Field caseInsensitivePropertyMapField = Reflector.class.getDeclaredField("caseInsensitivePropertyMap");
             caseInsensitivePropertyMapField.setAccessible(true);
             Map<String, String> caseInsensitivePropertyMap = (Map<String, String>) caseInsensitivePropertyMapField.get(reflector);
+            Map<String, String> relation = new HashMap<>();
             for (Result result : tableInfo.getResultList()) {
                 String column = result.getColumn().replaceAll("_", "").toUpperCase();
                 if (column.equals(result.getProperty().toUpperCase())) {
                     continue;
                 }
                 logger.info("dymamic inject for class:{}, {} -> {}", modelClass.getName(), column, result.getProperty());
+                //io/github/happytimor/mybatis/helper/single/database/test/domain/UserUid.strangeName -> abc
                 caseInsensitivePropertyMap.put(column, result.getProperty());
+                relation.put(result.getProperty(), ColumnUtils.underscoreToCamelCase(result.getColumn()));
             }
+            Constants.COLUMN_RELATION.put(modelClass.getName().replaceAll("\\.", "/"), relation);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             logger.error(e.getMessage(), e);
         }

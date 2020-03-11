@@ -44,8 +44,14 @@ public class MethodTests {
         this.userService.insert(user);
         assert user.getId() != null;
 
+        String strangeName = user.getStrangeName();
+        assert strangeName != null && !strangeName.equals("");
+
         User dbExistsUser = this.userService.selectById(user.getId());
         assert Objects.equals(user, dbExistsUser);
+
+        User strangeUser = this.userService.selectOne(new SelectWrapper<User>().eq(User::getStrangeName, strangeName));
+        assert strangeUser != null;
 
         this.userService.deleteById(user.getId());
         User dbUnExistsUser = this.userService.selectById(user.getId());
