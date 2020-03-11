@@ -2,7 +2,9 @@ package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
 import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Objects;
 
@@ -43,7 +45,8 @@ public class User {
             }
 
             if (this.lastLoginTime != null) {
-                if (Math.abs(this.lastLoginTime.toEpochSecond(ZoneOffset.of("+8")) - other.getLastLoginTime().toEpochSecond(ZoneOffset.of("+8"))) > 1000) {
+
+                if (Math.abs(Date.from(this.lastLoginTime.atZone(ZoneId.systemDefault()).toInstant()).getTime() - Date.from(other.lastLoginTime.atZone(ZoneId.systemDefault()).toInstant()).getTime()) > 1000) {
                     return false;
                 }
 
