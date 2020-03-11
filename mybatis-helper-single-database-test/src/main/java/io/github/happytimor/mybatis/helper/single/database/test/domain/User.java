@@ -46,8 +46,8 @@ public class User {
 
             if (this.lastLoginTime != null) {
 
-                long timestamp1 = Date.from(this.lastLoginTime.atZone(ZoneId.of("Asia/Shanghai")).toInstant()).getTime();
-                long timestamp2 = Date.from(other.lastLoginTime.atZone(ZoneId.of("Asia/Shanghai")).toInstant()).getTime();
+                long timestamp1 = Date.from(this.lastLoginTime.atZone(ZoneId.systemDefault()).toInstant()).getTime();
+                long timestamp2 = Date.from(other.lastLoginTime.atZone(ZoneId.systemDefault()).toInstant()).getTime();
                 if (Math.abs(timestamp1 - timestamp2) > 1000) {
                     System.out.println(timestamp1 + " -> " + timestamp2);
                     return false;

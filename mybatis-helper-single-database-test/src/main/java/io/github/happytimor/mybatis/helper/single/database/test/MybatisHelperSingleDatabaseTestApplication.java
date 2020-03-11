@@ -18,6 +18,9 @@ public class MybatisHelperSingleDatabaseTestApplication {
         SpringApplication.run(MybatisHelperSingleDatabaseTestApplication.class, args);
     }
 
+    /**
+     * 设置系统时区
+     */
     @PostConstruct
     void setDefaultTimezone() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));

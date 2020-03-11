@@ -7,7 +7,8 @@ services:
   - mysql
 
 before_install:
-  - mysql -e 'USE mysql; SOURCE doc/mybatis-helper-test.sql;'
+  - mysql -e "USE mysql; SOURCE doc/mybatis-helper-test.sql;"
+  - mysql -e "SET GLOBAL time_zone = '+8:00'; SET time_zone = '+8:00';"
   - mysql -e "USE mysql;GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '123456' WITH GRANT OPTION;FLUSH PRIVILEGES;"
 
 after_success:
