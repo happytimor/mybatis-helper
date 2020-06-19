@@ -27,6 +27,8 @@ public @interface TableColumn {
 
     /**
      * 是否是主键
+     *
+     * @return true-is a primaryKey, false-is not a primary key
      */
     boolean primaryKey() default false;
 }

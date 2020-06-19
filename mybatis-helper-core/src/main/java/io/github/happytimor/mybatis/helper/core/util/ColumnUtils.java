@@ -96,10 +96,13 @@ public class ColumnUtils {
         return sb.toString();
     }
 
-    private static Pattern linePattern = Pattern.compile("_(\\w)");
+    private static final Pattern linePattern = Pattern.compile("_(\\w)");
 
     /**
-     * 下划线转驼峰
+     * underscore 2 camel
+     *
+     * @param underscore underscore string
+     * @return camel string
      */
     public static String underscoreToCamelCase(String underscore) {
         Matcher matcher = linePattern.matcher(underscore);

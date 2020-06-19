@@ -17,7 +17,7 @@ public interface Constants {
     String DEFAULT_KEY_PROPERTY = "id";
 
     /**
-     * 字段映射关系 io.github.happytimor.mybatis.helper.single.database.test.domain.User.strangeName -> aaa
+     * 字段映射关系 io.github.happytimor.mybatis.helper.single.database.test.domain.User.strangeName -&gt; aaa
      */
     Map<String, Map<String, String>> COLUMN_RELATION = new ConcurrentHashMap<>();
 }
