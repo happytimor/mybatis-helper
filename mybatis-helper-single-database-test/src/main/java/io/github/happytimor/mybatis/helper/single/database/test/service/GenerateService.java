@@ -56,22 +56,23 @@ public class GenerateService {
      * @return User对象
      */
     public User generateOne(String flag) {
+        Random random = new Random();
         User user = new User();
-        user.setName("name_" + new Random().nextInt(10000));
+        user.setName("name_" + random.nextInt(10000));
         user.setStrangeName(user.getName() + "_strange");
-        user.setAge(new Random().nextInt(100));
+        user.setAge(random.nextInt(100));
         //10%的概率产生null值
         if (new Random().nextInt(100) > 10) {
             user.setNullableAge(user.getAge());
         }
-        user.setMarried(new Random().nextBoolean());
+        user.setMarried(random.nextBoolean());
         //不要毫秒, 否则数据库和内存保存不一致, 随机生成近一个月内的日期
         user.setLastLoginTime(LocalDateTime.now()
-                .minusDays(new Random().nextInt(30))
-                .minusHours(new Random().nextInt(24))
-                .minusSeconds(new Random().nextInt(60))
+                .minusDays(random.nextInt(30))
+                .minusHours(random.nextInt(24))
+                .minusSeconds(random.nextInt(60))
                 .withNano(0));
-        user.setUserGrade(new Random().nextInt(700));
+        user.setUserGrade(random.nextInt(700));
         user.setFlag(flag);
         return user;
     }

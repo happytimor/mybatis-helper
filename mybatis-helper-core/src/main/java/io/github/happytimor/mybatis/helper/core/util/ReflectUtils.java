@@ -9,12 +9,12 @@ import java.util.Map;
  */
 public class ReflectUtils {
     /**
-     * map转object
+     * transfer map to object
      *
-     * @param map map数据
-     * @param clz 对象class
-     * @param <M> 对象类型声明
-     * @return 对象
+     * @param map map data
+     * @param clz object class
+     * @param <M> result model
+     * @return result object
      */
     public static <M> M map2Obj(Map<String, Object> map, Class<M> clz) {
         try {

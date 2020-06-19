@@ -13,7 +13,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     /**
      * 排序字段以及排序方式
      */
-    private List<Order> orderList = new ArrayList<>();
+    private final List<Order> orderList = new ArrayList<>();
 
 
     /**
@@ -88,6 +88,29 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
         if (executeIf) {
             this.orderList.add(new Order(this.getColumnName(column), desc != null && desc ? "DESC" : "ASC"));
         }
+        return this;
+    }
+
+    /**
+     * 降序
+     *
+     * @param executeIf 是否执行
+     * @return children
+     */
+    public OrderWrapper<T> orderByRandom(boolean executeIf) {
+        if (executeIf) {
+            return this.orderByRandom();
+        }
+        return this;
+    }
+
+    /**
+     * 随机排序
+     *
+     * @return children
+     */
+    public OrderWrapper<T> orderByRandom() {
+        this.orderList.add(new Order("RAND()", ""));
         return this;
     }
 

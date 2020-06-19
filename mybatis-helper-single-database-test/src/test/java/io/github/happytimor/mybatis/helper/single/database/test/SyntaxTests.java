@@ -37,7 +37,7 @@ public class SyntaxTests {
      */
     @Test
     public void gt() {
-        this.generateService.generateBatch( (flag, userList) -> {
+        this.generateService.generateBatch((flag, userList) -> {
             int randomAge = new Random().nextInt(100);
             long count = userList.stream().filter(user -> user.getAge() > randomAge).count();
             long dbCount = this.userService.selectCount(new SelectWrapper<User>()
@@ -53,7 +53,7 @@ public class SyntaxTests {
      */
     @Test
     public void ge() {
-        this.generateService.generateBatch( (flag, userList) -> {
+        this.generateService.generateBatch((flag, userList) -> {
             int randomAge = new Random().nextInt(100);
             long count = userList.stream().filter(user -> user.getAge() >= randomAge).count();
             long dbCount = this.userService.selectCount(new SelectWrapper<User>()
@@ -69,7 +69,7 @@ public class SyntaxTests {
      */
     @Test
     public void eq() {
-        this.generateService.generateBatch( (flag, userList) -> {
+        this.generateService.generateBatch((flag, userList) -> {
             int randomAge = new Random().nextInt(100);
             long count = userList.stream().filter(user -> user.getAge() == randomAge).count();
             long dbCount = this.userService.selectCount(new SelectWrapper<User>()
@@ -85,7 +85,7 @@ public class SyntaxTests {
      */
     @Test
     public void le() {
-        this.generateService.generateBatch( (flag, userList) -> {
+        this.generateService.generateBatch((flag, userList) -> {
             int randomAge = new Random().nextInt(100);
             long count = userList.stream().filter(user -> user.getAge() <= randomAge).count();
             long dbCount = this.userService.selectCount(new SelectWrapper<User>()
@@ -101,7 +101,7 @@ public class SyntaxTests {
      */
     @Test
     public void lt() {
-        this.generateService.generateBatch( (flag, userList) -> {
+        this.generateService.generateBatch((flag, userList) -> {
             int randomAge = new Random().nextInt(100);
             long count = userList.stream().filter(user -> user.getAge() < randomAge).count();
             long dbCount = this.userService.selectCount(new SelectWrapper<User>()
@@ -118,7 +118,7 @@ public class SyntaxTests {
      */
     @Test
     public void ne() {
-        this.generateService.generateBatch( (flag, userList) -> {
+        this.generateService.generateBatch((flag, userList) -> {
             int randomAge = new Random().nextInt(100);
             long count = userList.stream().filter(user -> user.getAge() != randomAge).count();
             long dbCount = this.userService.selectCount(new SelectWrapper<User>()
@@ -135,7 +135,7 @@ public class SyntaxTests {
      */
     @Test
     public void like() {
-        this.generateService.generateBatch( (flag, userList) -> {
+        this.generateService.generateBatch((flag, userList) -> {
             String randomName = String.valueOf(new Random().nextInt(500));
             long count = userList.stream().filter(user -> user.getName().contains(randomName)).count();
             long dbCount = this.userService.selectCount(new SelectWrapper<User>()
@@ -151,7 +151,7 @@ public class SyntaxTests {
      */
     @Test
     public void likeLeft() {
-        this.generateService.generateBatch( (flag, userList) -> {
+        this.generateService.generateBatch((flag, userList) -> {
             String randomName = userList.get(0).getName().substring(7);
             long count = userList.stream().filter(user -> user.getName().startsWith(randomName)).count();
             long dbCount = this.userService.selectCount(new SelectWrapper<User>()
@@ -331,6 +331,28 @@ public class SyntaxTests {
             }
         });
     }
+
+    /**
+     * 随机排序测试
+     */
+    @Test
+    public void orderByRandom() {
+        this.generateService.generateBatch((flag, userList) -> {
+            List<User> sortedList = this.userService.selectList(new SelectWrapper<User>().eq(User::getFlag, flag));
+            for (int i = 0; i < sortedList.size() - 1; i++) {
+                assert sortedList.get(i).getId() < sortedList.get(i + 1).getId();
+            }
+
+            List<User> randomList = this.userService.selectList(new SelectWrapper<User>().eq(User::getFlag, flag).orderByRandom());
+            for (int i = 0; i < randomList.size() - 1; i++) {
+                if (randomList.get(i).getId() > randomList.get(i + 1).getId()) {
+                    return;
+                }
+            }
+            throw new RuntimeException("is not random");
+        });
+    }
+
 
     /**
      * 分组测试
