@@ -32,10 +32,11 @@ curl http://localhost:8080/list?pageNo=1&pageSize=10&name=name
 ## 2.如何使用
 ### 2.1 引入maven依赖
 ``` xml
+<!-- https://mvnrepository.com/artifact/io.github.happytimor/mybatis-helper-core -->
 <dependency>
     <groupId>io.github.happytimor</groupId>
     <artifactId>mybatis-helper-core</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 
