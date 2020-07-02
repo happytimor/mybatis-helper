@@ -26,13 +26,13 @@ public class LimitWrapper<T> extends AbstractWrapper<T> {
     /**
      * limit
      *
-     * @param executeIf 是否执行
+     * @param execute 是否执行
      * @param startRow  开始行
      * @param count     条数
      * @return wrapper
      */
-    public final AbstractWrapper<T> limit(boolean executeIf, int startRow, int count) {
-        if (executeIf) {
+    public final AbstractWrapper<T> limit(boolean execute, int startRow, int count) {
+        if (execute) {
             return this.limit(startRow, count);
         }
         return this;
@@ -52,12 +52,12 @@ public class LimitWrapper<T> extends AbstractWrapper<T> {
     /**
      * limit
      *
-     * @param executeIf 是否执行
+     * @param execute 是否执行
      * @param count     条数
      * @return wrapper
      */
-    public final AbstractWrapper<T> limit(boolean executeIf, int count) {
-        if (executeIf) {
+    public final AbstractWrapper<T> limit(boolean execute, int count) {
+        if (execute) {
             return this.limit(count);
         }
         return this;

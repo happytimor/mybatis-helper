@@ -4,7 +4,10 @@ package io.github.happytimor.mybatis.helper.core.metadata;
 import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.WhereWrapper;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.function.Function;
 
 /**
@@ -14,169 +17,399 @@ import java.util.function.Function;
  */
 public interface DefaultCompare<Children, Column extends ColumnFunction<?, ?>> extends Compare<Children, Column> {
     /**
-     * gt method(eg: where `id` > 1)
+     * gt method for Number(eg: where `id` > 1)
      *
      * @param column lambda column name
      * @param value  given object
      * @return chain object
      */
-    default Children gt(Column column, Object value) {
+    default Children gt(Column column, Number value) {
         return gt(true, column, value);
     }
 
     /**
-     * gt method for column(eg: where `grade_of_english` > `grade_of_math`)
-     *
-     * @param column lambda column name
-     * @param value  the compare column
-     * @return chain object
-     */
-    default Children gtColumn(Column column, Column value) {
-        return gtColumn(true, column, value);
-    }
-
-    /**
-     * gt nested method(eg: where `grade` > (select `grade` form user where `id` = 1))
-     *
-     * @param column   lambda column name
-     * @param function nested expression
-     * @return chain object
-     */
-    default Children gtNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        return gtNested(true, column, function);
-    }
-
-    /**
-     * ge method(eg: where `id` >= 1)
+     * gt method for String
      *
      * @param column lambda column name
      * @param value  given object
      * @return chain object
      */
-    default Children ge(Column column, Object value) {
+    default Children gt(Column column, String value) {
+        return gt(true, column, value);
+    }
+
+    /**
+     * gt method for Date
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children gt(Column column, Date value) {
+        return gt(true, column, value);
+    }
+
+    /**
+     * gt method for LocalDate
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children gt(Column column, LocalDate value) {
+        return gt(true, column, value);
+    }
+
+    /**
+     * gt method for LocalDateTime
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children gt(Column column, LocalDateTime value) {
+        return gt(true, column, value);
+    }
+
+    /**
+     * gt method for Column(eg: where `grade_of_english` > `grade_of_math`)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children gt(Column column, Column value) {
+        return gt(true, column, value);
+    }
+
+    /**
+     * gt method for nested function
+     *
+     * @param column   lambda column name
+     * @param function nested function
+     * @return chain object
+     */
+    default Children gt(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return gt(true, column, function);
+    }
+
+    /**
+     * ge method for Number(eg: where `id` >= 1)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children ge(Column column, Number value) {
         return ge(true, column, value);
     }
 
     /**
-     * ge method for column(eg: where `grade_of_english` >= `grade_of_math`)
-     *
-     * @param column lambda column name
-     * @param value  the compare column
-     * @return chain object
-     */
-    default Children geColumn(Column column, Column value) {
-        return geColumn(true, column, value);
-    }
-
-    /**
-     * ge nested method(eg: where `grade` >= (select `grade` form user where `id` = 1))
-     *
-     * @param column   lambda column name
-     * @param function nested expression
-     * @return chain object
-     */
-    default Children geNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        return geNested(true, column, function);
-    }
-
-    /**
-     * eq method(eg: where `id` = 1)
+     * ge method for String
      *
      * @param column lambda column name
      * @param value  given object
      * @return chain object
      */
-    default Children eq(Column column, Object value) {
+    default Children ge(Column column, String value) {
+        return ge(true, column, value);
+    }
+
+    /**
+     * ge method for Date
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children ge(Column column, Date value) {
+        return ge(true, column, value);
+    }
+
+    /**
+     * ge method for LocalDate
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children ge(Column column, LocalDate value) {
+        return ge(true, column, value);
+    }
+
+    /**
+     * ge method for LocalDateTime
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children ge(Column column, LocalDateTime value) {
+        return ge(true, column, value);
+    }
+
+    /**
+     * ge method for Column
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children ge(Column column, Column value) {
+        return ge(true, column, value);
+    }
+
+    /**
+     * ge method for nested function
+     *
+     * @param column   lambda column name
+     * @param function nested function
+     * @return chain object
+     */
+    default Children ge(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return ge(true, column, function);
+    }
+
+    /**
+     * eq method for Number(eg: where `id` = 1)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children eq(Column column, Number value) {
         return eq(true, column, value);
     }
 
     /**
-     * eq method for column(eg: where `grade_of_english` = `grade_of_math`)
-     *
-     * @param column lambda column name
-     * @param value  the compare column
-     * @return chain object
-     */
-    default Children eqColumn(Column column, Column value) {
-        return eqColumn(true, column, value);
-    }
-
-    /**
-     * eq nested method(eg: where `grade` = (select `grade` form user where `id` = 1))
-     *
-     * @param column   lambda column name
-     * @param function nested expression
-     * @return chain object
-     */
-    default Children eqNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        return eqNested(true, column, function);
-    }
-
-    /**
-     * le method(eg: where `id` <= 1)
+     * eq method for Boolean
      *
      * @param column lambda column name
      * @param value  given object
      * @return chain object
      */
-    default Children le(Column column, Object value) {
+    default Children eq(Column column, Boolean value) {
+        return eq(true, column, value);
+    }
+
+    /**
+     * eq method for String
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children eq(Column column, String value) {
+        return eq(true, column, value);
+    }
+
+    /**
+     * eq method for Date
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children eq(Column column, Date value) {
+        return eq(true, column, value);
+    }
+
+    /**
+     * eq method for LocalDate
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children eq(Column column, LocalDate value) {
+        return eq(true, column, value);
+    }
+
+    /**
+     * eq method for LocalDateTime
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children eq(Column column, LocalDateTime value) {
+        return eq(true, column, value);
+    }
+
+    /**
+     * eq method for Column
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children eq(Column column, Column value) {
+        return eq(true, column, value);
+    }
+
+    /**
+     * eq method for nested function
+     *
+     * @param column   lambda column name
+     * @param function nested function
+     * @return chain object
+     */
+    default Children eq(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return eq(true, column, function);
+    }
+
+    /**
+     * le method for Number(eg: where `id` <= 1)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children le(Column column, Number value) {
         return le(true, column, value);
     }
 
-
     /**
-     * le method for column(eg: where `grade_of_english` <= `grade_of_math`)
-     *
-     * @param column lambda column name
-     * @param value  the compare column
-     * @return chain object
-     */
-    default Children leColumn(Column column, Column value) {
-        return leColumn(true, column, value);
-    }
-
-    /**
-     * le nested method(eg: where `grade` <= (select `grade` form user where `id` = 1))
-     *
-     * @param column   lambda column name
-     * @param function nested expression
-     * @return chain object
-     */
-    default Children leNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        return leNested(true, column, function);
-    }
-
-    /**
-     * lt method(eg: where `id` < 1)
+     * le method for String
      *
      * @param column lambda column name
      * @param value  given object
      * @return chain object
      */
-    default Children lt(Column column, Object value) {
+    default Children le(Column column, String value) {
+        return le(true, column, value);
+    }
+
+    /**
+     * le method for Date
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children le(Column column, Date value) {
+        return le(true, column, value);
+    }
+
+    /**
+     * le method for LocalDate
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children le(Column column, LocalDate value) {
+        return le(true, column, value);
+    }
+
+    /**
+     * le method for LocalDateTime
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children le(Column column, LocalDateTime value) {
+        return le(true, column, value);
+    }
+
+    /**
+     * le method for Column
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children le(Column column, Column value) {
+        return le(true, column, value);
+    }
+
+    /**
+     * le method for nested function
+     *
+     * @param column   lambda column name
+     * @param function nested function
+     * @return chain object
+     */
+    default Children le(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return le(true, column, function);
+    }
+
+    /**
+     * lt method for Number(eg: where `id` < 1)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children lt(Column column, Number value) {
         return lt(true, column, value);
     }
 
     /**
-     * lt method for column(eg: where `grade_of_english` < `grade_of_math`)
+     * lt method for String
      *
      * @param column lambda column name
-     * @param value  the compare column
+     * @param value  given object
      * @return chain object
      */
-    default Children ltColumn(Column column, Column value) {
-        return ltColumn(true, column, value);
+    default Children lt(Column column, String value) {
+        return lt(true, column, value);
     }
 
     /**
-     * lt nested method(eg: where `grade` < (select `grade` form user where `id` = 1))
+     * lt method for Date
      *
-     * @param column   lambda column name
-     * @param function nested expression
+     * @param column lambda column name
+     * @param value  given object
      * @return chain object
      */
-    default Children ltNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        return ltNested(true, column, function);
+    default Children lt(Column column, Date value) {
+        return lt(true, column, value);
+    }
+
+    /**
+     * lt method for LocalDate
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children lt(Column column, LocalDate value) {
+        return lt(true, column, value);
+    }
+
+    /**
+     * lt method for LocalDateTime
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children lt(Column column, LocalDateTime value) {
+        return lt(true, column, value);
+    }
+
+    /**
+     * lt method for Column
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children lt(Column column, Column value) {
+        return lt(true, column, value);
+    }
+
+    /**
+     * lt method for nested function
+     *
+     * @param column   lambda column name
+     * @param function nested function
+     * @return chain object
+     */
+    default Children lt(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return lt(true, column, function);
     }
 
     /**
@@ -186,30 +419,74 @@ public interface DefaultCompare<Children, Column extends ColumnFunction<?, ?>> e
      * @param value  given object
      * @return chain object
      */
-    default Children ne(Column column, Object value) {
+    default Children ne(Column column, Number value) {
         return ne(true, column, value);
     }
 
     /**
-     * ne method for column(eg: where `grade_of_english` <> `grade_of_math`)
+     * ne method for String
      *
      * @param column lambda column name
-     * @param value  the compare column
+     * @param value  given object
      * @return chain object
      */
-    default Children neColumn(Column column, Column value) {
-        return neColumn(true, column, value);
+    default Children ne(Column column, String value) {
+        return ne(true, column, value);
     }
 
     /**
-     * ne nested method(eg: where `grade` <> (select `grade` form user where `id` = 1))
+     * ne method for Date
      *
-     * @param column   lambda column name
-     * @param function nested expression
+     * @param column lambda column name
+     * @param value  given object
      * @return chain object
      */
-    default Children neNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        return neNested(true, column, function);
+    default Children ne(Column column, Date value) {
+        return ne(true, column, value);
+    }
+
+    /**
+     * ne method for LocalDate
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children ne(Column column, LocalDate value) {
+        return ne(true, column, value);
+    }
+
+    /**
+     * ne method for LocalDateTime
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children ne(Column column, LocalDateTime value) {
+        return ne(true, column, value);
+    }
+
+    /**
+     * ne method for Column
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    default Children ne(Column column, Column value) {
+        return ne(true, column, value);
+    }
+
+    /**
+     * ne method for nested function
+     *
+     * @param column   lambda column name
+     * @param function nested function
+     * @return chain object
+     */
+    default Children ne(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return ne(true, column, function);
     }
 
 
@@ -265,7 +542,7 @@ public interface DefaultCompare<Children, Column extends ColumnFunction<?, ?>> e
      * @param end    end value
      * @return chain object
      */
-    default Children between(Column column, Object start, Object end) {
+    default Children between(Column column, Number start, Number end) {
         return between(true, column, start, end);
     }
 
@@ -277,7 +554,7 @@ public interface DefaultCompare<Children, Column extends ColumnFunction<?, ?>> e
      * @param end    end value
      * @return chain object
      */
-    default Children notBetween(Column column, Object start, Object end) {
+    default Children notBetween(Column column, Number start, Number end) {
         return notBetween(true, column, start, end);
     }
 
@@ -319,8 +596,8 @@ public interface DefaultCompare<Children, Column extends ColumnFunction<?, ?>> e
      * @param function nested expression
      * @return chain object
      */
-    default Children inNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        return inNested(true, column, function);
+    default Children in(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return in(true, column, function);
     }
 
     /**
@@ -341,7 +618,7 @@ public interface DefaultCompare<Children, Column extends ColumnFunction<?, ?>> e
      * @param function nested expression
      * @return chain object
      */
-    default Children notInNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        return notInNested(true, column, function);
+    default Children notIn(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return notIn(true, column, function);
     }
 }

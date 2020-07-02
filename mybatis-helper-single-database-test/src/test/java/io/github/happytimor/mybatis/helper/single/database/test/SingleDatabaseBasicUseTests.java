@@ -45,7 +45,6 @@ public class SingleDatabaseBasicUseTests {
     public void test1() {
         userService.selectList(new SelectWrapper<User>()
                         .select(User::getId)
-
                         .like(User::getName, "zhangsan")
                         .notLike(User::getName, "zhangsan")
                         .likeLeft(User::getName, "zhangsan_left")
@@ -60,12 +59,12 @@ public class SingleDatabaseBasicUseTests {
                         .le(User::getAge, 5)
                         .lt(User::getAge, 6)
 
-                        .gtColumn(User::getAge, User::getFlag)
-                        .geColumn(User::getAge, User::getFlag)
-                        .eqColumn(User::getAge, User::getFlag)
-                        .ltColumn(User::getAge, User::getFlag)
-                        .leColumn(User::getAge, User::getFlag)
-                        .neColumn(User::getAge, User::getFlag)
+                        .gt(User::getAge, User::getFlag)
+                        .ge(User::getAge, User::getFlag)
+                        .eq(User::getAge, User::getFlag)
+                        .lt(User::getAge, User::getFlag)
+                        .le(User::getAge, User::getFlag)
+                        .ne(User::getAge, User::getFlag)
 
 //                .gtNested(User::getAge, t -> t.applySelectWrapper(User.class).select(User::getAge).gt(User::getFlag, 1))
         );

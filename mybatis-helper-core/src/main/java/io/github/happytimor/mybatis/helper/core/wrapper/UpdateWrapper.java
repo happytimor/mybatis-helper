@@ -12,18 +12,18 @@ import java.util.List;
  */
 public class UpdateWrapper<T> extends WhereWrapper<T> {
 
-    private List<String> set = new ArrayList<>();
+    private final List<String> set = new ArrayList<>();
 
     /**
      * 设置数据库字段值
      *
-     * @param executeIf 是否执行
+     * @param execute 是否执行
      * @param column    字段
      * @param value     设置值
      * @return updateWrapper
      */
-    public UpdateWrapper<T> set(boolean executeIf, ColumnFunction<T, ?> column, Object value) {
-        if (executeIf) {
+    public UpdateWrapper<T> set(boolean execute, ColumnFunction<T, ?> column, Object value) {
+        if (execute) {
             String columnName = this.getColumnName(column, false);
             int count = counter.incrementAndGet();
             String key = "params_" + count + "_" + columnName;
@@ -69,25 +69,25 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     /**
      * 字段自增操作
      *
-     * @param executeIf 是否执行
+     * @param execute 是否执行
      * @param column    字段名称
      * @param value     值
      * @return UpdateWrapper 对象
      */
-    public UpdateWrapper<T> plus(boolean executeIf, ColumnFunction<T, ?> column, Object value) {
-        return this.atomicOperation(executeIf, column, "+", value);
+    public UpdateWrapper<T> plus(boolean execute, ColumnFunction<T, ?> column, Object value) {
+        return this.atomicOperation(execute, column, "+", value);
     }
 
     /**
      * 字段自减操作
      *
-     * @param executeIf 是否执行
+     * @param execute 是否执行
      * @param column    字段名称
      * @param value     值
      * @return UpdateWrapper 对象
      */
-    public UpdateWrapper<T> minus(boolean executeIf, ColumnFunction<T, ?> column, Object value) {
-        return this.atomicOperation(executeIf, column, "-", value);
+    public UpdateWrapper<T> minus(boolean execute, ColumnFunction<T, ?> column, Object value) {
+        return this.atomicOperation(execute, column, "-", value);
     }
 
     public String getSetSegment() {
@@ -100,8 +100,8 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
         return stringBuilder.toString();
     }
 
-    private UpdateWrapper<T> atomicOperation(boolean executeIf, ColumnFunction<T, ?> column, String operation, Object value) {
-        if (executeIf) {
+    private UpdateWrapper<T> atomicOperation(boolean execute, ColumnFunction<T, ?> column, String operation, Object value) {
+        if (execute) {
             String columnName = this.getColumnName(column, false);
             int count = counter.incrementAndGet();
             String key = "params_" + count + "_" + columnName;

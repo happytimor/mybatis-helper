@@ -7,6 +7,8 @@ import io.github.happytimor.mybatis.helper.core.metadata.Condition;
 import io.github.happytimor.mybatis.helper.core.metadata.DefaultCompare;
 import io.github.happytimor.mybatis.helper.core.metadata.DefaultConnector;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -29,16 +31,16 @@ public class WhereWrapper<T> extends GroupWrapper<T>
 
 
     @Override
-    public WhereWrapper<T> or(boolean executeIf) {
-        if (executeIf) {
+    public WhereWrapper<T> or(boolean execute) {
+        if (execute) {
             this.conditionList.add(new Condition("OR", ""));
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> and(boolean executeIf, Function<WhereWrapper<T>, WhereWrapper<T>> function) {
-        if (executeIf) {
+    public WhereWrapper<T> and(boolean execute, Function<WhereWrapper<T>, WhereWrapper<T>> function) {
+        if (execute) {
             WhereWrapper<T> apply = function.apply(new WhereWrapper<>(this.paramNameValuePairs, counter));
             String whereSegment = apply.getWhereSegment(false);
             this.conditionList.add(new Condition("AND", "(" + whereSegment + ")"));
@@ -46,26 +48,57 @@ public class WhereWrapper<T> extends GroupWrapper<T>
         return this;
     }
 
-
     @Override
-    public WhereWrapper<T> gt(boolean executeIf, ColumnFunction<T, ?> column, Object value) {
-        if (executeIf) {
+    public WhereWrapper<T> gt(boolean execute, ColumnFunction<T, ?> column, Number value) {
+        if (execute) {
             this.addCondition(column, ">", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> gtColumn(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
-        if (executeIf) {
+    public WhereWrapper<T> gt(boolean execute, ColumnFunction<T, ?> column, String value) {
+        if (execute) {
             this.addCondition(column, ">", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> gtNested(boolean executeIf, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        if (executeIf) {
+    public WhereWrapper<T> gt(boolean execute, ColumnFunction<T, ?> column, Date value) {
+        if (execute) {
+            this.addCondition(column, ">", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> gt(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
+        if (execute) {
+            this.addCondition(column, ">", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> gt(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (execute) {
+            this.addCondition(column, ">", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> gt(boolean execute, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (execute) {
+            this.addCondition(column, ">", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> gt(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
             this.nestedExpression(column, ">", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
         }
@@ -73,24 +106,56 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
-    public WhereWrapper<T> ge(boolean executeIf, ColumnFunction<T, ?> column, Object value) {
-        if (executeIf) {
+    public WhereWrapper<T> ge(boolean execute, ColumnFunction<T, ?> column, Number value) {
+        if (execute) {
             this.addCondition(column, ">=", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> geColumn(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
-        if (executeIf) {
+    public WhereWrapper<T> ge(boolean execute, ColumnFunction<T, ?> column, String value) {
+        if (execute) {
             this.addCondition(column, ">=", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> geNested(boolean executeIf, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        if (executeIf) {
+    public WhereWrapper<T> ge(boolean execute, ColumnFunction<T, ?> column, Date value) {
+        if (execute) {
+            this.addCondition(column, ">=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ge(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
+        if (execute) {
+            this.addCondition(column, ">=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ge(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (execute) {
+            this.addCondition(column, ">=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ge(boolean execute, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (execute) {
+            this.addCondition(column, ">=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ge(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
             this.nestedExpression(column, ">=", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
         }
@@ -98,24 +163,64 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
-    public WhereWrapper<T> eq(boolean executeIf, ColumnFunction<T, ?> column, Object value) {
-        if (executeIf) {
+    public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, Number value) {
+        if (execute) {
             this.addCondition(column, "=", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> eqColumn(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
-        if (executeIf) {
+    public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, Boolean value) {
+        if (execute) {
             this.addCondition(column, "=", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> eqNested(boolean executeIf, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        if (executeIf) {
+    public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, String value) {
+        if (execute) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, Date value) {
+        if (execute) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
+        if (execute) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (execute) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (execute) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
             this.nestedExpression(column, "=", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
         }
@@ -123,24 +228,56 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
-    public WhereWrapper<T> le(boolean executeIf, ColumnFunction<T, ?> column, Object value) {
-        if (executeIf) {
+    public WhereWrapper<T> le(boolean execute, ColumnFunction<T, ?> column, Number value) {
+        if (execute) {
             this.addCondition(column, "<=", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> leColumn(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
-        if (executeIf) {
+    public WhereWrapper<T> le(boolean execute, ColumnFunction<T, ?> column, String value) {
+        if (execute) {
             this.addCondition(column, "<=", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> leNested(boolean executeIf, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        if (executeIf) {
+    public WhereWrapper<T> le(boolean execute, ColumnFunction<T, ?> column, Date value) {
+        if (execute) {
+            this.addCondition(column, "<=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> le(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
+        if (execute) {
+            this.addCondition(column, "<=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> le(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (execute) {
+            this.addCondition(column, "<=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> le(boolean execute, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (execute) {
+            this.addCondition(column, "<=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> le(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
             this.nestedExpression(column, "<=", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
         }
@@ -148,24 +285,56 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
-    public WhereWrapper<T> lt(boolean executeIf, ColumnFunction<T, ?> column, Object value) {
-        if (executeIf) {
+    public WhereWrapper<T> lt(boolean execute, ColumnFunction<T, ?> column, Number value) {
+        if (execute) {
             this.addCondition(column, "<", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> ltColumn(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
-        if (executeIf) {
+    public WhereWrapper<T> lt(boolean execute, ColumnFunction<T, ?> column, String value) {
+        if (execute) {
             this.addCondition(column, "<", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> ltNested(boolean executeIf, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        if (executeIf) {
+    public WhereWrapper<T> lt(boolean execute, ColumnFunction<T, ?> column, Date value) {
+        if (execute) {
+            this.addCondition(column, "<", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> lt(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
+        if (execute) {
+            this.addCondition(column, "<", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> lt(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (execute) {
+            this.addCondition(column, "<", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> lt(boolean execute, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (execute) {
+            this.addCondition(column, "<", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> lt(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
             this.nestedExpression(column, "<", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
         }
@@ -173,119 +342,145 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
-    public WhereWrapper<T> ne(boolean executeIf, ColumnFunction<T, ?> column, Object value) {
-        if (executeIf) {
+    public WhereWrapper<T> ne(boolean execute, ColumnFunction<T, ?> column, Number value) {
+        if (execute) {
             this.addCondition(column, "<>", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> neColumn(boolean executeIf, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
-        if (executeIf) {
+    public WhereWrapper<T> ne(boolean execute, ColumnFunction<T, ?> column, String value) {
+        if (execute) {
             this.addCondition(column, "<>", value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> neNested(boolean executeIf, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        if (executeIf) {
+    public WhereWrapper<T> ne(boolean execute, ColumnFunction<T, ?> column, Date value) {
+        if (execute) {
+            this.addCondition(column, "<>", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ne(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
+        if (execute) {
+            this.addCondition(column, "<>", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ne(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (execute) {
+            this.addCondition(column, "<>", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ne(boolean execute, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (execute) {
+            this.addCondition(column, "<>", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ne(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
             this.nestedExpression(column, "<>", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
         }
         return this;
     }
 
+
     @Override
-    public WhereWrapper<T> like(boolean executeIf, ColumnFunction<T, ?> column, String value) {
-        if (executeIf) {
+    public WhereWrapper<T> like(boolean execute, ColumnFunction<T, ?> column, String value) {
+        if (execute) {
             this.addCondition(column, "LIKE", "%" + value + "%");
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> likeLeft(boolean executeIf, ColumnFunction<T, ?> column, String value) {
-        if (executeIf) {
+    public WhereWrapper<T> likeLeft(boolean execute, ColumnFunction<T, ?> column, String value) {
+        if (execute) {
             this.addCondition(column, "LIKE", value + "%");
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> likeRight(boolean executeIf, ColumnFunction<T, ?> column, String value) {
-        if (executeIf) {
+    public WhereWrapper<T> likeRight(boolean execute, ColumnFunction<T, ?> column, String value) {
+        if (execute) {
             this.addCondition(column, "LIKE", "%" + value);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> notLike(boolean executeIf, ColumnFunction<T, ?> column, String value) {
-        if (executeIf) {
+    public WhereWrapper<T> notLike(boolean execute, ColumnFunction<T, ?> column, String value) {
+        if (execute) {
             this.addCondition(column, "NOT LIKE", "%" + value + "%");
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> between(boolean executeIf, ColumnFunction<T, ?> column, Object start, Object end) {
-        if (executeIf) {
+    public WhereWrapper<T> between(boolean execute, ColumnFunction<T, ?> column, Number start, Number end) {
+        if (execute) {
             this.addCondition(column, "BETWEEN", start, "AND", end);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> notBetween(boolean executeIf, ColumnFunction<T, ?> column, Object start, Object end) {
-        if (executeIf) {
+    public WhereWrapper<T> notBetween(boolean execute, ColumnFunction<T, ?> column, Number start, Number end) {
+        if (execute) {
             this.addCondition(column, "NOT BETWEEN", start, "AND", end);
         }
         return this;
     }
 
+
     @Override
-    public WhereWrapper<T> isNull(boolean executeIf, ColumnFunction<T, ?> column) {
-        if (executeIf) {
+    public WhereWrapper<T> isNull(boolean execute, ColumnFunction<T, ?> column) {
+        if (execute) {
             conditionList.add(new Condition(this.getColumnName(column) + " IS NULL"));
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> isNotNull(boolean executeIf, ColumnFunction<T, ?> column) {
-        if (executeIf) {
+    public WhereWrapper<T> isNotNull(boolean execute, ColumnFunction<T, ?> column) {
+        if (execute) {
             conditionList.add(new Condition(this.getColumnName(column) + " IS NOT NULL"));
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> in(boolean executeIf, ColumnFunction<T, ?> column, Collection<?> values) {
-        if (executeIf) {
+    public WhereWrapper<T> in(boolean execute, ColumnFunction<T, ?> column, Collection<?> values) {
+        if (execute) {
             this.nestedExpression(column, "IN", values);
         }
         return this;
     }
 
     @Override
-    public WhereWrapper<T> inNested(boolean executeIf, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        if (executeIf) {
+    public WhereWrapper<T> in(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
             this.nestedExpression(column, "IN", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
         }
         return this;
     }
 
-    @Override
-    public WhereWrapper<T> notInNested(boolean executeIf, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        if (executeIf) {
-            AbstractWrapper<?> selectWrapper = function.apply(this);
-            this.nestedExpression(column, "NOT IN", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
-        }
-        return this;
-    }
 
     /**
      * 生成嵌套子查询select
@@ -299,9 +494,18 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
-    public WhereWrapper<T> notIn(boolean executeIf, ColumnFunction<T, ?> column, Collection<?> values) {
-        if (executeIf) {
+    public WhereWrapper<T> notIn(boolean execute, ColumnFunction<T, ?> column, Collection<?> values) {
+        if (execute) {
             this.nestedExpression(column, "NOT IN", values);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> notIn(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        if (execute) {
+            AbstractWrapper<?> selectWrapper = function.apply(this);
+            this.nestedExpression(column, "NOT IN", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
         }
         return this;
     }

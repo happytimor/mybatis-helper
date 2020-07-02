@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.happytimor</groupId>
     <artifactId>mybatis-helper-core</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.6-SNAPSHOT</version>
     <name>mybatis-helper-core</name>
     <packaging>jar</packaging>
     <url>https://happytimor.github.io/mybatis-helper/index.html</url>

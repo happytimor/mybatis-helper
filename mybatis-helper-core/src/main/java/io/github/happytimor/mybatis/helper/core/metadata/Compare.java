@@ -4,7 +4,10 @@ import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.WhereWrapper;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.function.Function;
 
 /**
@@ -15,304 +18,554 @@ import java.util.function.Function;
 public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends Serializable {
 
     /**
-     * gt method(eg: where `id` > 1)
+     * gt method for Number(eg: where `id` > 1)
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param value     given object
      * @return chain object
      */
-    Children gt(boolean executeIf, Column column, Object value);
+    Children gt(boolean execute, Column column, Number value);
 
     /**
-     * gt method for column(eg: where `grade_of_english` > `grade_of_math`)
+     * gt method for String
      *
-     * @param executeIf true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     the compare column
-     * @return chain object
-     */
-    Children gtColumn(boolean executeIf, Column column, Column value);
-
-    /**
-     * gt nested method(eg: where `grade` > (select `grade` form user where `id` = 1))
-     *
-     * @param executeIf true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested expression
-     * @return chain object
-     */
-    Children gtNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
-
-    /**
-     * ge method(eg: where `id` >= 1)
-     *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param value     given object
      * @return chain object
      */
-    Children ge(boolean executeIf, Column column, Object value);
+    Children gt(boolean execute, Column column, String value);
 
     /**
-     * ge method for column(eg: where `grade_of_english` >= `grade_of_math`)
+     * gt method for Date
      *
-     * @param executeIf true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     the compare column
-     * @return chain object
-     */
-    Children geColumn(boolean executeIf, Column column, Column value);
-
-    /**
-     * ge nested method(eg: where `grade` >= (select `grade` form user where `id` = 1))
-     *
-     * @param executeIf true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested expression
-     * @return chain object
-     */
-    Children geNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
-
-    /**
-     * eq method(eg: where `id` = 1)
-     *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param value     given object
      * @return chain object
      */
-    Children eq(boolean executeIf, Column column, Object value);
+    Children gt(boolean execute, Column column, Date value);
 
     /**
-     * eq method for column(eg: where `grade_of_english` = `grade_of_math`)
+     * gt method for LocalDate
      *
-     * @param executeIf true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     the compare column
-     * @return chain object
-     */
-    Children eqColumn(boolean executeIf, Column column, Column value);
-
-    /**
-     * eq nested method(eg: where `grade` = (select `grade` form user where `id` = 1))
-     *
-     * @param executeIf true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested expression
-     * @return chain object
-     */
-    Children eqNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
-
-    /**
-     * le method(eg: where `id` <= 1)
-     *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param value     given object
      * @return chain object
      */
-    Children le(boolean executeIf, Column column, Object value);
+    Children gt(boolean execute, Column column, LocalDate value);
 
     /**
-     * le method for column(eg: where `grade_of_english` <= `grade_of_math`)
+     * gt method for LocalDateTime
      *
-     * @param executeIf true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     the compare column
-     * @return chain object
-     */
-    Children leColumn(boolean executeIf, Column column, Column value);
-
-    /**
-     * le nested method(eg: where `grade` <= (select `grade` form user where `id` = 1))
-     *
-     * @param executeIf true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested expression
-     * @return chain object
-     */
-    Children leNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
-
-    /**
-     * lt method(eg: where `id` < 1)
-     *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param value     given object
      * @return chain object
      */
-    Children lt(boolean executeIf, Column column, Object value);
+    Children gt(boolean execute, Column column, LocalDateTime value);
 
     /**
-     * lt method for column(eg: where `grade_of_english` < `grade_of_math`)
+     * gt method for Column(eg: where `grade_of_english` > `grade_of_math`)
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
-     * @param value     the compare column
+     * @param value     given object
      * @return chain object
      */
-    Children ltColumn(boolean executeIf, Column column, Column value);
+    Children gt(boolean execute, Column column, Column value);
 
     /**
-     * lt nested method(eg: where `grade` < (select `grade` form user where `id` = 1))
+     * gt method for nested function
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
-     * @param function  nested expression
+     * @param function  nested function
      * @return chain object
      */
-    Children ltNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    Children gt(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+
+    /**
+     * ge method for Number(eg: where `id` >= 1)
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children ge(boolean execute, Column column, Number value);
+
+    /**
+     * ge method for String
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children ge(boolean execute, Column column, String value);
+
+    /**
+     * ge method for Date
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children ge(boolean execute, Column column, Date value);
+
+    /**
+     * ge method for LocalDate
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children ge(boolean execute, Column column, LocalDate value);
+
+    /**
+     * ge method for LocalDateTime
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children ge(boolean execute, Column column, LocalDateTime value);
+
+    /**
+     * ge method for Column
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children ge(boolean execute, Column column, Column value);
+
+    /**
+     * ge method for nested function
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested function
+     * @return chain object
+     */
+    Children ge(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+
+    /**
+     * eq method for Number(eg: where `id` = 1)
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children eq(boolean execute, Column column, Number value);
+
+    /**
+     * eq method for Boolean
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children eq(boolean execute, Column column, Boolean value);
+
+    /**
+     * eq method for String
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children eq(boolean execute, Column column, String value);
+
+    /**
+     * eq method for Date
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children eq(boolean execute, Column column, Date value);
+
+    /**
+     * eq method for LocalDate
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children eq(boolean execute, Column column, LocalDate value);
+
+    /**
+     * eq method for LocalDateTime
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children eq(boolean execute, Column column, LocalDateTime value);
+
+    /**
+     * eq method for Column
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children eq(boolean execute, Column column, Column value);
+
+    /**
+     * eq method for nested function
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested function
+     * @return chain object
+     */
+    Children eq(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+
+    /**
+     * le method for Number(eg: where `id` <= 1)
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children le(boolean execute, Column column, Number value);
+
+    /**
+     * le method for String
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children le(boolean execute, Column column, String value);
+
+    /**
+     * le method for Date
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children le(boolean execute, Column column, Date value);
+
+    /**
+     * le method for LocalDate
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children le(boolean execute, Column column, LocalDate value);
+
+    /**
+     * le method for LocalDateTime
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children le(boolean execute, Column column, LocalDateTime value);
+
+    /**
+     * le method for Column
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children le(boolean execute, Column column, Column value);
+
+    /**
+     * le method for nested function
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested function
+     * @return chain object
+     */
+    Children le(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+
+    /**
+     * lt method for Number(eg: where `id` < 1)
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children lt(boolean execute, Column column, Number value);
+
+    /**
+     * lt method for String
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children lt(boolean execute, Column column, String value);
+
+    /**
+     * lt method for Date
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children lt(boolean execute, Column column, Date value);
+
+    /**
+     * lt method for LocalDate
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children lt(boolean execute, Column column, LocalDate value);
+
+    /**
+     * lt method for LocalDateTime
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children lt(boolean execute, Column column, LocalDateTime value);
+
+    /**
+     * lt method for Column
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children lt(boolean execute, Column column, Column value);
+
+    /**
+     * lt method for nested function
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested function
+     * @return chain object
+     */
+    Children lt(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
 
     /**
      * ne method(eg: where `id` <> 1)
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param value     given object
      * @return chain object
      */
-    Children ne(boolean executeIf, Column column, Object value);
+    Children ne(boolean execute, Column column, Number value);
 
     /**
-     * ne method for column(eg: where `grade_of_english` <> `grade_of_math`)
+     * ne method for String
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
-     * @param value     the compare column
+     * @param value     given object
      * @return chain object
      */
-    Children neColumn(boolean executeIf, Column column, Column value);
+    Children ne(boolean execute, Column column, String value);
 
     /**
-     * ne nested method(eg: where `grade` <> (select `grade` form user where `id` = 1))
+     * ne method for Date
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
-     * @param function  nested expression
+     * @param value     given object
      * @return chain object
      */
-    Children neNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    Children ne(boolean execute, Column column, Date value);
+
+    /**
+     * ne method for LocalDate
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children ne(boolean execute, Column column, LocalDate value);
+
+    /**
+     * ne method for LocalDateTime
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children ne(boolean execute, Column column, LocalDateTime value);
+
+    /**
+     * ne method for Column
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
+     */
+    Children ne(boolean execute, Column column, Column value);
+
+    /**
+     * ne method for nested function
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested function
+     * @return chain object
+     */
+    Children ne(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
      * like method(eg: where `name` like '%zhangsan%')
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param value     given object
      * @return chain object
      */
-    Children like(boolean executeIf, Column column, String value);
+    Children like(boolean execute, Column column, String value);
 
     /**
      * like left method(eq: where `name` like 'zhangsan%')
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param value     given object
      * @return chain object
      */
-    Children likeLeft(boolean executeIf, Column column, String value);
+    Children likeLeft(boolean execute, Column column, String value);
 
     /**
      * like right method(eq: where `name` like '%zhangsan')
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param value     given object
      * @return chain object
      */
-    Children likeRight(boolean executeIf, Column column, String value);
+    Children likeRight(boolean execute, Column column, String value);
 
     /**
      * not like method(eq: where `name` not like '%zhangsan%')
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param value     given object
      * @return chain object
      */
-    Children notLike(boolean executeIf, Column column, String value);
+    Children notLike(boolean execute, Column column, String value);
 
     /**
      * between method(eg: where `age` between 20 and 30)
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param start     start value
      * @param end       end value
      * @return chain object
      */
-    Children between(boolean executeIf, Column column, Object start, Object end);
+    Children between(boolean execute, Column column, Number start, Number end);
 
     /**
      * not between method(eg: where `age` not between 20 and 30)
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param start     start value
      * @param end       end value
      * @return chain object
      */
-    Children notBetween(boolean executeIf, Column column, Object start, Object end);
+    Children notBetween(boolean execute, Column column, Number start, Number end);
 
     /**
      * isNull method(eg: where `age` is null)
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @return chain object
      */
-    Children isNull(boolean executeIf, Column column);
+    Children isNull(boolean execute, Column column);
 
     /**
      * isNotNull method(eg: where `age` is not null)
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @return chain object
      */
-    Children isNotNull(boolean executeIf, Column column);
+    Children isNotNull(boolean execute, Column column);
 
     /**
      * in method(eg: where `id` in (1, 2, 3, 4))
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param values    given collection
      * @return chain object
      */
-    Children in(boolean executeIf, Column column, Collection<?> values);
+    Children in(boolean execute, Column column, Collection<?> values);
 
 
     /**
      * in nested method(eg: where `id` in (select `id` from user where age  > 20 ))
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param function  nested expression
      * @return chain object
      */
-    Children inNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    Children in(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
      * not in method(eg: where `id` not in (1, 2, 3, 4))
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param values    given collection
      * @return chain object
      */
-    Children notIn(boolean executeIf, Column column, Collection<?> values);
+    Children notIn(boolean execute, Column column, Collection<?> values);
 
     /**
      * not in nested method(eg: where `id` not in (select `id` from user where age  > 20 ))
      *
-     * @param executeIf true: execute the method, false: skip execution
+     * @param execute true: execute the method, false: skip execution
      * @param column    lambda column name
      * @param function  nested expression
      * @return chain object
      */
-    Children notInNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    Children notIn(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 }
