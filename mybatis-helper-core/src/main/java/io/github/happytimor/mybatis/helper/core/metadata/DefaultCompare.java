@@ -8,274 +8,340 @@ import java.util.Collection;
 import java.util.function.Function;
 
 /**
- * Compare的默认实现，如果不指定判断条件，默认会将column和value纳入查询条件内
+ * default implements of compare method interface, very similar to Compare
  *
  * @author chenpeng
  */
-public interface DefaultCompare<Children, Column extends ColumnFunction> extends Compare<Children, Column> {
+public interface DefaultCompare<Children, Column extends ColumnFunction<?, ?>> extends Compare<Children, Column> {
     /**
-     * 大于
+     * gt method(eg: where `id` > 1)
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
      */
     default Children gt(Column column, Object value) {
         return gt(true, column, value);
     }
 
     /**
-     * 大于等于
+     * gt method for column(eg: where `grade_of_english` > `grade_of_math`)
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column lambda column name
+     * @param value  the compare column
+     * @return chain object
+     */
+    default Children gtColumn(Column column, Column value) {
+        return gtColumn(true, column, value);
+    }
+
+    /**
+     * gt nested method(eg: where `grade` > (select `grade` form user where `id` = 1))
+     *
+     * @param column   lambda column name
+     * @param function nested expression
+     * @return chain object
+     */
+    default Children gtNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return gtNested(true, column, function);
+    }
+
+    /**
+     * ge method(eg: where `id` >= 1)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
      */
     default Children ge(Column column, Object value) {
         return ge(true, column, value);
     }
 
+    /**
+     * ge method for column(eg: where `grade_of_english` >= `grade_of_math`)
+     *
+     * @param column lambda column name
+     * @param value  the compare column
+     * @return chain object
+     */
+    default Children geColumn(Column column, Column value) {
+        return geColumn(true, column, value);
+    }
 
     /**
-     * 等于
+     * ge nested method(eg: where `grade` >= (select `grade` form user where `id` = 1))
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column   lambda column name
+     * @param function nested expression
+     * @return chain object
+     */
+    default Children geNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return geNested(true, column, function);
+    }
+
+    /**
+     * eq method(eg: where `id` = 1)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
      */
     default Children eq(Column column, Object value) {
         return eq(true, column, value);
     }
 
     /**
-     * 小于等于
+     * eq method for column(eg: where `grade_of_english` = `grade_of_math`)
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column lambda column name
+     * @param value  the compare column
+     * @return chain object
+     */
+    default Children eqColumn(Column column, Column value) {
+        return eqColumn(true, column, value);
+    }
+
+    /**
+     * eq nested method(eg: where `grade` = (select `grade` form user where `id` = 1))
+     *
+     * @param column   lambda column name
+     * @param function nested expression
+     * @return chain object
+     */
+    default Children eqNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return eqNested(true, column, function);
+    }
+
+    /**
+     * le method(eg: where `id` <= 1)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
      */
     default Children le(Column column, Object value) {
         return le(true, column, value);
     }
 
+
     /**
-     * 小于
+     * le method for column(eg: where `grade_of_english` <= `grade_of_math`)
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column lambda column name
+     * @param value  the compare column
+     * @return chain object
+     */
+    default Children leColumn(Column column, Column value) {
+        return leColumn(true, column, value);
+    }
+
+    /**
+     * le nested method(eg: where `grade` <= (select `grade` form user where `id` = 1))
+     *
+     * @param column   lambda column name
+     * @param function nested expression
+     * @return chain object
+     */
+    default Children leNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return leNested(true, column, function);
+    }
+
+    /**
+     * lt method(eg: where `id` < 1)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
      */
     default Children lt(Column column, Object value) {
         return lt(true, column, value);
     }
 
     /**
-     * 不等于
+     * lt method for column(eg: where `grade_of_english` < `grade_of_math`)
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column lambda column name
+     * @param value  the compare column
+     * @return chain object
+     */
+    default Children ltColumn(Column column, Column value) {
+        return ltColumn(true, column, value);
+    }
+
+    /**
+     * lt nested method(eg: where `grade` < (select `grade` form user where `id` = 1))
+     *
+     * @param column   lambda column name
+     * @param function nested expression
+     * @return chain object
+     */
+    default Children ltNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return ltNested(true, column, function);
+    }
+
+    /**
+     * ne method(eg: where `id` <> 1)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
      */
     default Children ne(Column column, Object value) {
         return ne(true, column, value);
     }
 
     /**
-     * 大于
+     * ne method for column(eg: where `grade_of_english` <> `grade_of_math`)
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column lambda column name
+     * @param value  the compare column
+     * @return chain object
      */
-    default Children gt(Column column, Column value) {
-        return gt(true, column, value);
+    default Children neColumn(Column column, Column value) {
+        return neColumn(true, column, value);
     }
 
     /**
-     * 大于等于
+     * ne nested method(eg: where `grade` <> (select `grade` form user where `id` = 1))
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column   lambda column name
+     * @param function nested expression
+     * @return chain object
      */
-    default Children ge(Column column, Column value) {
-        return ge(true, column, value);
+    default Children neNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return neNested(true, column, function);
     }
 
 
     /**
-     * 等于
+     * like method(eg: where `name` like '%zhangsan%')
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
-     */
-    default Children eq(Column column, Column value) {
-        return eq(true, column, value);
-    }
-
-    /**
-     * 小于等于
-     *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
-     */
-    default Children le(Column column, Column value) {
-        return le(true, column, value);
-    }
-
-    /**
-     * 小于
-     *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
-     */
-    default Children lt(Column column, Column value) {
-        return lt(true, column, value);
-    }
-
-    /**
-     * 不等于
-     *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
-     */
-    default Children ne(Column column, Column value) {
-        return ne(true, column, value);
-    }
-
-    /**
-     * 模糊匹配
-     *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
      */
     default Children like(Column column, String value) {
         return like(true, column, value);
     }
 
     /**
-     * 左模糊匹配
+     * like left method(eq: where `name` like 'zhangsan%')
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
      */
     default Children likeLeft(Column column, String value) {
         return likeLeft(true, column, value);
     }
 
     /**
-     * 右模糊匹配
+     * like right method(eq: where `name` like '%zhangsan')
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
      */
     default Children likeRight(Column column, String value) {
         return likeRight(true, column, value);
     }
 
     /**
-     * 反向模糊匹配
+     * not like method(eq: where `name` not like '%zhangsan%')
      *
-     * @param column 字段
-     * @param value  比较值
-     * @return children
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
      */
     default Children notLike(Column column, String value) {
         return notLike(true, column, value);
     }
 
     /**
-     * 区间查找
+     * between method(eg: where `age` between 20 and 30)
      *
-     * @param column 字段
-     * @param start  开始值
-     * @param end    结束值
-     * @return children
+     * @param column lambda column name
+     * @param start  start value
+     * @param end    end value
+     * @return chain object
      */
     default Children between(Column column, Object start, Object end) {
         return between(true, column, start, end);
     }
 
     /**
-     * 反向区间查找
+     * not between method(eg: where `age` not between 20 and 30)
      *
-     * @param column 字段
-     * @param start  开始值
-     * @param end    结束值
-     * @return children
+     * @param column lambda column name
+     * @param start  start value
+     * @param end    end value
+     * @return chain object
      */
     default Children notBetween(Column column, Object start, Object end) {
         return notBetween(true, column, start, end);
     }
 
     /**
-     * 为空
+     * isNull method(eg: where `age` is null)
      *
-     * @param column 字段
-     * @return children
+     * @param column lambda column name
+     * @return chain object
      */
     default Children isNull(Column column) {
         return isNull(true, column);
     }
 
     /**
-     * 不为空
+     * isNotNull method(eg: where `age` is not null)
      *
-     * @param column 字段
-     * @return children
+     * @param column lambda column name
+     * @return chain object
      */
     default Children isNotNull(Column column) {
         return isNotNull(true, column);
     }
 
     /**
-     * in
+     * in method(eg: where `id` in (1, 2, 3, 4))
      *
-     * @param column 字段名称
-     * @param values 对象列表
-     * @return children
+     * @param column lambda column name
+     * @param values given collection
+     * @return chain object
      */
     default Children in(Column column, Collection<?> values) {
         return in(true, column, values);
     }
 
     /**
-     * 嵌套子查询
+     * in nested method(eg: where `id` in (select `id` from user where age  > 20 ))
      *
-     * @param column   字段
-     * @param function 子查询转换
-     * @return children
+     * @param column   lambda column name
+     * @param function nested expression
+     * @return chain object
      */
-    default Children in(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        return in(true, column, function);
+    default Children inNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return inNested(true, column, function);
     }
 
     /**
-     * 嵌套子查询
+     * not in method(eg: where `id` not in (1, 2, 3, 4))
      *
-     * @param column   字段
-     * @param function 子查询转换
-     * @return children
-     */
-    default Children notIn(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        return notIn(true, column, function);
-    }
-
-    /**
-     * notIn
-     *
-     * @param column 字段名称
-     * @param values 对象列表
-     * @return children
+     * @param column lambda column name
+     * @param values given collection
+     * @return chain object
      */
     default Children notIn(Column column, Collection<?> values) {
         return notIn(true, column, values);
+    }
+
+    /**
+     * not in nested method(eg: where `id` not in (select `id` from user where age  > 20 ))
+     *
+     * @param column   lambda column name
+     * @param function nested expression
+     * @return chain object
+     */
+    default Children notInNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return notInNested(true, column, function);
     }
 }

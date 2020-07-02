@@ -8,252 +8,311 @@ import java.util.Collection;
 import java.util.function.Function;
 
 /**
- * 值比较接口
+ * compare method interface
  *
  * @author chenpeng
  */
-public interface Compare<Children, Column extends ColumnFunction> extends Serializable {
+public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends Serializable {
 
     /**
-     * 大于
+     * gt method(eg: where `id` > 1)
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
      */
     Children gt(boolean executeIf, Column column, Object value);
 
     /**
-     * 大于等于
+     * gt method for column(eg: where `grade_of_english` > `grade_of_math`)
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     the compare column
+     * @return chain object
+     */
+    Children gtColumn(boolean executeIf, Column column, Column value);
+
+    /**
+     * gt nested method(eg: where `grade` > (select `grade` form user where `id` = 1))
+     *
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested expression
+     * @return chain object
+     */
+    Children gtNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+
+    /**
+     * ge method(eg: where `id` >= 1)
+     *
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
      */
     Children ge(boolean executeIf, Column column, Object value);
 
     /**
-     * 等于
+     * ge method for column(eg: where `grade_of_english` >= `grade_of_math`)
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     the compare column
+     * @return chain object
+     */
+    Children geColumn(boolean executeIf, Column column, Column value);
+
+    /**
+     * ge nested method(eg: where `grade` >= (select `grade` form user where `id` = 1))
+     *
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested expression
+     * @return chain object
+     */
+    Children geNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+
+    /**
+     * eq method(eg: where `id` = 1)
+     *
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
      */
     Children eq(boolean executeIf, Column column, Object value);
 
     /**
-     * 小于等于
+     * eq method for column(eg: where `grade_of_english` = `grade_of_math`)
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     the compare column
+     * @return chain object
+     */
+    Children eqColumn(boolean executeIf, Column column, Column value);
+
+    /**
+     * eq nested method(eg: where `grade` = (select `grade` form user where `id` = 1))
+     *
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested expression
+     * @return chain object
+     */
+    Children eqNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+
+    /**
+     * le method(eg: where `id` <= 1)
+     *
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
      */
     Children le(boolean executeIf, Column column, Object value);
 
     /**
-     * 小于
+     * le method for column(eg: where `grade_of_english` <= `grade_of_math`)
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     the compare column
+     * @return chain object
+     */
+    Children leColumn(boolean executeIf, Column column, Column value);
+
+    /**
+     * le nested method(eg: where `grade` <= (select `grade` form user where `id` = 1))
+     *
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested expression
+     * @return chain object
+     */
+    Children leNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+
+    /**
+     * lt method(eg: where `id` < 1)
+     *
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
      */
     Children lt(boolean executeIf, Column column, Object value);
 
+    /**
+     * lt method for column(eg: where `grade_of_english` < `grade_of_math`)
+     *
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     the compare column
+     * @return chain object
+     */
+    Children ltColumn(boolean executeIf, Column column, Column value);
 
     /**
-     * 不等于
+     * lt nested method(eg: where `grade` < (select `grade` form user where `id` = 1))
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested expression
+     * @return chain object
+     */
+    Children ltNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+
+
+    /**
+     * ne method(eg: where `id` <> 1)
+     *
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
      */
     Children ne(boolean executeIf, Column column, Object value);
 
     /**
-     * 大于
+     * ne method for column(eg: where `grade_of_english` <> `grade_of_math`)
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     the compare column
+     * @return chain object
      */
-    Children gt(boolean executeIf, Column column, Column value);
+    Children neColumn(boolean executeIf, Column column, Column value);
 
     /**
-     * 大于等于
+     * ne nested method(eg: where `grade` <> (select `grade` form user where `id` = 1))
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested expression
+     * @return chain object
      */
-    Children ge(boolean executeIf, Column column, Column value);
+    Children neNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
-     * 等于
+     * like method(eg: where `name` like '%zhangsan%')
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
-     */
-    Children eq(boolean executeIf, Column column, Column value);
-
-    /**
-     * 小于等于
-     *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
-     */
-    Children le(boolean executeIf, Column column, Column value);
-
-    /**
-     * 小于
-     *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
-     */
-    Children lt(boolean executeIf, Column column, Column value);
-
-
-    /**
-     * 不等于
-     *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
-     */
-    Children ne(boolean executeIf, Column column, Column value);
-
-    /**
-     * 模糊匹配
-     *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
      */
     Children like(boolean executeIf, Column column, String value);
 
     /**
-     * 左模糊匹配
+     * like left method(eq: where `name` like 'zhangsan%')
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
      */
     Children likeLeft(boolean executeIf, Column column, String value);
 
     /**
-     * 右模糊匹配
+     * like right method(eq: where `name` like '%zhangsan')
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
      */
     Children likeRight(boolean executeIf, Column column, String value);
 
     /**
-     * 反向模糊匹配
+     * not like method(eq: where `name` not like '%zhangsan%')
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param value     字段值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param value     given object
+     * @return chain object
      */
     Children notLike(boolean executeIf, Column column, String value);
 
     /**
-     * 区间查找
+     * between method(eg: where `age` between 20 and 30)
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param start     开始值
-     * @param end       结束值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param start     start value
+     * @param end       end value
+     * @return chain object
      */
     Children between(boolean executeIf, Column column, Object start, Object end);
 
     /**
-     * 反向区间查找
+     * not between method(eg: where `age` not between 20 and 30)
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param start     开始值
-     * @param end       结束值
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param start     start value
+     * @param end       end value
+     * @return chain object
      */
     Children notBetween(boolean executeIf, Column column, Object start, Object end);
 
     /**
-     * 为空
+     * isNull method(eg: where `age` is null)
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @return chain object
      */
     Children isNull(boolean executeIf, Column column);
 
     /**
-     * 不为空
+     * isNotNull method(eg: where `age` is not null)
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @return chain object
      */
     Children isNotNull(boolean executeIf, Column column);
 
     /**
-     * in
+     * in method(eg: where `id` in (1, 2, 3, 4))
      *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param values    对象列表
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param values    given collection
+     * @return chain object
      */
     Children in(boolean executeIf, Column column, Collection<?> values);
 
 
     /**
-     * 嵌套in查询
+     * in nested method(eg: where `id` in (select `id` from user where age  > 20 ))
      *
-     * @param executeIf 是否执行
-     * @param column    字段
-     * @param function  生成子查询
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested expression
+     * @return chain object
      */
-    Children in(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    Children inNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
-     * 嵌套not in查询
+     * not in method(eg: where `id` not in (1, 2, 3, 4))
      *
-     * @param executeIf 是否执行
-     * @param column    字段
-     * @param function  生成子查询
-     * @return children
-     */
-    Children notIn(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
-
-    /**
-     * notIn
-     *
-     * @param executeIf 是否执行片段
-     * @param column    字段名称
-     * @param values    对象列表
-     * @return children
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param values    given collection
+     * @return chain object
      */
     Children notIn(boolean executeIf, Column column, Collection<?> values);
+
+    /**
+     * not in nested method(eg: where `id` not in (select `id` from user where age  > 20 ))
+     *
+     * @param executeIf true: execute the method, false: skip execution
+     * @param column    lambda column name
+     * @param function  nested expression
+     * @return chain object
+     */
+    Children notInNested(boolean executeIf, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 }

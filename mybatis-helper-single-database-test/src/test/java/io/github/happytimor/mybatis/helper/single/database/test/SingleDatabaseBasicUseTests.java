@@ -40,6 +40,37 @@ public class SingleDatabaseBasicUseTests {
     @Resource
     private GenerateService generateService;
 
+
+    @Test
+    public void test1() {
+        userService.selectList(new SelectWrapper<User>()
+                        .select(User::getId)
+
+                        .like(User::getName, "zhangsan")
+                        .notLike(User::getName, "zhangsan")
+                        .likeLeft(User::getName, "zhangsan_left")
+                        .likeRight(User::getName, "zhangsan_right")
+
+                        .between(User::getAge, 1, 3)
+                        .notBetween(User::getAge, 1, 4)
+                        .gt(User::getAge, 1)
+                        .ge(User::getAge, 2)
+                        .eq(User::getAge, 3)
+                        .ne(User::getAge, 4)
+                        .le(User::getAge, 5)
+                        .lt(User::getAge, 6)
+
+                        .gtColumn(User::getAge, User::getFlag)
+                        .geColumn(User::getAge, User::getFlag)
+                        .eqColumn(User::getAge, User::getFlag)
+                        .ltColumn(User::getAge, User::getFlag)
+                        .leColumn(User::getAge, User::getFlag)
+                        .neColumn(User::getAge, User::getFlag)
+
+//                .gtNested(User::getAge, t -> t.applySelectWrapper(User.class).select(User::getAge).gt(User::getFlag, 1))
+        );
+    }
+
     /**
      * localDateTime测试
      */
