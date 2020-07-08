@@ -242,7 +242,7 @@ public class MybatisHelper implements ApplicationContextAware {
                 logger.info("dymamic inject for class:{}, {} -> {}", modelClass.getName(), column, result.getProperty());
                 //io/github/happytimor/mybatis/helper/single/database/test/domain/UserUid.strangeName -> abc
                 caseInsensitivePropertyMap.put(column, result.getProperty());
-                relation.put(result.getProperty(), ColumnUtils.underscoreToCamelCase(result.getColumn()));
+                relation.put(result.getProperty(), result.getColumn());
             }
             Constants.COLUMN_RELATION.put(modelClass.getName().replaceAll("\\.", "/"), relation);
         } catch (NoSuchFieldException | IllegalAccessException e) {
