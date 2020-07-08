@@ -222,7 +222,7 @@ public class MybatisHelper implements ApplicationContextAware {
      * @param reflectorFactory reflectorFactory
      */
     private void injectFieldRelation(Class<?> modelClass, TableInfo tableInfo, ReflectorFactory reflectorFactory) {
-        if (!tableInfo.isNeedResultRefactor()) {
+        if (!tableInfo.isOverrideColumn()) {
             return;
         }
         MetaClass metaClass = MetaClass.forClass(modelClass, reflectorFactory);
@@ -235,10 +235,10 @@ public class MybatisHelper implements ApplicationContextAware {
             Map<String, String> caseInsensitivePropertyMap = (Map<String, String>) caseInsensitivePropertyMapField.get(reflector);
             Map<String, String> relation = new HashMap<>();
             for (Result result : tableInfo.getResultList()) {
-                String column = result.getColumn().replaceAll("_", "").toUpperCase();
-                if (column.equals(result.getProperty().toUpperCase())) {
+                if (!result.isOverrideColumn()) {
                     continue;
                 }
+                String column = result.getColumn().replaceAll("_", "").toUpperCase();
                 logger.info("dymamic inject for class:{}, {} -> {}", modelClass.getName(), column, result.getProperty());
                 //io/github/happytimor/mybatis/helper/single/database/test/domain/UserUid.strangeName -> abc
                 caseInsensitivePropertyMap.put(column, result.getProperty());
@@ -292,13 +292,12 @@ public class MybatisHelper implements ApplicationContextAware {
 
             //填充result映射
             String fieldName = declaredField.getName();
-            String columnName = (tableColumn != null) ? tableColumn.value() : ColumnUtils.camelCaseToUnderscore(fieldName);
-            if (tableColumn != null && !"".equals(tableColumn.value())) {
-                if (!columnName.replaceAll("_", "").toUpperCase().equals(fieldName.toUpperCase())) {
-                    tableInfo.setNeedResultRefactor(true);
-                }
+            boolean overrideColumn = tableColumn != null && !("".equals(tableColumn.value()));
+            String columnName = overrideColumn ? tableColumn.value() : ColumnUtils.camelCaseToUnderscore(fieldName);
+            if (overrideColumn) {
+                tableInfo.setOverrideColumn(true);
             }
-            resultList.add(new Result(fieldName, columnName));
+            resultList.add(new Result(fieldName, columnName, overrideColumn));
 
             //覆盖默认主键
             if (tableColumn != null && tableColumn.primaryKey()) {

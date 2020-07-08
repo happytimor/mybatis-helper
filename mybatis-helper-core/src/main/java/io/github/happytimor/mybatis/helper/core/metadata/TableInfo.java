@@ -28,7 +28,7 @@ public class TableInfo {
     /**
      * 需要做映射干预
      */
-    private boolean needResultRefactor;
+    private boolean overrideColumn;
     /**
      * 是否分表, user_01,user_02
      */
@@ -94,11 +94,11 @@ public class TableInfo {
         this.multipleTableConnector = multipleTableConnector;
     }
 
-    public boolean isNeedResultRefactor() {
-        return needResultRefactor;
+    public boolean isOverrideColumn() {
+        return overrideColumn;
     }
 
-    public void setNeedResultRefactor(boolean needResultRefactor) {
-        this.needResultRefactor = needResultRefactor;
+    public void setOverrideColumn(boolean overrideColumn) {
+        this.overrideColumn = overrideColumn;
     }
 }

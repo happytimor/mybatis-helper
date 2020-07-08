@@ -31,8 +31,9 @@ public class GenerateService {
         this.userService.batchInsert(list);
         Number insertCount = this.userService.selectCount(new SelectWrapper<User>().eq(User::getFlag, flag));
         assert insertCount.intValue() == count;
+        List<User> userListWithId = this.userService.selectList(new SelectWrapper<User>().eq(User::getFlag, flag));
         try {
-            generateInterfaceInterface.test(flag, list);
+            generateInterfaceInterface.test(flag, userListWithId);
         } finally {
             this.userService.delete(new DeleteWrapper<User>().eq(User::getFlag, flag));
             Number existsCount = this.userService.selectCount(new SelectWrapper<User>().eq(User::getFlag, flag));

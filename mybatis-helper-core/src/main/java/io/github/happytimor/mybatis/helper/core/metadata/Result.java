@@ -25,6 +25,11 @@ public class Result {
      */
     private JdbcType jdbcType;
 
+    /**
+     * 重新分配字段名
+     */
+    private boolean overrideColumn;
+
     public Result() {
 
     }
@@ -32,6 +37,12 @@ public class Result {
     public Result(String property, String column) {
         this.property = property;
         this.column = column;
+    }
+
+    public Result(String property, String column, boolean overrideColumn) {
+        this.property = property;
+        this.column = column;
+        this.overrideColumn = overrideColumn;
     }
 
     public String getProperty() {
@@ -64,5 +75,13 @@ public class Result {
 
     public void setJdbcType(JdbcType jdbcType) {
         this.jdbcType = jdbcType;
+    }
+
+    public boolean isOverrideColumn() {
+        return overrideColumn;
+    }
+
+    public void setOverrideColumn(boolean overrideColumn) {
+        this.overrideColumn = overrideColumn;
     }
 }
