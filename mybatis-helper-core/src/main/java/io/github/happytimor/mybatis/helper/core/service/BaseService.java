@@ -229,7 +229,7 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * 单值查询
      *
      * @param selectWrapper 条件组合
-     * @param <R>           动态返回对象列席
+     * @param <R>           动态返回对象类型
      * @return 返回对象
      */
     public <R> R selectSingleValue(AbstractWrapper<T> selectWrapper) {

@@ -13,7 +13,7 @@ public class UserUid {
     @TableColumn(primaryKey = true, value = "uid")
     private Integer uid;
     private String name;
-    @TableColumn(value = "abc")
+    @TableColumn(value = "greater_then_60s_a_b_c_3_A_NN_axiba")
     private String strangeName;
     private Integer age;
     private Boolean married;

@@ -1,6 +1,7 @@
 package io.github.happytimor.mybatis.helper.core.util;
 
 import io.github.happytimor.mybatis.helper.core.common.Constants;
+import io.github.happytimor.mybatis.helper.core.common.LambdaColumn;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
@@ -121,8 +122,8 @@ public class ColumnUtils {
      * @return 下划线名称
      */
     public static String camelCaseToUnderscore(ColumnFunction<?, ?> column) {
-        String fieldName = getFieldName(column);
-        return camelCaseToUnderscore(fieldName);
+        LambdaColumn lambdaColumn = getFieldNameColumn(column);
+        return lambdaColumn.isOverrided() ? lambdaColumn.getName() : camelCaseToUnderscore(lambdaColumn.getName());
     }
 
     /**
@@ -132,6 +133,10 @@ public class ColumnUtils {
      * @return 字段名称
      */
     public static String getFieldName(ColumnFunction<?, ?> column) {
+        return getFieldNameColumn(column).getName();
+    }
+
+    public static LambdaColumn getFieldNameColumn(ColumnFunction<?, ?> column) {
         try {
             Method method = column.getClass().getDeclaredMethod("writeReplace");
             method.setAccessible(Boolean.TRUE);
@@ -141,9 +146,10 @@ public class ColumnUtils {
             String fieldName = Introspector.decapitalize(getter.replace(prefix, ""));
             String implClass = serializedLambda.getImplClass();
             if (!Constants.COLUMN_RELATION.containsKey(implClass)) {
-                return fieldName;
+                return new LambdaColumn(fieldName);
             }
-            return Constants.COLUMN_RELATION.get(implClass).getOrDefault(fieldName, fieldName);
+            String reflectColumn = Constants.COLUMN_RELATION.get(implClass).get(fieldName);
+            return new LambdaColumn(reflectColumn == null ? fieldName : reflectColumn, reflectColumn != null);
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
