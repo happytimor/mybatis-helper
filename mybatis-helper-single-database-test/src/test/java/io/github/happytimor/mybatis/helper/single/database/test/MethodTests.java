@@ -1,6 +1,5 @@
 package io.github.happytimor.mybatis.helper.single.database.test;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
@@ -10,6 +9,8 @@ import io.github.happytimor.mybatis.helper.single.database.test.service.Generate
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @SpringBootTest
 public class MethodTests {
 
+    private final static Logger logger = LoggerFactory.getLogger(MethodTests.class);
     @Resource
     private GenerateService generateService;
 
@@ -260,20 +262,28 @@ public class MethodTests {
     @Test
     public void selectObjectList() {
         generateService.generateBatch(1000, (flag, userList) -> {
-            //对生成的数据按照年龄进行分组, 为后续比对做准备
-            Map<Integer, List<User>> ageMap = userList.stream().collect(Collectors.groupingBy(User::getAge));
-            List<AgeInfo> ageInfoList = userService.selectObjectList(AgeInfo.class, new SelectWrapper<User>().select(User::getAge, SqlFunction.count(User::getAge, "count"))
+            Map<Integer, User> userMap = userList.stream().collect(Collectors.toMap(User::getId, x -> x));
+            List<User> objectList = userService.selectObjectList(User.class, new SelectWrapper<User>()
                     .eq(User::getFlag, flag)
-                    .groupBy(User::getAge)
             );
-
-            //数据校验
-            for (AgeInfo ageInfo : ageInfoList) {
-                assert ageMap.get(ageInfo.getAge()).size() == ageInfo.getCount();
+            for (User user : objectList) {
+                assert user.equals(userMap.get(user.getId()));
             }
         });
     }
 
+    @Test
+    public void selectObject() {
+        generateService.generateBatch(1000, (flag, userList) -> {
+            for (User user : userList) {
+                User object = userService.selectObject(User.class, new SelectWrapper<User>()
+                        .eq(User::getFlag, flag)
+                        .eq(User::getId, user.getId())
+                );
+                assert user.equals(object);
+            }
+        });
+    }
 
     /**
      * 分页测试

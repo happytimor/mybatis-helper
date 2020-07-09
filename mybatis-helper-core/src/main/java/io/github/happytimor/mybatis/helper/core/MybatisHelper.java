@@ -50,7 +50,7 @@ public class MybatisHelper implements ApplicationContextAware {
     /**
      * 待注入通用方法
      */
-    private List<AbstractMethod> methodList = Arrays.asList(
+    private final List<AbstractMethod> methodList = Arrays.asList(
             new Insert(),
             new BatchInsert(),
 
@@ -77,7 +77,7 @@ public class MybatisHelper implements ApplicationContextAware {
     /**
      * 无主键mapper跳过方法
      */
-    private List<String> skipMethodListForNoPrimaryKeyMapper = Arrays.asList(
+    private final List<String> skipMethodListForNoPrimaryKeyMapper = Arrays.asList(
             DeleteById.class.getSimpleName(),
             DeleteByIdList.class.getSimpleName(),
             UpdateById.class.getSimpleName(),
@@ -133,9 +133,9 @@ public class MybatisHelper implements ApplicationContextAware {
             sqlSessionFactory.getConfiguration().setMapUnderscoreToCamelCase(this.config.isMapUnderscoreToCamelCase());
         }
 
-        Set<Class> mapperClassList = this.parseMapper(mapperSearchPath);
+        Set<Class<?>> mapperClassList = this.parseMapper(mapperSearchPath);
         Set<String> registed = new HashSet<>();
-        for (Class mapperClass : mapperClassList) {
+        for (Class<?> mapperClass : mapperClassList) {
             if (registed.contains(mapperClass.getName())) {
                 continue;
             }
@@ -150,8 +150,8 @@ public class MybatisHelper implements ApplicationContextAware {
      * @param mapperSearchPath mapper class扫描路径
      * @return 继承了BaseMapper的接口列表
      */
-    private Set<Class> parseMapper(String mapperSearchPath) throws IOException {
-        Set<Class> classNameSet = new HashSet<>();
+    private Set<Class<?>> parseMapper(String mapperSearchPath) throws IOException {
+        Set<Class<?>> classNameSet = new HashSet<>();
         Resource[] resources = new PathMatchingResourcePatternResolver().getResources(mapperSearchPath);
         for (Resource resource : resources) {
             try {
@@ -187,7 +187,7 @@ public class MybatisHelper implements ApplicationContextAware {
         boolean isNoPrimaryKeyMapper = NoPrimaryKeyMapper.class.isAssignableFrom(mapperClass);
 
         Collection<String> mappedStatementNames = mapperBuilderAssistant.getConfiguration().getMappedStatementNames();
-        TableInfo tableInfo = parseTableInfo(modelClass, !isNoPrimaryKeyMapper);
+        TableInfo tableInfo = this.parseTableInfo(modelClass, !isNoPrimaryKeyMapper);
         tableInfo.setMultipleTable(MultipleTableMapper.class.isAssignableFrom(mapperClass));
         mapperBuilderAssistant.setCurrentNamespace(mapperClass.getName());
 

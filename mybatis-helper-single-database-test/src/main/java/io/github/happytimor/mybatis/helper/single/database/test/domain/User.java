@@ -5,7 +5,6 @@ import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Objects;
 
 /**
@@ -14,7 +13,7 @@ import java.util.Objects;
 public class User {
     private Integer id;
     private String name;
-    @TableColumn(value = "abc")
+    @TableColumn(value = "greater_then_60s_a_b_c_3_A_NN_axiba")
     private String strangeName;
     private Integer age;
     private Integer nullableAge;
