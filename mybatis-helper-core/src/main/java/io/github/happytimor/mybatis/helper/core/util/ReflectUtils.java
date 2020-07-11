@@ -6,8 +6,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +28,21 @@ public class ReflectUtils {
         try {
             if (map == null || map.isEmpty()) {
                 return null;
+            }
+            if (Integer.class.getName().equals(clz.getName())
+                    || String.class.getName().equals(clz.getName())
+                    || Long.class.getName().equals(clz.getName())
+                    || Double.class.getName().equals(clz.getName())
+                    || Float.class.getName().equals(clz.getName())
+                    || Short.class.getName().equals(clz.getName())
+                    || Number.class.getName().equals(clz.getName())
+                    || BigDecimal.class.getName().equals(clz.getName())
+                    || Date.class.getName().equals(clz.getName())
+                    || LocalDate.class.getName().equals(clz.getName())
+                    || Timestamp.class.getName().equals(clz.getName())
+                    || LocalDateTime.class.getName().equals(clz.getName())
+                    || Boolean.class.getName().equals(clz.getName())) {
+                return (M) convert(map.values().toArray()[0], clz);
             }
             Map<String, Object> extraMap = new HashMap<>();
             for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -52,11 +67,7 @@ public class ReflectUtils {
                 }
                 Object object = map.get(field.getName());
                 Object returnObject = (object != null) ? object : extraMap.get(field.getName());
-                if (returnObject == null) {
-                    field.set(obj, null);
-                    continue;
-                }
-                field.set(obj, (returnObject.getClass() == field.getType()) ? returnObject : convert(returnObject, field.getType()));
+                field.set(obj, convert(returnObject, field.getType()));
             }
             return obj;
         } catch (Exception e) {
@@ -65,6 +76,12 @@ public class ReflectUtils {
     }
 
     public static Object convert(Object returnObject, Class<?> type) {
+        if (returnObject == null) {
+            return null;
+        }
+        if (returnObject.getClass() == type) {
+            return returnObject;
+        }
         if (returnObject.getClass() == java.lang.Long.class && type == java.lang.Integer.class) {
             return ((Long) returnObject).intValue();
         }

@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -270,6 +271,27 @@ public class MethodTests {
             for (User user : objectList) {
                 assert user.equals(userMap.get(user.getId()));
             }
+        });
+
+        generateService.generateBatch(1000, (flag, userList) -> {
+            Map<Integer, User> userMap = userList.stream().collect(Collectors.toMap(User::getId, x -> x));
+            List<Integer> integerList = userService.selectObjectList(Integer.class, new SelectWrapper<User>()
+                    .select(User::getAge)
+                    .eq(User::getFlag, flag)
+            );
+            assert integerList.size() == 1000;
+
+            List<String> stringList = userService.selectObjectList(String.class, new SelectWrapper<User>()
+                    .select(User::getName)
+                    .eq(User::getFlag, flag)
+            );
+            assert stringList.size() == 1000;
+
+            List<LocalDateTime> localDateTimeList = userService.selectObjectList(LocalDateTime.class, new SelectWrapper<User>()
+                    .select(User::getLastLoginTime)
+                    .eq(User::getFlag, flag)
+            );
+            assert localDateTimeList.size() == 1000;
         });
     }
 
