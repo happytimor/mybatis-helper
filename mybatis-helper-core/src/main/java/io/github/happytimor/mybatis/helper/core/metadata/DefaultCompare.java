@@ -579,6 +579,27 @@ public interface DefaultCompare<Children, Column extends ColumnFunction<?, ?>> e
     }
 
     /**
+     * isEmpty method(eg: where `name` = '')
+     *
+     * @param column lambda column name
+     * @return chain object
+     */
+    default Children isEmpty(Column column) {
+        return isEmpty(true, column);
+    }
+
+    /**
+     * isNotEmpty method(eg: where `name` != '')
+     *
+     * @param column lambda column name
+     * @return chain object
+     */
+    default Children isNotEmpty(Column column) {
+        return isNotEmpty(true, column);
+    }
+
+
+    /**
      * in method(eg: where `id` in (1, 2, 3, 4))
      *
      * @param column lambda column name

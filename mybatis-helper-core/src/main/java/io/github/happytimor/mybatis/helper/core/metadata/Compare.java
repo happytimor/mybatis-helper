@@ -21,8 +21,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * gt method for Number(eg: where `id` > 1)
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children gt(boolean execute, Column column, Number value);
@@ -31,8 +31,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * gt method for String
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children gt(boolean execute, Column column, String value);
@@ -41,8 +41,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * gt method for Date
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children gt(boolean execute, Column column, Date value);
@@ -51,8 +51,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * gt method for LocalDate
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children gt(boolean execute, Column column, LocalDate value);
@@ -61,8 +61,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * gt method for LocalDateTime
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children gt(boolean execute, Column column, LocalDateTime value);
@@ -71,8 +71,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * gt method for Column(eg: where `grade_of_english` > `grade_of_math`)
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children gt(boolean execute, Column column, Column value);
@@ -80,9 +80,9 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     /**
      * gt method for nested function
      *
-     * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested function
+     * @param execute  true: execute the method, false: skip execution
+     * @param column   lambda column name
+     * @param function nested function
      * @return chain object
      */
     Children gt(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
@@ -91,8 +91,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ge method for Number(eg: where `id` >= 1)
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ge(boolean execute, Column column, Number value);
@@ -101,8 +101,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ge method for String
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ge(boolean execute, Column column, String value);
@@ -111,8 +111,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ge method for Date
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ge(boolean execute, Column column, Date value);
@@ -121,8 +121,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ge method for LocalDate
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ge(boolean execute, Column column, LocalDate value);
@@ -131,8 +131,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ge method for LocalDateTime
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ge(boolean execute, Column column, LocalDateTime value);
@@ -141,8 +141,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ge method for Column
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ge(boolean execute, Column column, Column value);
@@ -150,9 +150,9 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     /**
      * ge method for nested function
      *
-     * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested function
+     * @param execute  true: execute the method, false: skip execution
+     * @param column   lambda column name
+     * @param function nested function
      * @return chain object
      */
     Children ge(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
@@ -161,8 +161,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * eq method for Number(eg: where `id` = 1)
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children eq(boolean execute, Column column, Number value);
@@ -171,8 +171,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * eq method for Boolean
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children eq(boolean execute, Column column, Boolean value);
@@ -181,8 +181,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * eq method for String
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children eq(boolean execute, Column column, String value);
@@ -191,8 +191,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * eq method for Date
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children eq(boolean execute, Column column, Date value);
@@ -201,8 +201,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * eq method for LocalDate
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children eq(boolean execute, Column column, LocalDate value);
@@ -211,8 +211,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * eq method for LocalDateTime
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children eq(boolean execute, Column column, LocalDateTime value);
@@ -221,8 +221,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * eq method for Column
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children eq(boolean execute, Column column, Column value);
@@ -230,9 +230,9 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     /**
      * eq method for nested function
      *
-     * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested function
+     * @param execute  true: execute the method, false: skip execution
+     * @param column   lambda column name
+     * @param function nested function
      * @return chain object
      */
     Children eq(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
@@ -241,8 +241,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * le method for Number(eg: where `id` <= 1)
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children le(boolean execute, Column column, Number value);
@@ -251,8 +251,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * le method for String
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children le(boolean execute, Column column, String value);
@@ -261,8 +261,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * le method for Date
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children le(boolean execute, Column column, Date value);
@@ -271,8 +271,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * le method for LocalDate
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children le(boolean execute, Column column, LocalDate value);
@@ -281,8 +281,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * le method for LocalDateTime
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children le(boolean execute, Column column, LocalDateTime value);
@@ -291,8 +291,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * le method for Column
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children le(boolean execute, Column column, Column value);
@@ -300,9 +300,9 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     /**
      * le method for nested function
      *
-     * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested function
+     * @param execute  true: execute the method, false: skip execution
+     * @param column   lambda column name
+     * @param function nested function
      * @return chain object
      */
     Children le(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
@@ -311,8 +311,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * lt method for Number(eg: where `id` < 1)
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children lt(boolean execute, Column column, Number value);
@@ -321,8 +321,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * lt method for String
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children lt(boolean execute, Column column, String value);
@@ -331,8 +331,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * lt method for Date
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children lt(boolean execute, Column column, Date value);
@@ -341,8 +341,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * lt method for LocalDate
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children lt(boolean execute, Column column, LocalDate value);
@@ -351,8 +351,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * lt method for LocalDateTime
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children lt(boolean execute, Column column, LocalDateTime value);
@@ -361,8 +361,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * lt method for Column
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children lt(boolean execute, Column column, Column value);
@@ -370,9 +370,9 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     /**
      * lt method for nested function
      *
-     * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested function
+     * @param execute  true: execute the method, false: skip execution
+     * @param column   lambda column name
+     * @param function nested function
      * @return chain object
      */
     Children lt(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
@@ -382,8 +382,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ne method(eg: where `id` <> 1)
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ne(boolean execute, Column column, Number value);
@@ -392,8 +392,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ne method for String
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ne(boolean execute, Column column, String value);
@@ -402,8 +402,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ne method for Date
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ne(boolean execute, Column column, Date value);
@@ -412,8 +412,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ne method for LocalDate
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ne(boolean execute, Column column, LocalDate value);
@@ -422,8 +422,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ne method for LocalDateTime
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ne(boolean execute, Column column, LocalDateTime value);
@@ -432,8 +432,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * ne method for Column
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children ne(boolean execute, Column column, Column value);
@@ -441,9 +441,9 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     /**
      * ne method for nested function
      *
-     * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested function
+     * @param execute  true: execute the method, false: skip execution
+     * @param column   lambda column name
+     * @param function nested function
      * @return chain object
      */
     Children ne(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
@@ -452,8 +452,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * like method(eg: where `name` like '%zhangsan%')
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children like(boolean execute, Column column, String value);
@@ -462,8 +462,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * like left method(eq: where `name` like 'zhangsan%')
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children likeLeft(boolean execute, Column column, String value);
@@ -472,8 +472,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * like right method(eq: where `name` like '%zhangsan')
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children likeRight(boolean execute, Column column, String value);
@@ -482,8 +482,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * not like method(eq: where `name` not like '%zhangsan%')
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param value     given object
+     * @param column  lambda column name
+     * @param value   given object
      * @return chain object
      */
     Children notLike(boolean execute, Column column, String value);
@@ -492,9 +492,9 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * between method(eg: where `age` between 20 and 30)
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param start     start value
-     * @param end       end value
+     * @param column  lambda column name
+     * @param start   start value
+     * @param end     end value
      * @return chain object
      */
     Children between(boolean execute, Column column, Number start, Number end);
@@ -503,9 +503,9 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * not between method(eg: where `age` not between 20 and 30)
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param start     start value
-     * @param end       end value
+     * @param column  lambda column name
+     * @param start   start value
+     * @param end     end value
      * @return chain object
      */
     Children notBetween(boolean execute, Column column, Number start, Number end);
@@ -514,7 +514,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * isNull method(eg: where `age` is null)
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
+     * @param column  lambda column name
      * @return chain object
      */
     Children isNull(boolean execute, Column column);
@@ -523,17 +523,35 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * isNotNull method(eg: where `age` is not null)
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
+     * @param column  lambda column name
      * @return chain object
      */
     Children isNotNull(boolean execute, Column column);
 
     /**
+     * isEmpty method(eg: where `name` = '')
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column  lambda column name
+     * @return chain object
+     */
+    Children isEmpty(boolean execute, Column column);
+
+    /**
+     * isNotEmpty method(eg: where `name` != '')
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column  lambda column name
+     * @return chain object
+     */
+    Children isNotEmpty(boolean execute, Column column);
+
+    /**
      * in method(eg: where `id` in (1, 2, 3, 4))
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param values    given collection
+     * @param column  lambda column name
+     * @param values  given collection
      * @return chain object
      */
     Children in(boolean execute, Column column, Collection<?> values);
@@ -542,9 +560,9 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     /**
      * in nested method(eg: where `id` in (select `id` from user where age  > 20 ))
      *
-     * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested expression
+     * @param execute  true: execute the method, false: skip execution
+     * @param column   lambda column name
+     * @param function nested expression
      * @return chain object
      */
     Children in(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
@@ -553,8 +571,8 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * not in method(eg: where `id` not in (1, 2, 3, 4))
      *
      * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param values    given collection
+     * @param column  lambda column name
+     * @param values  given collection
      * @return chain object
      */
     Children notIn(boolean execute, Column column, Collection<?> values);
@@ -562,9 +580,9 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     /**
      * not in nested method(eg: where `id` not in (select `id` from user where age  > 20 ))
      *
-     * @param execute true: execute the method, false: skip execution
-     * @param column    lambda column name
-     * @param function  nested expression
+     * @param execute  true: execute the method, false: skip execution
+     * @param column   lambda column name
+     * @param function nested expression
      * @return chain object
      */
     Children notIn(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);

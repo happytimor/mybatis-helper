@@ -465,6 +465,22 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> isEmpty(boolean execute, ColumnFunction<T, ?> column) {
+        if (execute) {
+            conditionList.add(new Condition(this.getColumnName(column) + " = ''"));
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> isNotEmpty(boolean execute, ColumnFunction<T, ?> column) {
+        if (execute) {
+            conditionList.add(new Condition(this.getColumnName(column) + " != ''"));
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> in(boolean execute, ColumnFunction<T, ?> column, Collection<?> values) {
         if (execute) {
             this.nestedExpression(column, "IN", values);
