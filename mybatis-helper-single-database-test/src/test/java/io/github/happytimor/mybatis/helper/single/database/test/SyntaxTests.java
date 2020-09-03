@@ -9,12 +9,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -260,6 +258,53 @@ public class SyntaxTests {
         });
     }
 
+    /**
+     * 空字符串
+     */
+    @Test
+    public void isEmpty() {
+        this.generateService.generateBatch((flag, userList) -> {
+            Random random = new Random();
+            long emptyCount = 0L;
+            for (User user : userList) {
+                boolean setEmtpy = random.nextBoolean();
+                if (setEmtpy) {
+                    emptyCount++;
+                }
+                user.setName(setEmtpy ? "" : user.getName());
+            }
+            this.userService.batchUpdateById(userList);
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .isEmpty(User::getName)
+                    .eq(User::getFlag, flag)
+            );
+            assert Objects.equals(emptyCount, dbCount);
+        });
+    }
+
+    /**
+     * 非空字符串
+     */
+    @Test
+    public void isNotEmpty() {
+        this.generateService.generateBatch((flag, userList) -> {
+            Random random = new Random();
+            long notEmptyCount = 0L;
+            for (User user : userList) {
+                boolean setEmtpy = random.nextBoolean();
+                user.setName(setEmtpy ? "" : user.getName());
+                if (!StringUtils.isEmpty(user.getName())) {
+                    notEmptyCount++;
+                }
+            }
+            this.userService.batchUpdateById(userList);
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .isNotEmpty(User::getName)
+                    .eq(User::getFlag, flag)
+            );
+            assert Objects.equals(notEmptyCount, dbCount);
+        });
+    }
 
     /**
      * 嵌套in查询
