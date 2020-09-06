@@ -1,7 +1,9 @@
 package io.github.happytimor.mybatis.helper.single.database.test;
 
+import io.github.happytimor.mybatis.helper.core.common.Operation;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
@@ -78,6 +80,9 @@ public class SyntaxTests {
         });
     }
 
+    /**
+     * eq嵌套查询
+     */
     @Test
     public void eqNested() {
         this.generateService.generateBatch((flag, userList) -> {
@@ -92,6 +97,29 @@ public class SyntaxTests {
                     .eq(User::getFlag, flag)
             );
             assert Objects.equals(count, dbCount);
+        });
+    }
+
+    @Test
+    public void columnOperation() {
+        this.generateService.generateBatch((flag, userList) -> {
+            for (User user : userList) {
+                user.setUserGrade(0);
+            }
+            this.userService.batchUpdateById(userList);
+            this.userService.update(new UpdateWrapper<User>()
+                    .set(User::getUserGrade, new Operation<User>().plus(User::getGradeOfMath, User::getGradeOfScience).minus(10).plus(15))
+                    .between(User::getAge, 15, 30)
+            );
+
+            List<User> dbUserList = this.userService.selectList(new SelectWrapper<User>().eq(User::getFlag, flag));
+            for (User user : dbUserList) {
+                if (user.getAge() >= 15 && user.getAge() <= 30) {
+                    assert Objects.equals(user.getUserGrade(), user.getGradeOfMath() + user.getGradeOfScience() - 10 + 15);
+                } else {
+                    assert Objects.equals(user.getUserGrade(), 0);
+                }
+            }
         });
     }
 

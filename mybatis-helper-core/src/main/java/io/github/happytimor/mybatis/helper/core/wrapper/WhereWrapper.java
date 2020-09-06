@@ -22,6 +22,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
 
 
     public WhereWrapper() {
+        
     }
 
     public WhereWrapper(Map<String, Object> paramNameValuePairs, AtomicInteger counter) {

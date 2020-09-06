@@ -74,6 +74,8 @@ public class GenerateService {
                 .minusSeconds(random.nextInt(60))
                 .withNano(0));
         user.setUserGrade(random.nextInt(700));
+        user.setGradeOfMath(random.nextInt(100));
+        user.setGradeOfScience(random.nextInt(100));
         user.setFlag(flag);
         return user;
     }

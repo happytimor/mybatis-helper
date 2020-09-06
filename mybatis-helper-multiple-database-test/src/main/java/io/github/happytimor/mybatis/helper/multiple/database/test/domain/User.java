@@ -15,6 +15,8 @@ public class User implements Serializable {
     private Integer age;
     private Boolean married;
     private Integer userGrade;
+    private Integer gradeOfMath;
+    private Integer gradeOfScience;
     private LocalDateTime lastLoginTime;
 
     public User() {
@@ -62,6 +64,22 @@ public class User implements Serializable {
 
     public void setUserGrade(Integer userGrade) {
         this.userGrade = userGrade;
+    }
+
+    public Integer getGradeOfMath() {
+        return gradeOfMath;
+    }
+
+    public void setGradeOfMath(Integer gradeOfMath) {
+        this.gradeOfMath = gradeOfMath;
+    }
+
+    public Integer getGradeOfScience() {
+        return gradeOfScience;
+    }
+
+    public void setGradeOfScience(Integer gradeOfScience) {
+        this.gradeOfScience = gradeOfScience;
     }
 
     public LocalDateTime getLastLoginTime() {

@@ -16,6 +16,8 @@ public class UserNoKey {
     private Integer age;
     private Boolean married;
     private Integer userGrade;
+    private Integer gradeOfMath;
+    private Integer gradeOfScience;
     private LocalDateTime lastLoginTime;
 
     public UserNoKey() {
@@ -31,6 +33,14 @@ public class UserNoKey {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStrangeName() {
+        return strangeName;
+    }
+
+    public void setStrangeName(String strangeName) {
+        this.strangeName = strangeName;
     }
 
     public Integer getAge() {
@@ -57,19 +67,27 @@ public class UserNoKey {
         this.userGrade = userGrade;
     }
 
+    public Integer getGradeOfMath() {
+        return gradeOfMath;
+    }
+
+    public void setGradeOfMath(Integer gradeOfMath) {
+        this.gradeOfMath = gradeOfMath;
+    }
+
+    public Integer getGradeOfScience() {
+        return gradeOfScience;
+    }
+
+    public void setGradeOfScience(Integer gradeOfScience) {
+        this.gradeOfScience = gradeOfScience;
+    }
+
     public LocalDateTime getLastLoginTime() {
         return lastLoginTime;
     }
 
     public void setLastLoginTime(LocalDateTime lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
-    }
-
-    public String getStrangeName() {
-        return strangeName;
-    }
-
-    public void setStrangeName(String strangeName) {
-        this.strangeName = strangeName;
     }
 }

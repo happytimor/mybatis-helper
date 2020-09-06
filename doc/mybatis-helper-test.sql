@@ -13,6 +13,8 @@ CREATE TABLE `user` (
   `nullable_age` int(11) DEFAULT '-1',
   `married` tinyint(4) DEFAULT '0',
   `user_grade` int(11) DEFAULT '0',
+  `grade_of_math` int(11) DEFAULT '0',
+  `grade_of_science` int(11) DEFAULT '0',
   `last_login_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `flag` varchar(64) DEFAULT '',
   PRIMARY KEY (`id`)
@@ -27,6 +29,8 @@ CREATE TABLE `user_info` (
   `nullable_age` int(11) DEFAULT '-1',
   `married` tinyint(4) DEFAULT '0',
   `user_grade` int(11) DEFAULT '0',
+  `grade_of_math` int(11) DEFAULT '0',
+  `grade_of_science` int(11) DEFAULT '0',
   `last_login_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `flag` varchar(64) DEFAULT '',
   PRIMARY KEY (`id`)
@@ -41,6 +45,8 @@ CREATE TABLE `user_01` (
   `nullable_age` int(11) DEFAULT '-1',
   `married` tinyint(4) DEFAULT '0',
   `user_grade` int(11) DEFAULT '0',
+  `grade_of_math` int(11) DEFAULT '0',
+  `grade_of_science` int(11) DEFAULT '0',
   `last_login_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `flag` varchar(64) DEFAULT '',
   PRIMARY KEY (`id`)
@@ -55,6 +61,8 @@ CREATE TABLE `user_uid` (
   `nullable_age` int(11) DEFAULT '-1',
   `married` tinyint(4) DEFAULT '0',
   `user_grade` int(11) DEFAULT '0',
+  `grade_of_math` int(11) DEFAULT '0',
+  `grade_of_science` int(11) DEFAULT '0',
   `last_login_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `flag` varchar(64) DEFAULT '',
   PRIMARY KEY (`uid`)
@@ -68,6 +76,8 @@ CREATE TABLE `user_no_key` (
   `nullable_age` int(11) DEFAULT '-1',
   `married` tinyint(4) DEFAULT '0',
   `user_grade` int(11) DEFAULT '0',
+  `grade_of_math` int(11) DEFAULT '0',
+  `grade_of_science` int(11) DEFAULT '0',
   `last_login_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `flag` varchar(64) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

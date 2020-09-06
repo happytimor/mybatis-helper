@@ -19,6 +19,8 @@ public class User {
     private Integer nullableAge;
     private Boolean married;
     private Integer userGrade;
+    private Integer gradeOfMath;
+    private Integer gradeOfScience;
     private LocalDateTime lastLoginTime;
     /**
      * 删除标记位
@@ -84,6 +86,14 @@ public class User {
         this.name = name;
     }
 
+    public String getStrangeName() {
+        return strangeName;
+    }
+
+    public void setStrangeName(String strangeName) {
+        this.strangeName = strangeName;
+    }
+
     public Integer getAge() {
         return age;
     }
@@ -116,6 +126,22 @@ public class User {
         this.userGrade = userGrade;
     }
 
+    public Integer getGradeOfMath() {
+        return gradeOfMath;
+    }
+
+    public void setGradeOfMath(Integer gradeOfMath) {
+        this.gradeOfMath = gradeOfMath;
+    }
+
+    public Integer getGradeOfScience() {
+        return gradeOfScience;
+    }
+
+    public void setGradeOfScience(Integer gradeOfScience) {
+        this.gradeOfScience = gradeOfScience;
+    }
+
     public LocalDateTime getLastLoginTime() {
         return lastLoginTime;
     }
@@ -130,13 +156,5 @@ public class User {
 
     public void setFlag(String flag) {
         this.flag = flag;
-    }
-
-    public String getStrangeName() {
-        return strangeName;
-    }
-
-    public void setStrangeName(String strangeName) {
-        this.strangeName = strangeName;
     }
 }
