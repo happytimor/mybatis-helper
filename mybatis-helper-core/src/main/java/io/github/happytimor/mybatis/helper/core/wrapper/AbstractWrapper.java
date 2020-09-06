@@ -23,6 +23,15 @@ public abstract class AbstractWrapper<T> {
     protected Map<String, Object> paramNameValuePairs;
     protected AtomicInteger counter;
     protected String selectSegment = "*";
+    /**
+     * 排序字段以及排序方式
+     */
+    protected final List<OrderWrapper.Order> orderList = new ArrayList<>();
+
+    /**
+     * limit语句
+     */
+    protected String limit = "";
 
     public AbstractWrapper() {
         this.paramNameValuePairs = new HashMap<>();
@@ -36,6 +45,27 @@ public abstract class AbstractWrapper<T> {
      */
     public String getWhereSegment() {
         return getWhereSegment(true);
+    }
+
+    /**
+     * 获取排序sql
+     *
+     * @return 排序sql
+     */
+    public String getOrderSegment() {
+        if (orderList.isEmpty()) {
+            return "";
+        }
+        StringBuilder stringBuffer = new StringBuilder();
+        stringBuffer.append("ORDER BY ");
+        for (int i = 0; i < orderList.size() - 1; i++) {
+            OrderWrapper.Order order = orderList.get(i);
+            stringBuffer.append(order.getColumn()).append(" ").append(order.getOrderType()).append(", ");
+        }
+        OrderWrapper.Order order = orderList.get(orderList.size() - 1);
+        stringBuffer.append(order.getColumn()).append(" ").append(order.getOrderType());
+
+        return stringBuffer.toString();
     }
 
     public String getWhereSegment(boolean hasKeyWord) {
@@ -143,5 +173,14 @@ public abstract class AbstractWrapper<T> {
             columnName = this.wrapperFunctionColumn(columnWrapper.getChildWrapper(), columnName);
         }
         return function + "(" + columnName + ")" + alias;
+    }
+
+    /**
+     * 获取limit sql
+     *
+     * @return limit sql
+     */
+    public final String getLimitSegment() {
+        return limit;
     }
 }

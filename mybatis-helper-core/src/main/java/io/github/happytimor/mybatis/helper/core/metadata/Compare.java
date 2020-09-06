@@ -235,7 +235,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param function nested function
      * @return chain object
      */
-    Children eq(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    Children eqNested(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
      * le method for Number(eg: where `id` <= 1)

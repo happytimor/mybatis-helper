@@ -254,8 +254,8 @@ public interface DefaultCompare<Children, Column extends ColumnFunction<?, ?>> e
      * @param function nested function
      * @return chain object
      */
-    default Children eq(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
-        return eq(true, column, function);
+    default Children eqNested(Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+        return eqNested(true, column, function);
     }
 
     /**

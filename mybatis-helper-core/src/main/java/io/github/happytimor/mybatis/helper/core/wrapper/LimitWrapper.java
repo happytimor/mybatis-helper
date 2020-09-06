@@ -6,10 +6,6 @@ package io.github.happytimor.mybatis.helper.core.wrapper;
  */
 public class LimitWrapper<T> extends AbstractWrapper<T> {
 
-    /**
-     * limit语句
-     */
-    private String limit = "";
 
     /**
      * limit
@@ -62,14 +58,4 @@ public class LimitWrapper<T> extends AbstractWrapper<T> {
         }
         return this;
     }
-
-    /**
-     * 获取limit sql
-     *
-     * @return limit sql
-     */
-    public final String getLimitSegment() {
-        return limit;
-    }
-
 }

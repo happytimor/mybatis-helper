@@ -78,6 +78,23 @@ public class SyntaxTests {
         });
     }
 
+    @Test
+    public void eqNested() {
+        this.generateService.generateBatch((flag, userList) -> {
+            int randomAge = new Random().nextInt(100);
+            long count = userList.stream().filter(user -> user.getAge() == randomAge).count();
+            long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .eqNested(User::getAge, t -> t.applySelectWrapper(User.class)
+                            .select(User::getAge)
+                            .eq(User::getAge, randomAge)
+                            .limit(1)
+                    )
+                    .eq(User::getFlag, flag)
+            );
+            assert Objects.equals(count, dbCount);
+        });
+    }
+
     /**
      * 小于等于
      */

@@ -100,7 +100,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     public WhereWrapper<T> gt(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
         if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
-            this.nestedExpression(column, ">", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
+            this.nestedExpression(column, ">", selectWrapper);
         }
         return this;
     }
@@ -157,7 +157,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     public WhereWrapper<T> ge(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
         if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
-            this.nestedExpression(column, ">=", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
+            this.nestedExpression(column, ">=", selectWrapper);
         }
         return this;
     }
@@ -219,10 +219,10 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
-    public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
+    public WhereWrapper<T> eqNested(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
         if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
-            this.nestedExpression(column, "=", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
+            this.nestedExpression(column, "=", selectWrapper);
         }
         return this;
     }
@@ -279,7 +279,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     public WhereWrapper<T> le(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
         if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
-            this.nestedExpression(column, "<=", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
+            this.nestedExpression(column, "<=", selectWrapper);
         }
         return this;
     }
@@ -336,7 +336,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     public WhereWrapper<T> lt(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
         if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
-            this.nestedExpression(column, "<", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
+            this.nestedExpression(column, "<", selectWrapper);
         }
         return this;
     }
@@ -393,7 +393,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     public WhereWrapper<T> ne(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
         if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
-            this.nestedExpression(column, "<>", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
+            this.nestedExpression(column, "<>", selectWrapper);
         }
         return this;
     }
@@ -492,7 +492,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     public WhereWrapper<T> in(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
         if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
-            this.nestedExpression(column, "IN", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
+            this.nestedExpression(column, "IN", selectWrapper);
         }
         return this;
     }
@@ -521,7 +521,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     public WhereWrapper<T> notIn(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
         if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
-            this.nestedExpression(column, "NOT IN", selectWrapper.getTableName(), selectWrapper.getSelectSegment(), selectWrapper.getWhereSegment());
+            this.nestedExpression(column, "NOT IN", selectWrapper);
         }
         return this;
     }
@@ -550,9 +550,15 @@ public class WhereWrapper<T> extends GroupWrapper<T>
         conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " (" + stringBuilder.toString() + ")"));
     }
 
-    private void nestedExpression(ColumnFunction<T, ?> column, String operator, String innerTableName, String innerColumn, String innerWhereSql) {
+    private void nestedExpression(ColumnFunction<T, ?> column, String operator, AbstractWrapper<?> selectWrapper) {
         String columnName = this.getColumnName(column, true);
-        conditionList.add(new Condition(columnName + " " + operator + " (SELECT " + innerColumn + " FROM `" + innerTableName + "` " + innerWhereSql + ")"));
+        String segment = String.format("%s %s (SELECT %s FROM `%s` %s %s %s)", columnName, operator,
+                selectWrapper.getSelectSegment(),
+                selectWrapper.getTableName(),
+                selectWrapper.getWhereSegment(),
+                selectWrapper.getOrderSegment(),
+                selectWrapper.getLimitSegment());
+        conditionList.add(new Condition(segment));
     }
 
     private void addCondition(ColumnFunction<T, ?> column, String operator, Object value) {

@@ -10,11 +10,6 @@ import java.util.List;
  */
 public class OrderWrapper<T> extends LimitWrapper<T> {
 
-    /**
-     * 排序字段以及排序方式
-     */
-    private final List<Order> orderList = new ArrayList<>();
-
 
     /**
      * 升序
@@ -114,26 +109,6 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
         return this;
     }
 
-    /**
-     * 获取排序sql
-     *
-     * @return 排序sql
-     */
-    public String getOrderSegment() {
-        if (orderList.isEmpty()) {
-            return "";
-        }
-        StringBuilder stringBuffer = new StringBuilder();
-        stringBuffer.append("ORDER BY ");
-        for (int i = 0; i < orderList.size() - 1; i++) {
-            Order order = orderList.get(i);
-            stringBuffer.append(order.getColumn()).append(" ").append(order.getOrderType()).append(", ");
-        }
-        Order order = orderList.get(orderList.size() - 1);
-        stringBuffer.append(order.getColumn()).append(" ").append(order.getOrderType());
-
-        return stringBuffer.toString();
-    }
 
     static class Order {
         /**
