@@ -308,6 +308,18 @@ public class MethodTests {
         });
     }
 
+    @Test
+    public void selectOneOrderBy() {
+        generateService.generateBatch(1000, (flag, userList) -> {
+            userList.sort(Comparator.comparingInt(User::getId));
+            User user = userService.selectOne(new SelectWrapper<User>()
+                    .eq(User::getFlag, flag)
+                    .orderByDesc(User::getId)
+            );
+            assert Objects.equals(user.getId(), userList.get(userList.size() - 1).getId());
+        });
+    }
+
     /**
      * 分页测试
      */

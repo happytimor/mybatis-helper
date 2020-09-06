@@ -68,7 +68,7 @@ public enum SqlMethod {
     /**
      * 查询一条数据
      */
-    SELECT_ONE("selectOne", "只返回一条记录", "<script>\nSELECT %s FROM `%s` %s LIMIT 1\n</script>"),
+    SELECT_ONE("selectOne", "只返回一条记录", "<script>\nSELECT %s FROM `%s` %s %s LIMIT 1\n</script>"),
     /**
      * 直接查询map对象
      */
