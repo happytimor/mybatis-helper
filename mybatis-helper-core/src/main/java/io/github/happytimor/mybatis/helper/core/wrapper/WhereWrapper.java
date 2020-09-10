@@ -22,7 +22,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
 
 
     public WhereWrapper() {
-        
+
     }
 
     public WhereWrapper(Map<String, Object> paramNameValuePairs, AtomicInteger counter) {
@@ -442,6 +442,54 @@ public class WhereWrapper<T> extends GroupWrapper<T>
 
     @Override
     public WhereWrapper<T> notBetween(boolean execute, ColumnFunction<T, ?> column, Number start, Number end) {
+        if (execute) {
+            this.addCondition(column, "NOT BETWEEN", start, "AND", end);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> between(boolean execute, ColumnFunction<T, ?> column, Date start, Date end) {
+        if (execute) {
+            this.addCondition(column, "BETWEEN", start, "AND", end);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> notBetween(boolean execute, ColumnFunction<T, ?> column, Date start, Date end) {
+        if (execute) {
+            this.addCondition(column, "NOT BETWEEN", start, "AND", end);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> between(boolean execute, ColumnFunction<T, ?> column, LocalDate start, LocalDate end) {
+        if (execute) {
+            this.addCondition(column, "BETWEEN", start, "AND", end);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> notBetween(boolean execute, ColumnFunction<T, ?> column, LocalDate start, LocalDate end) {
+        if (execute) {
+            this.addCondition(column, "NOT BETWEEN", start, "AND", end);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> between(boolean execute, ColumnFunction<T, ?> column, LocalDateTime start, LocalDateTime end) {
+        if (execute) {
+            this.addCondition(column, "BETWEEN", start, "AND", end);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> notBetween(boolean execute, ColumnFunction<T, ?> column, LocalDateTime start, LocalDateTime end) {
         if (execute) {
             this.addCondition(column, "NOT BETWEEN", start, "AND", end);
         }

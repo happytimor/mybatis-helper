@@ -559,6 +559,78 @@ public interface DefaultCompare<Children, Column extends ColumnFunction<?, ?>> e
     }
 
     /**
+     * between method(eg: where `age` between 20 and 30)
+     *
+     * @param column lambda column name
+     * @param start  start value
+     * @param end    end value
+     * @return chain object
+     */
+    default Children between(Column column, Date start, Date end) {
+        return between(true, column, start, end);
+    }
+
+    /**
+     * not between method(eg: where `age` not between 20 and 30)
+     *
+     * @param column lambda column name
+     * @param start  start value
+     * @param end    end value
+     * @return chain object
+     */
+    default Children notBetween(Column column, Date start, Date end) {
+        return notBetween(true, column, start, end);
+    }
+
+    /**
+     * between method(eg: where `age` between 20 and 30)
+     *
+     * @param column lambda column name
+     * @param start  start value
+     * @param end    end value
+     * @return chain object
+     */
+    default Children between(Column column, LocalDate start, LocalDate end) {
+        return between(true, column, start, end);
+    }
+
+    /**
+     * not between method(eg: where `age` not between 20 and 30)
+     *
+     * @param column lambda column name
+     * @param start  start value
+     * @param end    end value
+     * @return chain object
+     */
+    default Children notBetween(Column column, LocalDate start, LocalDate end) {
+        return notBetween(true, column, start, end);
+    }
+
+    /**
+     * between method(eg: where `age` between 20 and 30)
+     *
+     * @param column lambda column name
+     * @param start  start value
+     * @param end    end value
+     * @return chain object
+     */
+    default Children between(Column column, LocalDateTime start, LocalDateTime end) {
+        return between(true, column, start, end);
+    }
+
+    /**
+     * not between method(eg: where `age` not between 20 and 30)
+     *
+     * @param column lambda column name
+     * @param start  start value
+     * @param end    end value
+     * @return chain object
+     */
+    default Children notBetween(Column column, LocalDateTime start, LocalDateTime end) {
+        return notBetween(true, column, start, end);
+    }
+
+    /**
      * isNull method(eg: where `age` is null)
      *
      * @param column lambda column name

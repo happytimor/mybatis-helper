@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -241,7 +243,7 @@ public class SyntaxTests {
      * 区间查找
      */
     @Test
-    public void between() {
+    public void betweenNumber() {
         this.generateService.generateBatch((flag, userList) -> {
             int start = new Random().nextInt(50);
             int end = start + new Random().nextInt(50);
@@ -259,7 +261,7 @@ public class SyntaxTests {
      * 反向区间查找
      */
     @Test
-    public void notBetween() {
+    public void notBetweenNumber() {
         this.generateService.generateBatch((flag, userList) -> {
             int start = new Random().nextInt(50);
             int end = start + new Random().nextInt(50);
@@ -270,6 +272,110 @@ public class SyntaxTests {
                     .eq(User::getFlag, flag)
             );
             assert count == dbCount;
+        });
+    }
+
+    /**
+     * 区间查找
+     */
+    @Test
+    public void betweenLocalDateTime() {
+        Random random = new Random();
+        this.generateService.generateBatch((flag, userList) -> {
+            LocalDateTime startDate = LocalDateTime.now()
+                    .minusDays(random.nextInt(30))
+                    .minusHours(random.nextInt(24))
+                    .minusSeconds(random.nextInt(60))
+                    .withNano(0);
+            LocalDateTime endDate = startDate.plusDays(7);
+
+            long count1 = this.userService.selectCount(new SelectWrapper<User>()
+                    .ge(User::getLastLoginTime, startDate)
+                    .le(User::getLastLoginTime, endDate)
+            );
+
+            long count2 = this.userService.selectCount(new SelectWrapper<User>()
+                    .between(User::getLastLoginTime, startDate, endDate)
+                    .eq(User::getFlag, flag)
+            );
+            assert Objects.equals(count1, count2);
+        });
+    }
+
+    /**
+     * 反向区间查找
+     */
+    @Test
+    public void notBetweenLocalDateTime() {
+        Random random = new Random();
+        this.generateService.generateBatch((flag, userList) -> {
+            LocalDateTime startDate = LocalDateTime.now()
+                    .minusDays(random.nextInt(30))
+                    .minusHours(random.nextInt(24))
+                    .minusSeconds(random.nextInt(60))
+                    .withNano(0);
+            LocalDateTime endDate = startDate.plusDays(7);
+
+            long count1 = this.userService.selectCount(new SelectWrapper<User>()
+                    .lt(User::getLastLoginTime, startDate)
+                    .or()
+                    .gt(User::getLastLoginTime, endDate)
+            );
+
+            long count2 = this.userService.selectCount(new SelectWrapper<User>()
+                    .notBetween(User::getLastLoginTime, startDate, endDate)
+                    .eq(User::getFlag, flag)
+            );
+            assert Objects.equals(count1, count2);
+        });
+    }
+
+    /**
+     * 区间查找
+     */
+    @Test
+    public void betweenLocalDate() {
+        Random random = new Random();
+        this.generateService.generateBatch((flag, userList) -> {
+            LocalDate startDate = LocalDate.now()
+                    .minusDays(random.nextInt(30));
+            LocalDate endDate = startDate.plusDays(7);
+
+            long count1 = this.userService.selectCount(new SelectWrapper<User>()
+                    .ge(User::getLastLoginTime, startDate)
+                    .le(User::getLastLoginTime, endDate)
+            );
+
+            long count2 = this.userService.selectCount(new SelectWrapper<User>()
+                    .between(User::getLastLoginTime, startDate, endDate)
+                    .eq(User::getFlag, flag)
+            );
+            assert Objects.equals(count1, count2);
+        });
+    }
+
+    /**
+     * 反向区间查找
+     */
+    @Test
+    public void notBetweenLocalDate() {
+        Random random = new Random();
+        this.generateService.generateBatch((flag, userList) -> {
+            LocalDate startDate = LocalDate.now()
+                    .minusDays(random.nextInt(30));
+            LocalDate endDate = startDate.plusDays(7);
+
+            long count1 = this.userService.selectCount(new SelectWrapper<User>()
+                    .lt(User::getLastLoginTime, startDate)
+                    .or()
+                    .gt(User::getLastLoginTime, endDate)
+            );
+
+            long count2 = this.userService.selectCount(new SelectWrapper<User>()
+                    .notBetween(User::getLastLoginTime, startDate, endDate)
+                    .eq(User::getFlag, flag)
+            );
+            assert Objects.equals(count1, count2);
         });
     }
 

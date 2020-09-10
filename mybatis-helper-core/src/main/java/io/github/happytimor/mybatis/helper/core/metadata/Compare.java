@@ -511,6 +511,72 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children notBetween(boolean execute, Column column, Number start, Number end);
 
     /**
+     * between method(eg: where `birthday` between '1999-01-01 00:00:00' and '1999-12-31 23:59:59')
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column  lambda column name
+     * @param start   start value
+     * @param end     end value
+     * @return chain object
+     */
+    Children between(boolean execute, Column column, Date start, Date end);
+
+    /**
+     * not between method(eg: where `birthday` not between '1999-01-01 00:00:00' and '1999-12-31 23:59:59')
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column  lambda column name
+     * @param start   start value
+     * @param end     end value
+     * @return chain object
+     */
+    Children notBetween(boolean execute, Column column, Date start, Date end);
+
+    /**
+     * between method(eg: where `birthday` between '1999-01-01' and '1999-12-31')
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column  lambda column name
+     * @param start   start value
+     * @param end     end value
+     * @return chain object
+     */
+    Children between(boolean execute, Column column, LocalDate start, LocalDate end);
+
+    /**
+     * not between method(eg: where `birthday` not between '1999-01-01' and '1999-12-31')
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column  lambda column name
+     * @param start   start value
+     * @param end     end value
+     * @return chain object
+     */
+    Children notBetween(boolean execute, Column column, LocalDate start, LocalDate end);
+
+    /**
+     * between method(eg: where `birthday` between '1999-01-01 00:00:00' and '1999-12-31 23:59:59')
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column  lambda column name
+     * @param start   start value
+     * @param end     end value
+     * @return chain object
+     */
+    Children between(boolean execute, Column column, LocalDateTime start, LocalDateTime end);
+
+    /**
+     * not between method(eg: where `birthday` not between '1999-01-01 00:00:00' and '1999-12-31 23:59:59')
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column  lambda column name
+     * @param start   start value
+     * @param end     end value
+     * @return chain object
+     */
+    Children notBetween(boolean execute, Column column, LocalDateTime start, LocalDateTime end);
+
+    /**
      * isNull method(eg: where `age` is null)
      *
      * @param execute true: execute the method, false: skip execution
