@@ -87,3 +87,6 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
 - [本地运行单元测试](http://www.ichenpeng.net/1428013)
 - [注解介绍](http://www.ichenpeng.net/1428014)
 - [更多介绍](api-introduce.md)
+
+## 5.其它
+有问题请发邮件到我的邮箱: ichenpeng@qq.com
