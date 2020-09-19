@@ -31,7 +31,7 @@ public enum SqlMethod {
     /**
      * 更新
      */
-    UPDATE("update", "更新", "<script>\nUPDATE `%s` %s %s\n</script>"),
+    UPDATE("update", "更新", "<script>\nUPDATE `%s` %s %s %s %s\n</script>"),
     /**
      * 根据id更新数据
      */
