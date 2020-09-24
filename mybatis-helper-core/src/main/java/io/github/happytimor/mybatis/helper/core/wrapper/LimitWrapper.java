@@ -14,7 +14,7 @@ public class LimitWrapper<T> extends AbstractWrapper<T> {
      * @param count    条数
      * @return wrapper
      */
-    public final AbstractWrapper<T> limit(int startRow, int count) {
+    public final AbstractWrapper<T> limit(Number startRow, Number count) {
         limit = String.format("LIMIT %s, %s", startRow, count);
         return this;
     }
@@ -27,7 +27,7 @@ public class LimitWrapper<T> extends AbstractWrapper<T> {
      * @param count     条数
      * @return wrapper
      */
-    public final AbstractWrapper<T> limit(boolean execute, int startRow, int count) {
+    public final AbstractWrapper<T> limit(boolean execute, Number startRow, Number count) {
         if (execute) {
             return this.limit(startRow, count);
         }
@@ -40,7 +40,7 @@ public class LimitWrapper<T> extends AbstractWrapper<T> {
      * @param count 条数
      * @return wrapper
      */
-    public final AbstractWrapper<T> limit(int count) {
+    public final AbstractWrapper<T> limit(Number count) {
         limit = String.format("LIMIT %s", count);
         return this;
     }
@@ -52,7 +52,7 @@ public class LimitWrapper<T> extends AbstractWrapper<T> {
      * @param count     条数
      * @return wrapper
      */
-    public final AbstractWrapper<T> limit(boolean execute, int count) {
+    public final AbstractWrapper<T> limit(boolean execute, Number count) {
         if (execute) {
             return this.limit(count);
         }

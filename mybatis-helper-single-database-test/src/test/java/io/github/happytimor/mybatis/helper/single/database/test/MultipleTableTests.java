@@ -300,7 +300,7 @@ public class MultipleTableTests {
         }
         multipleUserService.batchInsert(tableNum, list);
 
-        Page<User> page = multipleUserService.selectPage(tableNum, new Page<>(1, 10), new SelectWrapper<User>()
+        Page<User> page = multipleUserService.selectPage(tableNum, 1, 10, new SelectWrapper<User>()
                 .likeLeft(User::getName, "mybatis-helper-" + now)
         );
         assert page.getRecords().size() == 10 && page.getTotal() == total;

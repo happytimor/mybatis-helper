@@ -3,10 +3,12 @@ package io.github.happytimor.mybatis.helper.single.database.test;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.AgeInfo;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -353,4 +355,42 @@ public class MethodTests {
         });
     }
 
+    @Test
+    public void updateLimit() {
+        this.generateService.generateBatch((flag, userList) -> {
+            int randomSize = new Random().nextInt(userList.size() - 1) + 1;
+            int randomAge = new Random().nextInt(100);
+            this.userService.update(new UpdateWrapper<User>()
+                    .set(User::getAge, randomAge)
+                    .eq(User::getFlag, flag)
+            );
+
+            this.userService.update(new UpdateWrapper<User>()
+                    .set(User::getAge, randomAge + 10)
+                    .eq(User::getFlag, flag)
+                    .limit(randomSize)
+            );
+            Number updateCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .eq(User::getFlag, flag)
+                    .eq(User::getAge, randomAge + 10)
+            );
+            assert Objects.equals(updateCount.intValue(), randomSize);
+        });
+    }
+
+    @Test
+    public void deleteLimit() {
+        this.generateService.generateBatch((flag, userList) -> {
+            int deleteCount = new Random().nextInt(userList.size() - 1) + 1;
+            this.userService.delete(new UpdateWrapper<User>()
+                    .eq(User::getFlag, flag)
+                    .limit(deleteCount)
+            );
+
+            Number restCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .eq(User::getFlag, flag)
+            );
+            assert Objects.equals(restCount.intValue(), userList.size() - deleteCount);
+        });
+    }
 }

@@ -19,7 +19,7 @@ public enum SqlMethod {
     /**
      * 批量删除数据
      */
-    DELETE("delete", "批量删除数据", "<script>\nDELETE FROM `%s` %s\n</script>"),
+    DELETE("delete", "批量删除数据", "<script>\nDELETE FROM `%s` %s %s %s\n</script>"),
     /**
      * 根据id删除数据
      */

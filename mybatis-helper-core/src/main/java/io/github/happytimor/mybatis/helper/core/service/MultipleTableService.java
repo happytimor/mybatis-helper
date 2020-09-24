@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 分表service, 适用于多表，有主键的普通数据库表映射
@@ -151,15 +152,45 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
     }
 
     /**
+     * map查询
+     *
+     * @param selectWrapper 条件组合
+     * @return 返回map
+     */
+    public Map<String, Object> selectMap(String tableNum, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
+        return this.multipleTableMapper.selectMap(tableNum, selectWrapper);
+    }
+
+    /**
+     * map查询
+     *
+     * @param selectWrapper 条件组合
+     * @return 返回map
+     */
+    public List<Map<String, Object>> selectMapList(String batchNum, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
+        return this.multipleTableMapper.selectMapList(batchNum, selectWrapper);
+    }
+
+    /**
      * 分页查询
      *
      * @param tableNum      表号
-     * @param page          分页对象
+     * @param pageNo        页码
+     * @param pageSize      页面大小
      * @param selectWrapper 请求
      * @return 分页结果
      */
-    public Page<T> selectPage(String tableNum, Page<T> page, AbstractWrapper<T> selectWrapper) {
+    public Page<T> selectPage(String tableNum, int pageNo, int pageSize, AbstractWrapper<T> selectWrapper) {
         long total = this.selectCount(tableNum, selectWrapper);
+        Page<T> page = new Page<>();
+        page.setPageNo(pageNo);
+        page.setPageSize(pageSize);
         page.setTotal(total);
         if (total <= 0) {
             page.setRecords(new ArrayList<>());
@@ -169,7 +200,7 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
             selectWrapper = new SelectWrapper<>();
         }
         if (selectWrapper instanceof OrderWrapper) {
-            ((OrderWrapper) selectWrapper).limit(page.getStartRow(), page.getPageSize());
+            ((OrderWrapper) selectWrapper).limit(pageNo, pageSize);
         }
         List<T> reocrds = this.selectList(tableNum, selectWrapper);
         page.setRecords(reocrds);

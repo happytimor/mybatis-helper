@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 分表mapper, 适用于多表，有主键的普通数据库表映射
@@ -92,6 +93,22 @@ public interface MultipleTableMapper<T> {
      * @return 返回结果
      */
     List<T> selectList(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
+
+    /**
+     * 查询某个对象
+     *
+     * @param selectWrapper 条件组合
+     * @return 返回对象
+     */
+    Map<String, Object> selectMap(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
+
+    /**
+     * 查询某个对象列表
+     *
+     * @param selectWrapper 条件组合
+     * @return 对象列表
+     */
+    List<Map<String, Object>> selectMapList(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
      * 查询总数
