@@ -6,10 +6,7 @@ import io.github.happytimor.mybatis.helper.core.util.ReflectUtils;
 import io.github.happytimor.mybatis.helper.core.wrapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 基础service, 适用于单表，有主键的普通数据库表映射
@@ -173,7 +170,8 @@ public class BaseService<M extends BaseMapper<T>, T> {
         if (selectWrapper == null) {
             selectWrapper = new SelectWrapper<>();
         }
-        return this.baseMapper.selectMap(selectWrapper);
+        Map<String, Object> data = this.baseMapper.selectMap(selectWrapper);
+        return data != null ? data : new HashMap<>();
     }
 
     /**
@@ -186,7 +184,8 @@ public class BaseService<M extends BaseMapper<T>, T> {
         if (selectWrapper == null) {
             selectWrapper = new SelectWrapper<>();
         }
-        return this.baseMapper.selectMapList(selectWrapper);
+        List<Map<String, Object>> data = this.baseMapper.selectMapList(selectWrapper);
+        return data != null ? data : new ArrayList<>();
     }
 
     /**
