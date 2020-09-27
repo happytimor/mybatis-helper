@@ -1,5 +1,9 @@
 package io.github.happytimor.mybatis.helper.core.common;
 
+import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.metadata.ColumnWrapper;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,4 +24,6 @@ public interface Constants {
      * 字段映射关系 io.github.happytimor.mybatis.helper.single.database.test.domain.User.strangeName -&gt; aaa
      */
     Map<String, Map<String, String>> COLUMN_RELATION = new ConcurrentHashMap<>();
+
+    ThreadLocal<Map<ColumnFunction<?, ?>, ColumnWrapper>> THREAD_COLUMN_FUNCTION = new ThreadLocal<>();
 }

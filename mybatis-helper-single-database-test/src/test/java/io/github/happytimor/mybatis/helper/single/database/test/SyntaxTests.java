@@ -292,6 +292,7 @@ public class SyntaxTests {
             long count1 = this.userService.selectCount(new SelectWrapper<User>()
                     .ge(User::getLastLoginTime, startDate)
                     .le(User::getLastLoginTime, endDate)
+                    .eq(User::getFlag, flag)
             );
 
             long count2 = this.userService.selectCount(new SelectWrapper<User>()
@@ -317,9 +318,11 @@ public class SyntaxTests {
             LocalDateTime endDate = startDate.plusDays(7);
 
             long count1 = this.userService.selectCount(new SelectWrapper<User>()
-                    .lt(User::getLastLoginTime, startDate)
-                    .or()
-                    .gt(User::getLastLoginTime, endDate)
+                    .and(t -> t.lt(User::getLastLoginTime, startDate)
+                            .or()
+                            .gt(User::getLastLoginTime, endDate))
+                    .eq(User::getFlag, flag)
+
             );
 
             long count2 = this.userService.selectCount(new SelectWrapper<User>()
@@ -344,6 +347,7 @@ public class SyntaxTests {
             long count1 = this.userService.selectCount(new SelectWrapper<User>()
                     .ge(User::getLastLoginTime, startDate)
                     .le(User::getLastLoginTime, endDate)
+                    .eq(User::getFlag, flag)
             );
 
             long count2 = this.userService.selectCount(new SelectWrapper<User>()
@@ -366,9 +370,10 @@ public class SyntaxTests {
             LocalDate endDate = startDate.plusDays(7);
 
             long count1 = this.userService.selectCount(new SelectWrapper<User>()
-                    .lt(User::getLastLoginTime, startDate)
-                    .or()
-                    .gt(User::getLastLoginTime, endDate)
+                    .and(t -> t.lt(User::getLastLoginTime, startDate)
+                            .or()
+                            .gt(User::getLastLoginTime, endDate))
+                    .eq(User::getFlag, flag)
             );
 
             long count2 = this.userService.selectCount(new SelectWrapper<User>()
@@ -563,9 +568,25 @@ public class SyntaxTests {
                 Number age = (Number) dbAgeMap.get("age");
                 Number count = (Number) dbAgeMap.get("count");
                 assert ageGroup.get(age.intValue()).size() == count.intValue();
-
             }
         });
+    }
+
+    /**
+     * 多线程双层包裹测试
+     */
+    @Test
+    public void countDistinct() {
+        this.generateService.generateBatch((flag, userList) -> {
+            for (int i = 0; i < 1000; i++) {
+                new Thread(() -> {
+                    Number count = this.userService.selectSingleValue(new SelectWrapper<User>()
+                            .select(SqlFunction.count(SqlFunction.distinct(User::getAge)))
+                    );
+                }).start();
+            }
+        });
+
     }
 
 }

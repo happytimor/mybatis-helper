@@ -1,7 +1,7 @@
 server.port: 8080
 
 #打印执行sql
-logging.level.io.github.happytimor.mybatis.helper.single.database.test.mapper: debug
+logging.level.io.github.happytimor.mybatis.helper.single.database.test.mapper: info
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml

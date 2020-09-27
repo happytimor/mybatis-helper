@@ -2,6 +2,7 @@ package io.github.happytimor.mybatis.helper.core.wrapper;
 
 
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
+import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.common.SqlFunctionName;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
@@ -32,7 +33,11 @@ public class SelectWrapper<T> extends WhereWrapper<T> {
 
     @SafeVarargs
     public final WhereWrapper<T> select(ColumnFunction<T, ?>... functions) {
-        this.selectSegment = Arrays.stream(functions).map(this::parseColumnName).collect(Collectors.joining(", "));
+        try {
+            this.selectSegment = Arrays.stream(functions).map(this::parseColumnName).collect(Collectors.joining(", "));
+        } finally {
+            Constants.THREAD_COLUMN_FUNCTION.remove();
+        }
         return this;
     }
 

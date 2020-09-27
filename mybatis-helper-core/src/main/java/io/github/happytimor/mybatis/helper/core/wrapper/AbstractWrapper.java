@@ -1,5 +1,6 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
+import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.common.SqlFunctionName;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
@@ -147,9 +148,12 @@ public abstract class AbstractWrapper<T> {
      */
     protected String parseColumnName(ColumnFunction<T, ?> columnFunction) {
         String columnName = this.getColumnName(columnFunction);
-        ColumnWrapper columnWrapper = SqlFunction.FUNCTION_MAP.remove(columnFunction);
-        if (columnWrapper != null) {
-            return this.wrapperFunctionColumn(columnWrapper, columnName);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = Constants.THREAD_COLUMN_FUNCTION.get();
+        if (functionMap != null) {
+            ColumnWrapper columnWrapper = functionMap.remove(columnFunction);
+            if (columnWrapper != null) {
+                return this.wrapperFunctionColumn(columnWrapper, columnName);
+            }
         }
         return columnName;
     }

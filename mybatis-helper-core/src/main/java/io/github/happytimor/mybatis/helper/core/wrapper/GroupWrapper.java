@@ -14,7 +14,7 @@ public class GroupWrapper<T> extends HavingWrapper<T> {
     /**
      * 分组字段
      */
-    private List<ColumnFunction<T, ?>> groupList = new ArrayList<>();
+    private final List<ColumnFunction<T, ?>> groupList = new ArrayList<>();
 
     /**
      * 分组

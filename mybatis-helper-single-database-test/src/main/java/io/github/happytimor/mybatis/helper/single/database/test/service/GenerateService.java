@@ -19,7 +19,7 @@ public class GenerateService {
     private UserService userService;
 
     public void generateBatch(GenerateInterface generateInterfaceInterface) {
-        this.generateBatch(new Random().nextInt(1000 + 1), generateInterfaceInterface);
+        this.generateBatch(new Random().nextInt(1000) + 1, generateInterfaceInterface);
     }
 
     public void generateBatch(int count, GenerateInterface generateInterfaceInterface) {
