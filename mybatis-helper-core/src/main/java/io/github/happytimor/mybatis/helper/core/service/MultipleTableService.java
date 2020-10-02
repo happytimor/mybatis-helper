@@ -200,7 +200,7 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
             selectWrapper = new SelectWrapper<>();
         }
         if (selectWrapper instanceof OrderWrapper) {
-            ((OrderWrapper) selectWrapper).limit(pageNo, pageSize);
+            ((OrderWrapper) selectWrapper).limit(page.getStartRow(), pageSize);
         }
         List<T> reocrds = this.selectList(tableNum, selectWrapper);
         page.setRecords(reocrds);
