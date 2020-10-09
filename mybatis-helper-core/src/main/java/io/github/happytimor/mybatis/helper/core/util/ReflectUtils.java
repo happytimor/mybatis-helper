@@ -42,7 +42,7 @@ public class ReflectUtils {
                     || Timestamp.class.getName().equals(clz.getName())
                     || LocalDateTime.class.getName().equals(clz.getName())
                     || Boolean.class.getName().equals(clz.getName())) {
-                return (M) convert(map.values().toArray()[0], clz);
+                return (M) castIfNotNull(map.values().toArray()[0], clz);
             }
             Map<String, Object> extraMap = new HashMap<>();
             for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -67,7 +67,7 @@ public class ReflectUtils {
                 }
                 Object object = map.get(field.getName());
                 Object returnObject = (object != null) ? object : extraMap.get(field.getName());
-                field.set(obj, convert(returnObject, field.getType()));
+                field.set(obj, castIfNotNull(returnObject, field.getType()));
             }
             return obj;
         } catch (Exception e) {
@@ -75,30 +75,10 @@ public class ReflectUtils {
         }
     }
 
-    public static Object convert(Object returnObject, Class<?> type) {
+    public static Object castIfNotNull(Object returnObject, Class<?> type) {
         if (returnObject == null) {
             return null;
         }
-        if (returnObject.getClass() == type) {
-            return returnObject;
-        }
-        if (returnObject.getClass() == java.lang.Long.class && type == java.lang.Integer.class) {
-            return ((Long) returnObject).intValue();
-        }
-        if (returnObject.getClass() == java.lang.Integer.class && type == java.lang.Boolean.class) {
-            return (Integer) returnObject == 1;
-        }
-        if (returnObject.getClass() == java.sql.Timestamp.class) {
-            if (type == java.time.LocalDateTime.class) {
-                return ((Timestamp) returnObject).toLocalDateTime();
-            }
-            if (type == java.time.LocalDate.class) {
-                return ((Timestamp) returnObject).toLocalDateTime().toLocalDate();
-            }
-            if (type == java.util.Date.class) {
-                return new Date(((Timestamp) returnObject).getTime());
-            }
-        }
-        return null;
+        return type.cast(returnObject);
     }
 }
