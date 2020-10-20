@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author chenpeng
@@ -78,6 +79,23 @@ public class ReflectUtils {
     public static Object castIfNotNull(Object returnObject, Class<?> type) {
         if (returnObject == null) {
             return null;
+        }
+        if (returnObject.getClass() == java.lang.Long.class && type == java.lang.Integer.class) {
+            return ((Long) returnObject).intValue();
+        }
+        if (returnObject.getClass() == java.lang.Integer.class && type == java.lang.Boolean.class) {
+            return (Integer) returnObject == 1;
+        }
+        if (returnObject.getClass() == java.sql.Timestamp.class) {
+            if (type == java.time.LocalDateTime.class) {
+                return ((Timestamp) returnObject).toLocalDateTime();
+            }
+            if (type == java.time.LocalDate.class) {
+                return ((Timestamp) returnObject).toLocalDateTime().toLocalDate();
+            }
+            if (type == java.util.Date.class) {
+                return new Date(((Timestamp) returnObject).getTime());
+            }
         }
         return type.cast(returnObject);
     }
