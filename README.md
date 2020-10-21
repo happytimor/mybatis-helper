@@ -92,4 +92,4 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
 有问题请发邮件到我的邮箱: ichenpeng@qq.com
 
 ## 6.powered by
-![https://www.jetbrains.com/?from=mybatis-helper](jetbrains-variant-2.svg)
+[![powered by](https://github.com/happytimor/mybatis-helper/blob/master/jetbrains-variant-2.svg)](https://www.jetbrains.com/?from=mybatis-helper)
