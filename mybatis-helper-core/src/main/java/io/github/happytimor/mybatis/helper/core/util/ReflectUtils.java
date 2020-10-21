@@ -83,6 +83,14 @@ public class ReflectUtils {
         if (returnObject.getClass() == java.lang.Long.class && type == java.lang.Integer.class) {
             return ((Long) returnObject).intValue();
         }
+        if (returnObject.getClass() == java.math.BigDecimal.class) {
+            if (type == java.lang.Long.class) {
+                return ((BigDecimal) returnObject).longValue();
+            }
+            if (type == java.lang.Integer.class) {
+                return ((BigDecimal) returnObject).intValue();
+            }
+        }
         if (returnObject.getClass() == java.lang.Integer.class && type == java.lang.Boolean.class) {
             return (Integer) returnObject == 1;
         }
