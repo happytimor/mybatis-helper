@@ -10,7 +10,6 @@ import java.beans.Introspector;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -143,7 +142,7 @@ public class ColumnUtils {
             SerializedLambda serializedLambda = (SerializedLambda) method.invoke(column);
             String getter = serializedLambda.getImplMethodName();
             String prefix = getter.startsWith("is") ? "is" : "get";
-            String fieldName = Introspector.decapitalize(getter.replace(prefix, ""));
+            String fieldName = Introspector.decapitalize(getter.replaceFirst(prefix, ""));
             String implClass = serializedLambda.getImplClass();
             if (!Constants.COLUMN_RELATION.containsKey(implClass)) {
                 return new LambdaColumn(fieldName);
@@ -153,10 +152,5 @@ public class ColumnUtils {
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static void main(String... args) {
-
-        System.out.println(ColumnUtils.camelCaseToUnderscore("UserNoKey"));
     }
 }
