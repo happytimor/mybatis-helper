@@ -188,9 +188,7 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
      */
     public Page<T> selectPage(String tableNum, int pageNo, int pageSize, AbstractWrapper<T> selectWrapper) {
         long total = this.selectCount(tableNum, selectWrapper);
-        Page<T> page = new Page<>();
-        page.setPageNo(pageNo);
-        page.setPageSize(pageSize);
+        Page<T> page = new Page<>(pageNo, pageSize);
         page.setTotal(total);
         if (total <= 0) {
             page.setRecords(new ArrayList<>());
