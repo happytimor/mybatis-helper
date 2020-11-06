@@ -6,6 +6,7 @@ import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Condition;
 import io.github.happytimor.mybatis.helper.core.metadata.DefaultCompare;
 import io.github.happytimor.mybatis.helper.core.metadata.DefaultConnector;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -58,8 +59,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> gtNotBlank(ColumnFunction<T, ?> column, Number value) {
+        if (value != null) {
+            this.addCondition(column, ">", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> gt(boolean execute, ColumnFunction<T, ?> column, String value) {
         if (execute) {
+            this.addCondition(column, ">", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> gtNotBlank(ColumnFunction<T, ?> column, String value) {
+        if (!StringUtils.isEmpty(value)) {
             this.addCondition(column, ">", value);
         }
         return this;
@@ -74,8 +91,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> gtNotBlank(ColumnFunction<T, ?> column, Date value) {
+        if (value != null) {
+            this.addCondition(column, ">", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> gt(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
         if (execute) {
+            this.addCondition(column, ">", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> gtNotBlank(ColumnFunction<T, ?> column, LocalDate value) {
+        if (value != null) {
             this.addCondition(column, ">", value);
         }
         return this;
@@ -90,8 +123,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> gtNotBlank(ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (value != null) {
+            this.addCondition(column, ">", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> gt(boolean execute, ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
         if (execute) {
+            this.addCondition(column, ">", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> gtNotBlank(ColumnFunction<T, ?> column, ColumnFunction<T, ?> value) {
+        if (value != null) {
             this.addCondition(column, ">", value);
         }
         return this;
@@ -115,8 +164,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> geNotBlank(ColumnFunction<T, ?> column, Number value) {
+        if (value != null) {
+            this.addCondition(column, ">=", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> ge(boolean execute, ColumnFunction<T, ?> column, String value) {
         if (execute) {
+            this.addCondition(column, ">=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> geNotBlank(ColumnFunction<T, ?> column, String value) {
+        if (!StringUtils.isEmpty(value)) {
             this.addCondition(column, ">=", value);
         }
         return this;
@@ -131,6 +196,14 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> geNotBlank(ColumnFunction<T, ?> column, Date value) {
+        if (value != null) {
+            this.addCondition(column, ">=", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> ge(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
         if (execute) {
             this.addCondition(column, ">=", value);
@@ -139,8 +212,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> geNotBlank(ColumnFunction<T, ?> column, LocalDate value) {
+        if (value != null) {
+            this.addCondition(column, ">=", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> ge(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
         if (execute) {
+            this.addCondition(column, ">=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> geNotBlank(ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (value != null) {
             this.addCondition(column, ">=", value);
         }
         return this;
@@ -172,8 +261,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> eqNotBlank(ColumnFunction<T, ?> column, Number value) {
+        if (value != null) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, Boolean value) {
         if (execute) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> eqNotBlank(ColumnFunction<T, ?> column, Boolean value) {
+        if (value != null) {
             this.addCondition(column, "=", value);
         }
         return this;
@@ -188,8 +293,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> eqNotBlank(ColumnFunction<T, ?> column, String value) {
+        if (!StringUtils.isEmpty(value)) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, Date value) {
         if (execute) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> eqNotBlank(ColumnFunction<T, ?> column, Date value) {
+        if (value != null) {
             this.addCondition(column, "=", value);
         }
         return this;
@@ -204,8 +325,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> eqNotBlank(ColumnFunction<T, ?> column, LocalDate value) {
+        if (value != null) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> eq(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
         if (execute) {
+            this.addCondition(column, "=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> eqNotBlank(ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (value != null) {
             this.addCondition(column, "=", value);
         }
         return this;
@@ -237,8 +374,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> leNotBlank(ColumnFunction<T, ?> column, Number value) {
+        if (value != null) {
+            this.addCondition(column, "<=", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> le(boolean execute, ColumnFunction<T, ?> column, String value) {
         if (execute) {
+            this.addCondition(column, "<=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> leNotBlank(ColumnFunction<T, ?> column, String value) {
+        if (!StringUtils.isEmpty(value)) {
             this.addCondition(column, "<=", value);
         }
         return this;
@@ -253,6 +406,14 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> leNotBlank(ColumnFunction<T, ?> column, Date value) {
+        if (value != null) {
+            this.addCondition(column, "<=", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> le(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
         if (execute) {
             this.addCondition(column, "<=", value);
@@ -261,8 +422,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> leNotBlank(ColumnFunction<T, ?> column, LocalDate value) {
+        if (value != null) {
+            this.addCondition(column, "<=", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> le(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
         if (execute) {
+            this.addCondition(column, "<=", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> leNotBlank(ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (value != null) {
             this.addCondition(column, "<=", value);
         }
         return this;
@@ -294,8 +471,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> ltNotBlank(ColumnFunction<T, ?> column, Number value) {
+        if (value != null) {
+            this.addCondition(column, "<", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> lt(boolean execute, ColumnFunction<T, ?> column, String value) {
         if (execute) {
+            this.addCondition(column, "<", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ltNotBlank(ColumnFunction<T, ?> column, String value) {
+        if (!StringUtils.isEmpty(value)) {
             this.addCondition(column, "<", value);
         }
         return this;
@@ -310,6 +503,14 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> ltNotBlank(ColumnFunction<T, ?> column, Date value) {
+        if (value != null) {
+            this.addCondition(column, "<", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> lt(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
         if (execute) {
             this.addCondition(column, "<", value);
@@ -318,8 +519,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> ltNotBlank(ColumnFunction<T, ?> column, LocalDate value) {
+        if (value != null) {
+            this.addCondition(column, "<", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> lt(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
         if (execute) {
+            this.addCondition(column, "<", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> ltNotBlank(ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (value != null) {
             this.addCondition(column, "<", value);
         }
         return this;
@@ -351,8 +568,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> neNotBlank(ColumnFunction<T, ?> column, Number value) {
+        if (value != null) {
+            this.addCondition(column, "<>", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> ne(boolean execute, ColumnFunction<T, ?> column, String value) {
         if (execute) {
+            this.addCondition(column, "<>", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> neNotBlank(ColumnFunction<T, ?> column, String value) {
+        if (!StringUtils.isEmpty(value)) {
             this.addCondition(column, "<>", value);
         }
         return this;
@@ -367,6 +600,14 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> neNotBlank(ColumnFunction<T, ?> column, Date value) {
+        if (value != null) {
+            this.addCondition(column, "<>", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> ne(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
         if (execute) {
             this.addCondition(column, "<>", value);
@@ -375,8 +616,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> neNotBlank(ColumnFunction<T, ?> column, LocalDate value) {
+        if (value != null) {
+            this.addCondition(column, "<>", value);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> ne(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
         if (execute) {
+            this.addCondition(column, "<>", value);
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> neNotBlank(ColumnFunction<T, ?> column, LocalDateTime value) {
+        if (value != null) {
             this.addCondition(column, "<>", value);
         }
         return this;

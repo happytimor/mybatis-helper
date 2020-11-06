@@ -28,6 +28,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children gt(boolean execute, Column column, Number value);
 
     /**
+     * gt method for Number(eg: where `id` > 1)(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children gtNotBlank(Column column, Number value);
+
+    /**
      * gt method for String
      *
      * @param execute true: execute the method, false: skip execution
@@ -36,6 +45,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children gt(boolean execute, Column column, String value);
+
+    /**
+     * gt method for String(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children gtNotBlank(Column column, String value);
 
     /**
      * gt method for Date
@@ -48,6 +66,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children gt(boolean execute, Column column, Date value);
 
     /**
+     * gt method for Date(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children gtNotBlank(Column column, Date value);
+
+    /**
      * gt method for LocalDate
      *
      * @param execute true: execute the method, false: skip execution
@@ -56,6 +83,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children gt(boolean execute, Column column, LocalDate value);
+
+    /**
+     * gt method for LocalDate(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children gtNotBlank(Column column, LocalDate value);
 
     /**
      * gt method for LocalDateTime
@@ -68,6 +104,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children gt(boolean execute, Column column, LocalDateTime value);
 
     /**
+     * gt method for LocalDateTime(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children gtNotBlank(Column column, LocalDateTime value);
+
+    /**
      * gt method for Column(eg: where `grade_of_english` > `grade_of_math`)
      *
      * @param execute true: execute the method, false: skip execution
@@ -76,6 +121,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children gt(boolean execute, Column column, Column value);
+
+    /**
+     * gt method for Column(eg: where `grade_of_english` > `grade_of_math`)(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children gtNotBlank(Column column, Column value);
 
     /**
      * gt method for nested function
@@ -98,6 +152,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children ge(boolean execute, Column column, Number value);
 
     /**
+     * ge method for Number(eg: where `id` >= 1)(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children geNotBlank(Column column, Number value);
+
+    /**
      * ge method for String
      *
      * @param execute true: execute the method, false: skip execution
@@ -106,6 +169,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children ge(boolean execute, Column column, String value);
+
+    /**
+     * ge method for String(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children geNotBlank(Column column, String value);
 
     /**
      * ge method for Date
@@ -118,6 +190,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children ge(boolean execute, Column column, Date value);
 
     /**
+     * ge method for Date(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children geNotBlank(Column column, Date value);
+
+    /**
      * ge method for LocalDate
      *
      * @param execute true: execute the method, false: skip execution
@@ -128,6 +209,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children ge(boolean execute, Column column, LocalDate value);
 
     /**
+     * ge method for LocalDate(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children geNotBlank(Column column, LocalDate value);
+
+    /**
      * ge method for LocalDateTime
      *
      * @param execute true: execute the method, false: skip execution
@@ -136,6 +226,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children ge(boolean execute, Column column, LocalDateTime value);
+
+    /**
+     * ge method for LocalDateTime(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children geNotBlank(Column column, LocalDateTime value);
 
     /**
      * ge method for Column
@@ -168,6 +267,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children eq(boolean execute, Column column, Number value);
 
     /**
+     * eq method for Number(eg: where `id` = 1)(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children eqNotBlank(Column column, Number value);
+
+    /**
      * eq method for Boolean
      *
      * @param execute true: execute the method, false: skip execution
@@ -176,6 +284,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children eq(boolean execute, Column column, Boolean value);
+
+    /**
+     * eq method for Boolean(execute only if value is not null)(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children eqNotBlank(Column column, Boolean value);
 
     /**
      * eq method for String
@@ -188,6 +305,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children eq(boolean execute, Column column, String value);
 
     /**
+     * eq method for String(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children eqNotBlank(Column column, String value);
+
+    /**
      * eq method for Date
      *
      * @param execute true: execute the method, false: skip execution
@@ -196,6 +322,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children eq(boolean execute, Column column, Date value);
+
+    /**
+     * eq method for Date(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children eqNotBlank(Column column, Date value);
 
     /**
      * eq method for LocalDate
@@ -208,6 +343,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children eq(boolean execute, Column column, LocalDate value);
 
     /**
+     * eq method for LocalDate(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children eqNotBlank(Column column, LocalDate value);
+
+    /**
      * eq method for LocalDateTime
      *
      * @param execute true: execute the method, false: skip execution
@@ -216,6 +360,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children eq(boolean execute, Column column, LocalDateTime value);
+
+    /**
+     * eq method for LocalDateTime(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children eqNotBlank(Column column, LocalDateTime value);
 
     /**
      * eq method for Column
@@ -248,6 +401,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children le(boolean execute, Column column, Number value);
 
     /**
+     * le method for Number(eg: where `id` <= 1)(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children leNotBlank(Column column, Number value);
+
+    /**
      * le method for String
      *
      * @param execute true: execute the method, false: skip execution
@@ -256,6 +418,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children le(boolean execute, Column column, String value);
+
+    /**
+     * le method for String(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children leNotBlank(Column column, String value);
 
     /**
      * le method for Date
@@ -268,6 +439,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children le(boolean execute, Column column, Date value);
 
     /**
+     * le method for Date(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children leNotBlank(Column column, Date value);
+
+    /**
      * le method for LocalDate
      *
      * @param execute true: execute the method, false: skip execution
@@ -278,6 +458,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children le(boolean execute, Column column, LocalDate value);
 
     /**
+     * le method for LocalDate(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children leNotBlank(Column column, LocalDate value);
+
+    /**
      * le method for LocalDateTime
      *
      * @param execute true: execute the method, false: skip execution
@@ -286,6 +475,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children le(boolean execute, Column column, LocalDateTime value);
+
+    /**
+     * le method for LocalDateTime(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children leNotBlank(Column column, LocalDateTime value);
 
     /**
      * le method for Column
@@ -318,6 +516,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children lt(boolean execute, Column column, Number value);
 
     /**
+     * lt method for Number(eg: where `id` < 1)(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children ltNotBlank(Column column, Number value);
+
+    /**
      * lt method for String
      *
      * @param execute true: execute the method, false: skip execution
@@ -326,6 +533,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children lt(boolean execute, Column column, String value);
+
+    /**
+     * lt method for String(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children ltNotBlank(Column column, String value);
 
     /**
      * lt method for Date
@@ -338,6 +554,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children lt(boolean execute, Column column, Date value);
 
     /**
+     * lt method for Date(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children ltNotBlank(Column column, Date value);
+
+    /**
      * lt method for LocalDate
      *
      * @param execute true: execute the method, false: skip execution
@@ -348,6 +573,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children lt(boolean execute, Column column, LocalDate value);
 
     /**
+     * lt method for LocalDate(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children ltNotBlank(Column column, LocalDate value);
+
+    /**
      * lt method for LocalDateTime
      *
      * @param execute true: execute the method, false: skip execution
@@ -356,6 +590,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children lt(boolean execute, Column column, LocalDateTime value);
+
+    /**
+     * lt method for LocalDateTime(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children ltNotBlank(Column column, LocalDateTime value);
 
     /**
      * lt method for Column
@@ -389,6 +632,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children ne(boolean execute, Column column, Number value);
 
     /**
+     * ne method(eg: where `id` <> 1)(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children neNotBlank(Column column, Number value);
+
+    /**
      * ne method for String
      *
      * @param execute true: execute the method, false: skip execution
@@ -397,6 +649,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children ne(boolean execute, Column column, String value);
+
+    /**
+     * ne method for String(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children neNotBlank(Column column, String value);
 
     /**
      * ne method for Date
@@ -409,6 +670,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children ne(boolean execute, Column column, Date value);
 
     /**
+     * ne method for Date(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children neNotBlank(Column column, Date value);
+
+    /**
      * ne method for LocalDate
      *
      * @param execute true: execute the method, false: skip execution
@@ -419,6 +689,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children ne(boolean execute, Column column, LocalDate value);
 
     /**
+     * ne method for LocalDate(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children neNotBlank(Column column, LocalDate value);
+
+    /**
      * ne method for LocalDateTime
      *
      * @param execute true: execute the method, false: skip execution
@@ -427,6 +706,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children ne(boolean execute, Column column, LocalDateTime value);
+
+    /**
+     * ne method for LocalDateTime(execute only if value is not null)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children neNotBlank(Column column, LocalDateTime value);
 
     /**
      * ne method for Column
