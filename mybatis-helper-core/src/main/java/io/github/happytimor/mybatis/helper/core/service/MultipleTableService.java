@@ -2,6 +2,7 @@ package io.github.happytimor.mybatis.helper.core.service;
 
 import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
+import io.github.happytimor.mybatis.helper.core.util.ReflectUtils;
 import io.github.happytimor.mybatis.helper.core.wrapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -192,6 +193,45 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
         }
         return this.multipleTableMapper.selectSingleValue(tableNum, selectWrapper);
     }
+
+    /**
+     * 自定义对象查询
+     *
+     * @param tableNum      表号
+     * @param resultType    返回对象类型
+     * @param selectWrapper 条件组合
+     * @param <R>           动态返回对象
+     * @return 返回map
+     */
+    public <R> R selectObject(String tableNum, Class<R> resultType, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
+        Map<String, Object> map = this.selectMap(tableNum, selectWrapper);
+        return ReflectUtils.map2Obj(map, resultType);
+    }
+
+    /**
+     * 自定义对象列表查询
+     *
+     * @param tableNum      表号
+     * @param resultType    返回对象类型
+     * @param selectWrapper 条件组合
+     * @param <R>           动态返回对象
+     * @return 返回map
+     */
+    public <R> List<R> selectObjectList(String tableNum, Class<R> resultType, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
+        List<R> list = new ArrayList<>();
+        List<Map<String, Object>> mapList = this.selectMapList(tableNum, selectWrapper);
+        for (Map<String, Object> map : mapList) {
+            list.add(ReflectUtils.map2Obj(map, resultType));
+        }
+        return list;
+    }
+
 
     /**
      * 单值查询, 返回默认值
