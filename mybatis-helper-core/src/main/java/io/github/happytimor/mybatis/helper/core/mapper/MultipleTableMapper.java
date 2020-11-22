@@ -155,4 +155,14 @@ public interface MultipleTableMapper<T> {
      * @return 操作是否成功
      */
     boolean insertOrUpdateWithUniqueIndex(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.ENTITY) T entity);
+
+    /**
+     * 单值查询
+     *
+     * @param tableNum      表号
+     * @param selectWrapper selectWrapper
+     * @param <R>           返回类型
+     * @return 返回数据
+     */
+    <R> R selectSingleValue(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 }

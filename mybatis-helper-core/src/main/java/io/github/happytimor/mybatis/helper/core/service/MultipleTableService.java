@@ -167,14 +167,43 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
     /**
      * map查询
      *
+     * @param tableNum      表序号
      * @param selectWrapper 条件组合
      * @return 返回map
      */
-    public List<Map<String, Object>> selectMapList(String batchNum, AbstractWrapper<T> selectWrapper) {
+    public List<Map<String, Object>> selectMapList(String tableNum, AbstractWrapper<T> selectWrapper) {
         if (selectWrapper == null) {
             selectWrapper = new SelectWrapper<>();
         }
-        return this.multipleTableMapper.selectMapList(batchNum, selectWrapper);
+        return this.multipleTableMapper.selectMapList(tableNum, selectWrapper);
+    }
+
+    /**
+     * 单值查询
+     *
+     * @param tableNum      表序号
+     * @param selectWrapper 条件组合
+     * @param <R>           动态返回对象类型
+     * @return 返回对象
+     */
+    public <R> R selectSingleValue(String tableNum, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectWrapper<>();
+        }
+        return this.multipleTableMapper.selectSingleValue(tableNum, selectWrapper);
+    }
+
+    /**
+     * 单值查询, 返回默认值
+     *
+     * @param selectWrapper 条件组合
+     * @param defaultValue  结果为空时, 返回默认值
+     * @param <R>           动态返回对象列席
+     * @return 返回对象
+     */
+    public <R> R selectSingleValue(String tableNum, AbstractWrapper<T> selectWrapper, R defaultValue) {
+        R r = this.selectSingleValue(tableNum, selectWrapper);
+        return r != null ? r : defaultValue;
     }
 
     /**
