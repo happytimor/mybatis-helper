@@ -10,7 +10,9 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
@@ -795,6 +797,14 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> inNotBlank(ColumnFunction<T, ?> column, Collection<?> values) {
+        if (values != null && values.size() > 0) {
+            this.nestedExpression(column, "IN", values);
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> in(boolean execute, ColumnFunction<T, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
         if (execute) {
             AbstractWrapper<?> selectWrapper = function.apply(this);
@@ -802,7 +812,6 @@ public class WhereWrapper<T> extends GroupWrapper<T>
         }
         return this;
     }
-
 
     /**
      * 生成嵌套子查询select

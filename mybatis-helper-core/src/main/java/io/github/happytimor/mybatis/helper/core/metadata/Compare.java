@@ -910,6 +910,14 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      */
     Children in(boolean execute, Column column, Collection<?> values);
 
+    /**
+     * in method(eg: where `id` in (1, 2, 3, 4))
+     *
+     * @param column lambda column name
+     * @param values given collection
+     * @return chain object
+     */
+    Children inNotBlank(Column column, Collection<?> values);
 
     /**
      * in nested method(eg: where `id` in (select `id` from user where age  > 20 ))
