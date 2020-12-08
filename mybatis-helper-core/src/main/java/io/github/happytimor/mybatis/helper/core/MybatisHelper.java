@@ -126,13 +126,10 @@ public class MybatisHelper implements ApplicationContextAware {
         if (mapperSearchPath.contains(".")) {
             mapperSearchPath = mapperSearchPath.replace(".", "/");
         }
-
         mapperSearchPath = "classpath:" + mapperSearchPath + "/" + "*.class";
-
         if (this.config != null) {
             sqlSessionFactory.getConfiguration().setMapUnderscoreToCamelCase(this.config.isMapUnderscoreToCamelCase());
         }
-
         Set<Class<?>> mapperClassList = this.parseMapper(mapperSearchPath);
         Set<String> registed = new HashSet<>();
         for (Class<?> mapperClass : mapperClassList) {
@@ -227,12 +224,15 @@ public class MybatisHelper implements ApplicationContextAware {
         }
         MetaClass metaClass = MetaClass.forClass(modelClass, reflectorFactory);
         try {
-            Field field = MetaClass.class.getDeclaredField(ColumnUtils.makeFirstCharacterLower(Reflector.class.getSimpleName()));
+            String filedName = ColumnUtils.makeFirstCharacterLower(Reflector.class.getSimpleName());
+            Field field = MetaClass.class.getDeclaredField(filedName);
             field.setAccessible(true);
             Reflector reflector = (Reflector) field.get(metaClass);
-            Field caseInsensitivePropertyMapField = Reflector.class.getDeclaredField("caseInsensitivePropertyMap");
+            Field caseInsensitivePropertyMapField
+                    = Reflector.class.getDeclaredField("caseInsensitivePropertyMap");
             caseInsensitivePropertyMapField.setAccessible(true);
-            Map<String, String> caseInsensitivePropertyMap = (Map<String, String>) caseInsensitivePropertyMapField.get(reflector);
+            Map<String, String> caseInsensitivePropertyMap
+                    = (Map<String, String>) caseInsensitivePropertyMapField.get(reflector);
             Map<String, String> relation = new HashMap<>();
             for (Result result : tableInfo.getResultList()) {
                 if (!result.isOverrideColumn()) {
@@ -260,7 +260,8 @@ public class MybatisHelper implements ApplicationContextAware {
         TableName tableNameAnnotation = modelClass.getAnnotation(TableName.class);
 
         //如果没有TableName注解, 则自动对model名称下划线处理, 拿到的表名(如果表名是t_user这种,则必须要有@TableName注解)
-        String tableName = tableNameAnnotation != null ? tableNameAnnotation.value() : ColumnUtils.camelCaseToUnderscore(modelClass.getSimpleName());
+        String tableName = tableNameAnnotation != null
+                ? tableNameAnnotation.value() : ColumnUtils.camelCaseToUnderscore(modelClass.getSimpleName());
         //分表连接符
         MultipleTableConnector multipleTableConnector = modelClass.getAnnotation(MultipleTableConnector.class);
         TableInfo tableInfo = new TableInfo();
@@ -274,7 +275,8 @@ public class MybatisHelper implements ApplicationContextAware {
         }
 
         List<Result> resultList = new ArrayList<>();
-        Field[] declaredFields = modelClass.getDeclaredFields();
+        List<Field> declaredFields = new ArrayList<>();
+        this.parseAlldeclaredFields(modelClass, declaredFields);
         for (Field declaredField : declaredFields) {
             //跳过final修饰变量
             if (java.lang.reflect.Modifier.isFinal(declaredField.getModifiers())) {
@@ -302,7 +304,8 @@ public class MybatisHelper implements ApplicationContextAware {
             //覆盖默认主键
             if (tableColumn != null && tableColumn.primaryKey()) {
                 if ("".equals(tableColumn.value())) {
-                    throw new RuntimeException(String.format("the value should be assigned when setting primary key for %s.java with @TableColumn", modelClass.getSimpleName()));
+                    throw new RuntimeException(String.format("the value should be assigned when setting primary key " +
+                            "for %s.java with @TableColumn", modelClass.getSimpleName()));
                 }
                 tableInfo.setKeyColumn(tableColumn.value());
                 tableInfo.setKeyProperty(fieldName);
@@ -310,6 +313,19 @@ public class MybatisHelper implements ApplicationContextAware {
         }
         tableInfo.setResultList(resultList);
         return tableInfo;
+    }
+
+    /**
+     * 解析对象里面的字段, 如果是继承对象, 会遍历父级字段
+     *
+     * @param clz  class类
+     * @param list field容器
+     */
+    private void parseAlldeclaredFields(Class<?> clz, List<Field> list) {
+        list.addAll(Arrays.asList(clz.getDeclaredFields()));
+        if (clz.getSuperclass() != Object.class) {
+            this.parseAlldeclaredFields(clz.getSuperclass(), list);
+        }
     }
 
     /**
