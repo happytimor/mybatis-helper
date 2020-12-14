@@ -51,7 +51,7 @@ public enum SqlMethod {
     /**
      * 自定义条件查找
      */
-    SELECT_LIST("selectList", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s` %s %s %s\n</script>"),
+    SELECT_LIST("selectList", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s` %s %s %s %s\n</script>"),
     /**
      * 自定义条件查询单个值
      */

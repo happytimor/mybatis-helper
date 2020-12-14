@@ -19,6 +19,7 @@ public class SelectList extends AbstractMethod {
                 "${" + Params.WRAPPER + ".selectSegment}",
                 this.parseTableName(),
                 "${" + Params.WRAPPER + ".whereSegment}",
+                "${" + Params.WRAPPER + ".groupSegment}",
                 "${" + Params.WRAPPER + ".orderSegment}",
                 "${" + Params.WRAPPER + ".limitSegment}");
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, Object.class);
