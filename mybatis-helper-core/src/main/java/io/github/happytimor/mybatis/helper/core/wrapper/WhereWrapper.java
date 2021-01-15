@@ -668,8 +668,24 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public WhereWrapper<T> likeNotBlank(ColumnFunction<T, ?> column, String value) {
+        if (!StringUtils.isEmpty(value)) {
+            this.addCondition(column, "LIKE", "%" + value + "%");
+        }
+        return this;
+    }
+
+    @Override
     public WhereWrapper<T> likeLeft(boolean execute, ColumnFunction<T, ?> column, String value) {
         if (execute) {
+            this.addCondition(column, "LIKE", value + "%");
+        }
+        return this;
+    }
+
+    @Override
+    public WhereWrapper<T> likeLeftNotBlank(ColumnFunction<T, ?> column, String value) {
+        if (!StringUtils.isEmpty(value)) {
             this.addCondition(column, "LIKE", value + "%");
         }
         return this;

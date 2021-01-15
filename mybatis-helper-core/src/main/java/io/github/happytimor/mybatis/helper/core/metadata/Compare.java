@@ -747,6 +747,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
     Children like(boolean execute, Column column, String value);
 
     /**
+     * like method(eg: where `name` like '%zhangsan%', execute only if value is not empty)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children likeNotBlank(Column column, String value);
+
+    /**
      * like left method(eq: where `name` like 'zhangsan%')
      *
      * @param execute true: execute the method, false: skip execution
@@ -755,6 +764,15 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @return chain object
      */
     Children likeLeft(boolean execute, Column column, String value);
+
+    /**
+     * like left method(eq: where `name` like 'zhangsan%', execute only if value is not empty)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @return chain object
+     */
+    Children likeLeftNotBlank(Column column, String value);
 
     /**
      * like right method(eq: where `name` like '%zhangsan')
