@@ -93,6 +93,15 @@ public class ReflectUtils {
         if (returnObject.getClass() == java.lang.Integer.class && type == java.lang.Boolean.class) {
             return (Integer) returnObject == 1;
         }
+        if (returnObject.getClass() == java.math.BigInteger.class) {
+            if (type == java.lang.Integer.class) {
+                return ((java.math.BigInteger) returnObject).intValue();
+            }
+            if (type == java.lang.Long.class) {
+                return ((java.math.BigInteger) returnObject).longValue();
+            }
+        }
+
         if (returnObject.getClass() == java.sql.Timestamp.class) {
             if (type == java.time.LocalDateTime.class) {
                 return ((Timestamp) returnObject).toLocalDateTime();
