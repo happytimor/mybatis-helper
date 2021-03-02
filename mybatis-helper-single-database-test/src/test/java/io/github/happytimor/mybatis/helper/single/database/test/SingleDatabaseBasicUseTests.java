@@ -40,6 +40,21 @@ public class SingleDatabaseBasicUseTests {
     @Resource
     private GenerateService generateService;
 
+    /**
+     * 插入孔对象
+     */
+    @Test
+    public void insertNullObject() {
+        User user = new User();
+        try {
+            this.userService.insert(user);
+            assert user.getId() > 0;
+        } finally {
+            if (user.getId() != null) {
+                this.userService.deleteById(user.getId());
+            }
+        }
+    }
 
     @Test
     public void test1() {

@@ -23,8 +23,10 @@ public class Insert extends AbstractMethod {
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         SqlMethod sqlMethod = SqlMethod.INSERT_ONE;
 
-        String columnScript = SqlScriptUtils.wrapTrim(this.generateColumnScript(tableInfo), "(", ")", ",");
-        String valuesScript = SqlScriptUtils.wrapTrim(this.generateValueScript(tableInfo), "(", ")", ",");
+        String columnScript = SqlScriptUtils.wrapTrim(this.generateColumnScript(tableInfo), "(", ")",
+                ",");
+        String valuesScript = SqlScriptUtils.wrapTrim(this.generateValueScript(tableInfo), "(", ")",
+                ",");
 
 
         String script = String.format(sqlMethod.getSql(), this.parseTableName(), columnScript, valuesScript);
@@ -44,13 +46,19 @@ public class Insert extends AbstractMethod {
             keyColumn = tableInfo.getKeyColumn();
         }
 
-        return this.addInsertMappedStatement(modelClass, sqlMethod.getMethod(), sqlSource, keyGenerator, keyProperty, keyColumn);
+        return this.addInsertMappedStatement(modelClass, sqlMethod.getMethod(), sqlSource, keyGenerator, keyProperty,
+                keyColumn);
     }
 
     private String generateColumnScript(TableInfo tableInfo) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Result result : tableInfo.getResultList()) {
-            stringBuilder.append("<if test=\"" + Params.ENTITY + ".").append(result.getProperty()).append(" != null\">`").append(result.getColumn()).append("`,</if>\n");
+            if (result.getProperty().equals(tableInfo.getKeyProperty())) {
+                stringBuilder.append(result.getColumn()).append(",\n");
+            } else {
+                stringBuilder.append("<if test=\"" + Params.ENTITY + ".").append(result.getProperty())
+                        .append(" != null\">`").append(result.getColumn()).append("`,</if>\n");
+            }
         }
         return stringBuilder.toString();
     }
@@ -58,7 +66,12 @@ public class Insert extends AbstractMethod {
     private String generateValueScript(TableInfo tableInfo) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Result result : tableInfo.getResultList()) {
-            stringBuilder.append("<if test=\"" + Params.ENTITY + ".").append(result.getProperty()).append(" != null\">#{" + Params.ENTITY + ".").append(result.getProperty()).append("},</if>\n");
+            if (result.getProperty().equals(tableInfo.getKeyProperty())) {
+                stringBuilder.append("#{" + Params.ENTITY + ".").append(result.getProperty()).append("},\n");
+            } else {
+                stringBuilder.append("<if test=\"" + Params.ENTITY + ".").append(result.getProperty())
+                        .append(" != null\">#{" + Params.ENTITY + ".").append(result.getProperty()).append("},</if>\n");
+            }
         }
         return stringBuilder.toString();
     }
