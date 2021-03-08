@@ -906,10 +906,12 @@ public class WhereWrapper<T> extends GroupWrapper<T>
 
     private void addCondition(ColumnFunction<T, ?> column, String operator, Object start, String connector, Object end) {
         String columnName = this.getColumnName(column, false);
-        String startKey = "params_start_" + columnName;
+        int count = counter.incrementAndGet();
+
+        String startKey = "params_start_" + count + "_" + columnName;
         paramNameValuePairs.put(startKey, start);
 
-        String endKey = "params_end_" + columnName;
+        String endKey = "params_end_" + count + "_" + columnName;
         paramNameValuePairs.put(endKey, end);
 
         conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " #{" + Params.WRAPPER + ".paramNameValuePairs." + startKey + "} " + connector + " #{" + Params.WRAPPER + ".paramNameValuePairs." + endKey + "}"));
