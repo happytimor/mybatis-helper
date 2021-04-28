@@ -16,7 +16,16 @@ public class SelectSingleValue extends AbstractMethod {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         SqlMethod sqlMethod = SqlMethod.SELECT_SINGLE_VALUE;
-        String script = String.format(sqlMethod.getSql(), "${" + Params.WRAPPER + ".selectSegment}", this.parseTableName(), "${" + Params.WRAPPER + ".whereSegment}", "${" + Params.WRAPPER + ".orderSegment}", "${" + Params.WRAPPER + ".limitSegment}");
+        String script = String.format(sqlMethod.getSql(),
+                "${" + Params.WRAPPER + ".selectSegment}",
+                this.parseTableName(),
+                "${" + Params.WRAPPER + ".tableAliasSegment}",
+                "${" + Params.WRAPPER + ".joinSegment}",
+                "${" + Params.WRAPPER + ".whereSegment}",
+                "${" + Params.WRAPPER + ".groupSegment}",
+                "${" + Params.WRAPPER + ".orderSegment}",
+                "${" + Params.WRAPPER + ".havingSegment}",
+                "${" + Params.WRAPPER + ".limitSegment}");
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, Object.class);
         return this.addMappedStatement(sqlMethod.getMethod(), sqlSource, Object.class);
     }

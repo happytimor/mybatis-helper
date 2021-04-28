@@ -20,7 +20,13 @@ public class SelectMap extends AbstractMethod {
         String script = String.format(sqlMethod.getSql(),
                 "${" + Params.WRAPPER + ".selectSegment}",
                 this.parseTableName(),
-                "${" + Params.WRAPPER + ".whereSegment}");
+                "${" + Params.WRAPPER + ".tableAliasSegment}",
+                "${" + Params.WRAPPER + ".joinSegment}",
+                "${" + Params.WRAPPER + ".whereSegment}",
+                "${" + Params.WRAPPER + ".groupSegment}",
+                "${" + Params.WRAPPER + ".havingSegment}",
+                "${" + Params.WRAPPER + ".orderSegment}",
+                "${" + Params.WRAPPER + ".limitSegment}");
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, Object.class);
         return this.addMappedStatement(sqlMethod.getMethod(), sqlSource, Map.class);
     }

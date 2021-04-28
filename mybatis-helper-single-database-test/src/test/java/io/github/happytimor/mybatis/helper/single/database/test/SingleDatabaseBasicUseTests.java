@@ -74,12 +74,12 @@ public class SingleDatabaseBasicUseTests {
                         .le(User::getAge, 5)
                         .lt(User::getAge, 6)
 
-                        .gt(User::getAge, User::getFlag)
-                        .ge(User::getAge, User::getFlag)
-                        .eq(User::getAge, User::getFlag)
-                        .lt(User::getAge, User::getFlag)
-                        .le(User::getAge, User::getFlag)
-                        .ne(User::getAge, User::getFlag)
+                        .gt(User::getAge, User::getId)
+                        .ge(User::getAge, User::getId)
+                        .eq(User::getAge, User::getId)
+                        .lt(User::getAge, User::getId)
+                        .le(User::getAge, User::getId)
+                        .ne(User::getAge, User::getId)
 
 //                .gtNested(User::getAge, t -> t.applySelectWrapper(User.class).select(User::getAge).gt(User::getFlag, 1))
         );

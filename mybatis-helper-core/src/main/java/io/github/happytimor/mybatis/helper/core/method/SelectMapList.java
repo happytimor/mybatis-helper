@@ -20,6 +20,8 @@ public class SelectMapList extends AbstractMethod {
         String script = String.format(sqlMethod.getSql(),
                 "${" + Params.WRAPPER + ".selectSegment}",
                 this.parseTableName(),
+                "${" + Params.WRAPPER + ".tableAliasSegment}",
+                "${" + Params.WRAPPER + ".joinSegment}",
                 "${" + Params.WRAPPER + ".whereSegment}",
                 "${" + Params.WRAPPER + ".groupSegment}",
                 "${" + Params.WRAPPER + ".havingSegment}",

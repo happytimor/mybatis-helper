@@ -99,3 +99,51 @@ CREATE TABLE `user_info` LIKE `mybatis_helper_demo`.`user_info`;
 CREATE TABLE `user_01` LIKE `mybatis_helper_demo`.`user_01`;
 CREATE TABLE `user_uid` LIKE `mybatis_helper_demo`.`user_uid`;
 CREATE TABLE `user_no_key` LIKE `mybatis_helper_demo`.`user_no_key`;
+
+-- JOIN 测试
+CREATE TABLE `course_info` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) DEFAULT '' COMMENT '课程名称',
+  `teacher_id` int(11) DEFAULT '0' COMMENT '老师id',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '是否已删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `student` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `course_id` int(11) DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `teacher_info` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `name` varchar(32) DEFAULT '' COMMENT '老师名称',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '是否删除',
+  `offline` tinyint(1) DEFAULT '0' COMMENT '是否请假',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `course_info` (`id`, `name`, `teacher_id`, `deleted`) VALUES
+('1', '语文', '1', '0'),
+('2', '数学', '2', '0'),
+('3', '英语', '3', '0'),
+('5', '化学', '5', '0'),
+('8', '物理', '4', '0');
+
+INSERT INTO `student` (`id`, `name`, `age`, `course_id`, `deleted`) VALUES
+('1', 'zhangsan', '20', '1', '0'),
+('2', 'lisi', '21', '0', '0'),
+('3', 'wangwu', '22', '3', '1'),
+('4', 'zhaoliu', '23', '4', '0'),
+('5', 'tianqi', '23', '9', '0');
+
+INSERT INTO `teacher_info` (`id`, `name`, `deleted`, `offline`) VALUES
+('1', '史密斯', '0', '1'),
+('2', '武则天', '0', '0'),
+('3', '老子', '1', '0'),
+('4', '孔子', '0', '0'),
+('5', '孟子', '0', '0');

@@ -1,18 +1,18 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
+import io.github.happytimor.mybatis.helper.core.annotation.TableName;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.common.SqlFunctionName;
-import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnWrapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Condition;
+import io.github.happytimor.mybatis.helper.core.metadata.JoinInfo;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
+import io.github.happytimor.mybatis.helper.core.util.LambdaUtils;
 
-import java.beans.Introspector;
-import java.lang.invoke.SerializedLambda;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * @author chenpeng
@@ -23,11 +23,24 @@ public abstract class AbstractWrapper<T> {
     protected String tableName;
     protected Map<String, Object> paramNameValuePairs;
     protected AtomicInteger counter;
-    protected String selectSegment = "*";
     /**
      * 排序字段以及排序方式
      */
     protected final List<OrderWrapper.Order> orderList = new ArrayList<>();
+
+    protected final List<ColumnFunction<?, ?>> selectColumnFunctionList = new ArrayList<>();
+    /**
+     * JoinWrapper
+     */
+    protected Map<Class<?>, Integer> subTable = new HashMap<>();
+    /**
+     * JoinWrapper: 表序号
+     */
+    protected int tableIndex = 2;
+    /**
+     * JoinWrapper
+     */
+    protected List<JoinInfo> joinInfoList = new ArrayList<>();
 
     /**
      * limit语句
@@ -46,6 +59,43 @@ public abstract class AbstractWrapper<T> {
      */
     public String getWhereSegment() {
         return getWhereSegment(true);
+    }
+
+    /**
+     * 获取joinSegment片段
+     *
+     * @return join语句
+     */
+    public String getJoinSegment() {
+        if (joinInfoList.isEmpty()) {
+            return "";
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (JoinInfo joinInfo : joinInfoList) {
+            stringBuilder.append(joinInfo.getKeyword())
+                    .append(" ")
+                    .append(this.getTableName(joinInfo.getJoinClazz()))
+                    .append(" ")
+                    .append(this.getTableAlias(joinInfo.getJoinClazz()))
+                    .append(" ON ")
+                    .append(this.getTableAlias(joinInfo.getJoinClazz())).append(".")
+                    .append(this.getColumnName(joinInfo.getLeftColumn()))
+                    .append(" = ")
+                    .append(this.getTableAlias(LambdaUtils.resolve(joinInfo.getRightColumn()).getInstantiatedType())).append(".")
+                    .append(this.getColumnName(joinInfo.getRightColumn()));
+        }
+        return stringBuilder.toString();
+    }
+
+    protected String getTableAlias(Class<?> clazz) {
+        int index = subTable.getOrDefault(clazz, 1);
+        return "t" + index;
+    }
+
+    protected String getTableName(Class<?> clazz) {
+        TableName tableNameAnnotation = clazz.getAnnotation(TableName.class);
+        return tableNameAnnotation != null ? tableNameAnnotation.value() :
+                ColumnUtils.camelCaseToUnderscore(clazz.getSimpleName());
     }
 
     /**
@@ -94,11 +144,11 @@ public abstract class AbstractWrapper<T> {
         return stringBuilder.toString();
     }
 
-    protected String getColumnName(ColumnFunction<T, ?> column) {
+    protected <E> String getColumnName(ColumnFunction<E, ?> column) {
         return getColumnName(column, true);
     }
 
-    protected String getColumnName(ColumnFunction<T, ?> column, boolean wrap) {
+    protected <E> String getColumnName(ColumnFunction<E, ?> column, boolean wrap) {
         String columnName = ColumnUtils.camelCaseToUnderscore(column);
         return wrap ? "`" + columnName + "`" : columnName;
     }
@@ -133,11 +183,33 @@ public abstract class AbstractWrapper<T> {
     }
 
     public String getSelectSegment() {
-        return selectSegment;
+        try {
+            if (selectColumnFunctionList.isEmpty()) {
+                return "*";
+            }
+            return selectColumnFunctionList.stream().map(columnFunction -> {
+                String columnName = this.parseColumnName(columnFunction);
+                if (subTable.isEmpty()) {
+                    return columnName;
+                }
+                String tableAlias = this.getTableAlias(this.parseClazz(columnFunction));
+                return tableAlias + "." + columnName + " ";
+            }).collect(Collectors.joining(","));
+        } finally {
+            Constants.THREAD_COLUMN_FUNCTION.remove();
+        }
     }
 
-    public void setSelectSegment(String selectSegment) {
-        this.selectSegment = selectSegment;
+    /**
+     * 获取表别名, join时候会用到
+     *
+     * @return 别名
+     */
+    public String getTableAliasSegment() {
+        if (subTable.isEmpty()) {
+            return "";
+        }
+        return "t1";
     }
 
     /**
@@ -146,7 +218,7 @@ public abstract class AbstractWrapper<T> {
      * @param columnFunction 字段函数
      * @return 字段名
      */
-    protected String parseColumnName(ColumnFunction<T, ?> columnFunction) {
+    protected <E> String parseColumnName(ColumnFunction<E, ?> columnFunction) {
         String columnName = this.getColumnName(columnFunction);
         Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = Constants.THREAD_COLUMN_FUNCTION.get();
         if (functionMap != null) {
@@ -156,6 +228,16 @@ public abstract class AbstractWrapper<T> {
             }
         }
         return columnName;
+    }
+
+    /**
+     * 通过lambda表达式获取所属类
+     *
+     * @param columnFunction lambda表达式
+     * @return 类class
+     */
+    protected Class<?> parseClazz(ColumnFunction<?, ?> columnFunction) {
+        return LambdaUtils.resolve(columnFunction).getInstantiatedType();
     }
 
     /**

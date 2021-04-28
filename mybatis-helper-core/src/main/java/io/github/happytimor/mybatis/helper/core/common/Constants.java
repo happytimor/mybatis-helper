@@ -20,6 +20,12 @@ public interface Constants {
      */
     String DEFAULT_KEY_PROPERTY = "id";
 
+    String LEFT_JOIN = "LEFT JOIN";
+    String RIGHT_JOIN = "RIGHT JOIN";
+    String INNER_JOIN = "INNER JOIN";
+    String JOIN = "JOIN";
+
+
     /**
      * 字段映射关系 io.github.happytimor.mybatis.helper.single.database.test.domain.User.strangeName -&gt; aaa
      */

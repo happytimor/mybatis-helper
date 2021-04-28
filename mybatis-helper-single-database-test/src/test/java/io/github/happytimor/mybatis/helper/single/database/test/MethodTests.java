@@ -2,13 +2,13 @@ package io.github.happytimor.mybatis.helper.single.database.test;
 
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
+import io.github.happytimor.mybatis.helper.core.wrapper.SelectJoinWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
-import io.github.happytimor.mybatis.helper.single.database.test.domain.AgeInfo;
-import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.*;
 import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
+import io.github.happytimor.mybatis.helper.single.database.test.service.StudentService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -38,6 +39,9 @@ public class MethodTests {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private StudentService studentService;
 
     /**
      * 单条插入测试
@@ -320,6 +324,50 @@ public class MethodTests {
             );
             assert Objects.equals(user.getId(), userList.get(userList.size() - 1).getId());
         });
+    }
+
+    @Test
+    public void leftJoinTest1() {
+        List<JoinResultVO> list = this.studentService.selectObjectList(JoinResultVO.class, new SelectJoinWrapper<Student>()
+                .selectAs(Student::getName, JoinResultVO::getStudentName)
+                .selectAs(CourseInfo::getName, JoinResultVO::getCourseName)
+                .leftJoin(CourseInfo.class, CourseInfo::getId, Student::getId)
+        );
+        assert list.size() == 5;
+        for (JoinResultVO joinResultVO : list) {
+            assert !StringUtils.isEmpty(joinResultVO.getStudentName());
+        }
+    }
+
+    @Test
+    public void leftJoinTest2() {
+        List<JoinResultVO> list = this.studentService.selectObjectList(JoinResultVO.class, new SelectJoinWrapper<Student>()
+                .select(Student::getName)
+                .selectAs(TeacherInfo::getName, JoinResultVO::getTeacherName)
+                .selectAs(Student::getName, JoinResultVO::getStudentName)
+                .selectAs(CourseInfo::getName, JoinResultVO::getCourseName)
+                .leftJoin(CourseInfo.class, CourseInfo::getId, Student::getId)
+                .rightJoin(TeacherInfo.class, TeacherInfo::getId, CourseInfo::getTeacherId)
+                .eq(Student::getDeleted, false)
+                .eq(CourseInfo::getDeleted, false)
+        );
+        assert list.size() == 3;
+        for (JoinResultVO joinResultVO : list) {
+            assert !StringUtils.isEmpty(joinResultVO.getTeacherName());
+        }
+    }
+
+    @Test
+    public void joinPage() {
+        Page<JoinResultVO> page = this.studentService.selectJoinPage(JoinResultVO.class, 1, 2, new SelectJoinWrapper<Student>()
+                .selectAs(Student::getName, JoinResultVO::getStudentName)
+                .selectAs(CourseInfo::getName, JoinResultVO::getCourseName)
+                .leftJoin(CourseInfo.class, CourseInfo::getId, Student::getId)
+        );
+        assert page.getTotal() == 5;
+        for (JoinResultVO joinResultVO : page.getRecords()) {
+            assert !StringUtils.isEmpty(joinResultVO.getCourseName());
+        }
     }
 
     /**

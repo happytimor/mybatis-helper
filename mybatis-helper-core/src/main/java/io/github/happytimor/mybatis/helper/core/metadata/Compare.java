@@ -15,7 +15,7 @@ import java.util.function.Function;
  *
  * @author chenpeng
  */
-public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends Serializable {
+public interface Compare<Children> extends Serializable {
 
     /**
      * gt method for Number(eg: where `id` > 1)
@@ -25,7 +25,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children gt(boolean execute, Column column, Number value);
+    <R> Children gt(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
      * gt method for Number(eg: where `id` > 1)(execute only if value is not null)
@@ -34,7 +34,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children gtNotBlank(Column column, Number value);
+    <R> Children gtNotBlank(ColumnFunction<R, ?> column, Number value);
 
     /**
      * gt method for String
@@ -44,7 +44,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children gt(boolean execute, Column column, String value);
+    <R> Children gt(boolean execute, ColumnFunction<R, ?> column, String value);
 
     /**
      * gt method for String(execute only if value is not null)
@@ -53,7 +53,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children gtNotBlank(Column column, String value);
+    <R> Children gtNotBlank(ColumnFunction<R, ?> column, String value);
 
     /**
      * gt method for Date
@@ -63,7 +63,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children gt(boolean execute, Column column, Date value);
+    <R> Children gt(boolean execute, ColumnFunction<R, ?> column, Date value);
 
     /**
      * gt method for Date(execute only if value is not null)
@@ -72,7 +72,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children gtNotBlank(Column column, Date value);
+    <R> Children gtNotBlank(ColumnFunction<R, ?> column, Date value);
 
     /**
      * gt method for LocalDate
@@ -82,7 +82,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children gt(boolean execute, Column column, LocalDate value);
+    <R> Children gt(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * gt method for LocalDate(execute only if value is not null)
@@ -91,7 +91,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children gtNotBlank(Column column, LocalDate value);
+    <R> Children gtNotBlank(ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * gt method for LocalDateTime
@@ -101,7 +101,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children gt(boolean execute, Column column, LocalDateTime value);
+    <R> Children gt(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * gt method for LocalDateTime(execute only if value is not null)
@@ -110,7 +110,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children gtNotBlank(Column column, LocalDateTime value);
+    <R> Children gtNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * gt method for Column(eg: where `grade_of_english` > `grade_of_math`)
@@ -120,7 +120,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children gt(boolean execute, Column column, Column value);
+    <R, V> Children gt(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
 
     /**
      * gt method for Column(eg: where `grade_of_english` > `grade_of_math`)(execute only if value is not null)
@@ -129,7 +129,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children gtNotBlank(Column column, Column value);
+    <R, V> Children gtNotBlank(ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
 
     /**
      * gt method for nested function
@@ -139,7 +139,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param function nested function
      * @return chain object
      */
-    Children gt(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    <R> Children gt(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
      * ge method for Number(eg: where `id` >= 1)
@@ -149,7 +149,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ge(boolean execute, Column column, Number value);
+    <R> Children ge(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
      * ge method for Number(eg: where `id` >= 1)(execute only if value is not null)
@@ -158,7 +158,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children geNotBlank(Column column, Number value);
+    <R> Children geNotBlank(ColumnFunction<R, ?> column, Number value);
 
     /**
      * ge method for String
@@ -168,7 +168,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ge(boolean execute, Column column, String value);
+    <R> Children ge(boolean execute, ColumnFunction<R, ?> column, String value);
 
     /**
      * ge method for String(execute only if value is not null)
@@ -177,7 +177,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children geNotBlank(Column column, String value);
+    <R> Children geNotBlank(ColumnFunction<R, ?> column, String value);
 
     /**
      * ge method for Date
@@ -187,7 +187,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ge(boolean execute, Column column, Date value);
+    <R> Children ge(boolean execute, ColumnFunction<R, ?> column, Date value);
 
     /**
      * ge method for Date(execute only if value is not null)
@@ -196,7 +196,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children geNotBlank(Column column, Date value);
+    <R> Children geNotBlank(ColumnFunction<R, ?> column, Date value);
 
     /**
      * ge method for LocalDate
@@ -206,7 +206,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ge(boolean execute, Column column, LocalDate value);
+    <R> Children ge(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * ge method for LocalDate(execute only if value is not null)
@@ -215,7 +215,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children geNotBlank(Column column, LocalDate value);
+    <R> Children geNotBlank(ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * ge method for LocalDateTime
@@ -225,7 +225,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ge(boolean execute, Column column, LocalDateTime value);
+    <R> Children ge(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * ge method for LocalDateTime(execute only if value is not null)
@@ -234,7 +234,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children geNotBlank(Column column, LocalDateTime value);
+    <R> Children geNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * ge method for Column
@@ -244,7 +244,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ge(boolean execute, Column column, Column value);
+    <R, V> Children ge(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
 
     /**
      * ge method for nested function
@@ -254,7 +254,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param function nested function
      * @return chain object
      */
-    Children ge(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    <R> Children ge(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
      * eq method for Number(eg: where `id` = 1)
@@ -264,7 +264,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children eq(boolean execute, Column column, Number value);
+    <R> Children eq(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
      * eq method for Number(eg: where `id` = 1)(execute only if value is not null)
@@ -273,7 +273,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children eqNotBlank(Column column, Number value);
+    <R> Children eqNotBlank(ColumnFunction<R, ?> column, Number value);
 
     /**
      * eq method for Boolean
@@ -283,7 +283,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children eq(boolean execute, Column column, Boolean value);
+    <R> Children eq(boolean execute, ColumnFunction<R, ?> column, Boolean value);
 
     /**
      * eq method for Boolean(execute only if value is not null)(execute only if value is not null)
@@ -292,7 +292,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children eqNotBlank(Column column, Boolean value);
+    <R> Children eqNotBlank(ColumnFunction<R, ?> column, Boolean value);
 
     /**
      * eq method for String
@@ -302,7 +302,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children eq(boolean execute, Column column, String value);
+    <R> Children eq(boolean execute, ColumnFunction<R, ?> column, String value);
 
     /**
      * eq method for String(execute only if value is not null)
@@ -311,7 +311,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children eqNotBlank(Column column, String value);
+    <R> Children eqNotBlank(ColumnFunction<R, ?> column, String value);
 
     /**
      * eq method for Date
@@ -321,7 +321,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children eq(boolean execute, Column column, Date value);
+    <R> Children eq(boolean execute, ColumnFunction<R, ?> column, Date value);
 
     /**
      * eq method for Date(execute only if value is not null)
@@ -330,7 +330,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children eqNotBlank(Column column, Date value);
+    <R> Children eqNotBlank(ColumnFunction<R, ?> column, Date value);
 
     /**
      * eq method for LocalDate
@@ -340,7 +340,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children eq(boolean execute, Column column, LocalDate value);
+    <R> Children eq(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * eq method for LocalDate(execute only if value is not null)
@@ -349,7 +349,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children eqNotBlank(Column column, LocalDate value);
+    <R> Children eqNotBlank(ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * eq method for LocalDateTime
@@ -359,7 +359,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children eq(boolean execute, Column column, LocalDateTime value);
+    <R> Children eq(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * eq method for LocalDateTime(execute only if value is not null)
@@ -368,7 +368,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children eqNotBlank(Column column, LocalDateTime value);
+    <R> Children eqNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * eq method for Column
@@ -378,7 +378,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children eq(boolean execute, Column column, Column value);
+    <R, V> Children eq(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
 
     /**
      * eq method for nested function
@@ -388,7 +388,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param function nested function
      * @return chain object
      */
-    Children eqNested(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    <R> Children eqNested(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
      * le method for Number(eg: where `id` <= 1)
@@ -398,7 +398,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children le(boolean execute, Column column, Number value);
+    <R> Children le(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
      * le method for Number(eg: where `id` <= 1)(execute only if value is not null)
@@ -407,7 +407,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children leNotBlank(Column column, Number value);
+    <R> Children leNotBlank(ColumnFunction<R, ?> column, Number value);
 
     /**
      * le method for String
@@ -417,7 +417,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children le(boolean execute, Column column, String value);
+    <R> Children le(boolean execute, ColumnFunction<R, ?> column, String value);
 
     /**
      * le method for String(execute only if value is not null)
@@ -426,7 +426,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children leNotBlank(Column column, String value);
+    <R> Children leNotBlank(ColumnFunction<R, ?> column, String value);
 
     /**
      * le method for Date
@@ -436,7 +436,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children le(boolean execute, Column column, Date value);
+    <R> Children le(boolean execute, ColumnFunction<R, ?> column, Date value);
 
     /**
      * le method for Date(execute only if value is not null)
@@ -445,7 +445,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children leNotBlank(Column column, Date value);
+    <R> Children leNotBlank(ColumnFunction<R, ?> column, Date value);
 
     /**
      * le method for LocalDate
@@ -455,7 +455,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children le(boolean execute, Column column, LocalDate value);
+    <R> Children le(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * le method for LocalDate(execute only if value is not null)
@@ -464,7 +464,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children leNotBlank(Column column, LocalDate value);
+    <R> Children leNotBlank(ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * le method for LocalDateTime
@@ -474,7 +474,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children le(boolean execute, Column column, LocalDateTime value);
+    <R> Children le(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * le method for LocalDateTime(execute only if value is not null)
@@ -483,7 +483,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children leNotBlank(Column column, LocalDateTime value);
+    <R> Children leNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * le method for Column
@@ -493,7 +493,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children le(boolean execute, Column column, Column value);
+    <R, V> Children le(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
 
     /**
      * le method for nested function
@@ -503,7 +503,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param function nested function
      * @return chain object
      */
-    Children le(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    <R> Children le(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
      * lt method for Number(eg: where `id` < 1)
@@ -513,7 +513,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children lt(boolean execute, Column column, Number value);
+    <R> Children lt(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
      * lt method for Number(eg: where `id` < 1)(execute only if value is not null)
@@ -522,7 +522,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children ltNotBlank(Column column, Number value);
+    <R> Children ltNotBlank(ColumnFunction<R, ?> column, Number value);
 
     /**
      * lt method for String
@@ -532,7 +532,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children lt(boolean execute, Column column, String value);
+    <R> Children lt(boolean execute, ColumnFunction<R, ?> column, String value);
 
     /**
      * lt method for String(execute only if value is not null)
@@ -541,7 +541,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children ltNotBlank(Column column, String value);
+    <R> Children ltNotBlank(ColumnFunction<R, ?> column, String value);
 
     /**
      * lt method for Date
@@ -551,7 +551,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children lt(boolean execute, Column column, Date value);
+    <R> Children lt(boolean execute, ColumnFunction<R, ?> column, Date value);
 
     /**
      * lt method for Date(execute only if value is not null)
@@ -560,7 +560,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children ltNotBlank(Column column, Date value);
+    <R> Children ltNotBlank(ColumnFunction<R, ?> column, Date value);
 
     /**
      * lt method for LocalDate
@@ -570,7 +570,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children lt(boolean execute, Column column, LocalDate value);
+    <R> Children lt(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * lt method for LocalDate(execute only if value is not null)
@@ -579,7 +579,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children ltNotBlank(Column column, LocalDate value);
+    <R> Children ltNotBlank(ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * lt method for LocalDateTime
@@ -589,7 +589,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children lt(boolean execute, Column column, LocalDateTime value);
+    <R> Children lt(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * lt method for LocalDateTime(execute only if value is not null)
@@ -598,7 +598,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children ltNotBlank(Column column, LocalDateTime value);
+    <R> Children ltNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * lt method for Column
@@ -608,7 +608,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children lt(boolean execute, Column column, Column value);
+    <R, V> Children lt(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
 
     /**
      * lt method for nested function
@@ -618,7 +618,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param function nested function
      * @return chain object
      */
-    Children lt(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    <R> Children lt(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
 
     /**
@@ -629,7 +629,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ne(boolean execute, Column column, Number value);
+    <R> Children ne(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
      * ne method(eg: where `id` <> 1)(execute only if value is not null)
@@ -638,7 +638,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children neNotBlank(Column column, Number value);
+    <R> Children neNotBlank(ColumnFunction<R, ?> column, Number value);
 
     /**
      * ne method for String
@@ -648,7 +648,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ne(boolean execute, Column column, String value);
+    <R> Children ne(boolean execute, ColumnFunction<R, ?> column, String value);
 
     /**
      * ne method for String(execute only if value is not null)
@@ -657,7 +657,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children neNotBlank(Column column, String value);
+    <R> Children neNotBlank(ColumnFunction<R, ?> column, String value);
 
     /**
      * ne method for Date
@@ -667,7 +667,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ne(boolean execute, Column column, Date value);
+    <R> Children ne(boolean execute, ColumnFunction<R, ?> column, Date value);
 
     /**
      * ne method for Date(execute only if value is not null)
@@ -676,7 +676,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children neNotBlank(Column column, Date value);
+    <R> Children neNotBlank(ColumnFunction<R, ?> column, Date value);
 
     /**
      * ne method for LocalDate
@@ -686,7 +686,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ne(boolean execute, Column column, LocalDate value);
+    <R> Children ne(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * ne method for LocalDate(execute only if value is not null)
@@ -695,7 +695,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children neNotBlank(Column column, LocalDate value);
+    <R> Children neNotBlank(ColumnFunction<R, ?> column, LocalDate value);
 
     /**
      * ne method for LocalDateTime
@@ -705,7 +705,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ne(boolean execute, Column column, LocalDateTime value);
+    <R> Children ne(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * ne method for LocalDateTime(execute only if value is not null)
@@ -714,7 +714,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children neNotBlank(Column column, LocalDateTime value);
+    <R> Children neNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
      * ne method for Column
@@ -724,7 +724,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children ne(boolean execute, Column column, Column value);
+    <R, V> Children ne(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
 
     /**
      * ne method for nested function
@@ -734,7 +734,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param function nested function
      * @return chain object
      */
-    Children ne(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    <R> Children ne(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
      * like method(eg: where `name` like '%zhangsan%')
@@ -744,7 +744,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children like(boolean execute, Column column, String value);
+    <R> Children like(boolean execute, ColumnFunction<R, ?> column, String value);
 
     /**
      * like method(eg: where `name` like '%zhangsan%', execute only if value is not empty)
@@ -753,7 +753,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children likeNotBlank(Column column, String value);
+    <R> Children likeNotBlank(ColumnFunction<R, ?> column, String value);
 
     /**
      * like left method(eq: where `name` like 'zhangsan%')
@@ -763,7 +763,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children likeLeft(boolean execute, Column column, String value);
+    <R> Children likeLeft(boolean execute, ColumnFunction<R, ?> column, String value);
 
     /**
      * like left method(eq: where `name` like 'zhangsan%', execute only if value is not empty)
@@ -772,7 +772,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value  given object
      * @return chain object
      */
-    Children likeLeftNotBlank(Column column, String value);
+    <R> Children likeLeftNotBlank(ColumnFunction<R, ?> column, String value);
 
     /**
      * like right method(eq: where `name` like '%zhangsan')
@@ -782,7 +782,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children likeRight(boolean execute, Column column, String value);
+    <R> Children likeRight(boolean execute, ColumnFunction<R, ?> column, String value);
 
     /**
      * not like method(eq: where `name` not like '%zhangsan%')
@@ -792,7 +792,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param value   given object
      * @return chain object
      */
-    Children notLike(boolean execute, Column column, String value);
+    <R> Children notLike(boolean execute, ColumnFunction<R, ?> column, String value);
 
     /**
      * between method(eg: where `age` between 20 and 30)
@@ -803,7 +803,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param end     end value
      * @return chain object
      */
-    Children between(boolean execute, Column column, Number start, Number end);
+    <R> Children between(boolean execute, ColumnFunction<R, ?> column, Number start, Number end);
 
     /**
      * not between method(eg: where `age` not between 20 and 30)
@@ -814,7 +814,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param end     end value
      * @return chain object
      */
-    Children notBetween(boolean execute, Column column, Number start, Number end);
+    <R> Children notBetween(boolean execute, ColumnFunction<R, ?> column, Number start, Number end);
 
     /**
      * between method(eg: where `birthday` between '1999-01-01 00:00:00' and '1999-12-31 23:59:59')
@@ -825,7 +825,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param end     end value
      * @return chain object
      */
-    Children between(boolean execute, Column column, Date start, Date end);
+    <R> Children between(boolean execute, ColumnFunction<R, ?> column, Date start, Date end);
 
     /**
      * not between method(eg: where `birthday` not between '1999-01-01 00:00:00' and '1999-12-31 23:59:59')
@@ -836,7 +836,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param end     end value
      * @return chain object
      */
-    Children notBetween(boolean execute, Column column, Date start, Date end);
+    <R> Children notBetween(boolean execute, ColumnFunction<R, ?> column, Date start, Date end);
 
     /**
      * between method(eg: where `birthday` between '1999-01-01' and '1999-12-31')
@@ -847,7 +847,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param end     end value
      * @return chain object
      */
-    Children between(boolean execute, Column column, LocalDate start, LocalDate end);
+    <R> Children between(boolean execute, ColumnFunction<R, ?> column, LocalDate start, LocalDate end);
 
     /**
      * not between method(eg: where `birthday` not between '1999-01-01' and '1999-12-31')
@@ -858,7 +858,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param end     end value
      * @return chain object
      */
-    Children notBetween(boolean execute, Column column, LocalDate start, LocalDate end);
+    <R> Children notBetween(boolean execute, ColumnFunction<R, ?> column, LocalDate start, LocalDate end);
 
     /**
      * between method(eg: where `birthday` between '1999-01-01 00:00:00' and '1999-12-31 23:59:59')
@@ -869,7 +869,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param end     end value
      * @return chain object
      */
-    Children between(boolean execute, Column column, LocalDateTime start, LocalDateTime end);
+    <R> Children between(boolean execute, ColumnFunction<R, ?> column, LocalDateTime start, LocalDateTime end);
 
     /**
      * not between method(eg: where `birthday` not between '1999-01-01 00:00:00' and '1999-12-31 23:59:59')
@@ -880,7 +880,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param end     end value
      * @return chain object
      */
-    Children notBetween(boolean execute, Column column, LocalDateTime start, LocalDateTime end);
+    <R> Children notBetween(boolean execute, ColumnFunction<R, ?> column, LocalDateTime start, LocalDateTime end);
 
     /**
      * isNull method(eg: where `age` is null)
@@ -889,7 +889,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param column  lambda column name
      * @return chain object
      */
-    Children isNull(boolean execute, Column column);
+    <R> Children isNull(boolean execute, ColumnFunction<R, ?> column);
 
     /**
      * isNotNull method(eg: where `age` is not null)
@@ -898,7 +898,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param column  lambda column name
      * @return chain object
      */
-    Children isNotNull(boolean execute, Column column);
+    <R> Children isNotNull(boolean execute, ColumnFunction<R, ?> column);
 
     /**
      * isEmpty method(eg: where `name` = '')
@@ -907,7 +907,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param column  lambda column name
      * @return chain object
      */
-    Children isEmpty(boolean execute, Column column);
+    <R> Children isEmpty(boolean execute, ColumnFunction<R, ?> column);
 
     /**
      * isNotEmpty method(eg: where `name` != '')
@@ -916,7 +916,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param column  lambda column name
      * @return chain object
      */
-    Children isNotEmpty(boolean execute, Column column);
+    <R> Children isNotEmpty(boolean execute, ColumnFunction<R, ?> column);
 
     /**
      * in method(eg: where `id` in (1, 2, 3, 4))
@@ -926,7 +926,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param values  given collection
      * @return chain object
      */
-    Children in(boolean execute, Column column, Collection<?> values);
+    <R> Children in(boolean execute, ColumnFunction<R, ?> column, Collection<?> values);
 
     /**
      * in method(eg: where `id` in (1, 2, 3, 4))
@@ -935,7 +935,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param values given collection
      * @return chain object
      */
-    Children inNotBlank(Column column, Collection<?> values);
+    <R> Children inNotBlank(ColumnFunction<R, ?> column, Collection<?> values);
 
     /**
      * in nested method(eg: where `id` in (select `id` from user where age  > 20 ))
@@ -945,7 +945,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param function nested expression
      * @return chain object
      */
-    Children in(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    <R> Children in(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
      * not in method(eg: where `id` not in (1, 2, 3, 4))
@@ -955,7 +955,7 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param values  given collection
      * @return chain object
      */
-    Children notIn(boolean execute, Column column, Collection<?> values);
+    <R> Children notIn(boolean execute, ColumnFunction<R, ?> column, Collection<?> values);
 
     /**
      * not in nested method(eg: where `id` not in (select `id` from user where age  > 20 ))
@@ -965,5 +965,5 @@ public interface Compare<Children, Column extends ColumnFunction<?, ?>> extends 
      * @param function nested expression
      * @return chain object
      */
-    Children notIn(boolean execute, Column column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
+    <R> Children notIn(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 }

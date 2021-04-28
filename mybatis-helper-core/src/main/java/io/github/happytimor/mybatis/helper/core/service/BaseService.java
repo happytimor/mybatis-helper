@@ -280,6 +280,34 @@ public class BaseService<M extends BaseMapper<T>, T> {
     }
 
     /**
+     * 分页查询
+     *
+     * @param pageNo        页码
+     * @param pageSize      页面大小
+     * @param selectWrapper 请求
+     * @return 分页结果
+     */
+    public <R> Page<R> selectJoinPage(Class<R> clazz, int pageNo, int pageSize, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectJoinWrapper<>();
+        }
+
+        Page<R> page = new Page<>(pageNo, pageSize);
+        long total = this.selectCount(selectWrapper);
+        page.setTotal(total);
+        if (total <= 0) {
+            page.setRecords(new ArrayList<>());
+            return page;
+        }
+        if (selectWrapper instanceof OrderWrapper) {
+            ((OrderWrapper) selectWrapper).limit(page.getStartRow(), page.getPageSize());
+        }
+        List<R> reocrds = this.selectObjectList(clazz, selectWrapper);
+        page.setRecords(reocrds);
+        return page;
+    }
+
+    /**
      * 查询总数
      *
      * @param selectWrapper 查询条件
