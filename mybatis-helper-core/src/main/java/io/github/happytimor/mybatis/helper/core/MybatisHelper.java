@@ -12,6 +12,7 @@ import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import io.github.happytimor.mybatis.helper.core.method.*;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
+import io.github.happytimor.mybatis.helper.core.util.LambdaUtils;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.apache.ibatis.reflection.MetaClass;
 import org.apache.ibatis.reflection.Reflector;
@@ -177,17 +178,21 @@ public class MybatisHelper implements ApplicationContextAware {
      * @param mapperBuilderAssistant mapperBuilderAssistant
      */
     private void inject(Class<?> mapperClass, MapperBuilderAssistant mapperBuilderAssistant) {
-        Class<?> modelClass = this.extractModelClass(mapperClass);
+        Class<?> modelClass = LambdaUtils.extractModelClass(mapperClass);
         if (modelClass == null) {
             return;
         }
         boolean isNoPrimaryKeyMapper = NoPrimaryKeyMapper.class.isAssignableFrom(mapperClass);
 
-        Collection<String> mappedStatementNames = mapperBuilderAssistant.getConfiguration().getMappedStatementNames();
-        TableInfo tableInfo = this.parseTableInfo(modelClass, !isNoPrimaryKeyMapper);
+        TableInfo tableInfo = LambdaUtils.parseTableInfo(modelClass);
+        if (!isNoPrimaryKeyMapper) {
+            tableInfo.setKeyColumn(Constants.DEFAULT_KEY_COLUMN);
+            tableInfo.setKeyProperty(Constants.DEFAULT_KEY_PROPERTY);
+        }
         tableInfo.setMultipleTable(MultipleTableMapper.class.isAssignableFrom(mapperClass));
         mapperBuilderAssistant.setCurrentNamespace(mapperClass.getName());
 
+        Collection<String> mappedStatementNames = mapperBuilderAssistant.getConfiguration().getMappedStatementNames();
         for (AbstractMethod abstractMethod : methodList) {
             if (isNoPrimaryKeyMapper && skipMethodListForNoPrimaryKeyMapper.contains(abstractMethod.getClass().getSimpleName())) {
                 if (logger.isDebugEnabled()) {
@@ -250,108 +255,5 @@ public class MybatisHelper implements ApplicationContextAware {
         }
     }
 
-    /**
-     * 从model中解析出table信息
-     *
-     * @param modelClass 对象模型
-     * @return 表映射信息
-     */
-    private TableInfo parseTableInfo(Class<?> modelClass, boolean hasPrimaryKey) {
-        TableName tableNameAnnotation = modelClass.getAnnotation(TableName.class);
 
-        //如果没有TableName注解, 则自动对model名称下划线处理, 拿到的表名(如果表名是t_user这种,则必须要有@TableName注解)
-        String tableName = tableNameAnnotation != null
-                ? tableNameAnnotation.value() : ColumnUtils.camelCaseToUnderscore(modelClass.getSimpleName());
-        //分表连接符
-        MultipleTableConnector multipleTableConnector = modelClass.getAnnotation(MultipleTableConnector.class);
-        TableInfo tableInfo = new TableInfo();
-        tableInfo.setMultipleTableConnector(multipleTableConnector != null ? multipleTableConnector.value() : "_");
-
-        tableInfo.setModelClass(modelClass);
-        tableInfo.setTableName(tableName);
-        if (hasPrimaryKey) {
-            tableInfo.setKeyColumn(Constants.DEFAULT_KEY_COLUMN);
-            tableInfo.setKeyProperty(Constants.DEFAULT_KEY_PROPERTY);
-        }
-
-        List<Result> resultList = new ArrayList<>();
-        List<Field> declaredFields = new ArrayList<>();
-        this.parseAlldeclaredFields(modelClass, declaredFields);
-        for (Field declaredField : declaredFields) {
-            //跳过final修饰变量
-            if (java.lang.reflect.Modifier.isFinal(declaredField.getModifiers())) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("skip final field:{}.{}", modelClass.getSimpleName(), declaredField.getName());
-                }
-                continue;
-            }
-
-            //剔除不存在于数据库的字段
-            TableColumn tableColumn = declaredField.getAnnotation(TableColumn.class);
-            if (tableColumn != null && !tableColumn.exist()) {
-                continue;
-            }
-
-            //填充result映射
-            String fieldName = declaredField.getName();
-            boolean overrideColumn = tableColumn != null && !("".equals(tableColumn.value()));
-            String columnName = overrideColumn ? tableColumn.value() : ColumnUtils.camelCaseToUnderscore(fieldName);
-            if (overrideColumn) {
-                tableInfo.setOverrideColumn(true);
-            }
-            resultList.add(new Result(fieldName, columnName, overrideColumn));
-
-            //覆盖默认主键
-            if (tableColumn != null && tableColumn.primaryKey()) {
-                if ("".equals(tableColumn.value())) {
-                    throw new RuntimeException(String.format("the value should be assigned when setting primary key " +
-                            "for %s.java with @TableColumn", modelClass.getSimpleName()));
-                }
-                tableInfo.setKeyColumn(tableColumn.value());
-                tableInfo.setKeyProperty(fieldName);
-            }
-        }
-        tableInfo.setResultList(resultList);
-        return tableInfo;
-    }
-
-    /**
-     * 解析对象里面的字段, 如果是继承对象, 会遍历父级字段
-     *
-     * @param clz  class类
-     * @param list field容器
-     */
-    private void parseAlldeclaredFields(Class<?> clz, List<Field> list) {
-        list.addAll(Arrays.asList(clz.getDeclaredFields()));
-        if (clz.getSuperclass() != Object.class) {
-            this.parseAlldeclaredFields(clz.getSuperclass(), list);
-        }
-    }
-
-    /**
-     * 提取泛型模型,多泛型的时候请将泛型T放在第一位
-     *
-     * @param mapperClass mapper 接口
-     * @return mapper 泛型
-     */
-    private Class<?> extractModelClass(Class<?> mapperClass) {
-        Type[] types = mapperClass.getGenericInterfaces();
-        ParameterizedType target = null;
-        for (Type type : types) {
-            if (type instanceof ParameterizedType) {
-                Type[] typeArray = ((ParameterizedType) type).getActualTypeArguments();
-                if (typeArray != null && typeArray.length > 0) {
-                    Type t = typeArray[0];
-                    if (t instanceof TypeVariable || t instanceof WildcardType) {
-                        break;
-                    } else {
-                        target = (ParameterizedType) type;
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-        return target == null ? null : (Class<?>) target.getActualTypeArguments()[0];
-    }
 }

@@ -1,5 +1,7 @@
 package io.github.happytimor.mybatis.helper.single.database.test.domain;
 
+import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
+
 /**
  * @author chenpeng
  */
@@ -8,6 +10,9 @@ public class Student {
     private String name;
     private Integer age;
     private Integer courseId;
+
+    @TableColumn(exist = false)
+    private String courseName;
     private Boolean deleted;
 
     public Integer getId() {
@@ -48,5 +53,13 @@ public class Student {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 }

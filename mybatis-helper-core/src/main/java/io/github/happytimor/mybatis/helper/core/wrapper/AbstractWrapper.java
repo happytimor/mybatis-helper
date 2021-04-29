@@ -2,6 +2,7 @@ package io.github.happytimor.mybatis.helper.core.wrapper;
 
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
+import io.github.happytimor.mybatis.helper.core.common.SelectColumn;
 import io.github.happytimor.mybatis.helper.core.common.SqlFunctionName;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnWrapper;
@@ -28,7 +29,7 @@ public abstract class AbstractWrapper<T> {
      */
     protected final List<OrderWrapper.Order> orderList = new ArrayList<>();
 
-    protected final List<ColumnFunction<?, ?>> selectColumnFunctionList = new ArrayList<>();
+    protected final List<SelectColumn> selectColumnList = new ArrayList<>();
     /**
      * JoinWrapper
      */
@@ -184,15 +185,18 @@ public abstract class AbstractWrapper<T> {
 
     public String getSelectSegment() {
         try {
-            if (selectColumnFunctionList.isEmpty()) {
+            if (selectColumnList.isEmpty()) {
                 return "*";
             }
-            return selectColumnFunctionList.stream().map(columnFunction -> {
-                String columnName = this.parseColumnName(columnFunction);
+            return selectColumnList.stream().map(selectColumn -> {
+                String columnName = selectColumn.getColumnFunction() != null ?
+                        this.parseColumnName(selectColumn.getColumnFunction()) : selectColumn.getColumnName();
                 if (subTable.isEmpty()) {
                     return columnName;
                 }
-                String tableAlias = this.getTableAlias(this.parseClazz(columnFunction));
+                Class<?> clazz = selectColumn.getClazz() != null ?
+                        selectColumn.getClazz() : this.parseClazz(selectColumn.getColumnFunction());
+                String tableAlias = this.getTableAlias(clazz);
                 return tableAlias + "." + columnName + " ";
             }).collect(Collectors.joining(","));
         } finally {

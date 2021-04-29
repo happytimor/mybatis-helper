@@ -1,5 +1,6 @@
 package io.github.happytimor.mybatis.helper.single.database.test;
 
+import com.alibaba.fastjson.JSONObject;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectJoinWrapper;
@@ -324,6 +325,16 @@ public class MethodTests {
             );
             assert Objects.equals(user.getId(), userList.get(userList.size() - 1).getId());
         });
+    }
+
+    @Test
+    public void joinSelectAll() {
+        List<Student> list = this.studentService.selectObjectList(Student.class, new SelectJoinWrapper<Student>()
+                .selectAll(Student.class)
+                .selectAs(CourseInfo::getName, Student::getCourseName)
+                .leftJoin(CourseInfo.class, CourseInfo::getId, Student::getId)
+        );
+        assert list.size() > 0;
     }
 
     @Test
