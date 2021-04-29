@@ -82,24 +82,6 @@ CREATE TABLE `user_no_key` (
   `flag` varchar(64) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP DATABASE IF  EXISTS `mybatis_helper_database1` ;
-CREATE DATABASE `mybatis_helper_database1` ;
-USE `mybatis_helper_database1`;
-CREATE TABLE `user` LIKE `mybatis_helper_demo`.`user`;
-CREATE TABLE `user_info` LIKE `mybatis_helper_demo`.`user_info`;
-CREATE TABLE `user_01` LIKE `mybatis_helper_demo`.`user_01`;
-CREATE TABLE `user_uid` LIKE `mybatis_helper_demo`.`user_uid`;
-CREATE TABLE `user_no_key` LIKE `mybatis_helper_demo`.`user_no_key`;
-
-DROP DATABASE IF  EXISTS `mybatis_helper_database2` ;
-CREATE DATABASE `mybatis_helper_database2` ;
-USE `mybatis_helper_database2`;
-CREATE TABLE `user` LIKE `mybatis_helper_demo`.`user`;
-CREATE TABLE `user_info` LIKE `mybatis_helper_demo`.`user_info`;
-CREATE TABLE `user_01` LIKE `mybatis_helper_demo`.`user_01`;
-CREATE TABLE `user_uid` LIKE `mybatis_helper_demo`.`user_uid`;
-CREATE TABLE `user_no_key` LIKE `mybatis_helper_demo`.`user_no_key`;
-
 -- JOIN 测试
 CREATE TABLE `course_info` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -116,7 +98,6 @@ CREATE TABLE `student` (
   `course_id` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `teacher_info` (
@@ -147,3 +128,21 @@ INSERT INTO `teacher_info` (`id`, `name`, `deleted`, `offline`) VALUES
 ('3', '老子', '1', '0'),
 ('4', '孔子', '0', '0'),
 ('5', '孟子', '0', '0');
+
+DROP DATABASE IF  EXISTS `mybatis_helper_database1` ;
+CREATE DATABASE `mybatis_helper_database1` ;
+USE `mybatis_helper_database1`;
+CREATE TABLE `user` LIKE `mybatis_helper_demo`.`user`;
+CREATE TABLE `user_info` LIKE `mybatis_helper_demo`.`user_info`;
+CREATE TABLE `user_01` LIKE `mybatis_helper_demo`.`user_01`;
+CREATE TABLE `user_uid` LIKE `mybatis_helper_demo`.`user_uid`;
+CREATE TABLE `user_no_key` LIKE `mybatis_helper_demo`.`user_no_key`;
+
+DROP DATABASE IF  EXISTS `mybatis_helper_database2` ;
+CREATE DATABASE `mybatis_helper_database2` ;
+USE `mybatis_helper_database2`;
+CREATE TABLE `user` LIKE `mybatis_helper_demo`.`user`;
+CREATE TABLE `user_info` LIKE `mybatis_helper_demo`.`user_info`;
+CREATE TABLE `user_01` LIKE `mybatis_helper_demo`.`user_01`;
+CREATE TABLE `user_uid` LIKE `mybatis_helper_demo`.`user_uid`;
+CREATE TABLE `user_no_key` LIKE `mybatis_helper_demo`.`user_no_key`;
