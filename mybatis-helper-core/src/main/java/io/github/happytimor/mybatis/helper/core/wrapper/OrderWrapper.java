@@ -1,6 +1,7 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.util.LambdaUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * @param column 字段名称
      * @return children
      */
-    public OrderWrapper<T> orderByAsc(ColumnFunction<T, ?> column) {
+    public <E> OrderWrapper<T> orderByAsc(ColumnFunction<E, ?> column) {
         return orderByAsc(true, column);
     }
 
@@ -25,10 +26,10 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * 升序
      *
      * @param execute 是否执行
-     * @param column    字段名称
+     * @param column  字段名称
      * @return children
      */
-    public OrderWrapper<T> orderByAsc(boolean execute, ColumnFunction<T, ?> column) {
+    public <E> OrderWrapper<T> orderByAsc(boolean execute, ColumnFunction<E, ?> column) {
         return this.orderByAsc(execute, column, true);
     }
 
@@ -36,13 +37,14 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * 升序
      *
      * @param execute 是否执行
-     * @param column    字段名称
-     * @param asc       是否升序 true-升序 false-降序
+     * @param column  字段名称
+     * @param asc     是否升序 true-升序 false-降序
      * @return children
      */
-    public OrderWrapper<T> orderByAsc(boolean execute, ColumnFunction<T, ?> column, Boolean asc) {
+    public <E> OrderWrapper<T> orderByAsc(boolean execute, ColumnFunction<E, ?> column, Boolean asc) {
         if (execute) {
-            this.orderList.add(new Order(this.getColumnName(column), asc != null && asc ? "ASC" : "DESC"));
+            Class<?> clazz = LambdaUtils.resolve(column).getInstantiatedType();
+            this.orderList.add(new Order(clazz, this.getColumnName(column), asc != null && asc ? "ASC" : "DESC"));
         }
         return this;
     }
@@ -53,7 +55,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * @param column 字段名称
      * @return children
      */
-    public OrderWrapper<T> orderByDesc(ColumnFunction<T, ?> column) {
+    public <E> OrderWrapper<T> orderByDesc(ColumnFunction<E, ?> column) {
         return orderByDesc(true, column);
     }
 
@@ -61,12 +63,13 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * 降序
      *
      * @param execute 是否执行
-     * @param column    字段名称
+     * @param column  字段名称
      * @return children
      */
-    public OrderWrapper<T> orderByDesc(boolean execute, ColumnFunction<T, ?> column) {
+    public <E> OrderWrapper<T> orderByDesc(boolean execute, ColumnFunction<E, ?> column) {
         if (execute) {
-            this.orderList.add(new Order(this.getColumnName(column), "DESC"));
+            Class<?> clazz = LambdaUtils.resolve(column).getInstantiatedType();
+            this.orderList.add(new Order(clazz, this.getColumnName(column), "DESC"));
         }
         return this;
     }
@@ -75,13 +78,14 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * 降序
      *
      * @param execute 是否执行
-     * @param column    字段名称
-     * @param desc      是否降序 true-降序 false-升序
+     * @param column  字段名称
+     * @param desc    是否降序 true-降序 false-升序
      * @return children
      */
     public OrderWrapper<T> orderByDesc(boolean execute, ColumnFunction<T, ?> column, Boolean desc) {
         if (execute) {
-            this.orderList.add(new Order(this.getColumnName(column), desc != null && desc ? "DESC" : "ASC"));
+            Class<?> clazz = LambdaUtils.resolve(column).getInstantiatedType();
+            this.orderList.add(new Order(clazz, this.getColumnName(column), desc != null && desc ? "DESC" : "ASC"));
         }
         return this;
     }
@@ -111,6 +115,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
 
 
     static class Order {
+        private Class<?> clazz;
         /**
          * 字段名
          */
@@ -123,6 +128,20 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
         public Order(String column, String orderType) {
             this.column = column;
             this.orderType = orderType;
+        }
+
+        public Order(Class<?> clazz, String column, String orderType) {
+            this.clazz = clazz;
+            this.column = column;
+            this.orderType = orderType;
+        }
+
+        public Class<?> getClazz() {
+            return clazz;
+        }
+
+        public void setClazz(Class<?> clazz) {
+            this.clazz = clazz;
         }
 
         public String getColumn() {

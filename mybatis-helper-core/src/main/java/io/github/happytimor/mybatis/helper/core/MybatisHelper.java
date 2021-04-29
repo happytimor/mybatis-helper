@@ -27,6 +27,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.lang.reflect.*;
@@ -186,8 +187,12 @@ public class MybatisHelper implements ApplicationContextAware {
 
         TableInfo tableInfo = LambdaUtils.parseTableInfo(modelClass);
         if (!isNoPrimaryKeyMapper) {
-            tableInfo.setKeyColumn(Constants.DEFAULT_KEY_COLUMN);
-            tableInfo.setKeyProperty(Constants.DEFAULT_KEY_PROPERTY);
+            if (StringUtils.isEmpty(tableInfo.getKeyColumn())) {
+                tableInfo.setKeyColumn(Constants.DEFAULT_KEY_COLUMN);
+            }
+            if (StringUtils.isEmpty(tableInfo.getKeyProperty())) {
+                tableInfo.setKeyProperty(Constants.DEFAULT_KEY_PROPERTY);
+            }
         }
         tableInfo.setMultipleTable(MultipleTableMapper.class.isAssignableFrom(mapperClass));
         mapperBuilderAssistant.setCurrentNamespace(mapperClass.getName());

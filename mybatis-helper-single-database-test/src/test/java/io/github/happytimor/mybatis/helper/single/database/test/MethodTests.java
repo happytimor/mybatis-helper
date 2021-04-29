@@ -333,6 +333,8 @@ public class MethodTests {
                 .selectAll(Student.class)
                 .selectAs(CourseInfo::getName, Student::getCourseName)
                 .leftJoin(CourseInfo.class, CourseInfo::getId, Student::getId)
+                .orderByAsc(CourseInfo::getId)
+                .orderByDesc(Student::getId)
         );
         assert list.size() > 0;
     }

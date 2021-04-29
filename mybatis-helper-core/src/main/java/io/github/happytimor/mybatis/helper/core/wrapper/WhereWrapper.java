@@ -895,11 +895,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
 
     private <E> void addCondition(ColumnFunction<E, ?> column, String operator, Object value) {
         String columnName = this.getColumnName(column, false);
-        String tableAlias = "";
-        if (!subTable.isEmpty()) {
-            tableAlias = this.getTableAlias(LambdaUtils.resolve(column).getInstantiatedType()) + ".";
-        }
-
+        String tableAlias = super.getTableAlias(LambdaUtils.resolve(column).getInstantiatedType(), true);
         int count = counter.incrementAndGet();
         String key = "params_" + count + "_" + columnName;
         paramNameValuePairs.put(key, value);
