@@ -97,7 +97,7 @@ CREATE TABLE `student` (
   `age` int(11) DEFAULT NULL,
   `course_id` int(11) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `teacher_info` (
