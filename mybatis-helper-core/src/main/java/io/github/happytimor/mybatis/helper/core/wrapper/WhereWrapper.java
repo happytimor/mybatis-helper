@@ -776,7 +776,8 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public <R> WhereWrapper<T> isNull(boolean execute, ColumnFunction<R, ?> column) {
         if (execute) {
-            conditionList.add(new Condition(this.getColumnName(column) + " IS NULL"));
+            String tableAlias = super.getTableAlias(LambdaUtils.resolve(column).getInstantiatedType(), true);
+            conditionList.add(new Condition(tableAlias + this.getColumnName(column) + " IS NULL"));
         }
         return this;
     }
@@ -784,7 +785,8 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public <R> WhereWrapper<T> isNotNull(boolean execute, ColumnFunction<R, ?> column) {
         if (execute) {
-            conditionList.add(new Condition(this.getColumnName(column) + " IS NOT NULL"));
+            String tableAlias = super.getTableAlias(LambdaUtils.resolve(column).getInstantiatedType(), true);
+            conditionList.add(new Condition(tableAlias + this.getColumnName(column) + " IS NOT NULL"));
         }
         return this;
     }
@@ -792,7 +794,8 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public <R> WhereWrapper<T> isEmpty(boolean execute, ColumnFunction<R, ?> column) {
         if (execute) {
-            conditionList.add(new Condition(this.getColumnName(column) + " = ''"));
+            String tableAlias = super.getTableAlias(LambdaUtils.resolve(column).getInstantiatedType(), true);
+            conditionList.add(new Condition(tableAlias + this.getColumnName(column) + " = ''"));
         }
         return this;
     }
@@ -800,7 +803,8 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public <R> WhereWrapper<T> isNotEmpty(boolean execute, ColumnFunction<R, ?> column) {
         if (execute) {
-            conditionList.add(new Condition(this.getColumnName(column) + " != ''"));
+            String tableAlias = super.getTableAlias(LambdaUtils.resolve(column).getInstantiatedType(), true);
+            conditionList.add(new Condition(tableAlias + this.getColumnName(column) + " != ''"));
         }
         return this;
     }
@@ -863,12 +867,14 @@ public class WhereWrapper<T> extends GroupWrapper<T>
      */
     private <R> void nestedExpression(ColumnFunction<R, ?> column, String operator, Collection<?> values) {
         String columnName = this.getColumnName(column, false);
+        String tableAlias = super.getTableAlias(LambdaUtils.resolve(column).getInstantiatedType(), true);
 
         //如果只有一个元素,退化成 = 或者 !=
         if (values.size() == 1) {
             this.addCondition(column, "IN".equals(operator) ? "=" : "!=", values.iterator().next());
             return;
         }
+
         StringBuilder stringBuilder = new StringBuilder();
         for (Object value : values) {
             String key = "params_" + counter.incrementAndGet() + "_" + columnName;
@@ -879,7 +885,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
         if (stringBuilder.length() > 0) {
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         }
-        conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " (" + stringBuilder.toString() + ")"));
+        conditionList.add(new Condition(tableAlias + wrapColumnName(columnName) + " " + operator + " (" + stringBuilder.toString() + ")"));
     }
 
     private <R> void nestedExpression(ColumnFunction<R, ?> column, String operator, AbstractWrapper<?> selectWrapper) {
@@ -903,7 +909,12 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     private <R> void addCondition(ColumnFunction<R, ?> column, String operator, ColumnFunction<T, ?> value) {
-        conditionList.add(new Condition(this.getColumnName(column, true) + " " + operator + " " + this.getColumnName(value, true)));
+        String tableAlias1 = super.getTableAlias(LambdaUtils.resolve(column).getInstantiatedType(), true);
+        String tableAlias2 = super.getTableAlias(LambdaUtils.resolve(value).getInstantiatedType(), true);
+
+        conditionList.add(new Condition(tableAlias1 + this.getColumnName(column, true)
+                + " " + operator + " "
+                + tableAlias2 + this.getColumnName(value, true)));
     }
 
     private <R> void addCondition(ColumnFunction<R, ?> column, String operator, Object start, String connector, Object end) {
@@ -916,7 +927,11 @@ public class WhereWrapper<T> extends GroupWrapper<T>
         String endKey = "params_end_" + count + "_" + columnName;
         paramNameValuePairs.put(endKey, end);
 
-        conditionList.add(new Condition(wrapColumnName(columnName) + " " + operator + " #{" + Params.WRAPPER + ".paramNameValuePairs." + startKey + "} " + connector + " #{" + Params.WRAPPER + ".paramNameValuePairs." + endKey + "}"));
+        String tableAlias = super.getTableAlias(LambdaUtils.resolve(column).getInstantiatedType(), true);
+
+        conditionList.add(new Condition(tableAlias + wrapColumnName(columnName) + " "
+                + operator + " #{" + Params.WRAPPER + ".paramNameValuePairs." + startKey + "} " + connector
+                + " #{" + Params.WRAPPER + ".paramNameValuePairs." + endKey + "}"));
     }
 }
 
