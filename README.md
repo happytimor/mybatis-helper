@@ -6,14 +6,15 @@
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 
-## 1. 基本用法
+## 1. 使用案例
+### 1.1 普通查询
 例如需要在controller提供一个分页查询的API接口,代码可以这么写:
 ``` java
 @RequestMapping("/list")
 @ResponseBody
 public Object list(int pageNo, int pageSize, String name) throws Exception {
     Page<User> page = userService.selectPage(pageNo, pageSize, new SelectWrapper<User>()
-            .eq(StringUtils.isNotBlank(name), User::getName, name)
+            .eqNotBlank(User::getName, name)
             .eq(User::getDeleted, false)
             .orderByDesc(User::getId)
     );
@@ -27,8 +28,55 @@ curl http://localhost:8080/list?pageNo=1&pageSize=10
 
 curl http://localhost:8080/list?pageNo=1&pageSize=10&name=name
 -> SELECT * FROM `user` WHERE `name` = 'name' AND `deleted` = false ORDER BY `id` DESC LIMIT 0,10
-
 ```
+### 1.2 函数查询
+```
+this.userService.selectMap(new SelectWrapper<User>()
+                .select(SqlFunction.count(SqlFunction.distinct(User::getId), "userCount"),
+                        SqlFunction.min(User::getAge, VoInfo::getMinAge),
+                        SqlFunction.max(User::getAge, VoInfo::getMaxAge))
+                .eq(User::getAge, 20)
+        );
+```
+```
+SELECT COUNT(DISTINCT(`id`)) AS 'userCount',MIN(`age`) AS 'minAge',MAX(`age`) AS 'maxAge' 
+    FROM `user` WHERE `age` = ?
+```
+### 1.3 嵌套查询
+```
+long dbCount = this.userService.selectCount(new SelectWrapper<User>()
+                    .eqNested(User::getAge, t -> t.applySelectWrapper(User.class)
+                            .select(User::getAge)
+                            .eq(User::getAge, randomAge)
+                            .limit(1)
+                    )
+                    .eq(User::getFlag, flag)
+            );
+```
+```
+SELECT COUNT(*) FROM `user` WHERE `age` = (SELECT `age` FROM `user` WHERE `age` = ? LIMIT 1) AND `flag` = ?
+```
+### 1.4 join查询
+```
+List<JoinResultVO> list = this.studentService.selectObjectList(JoinResultVO.class, new SelectJoinWrapper<Student>()
+                .select(Student::getName)
+                .selectAs(TeacherInfo::getName, JoinResultVO::getTeacherName)
+                .selectAs(Student::getName, JoinResultVO::getStudentName)
+                .selectAs(CourseInfo::getName, JoinResultVO::getCourseName)
+                .leftJoin(CourseInfo.class, CourseInfo::getId, Student::getId)
+                .rightJoin(TeacherInfo.class, TeacherInfo::getId, CourseInfo::getTeacherId)
+                .eq(Student::getDeleted, false)
+                .eq(CourseInfo::getDeleted, false)
+        );
+```
+```
+SELECT t1.`name` ,t3.`name` AS 'teacherName' ,t1.`name` AS 'studentName' ,t2.`name` AS 'courseName' 
+FROM `student` t1 
+LEFT JOIN course_info t2 ON t2.`id` = t1.`id`
+LEFT JOIN teacher_info t3 ON t3.`id` = t2.`teacher_id` 
+WHERE t1.`deleted` = ? AND t2.`deleted` = ? 
+```
+
 ## 2.如何使用
 ### 2.1 引入maven依赖
 ``` xml

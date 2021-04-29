@@ -209,7 +209,7 @@ public abstract class AbstractWrapper<T> {
         if (subTable.isEmpty()) {
             return "";
         }
-        return "t1";
+        return " t1";
     }
 
     /**
