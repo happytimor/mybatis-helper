@@ -107,7 +107,7 @@ CREATE TABLE `course_info` (
   `teacher_id` int(11) DEFAULT '0' COMMENT '老师id',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '是否已删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `student` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -117,7 +117,7 @@ CREATE TABLE `student` (
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `teacher_info` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
@@ -125,7 +125,7 @@ CREATE TABLE `teacher_info` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '是否删除',
   `offline` tinyint(1) DEFAULT '0' COMMENT '是否请假',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `course_info` (`id`, `name`, `teacher_id`, `deleted`) VALUES
 ('1', '语文', '1', '0'),
