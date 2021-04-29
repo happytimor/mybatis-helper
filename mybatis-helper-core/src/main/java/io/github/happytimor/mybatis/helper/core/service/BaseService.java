@@ -285,6 +285,8 @@ public class BaseService<M extends BaseMapper<T>, T> {
      * @param pageNo        页码
      * @param pageSize      页面大小
      * @param selectWrapper 请求
+     * @param <R>           given lambda class type
+     * @param clazz         返回类型
      * @return 分页结果
      */
     public <R> Page<R> selectJoinPage(Class<R> clazz, int pageNo, int pageSize, AbstractWrapper<T> selectWrapper) {

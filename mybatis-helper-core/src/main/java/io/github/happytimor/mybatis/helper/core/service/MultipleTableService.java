@@ -155,6 +155,7 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
     /**
      * map查询
      *
+     * @param tableNum      表号
      * @param selectWrapper 条件组合
      * @return 返回map
      */
@@ -238,6 +239,7 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
      *
      * @param selectWrapper 条件组合
      * @param defaultValue  结果为空时, 返回默认值
+     * @param tableNum      表号
      * @param <R>           动态返回对象列席
      * @return 返回对象
      */

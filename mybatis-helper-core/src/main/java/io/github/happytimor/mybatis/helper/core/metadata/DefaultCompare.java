@@ -17,10 +17,11 @@ import java.util.function.Function;
  */
 public interface DefaultCompare<Children> extends Compare<Children> {
     /**
-     * gt method for Number(eg: where `id` > 1)
+     * gt method for Number(eg: where `id` &gt; 1)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children gt(ColumnFunction<R, ?> column, Number value) {
@@ -32,6 +33,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children gt(ColumnFunction<R, ?> column, String value) {
@@ -43,6 +45,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children gt(ColumnFunction<R, ?> column, Date value) {
@@ -54,6 +57,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children gt(ColumnFunction<R, ?> column, LocalDate value) {
@@ -65,6 +69,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children gt(ColumnFunction<R, ?> column, LocalDateTime value) {
@@ -72,10 +77,12 @@ public interface DefaultCompare<Children> extends Compare<Children> {
     }
 
     /**
-     * gt method for Column(eg: where `grade_of_english` > `grade_of_math`)
+     * gt method for Column(eg: where `grade_of_english` &gt; `grade_of_math`)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
+     * @param <V>    the other given lambda class type
      * @return chain object
      */
     default <R, V> Children gt(ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
@@ -87,6 +94,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     default <R> Children gt(ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
@@ -94,10 +102,11 @@ public interface DefaultCompare<Children> extends Compare<Children> {
     }
 
     /**
-     * ge method for Number(eg: where `id` >= 1)
+     * ge method for Number(eg: where `id` &gt;= 1)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children ge(ColumnFunction<R, ?> column, Number value) {
@@ -109,6 +118,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children ge(ColumnFunction<R, ?> column, String value) {
@@ -120,6 +130,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children ge(ColumnFunction<R, ?> column, Date value) {
@@ -131,6 +142,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children ge(ColumnFunction<R, ?> column, LocalDate value) {
@@ -142,6 +154,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children ge(ColumnFunction<R, ?> column, LocalDateTime value) {
@@ -153,6 +166,8 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
+     * @param <V>    the other given lambda class type
      * @return chain object
      */
     default <R, V> Children ge(ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
@@ -164,6 +179,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     default <R> Children ge(ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
@@ -175,6 +191,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children eq(ColumnFunction<R, ?> column, Number value) {
@@ -186,6 +203,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children eq(ColumnFunction<R, ?> column, Boolean value) {
@@ -197,6 +215,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children eq(ColumnFunction<R, ?> column, String value) {
@@ -208,6 +227,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children eq(ColumnFunction<R, ?> column, Date value) {
@@ -219,6 +239,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children eq(ColumnFunction<R, ?> column, LocalDate value) {
@@ -230,6 +251,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children eq(ColumnFunction<R, ?> column, LocalDateTime value) {
@@ -241,6 +263,8 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
+     * @param <V>    the other given lambda class type
      * @return chain object
      */
     default <R, V> Children eq(ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
@@ -252,6 +276,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     default <R> Children eqNested(ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
@@ -259,10 +284,11 @@ public interface DefaultCompare<Children> extends Compare<Children> {
     }
 
     /**
-     * le method for Number(eg: where `id` <= 1)
+     * le method for Number(eg: where `id` &lt;=; 1)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children le(ColumnFunction<R, ?> column, Number value) {
@@ -274,6 +300,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children le(ColumnFunction<R, ?> column, String value) {
@@ -285,6 +312,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children le(ColumnFunction<R, ?> column, Date value) {
@@ -296,6 +324,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children le(ColumnFunction<R, ?> column, LocalDate value) {
@@ -307,6 +336,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children le(ColumnFunction<R, ?> column, LocalDateTime value) {
@@ -318,6 +348,8 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
+     * @param <V>    the other given lambda class type
      * @return chain object
      */
     default <R, V> Children le(ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
@@ -329,6 +361,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     default <R> Children le(ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
@@ -336,10 +369,11 @@ public interface DefaultCompare<Children> extends Compare<Children> {
     }
 
     /**
-     * lt method for Number(eg: where `id` < 1)
+     * lt method for Number(eg: where `id` &lt; 1)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children lt(ColumnFunction<R, ?> column, Number value) {
@@ -351,6 +385,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children lt(ColumnFunction<R, ?> column, String value) {
@@ -362,6 +397,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children lt(ColumnFunction<R, ?> column, Date value) {
@@ -373,6 +409,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children lt(ColumnFunction<R, ?> column, LocalDate value) {
@@ -384,6 +421,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children lt(ColumnFunction<R, ?> column, LocalDateTime value) {
@@ -395,6 +433,8 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
+     * @param <V>    the other given lambda class type
      * @return chain object
      */
     default <R, V> Children lt(ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
@@ -406,6 +446,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     default <R> Children lt(ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
@@ -413,10 +454,11 @@ public interface DefaultCompare<Children> extends Compare<Children> {
     }
 
     /**
-     * ne method(eg: where `id` <> 1)
+     * ne method(eg: where `id` &lt;&gt; 1)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children ne(ColumnFunction<R, ?> column, Number value) {
@@ -428,6 +470,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children ne(ColumnFunction<R, ?> column, String value) {
@@ -439,6 +482,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children ne(ColumnFunction<R, ?> column, Date value) {
@@ -450,6 +494,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children ne(ColumnFunction<R, ?> column, LocalDate value) {
@@ -461,6 +506,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children ne(ColumnFunction<R, ?> column, LocalDateTime value) {
@@ -472,6 +518,8 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
+     * @param <V>    the other given lambda class type
      * @return chain object
      */
     default <R, V> Children ne(ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
@@ -483,6 +531,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     default <R> Children ne(ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
@@ -495,6 +544,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children like(ColumnFunction<R, ?> column, String value) {
@@ -506,6 +556,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children likeLeft(ColumnFunction<R, ?> column, String value) {
@@ -517,6 +568,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children likeRight(ColumnFunction<R, ?> column, String value) {
@@ -528,6 +580,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children notLike(ColumnFunction<R, ?> column, String value) {
@@ -540,6 +593,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * @param column lambda column name
      * @param start  start value
      * @param end    end value
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children between(ColumnFunction<R, ?> column, Number start, Number end) {
@@ -552,6 +606,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * @param column lambda column name
      * @param start  start value
      * @param end    end value
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children notBetween(ColumnFunction<R, ?> column, Number start, Number end) {
@@ -564,6 +619,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * @param column lambda column name
      * @param start  start value
      * @param end    end value
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children between(ColumnFunction<R, ?> column, Date start, Date end) {
@@ -576,6 +632,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * @param column lambda column name
      * @param start  start value
      * @param end    end value
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children notBetween(ColumnFunction<R, ?> column, Date start, Date end) {
@@ -588,6 +645,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * @param column lambda column name
      * @param start  start value
      * @param end    end value
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children between(ColumnFunction<R, ?> column, LocalDate start, LocalDate end) {
@@ -600,6 +658,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * @param column lambda column name
      * @param start  start value
      * @param end    end value
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children notBetween(ColumnFunction<R, ?> column, LocalDate start, LocalDate end) {
@@ -612,6 +671,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * @param column lambda column name
      * @param start  start value
      * @param end    end value
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children between(ColumnFunction<R, ?> column, LocalDateTime start, LocalDateTime end) {
@@ -624,6 +684,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * @param column lambda column name
      * @param start  start value
      * @param end    end value
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children notBetween(ColumnFunction<R, ?> column, LocalDateTime start, LocalDateTime end) {
@@ -634,6 +695,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * isNull method(eg: where `age` is null)
      *
      * @param column lambda column name
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children isNull(ColumnFunction<R, ?> column) {
@@ -644,6 +706,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * isNotNull method(eg: where `age` is not null)
      *
      * @param column lambda column name
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children isNotNull(ColumnFunction<R, ?> column) {
@@ -654,6 +717,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * isEmpty method(eg: where `name` = '')
      *
      * @param column lambda column name
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children isEmpty(ColumnFunction<R, ?> column) {
@@ -664,6 +728,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      * isNotEmpty method(eg: where `name` != '')
      *
      * @param column lambda column name
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children isNotEmpty(ColumnFunction<R, ?> column) {
@@ -676,6 +741,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param values given collection
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children in(ColumnFunction<R, ?> column, Collection<?> values) {
@@ -683,10 +749,11 @@ public interface DefaultCompare<Children> extends Compare<Children> {
     }
 
     /**
-     * in nested method(eg: where `id` in (select `id` from user where age  > 20 ))
+     * in nested method(eg: where `id` in (select `id` from user where age  &gt; 20 ))
      *
      * @param column   lambda column name
      * @param function nested expression
+     * @param <R>      given lambda class type
      * @return chain object
      */
     default <R> Children in(ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {
@@ -698,6 +765,7 @@ public interface DefaultCompare<Children> extends Compare<Children> {
      *
      * @param column lambda column name
      * @param values given collection
+     * @param <R>    given lambda class type
      * @return chain object
      */
     default <R> Children notIn(ColumnFunction<R, ?> column, Collection<?> values) {
@@ -705,10 +773,11 @@ public interface DefaultCompare<Children> extends Compare<Children> {
     }
 
     /**
-     * not in nested method(eg: where `id` not in (select `id` from user where age  > 20 ))
+     * not in nested method(eg: where `id` not in (select `id` from user where age  &gt; 20 ))
      *
      * @param column   lambda column name
      * @param function nested expression
+     * @param <R>      given lambda class type
      * @return chain object
      */
     default <R> Children notIn(ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function) {

@@ -18,20 +18,22 @@ import java.util.function.Function;
 public interface Compare<Children> extends Serializable {
 
     /**
-     * gt method for Number(eg: where `id` > 1)
+     * gt method for Number(eg: where `id` &gt; 1)
      *
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children gt(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
-     * gt method for Number(eg: where `id` > 1)(execute only if value is not null)
+     * gt method for Number(eg: where `id` &gt; 1)(execute only if value is not null)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children gtNotBlank(ColumnFunction<R, ?> column, Number value);
@@ -42,6 +44,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children gt(boolean execute, ColumnFunction<R, ?> column, String value);
@@ -51,6 +54,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children gtNotBlank(ColumnFunction<R, ?> column, String value);
@@ -61,6 +65,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children gt(boolean execute, ColumnFunction<R, ?> column, Date value);
@@ -70,6 +75,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children gtNotBlank(ColumnFunction<R, ?> column, Date value);
@@ -80,6 +86,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children gt(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
@@ -89,6 +96,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children gtNotBlank(ColumnFunction<R, ?> column, LocalDate value);
@@ -99,6 +107,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children gt(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
@@ -108,25 +117,30 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children gtNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
 
     /**
-     * gt method for Column(eg: where `grade_of_english` > `grade_of_math`)
+     * gt method for Column(eg: where `grade_of_english` &gt; `grade_of_math`)
      *
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
+     * @param <V>     the other given lambda class type
      * @return chain object
      */
     <R, V> Children gt(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
 
     /**
-     * gt method for Column(eg: where `grade_of_english` > `grade_of_math`)(execute only if value is not null)
+     * gt method for Column(eg: where `grade_of_english` &gt; `grade_of_math`)(execute only if value is not null)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
+     * @param <V>    the other given lambda class type
      * @return chain object
      */
     <R, V> Children gtNotBlank(ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
@@ -137,25 +151,28 @@ public interface Compare<Children> extends Serializable {
      * @param execute  true: execute the method, false: skip execution
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     <R> Children gt(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
-     * ge method for Number(eg: where `id` >= 1)
+     * ge method for Number(eg: where `id` &gt;= 1)
      *
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children ge(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
-     * ge method for Number(eg: where `id` >= 1)(execute only if value is not null)
+     * ge method for Number(eg: where `id` &gt;= 1)(execute only if value is not null)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children geNotBlank(ColumnFunction<R, ?> column, Number value);
@@ -166,6 +183,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children ge(boolean execute, ColumnFunction<R, ?> column, String value);
@@ -175,6 +193,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children geNotBlank(ColumnFunction<R, ?> column, String value);
@@ -185,6 +204,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children ge(boolean execute, ColumnFunction<R, ?> column, Date value);
@@ -194,6 +214,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children geNotBlank(ColumnFunction<R, ?> column, Date value);
@@ -204,6 +225,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children ge(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
@@ -213,6 +235,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children geNotBlank(ColumnFunction<R, ?> column, LocalDate value);
@@ -223,6 +246,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children ge(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
@@ -232,6 +256,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children geNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
@@ -242,6 +267,8 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
+     * @param <V>     the other given lambda class type
      * @return chain object
      */
     <R, V> Children ge(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
@@ -252,6 +279,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute  true: execute the method, false: skip execution
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     <R> Children ge(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
@@ -262,6 +290,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children eq(boolean execute, ColumnFunction<R, ?> column, Number value);
@@ -271,6 +300,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children eqNotBlank(ColumnFunction<R, ?> column, Number value);
@@ -281,6 +311,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children eq(boolean execute, ColumnFunction<R, ?> column, Boolean value);
@@ -290,6 +321,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children eqNotBlank(ColumnFunction<R, ?> column, Boolean value);
@@ -300,6 +332,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children eq(boolean execute, ColumnFunction<R, ?> column, String value);
@@ -309,6 +342,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children eqNotBlank(ColumnFunction<R, ?> column, String value);
@@ -319,6 +353,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children eq(boolean execute, ColumnFunction<R, ?> column, Date value);
@@ -328,6 +363,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children eqNotBlank(ColumnFunction<R, ?> column, Date value);
@@ -338,6 +374,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children eq(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
@@ -347,6 +384,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children eqNotBlank(ColumnFunction<R, ?> column, LocalDate value);
@@ -357,6 +395,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children eq(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
@@ -366,6 +405,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children eqNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
@@ -376,6 +416,8 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
+     * @param <V>     the other given lambda class type
      * @return chain object
      */
     <R, V> Children eq(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
@@ -386,25 +428,28 @@ public interface Compare<Children> extends Serializable {
      * @param execute  true: execute the method, false: skip execution
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     <R> Children eqNested(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
-     * le method for Number(eg: where `id` <= 1)
+     * le method for Number(eg: where `id` &lt;= 1)
      *
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children le(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
-     * le method for Number(eg: where `id` <= 1)(execute only if value is not null)
+     * le method for Number(eg: where `id` &lt;= 1)(execute only if value is not null)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children leNotBlank(ColumnFunction<R, ?> column, Number value);
@@ -415,6 +460,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children le(boolean execute, ColumnFunction<R, ?> column, String value);
@@ -424,6 +470,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children leNotBlank(ColumnFunction<R, ?> column, String value);
@@ -434,6 +481,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children le(boolean execute, ColumnFunction<R, ?> column, Date value);
@@ -443,6 +491,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children leNotBlank(ColumnFunction<R, ?> column, Date value);
@@ -453,6 +502,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children le(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
@@ -462,6 +512,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children leNotBlank(ColumnFunction<R, ?> column, LocalDate value);
@@ -472,6 +523,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children le(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
@@ -481,6 +533,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children leNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
@@ -491,6 +544,8 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
+     * @param <V>     the other given lambda class type
      * @return chain object
      */
     <R, V> Children le(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
@@ -501,25 +556,28 @@ public interface Compare<Children> extends Serializable {
      * @param execute  true: execute the method, false: skip execution
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     <R> Children le(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
     /**
-     * lt method for Number(eg: where `id` < 1)
+     * lt method for Number(eg: where `id` &lt; 1)
      *
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children lt(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
-     * lt method for Number(eg: where `id` < 1)(execute only if value is not null)
+     * lt method for Number(eg: where `id` &lt; 1)(execute only if value is not null)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children ltNotBlank(ColumnFunction<R, ?> column, Number value);
@@ -530,6 +588,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children lt(boolean execute, ColumnFunction<R, ?> column, String value);
@@ -539,6 +598,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children ltNotBlank(ColumnFunction<R, ?> column, String value);
@@ -549,6 +609,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children lt(boolean execute, ColumnFunction<R, ?> column, Date value);
@@ -558,6 +619,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children ltNotBlank(ColumnFunction<R, ?> column, Date value);
@@ -568,6 +630,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children lt(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
@@ -577,6 +640,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children ltNotBlank(ColumnFunction<R, ?> column, LocalDate value);
@@ -587,6 +651,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children lt(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
@@ -596,6 +661,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children ltNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
@@ -606,6 +672,8 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
+     * @param <V>     the other given lambda class type
      * @return chain object
      */
     <R, V> Children lt(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
@@ -616,26 +684,29 @@ public interface Compare<Children> extends Serializable {
      * @param execute  true: execute the method, false: skip execution
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     <R> Children lt(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
 
 
     /**
-     * ne method(eg: where `id` <> 1)
+     * ne method(eg: where `id` &lt;&gt; 1)
      *
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children ne(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
-     * ne method(eg: where `id` <> 1)(execute only if value is not null)
+     * ne method(eg: where `id` &lt;&gt; 1)(execute only if value is not null)
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children neNotBlank(ColumnFunction<R, ?> column, Number value);
@@ -646,6 +717,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children ne(boolean execute, ColumnFunction<R, ?> column, String value);
@@ -655,6 +727,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children neNotBlank(ColumnFunction<R, ?> column, String value);
@@ -665,6 +738,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children ne(boolean execute, ColumnFunction<R, ?> column, Date value);
@@ -674,6 +748,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children neNotBlank(ColumnFunction<R, ?> column, Date value);
@@ -684,6 +759,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children ne(boolean execute, ColumnFunction<R, ?> column, LocalDate value);
@@ -693,6 +769,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children neNotBlank(ColumnFunction<R, ?> column, LocalDate value);
@@ -703,6 +780,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children ne(boolean execute, ColumnFunction<R, ?> column, LocalDateTime value);
@@ -712,6 +790,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children neNotBlank(ColumnFunction<R, ?> column, LocalDateTime value);
@@ -722,6 +801,8 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
+     * @param <V>     the other given lambda class type
      * @return chain object
      */
     <R, V> Children ne(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value);
@@ -732,6 +813,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute  true: execute the method, false: skip execution
      * @param column   lambda column name
      * @param function nested function
+     * @param <R>      given lambda class type
      * @return chain object
      */
     <R> Children ne(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
@@ -742,6 +824,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children like(boolean execute, ColumnFunction<R, ?> column, String value);
@@ -751,6 +834,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children likeNotBlank(ColumnFunction<R, ?> column, String value);
@@ -761,6 +845,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children likeLeft(boolean execute, ColumnFunction<R, ?> column, String value);
@@ -770,6 +855,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param value  given object
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children likeLeftNotBlank(ColumnFunction<R, ?> column, String value);
@@ -780,6 +866,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children likeRight(boolean execute, ColumnFunction<R, ?> column, String value);
@@ -790,6 +877,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param value   given object
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children notLike(boolean execute, ColumnFunction<R, ?> column, String value);
@@ -801,6 +889,7 @@ public interface Compare<Children> extends Serializable {
      * @param column  lambda column name
      * @param start   start value
      * @param end     end value
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children between(boolean execute, ColumnFunction<R, ?> column, Number start, Number end);
@@ -812,6 +901,7 @@ public interface Compare<Children> extends Serializable {
      * @param column  lambda column name
      * @param start   start value
      * @param end     end value
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children notBetween(boolean execute, ColumnFunction<R, ?> column, Number start, Number end);
@@ -823,6 +913,7 @@ public interface Compare<Children> extends Serializable {
      * @param column  lambda column name
      * @param start   start value
      * @param end     end value
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children between(boolean execute, ColumnFunction<R, ?> column, Date start, Date end);
@@ -834,6 +925,7 @@ public interface Compare<Children> extends Serializable {
      * @param column  lambda column name
      * @param start   start value
      * @param end     end value
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children notBetween(boolean execute, ColumnFunction<R, ?> column, Date start, Date end);
@@ -845,6 +937,7 @@ public interface Compare<Children> extends Serializable {
      * @param column  lambda column name
      * @param start   start value
      * @param end     end value
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children between(boolean execute, ColumnFunction<R, ?> column, LocalDate start, LocalDate end);
@@ -856,6 +949,7 @@ public interface Compare<Children> extends Serializable {
      * @param column  lambda column name
      * @param start   start value
      * @param end     end value
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children notBetween(boolean execute, ColumnFunction<R, ?> column, LocalDate start, LocalDate end);
@@ -867,6 +961,7 @@ public interface Compare<Children> extends Serializable {
      * @param column  lambda column name
      * @param start   start value
      * @param end     end value
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children between(boolean execute, ColumnFunction<R, ?> column, LocalDateTime start, LocalDateTime end);
@@ -878,6 +973,7 @@ public interface Compare<Children> extends Serializable {
      * @param column  lambda column name
      * @param start   start value
      * @param end     end value
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children notBetween(boolean execute, ColumnFunction<R, ?> column, LocalDateTime start, LocalDateTime end);
@@ -887,6 +983,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children isNull(boolean execute, ColumnFunction<R, ?> column);
@@ -896,6 +993,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children isNotNull(boolean execute, ColumnFunction<R, ?> column);
@@ -905,6 +1003,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children isEmpty(boolean execute, ColumnFunction<R, ?> column);
@@ -914,6 +1013,7 @@ public interface Compare<Children> extends Serializable {
      *
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children isNotEmpty(boolean execute, ColumnFunction<R, ?> column);
@@ -924,6 +1024,7 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param values  given collection
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children in(boolean execute, ColumnFunction<R, ?> column, Collection<?> values);
@@ -933,16 +1034,18 @@ public interface Compare<Children> extends Serializable {
      *
      * @param column lambda column name
      * @param values given collection
+     * @param <R>    given lambda class type
      * @return chain object
      */
     <R> Children inNotBlank(ColumnFunction<R, ?> column, Collection<?> values);
 
     /**
-     * in nested method(eg: where `id` in (select `id` from user where age  > 20 ))
+     * in nested method(eg: where `id` in (select `id` from user where age  &gt; 20 ))
      *
      * @param execute  true: execute the method, false: skip execution
      * @param column   lambda column name
      * @param function nested expression
+     * @param <R>      given lambda class type
      * @return chain object
      */
     <R> Children in(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);
@@ -953,16 +1056,18 @@ public interface Compare<Children> extends Serializable {
      * @param execute true: execute the method, false: skip execution
      * @param column  lambda column name
      * @param values  given collection
+     * @param <R>     given lambda class type
      * @return chain object
      */
     <R> Children notIn(boolean execute, ColumnFunction<R, ?> column, Collection<?> values);
 
     /**
-     * not in nested method(eg: where `id` not in (select `id` from user where age  > 20 ))
+     * not in nested method(eg: where `id` not in (select `id` from user where age  &gt; 20 ))
      *
      * @param execute  true: execute the method, false: skip execution
      * @param column   lambda column name
      * @param function nested expression
+     * @param <R>      given lambda class type
      * @return chain object
      */
     <R> Children notIn(boolean execute, ColumnFunction<R, ?> column, Function<WhereWrapper<?>, AbstractWrapper<?>> function);

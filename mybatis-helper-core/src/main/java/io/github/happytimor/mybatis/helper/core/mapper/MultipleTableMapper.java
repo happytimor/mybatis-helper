@@ -98,6 +98,7 @@ public interface MultipleTableMapper<T> {
      * 查询某个对象
      *
      * @param selectWrapper 条件组合
+     * @param tableNum      表号
      * @return 返回对象
      */
     Map<String, Object> selectMap(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
@@ -106,6 +107,7 @@ public interface MultipleTableMapper<T> {
      * 查询某个对象列表
      *
      * @param selectWrapper 条件组合
+     * @param tableNum      表号
      * @return 对象列表
      */
     List<Map<String, Object>> selectMapList(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
