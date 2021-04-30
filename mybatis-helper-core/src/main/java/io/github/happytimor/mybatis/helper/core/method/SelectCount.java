@@ -16,14 +16,14 @@ public class SelectCount extends AbstractMethod {
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         SqlMethod sqlMethod = SqlMethod.SELECT_COUNT;
         String script = String.format(sqlMethod.getSql(),
+                "${" + Params.WRAPPER + ".selectCountWrapperForBegin}",
                 this.parseTableName(),
                 "${" + Params.WRAPPER + ".tableAliasSegment}",
                 "${" + Params.WRAPPER + ".joinSegment}",
                 "${" + Params.WRAPPER + ".whereSegment}",
                 "${" + Params.WRAPPER + ".groupSegment}",
                 "${" + Params.WRAPPER + ".havingSegment}",
-                "${" + Params.WRAPPER + ".orderSegment}",
-                "${" + Params.WRAPPER + ".limitSegment}");
+                "${" + Params.WRAPPER + ".selectCountWrapperForEnd}");
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, Object.class);
         return this.addMappedStatement(sqlMethod.getMethod(), sqlSource, java.lang.Long.class);
     }

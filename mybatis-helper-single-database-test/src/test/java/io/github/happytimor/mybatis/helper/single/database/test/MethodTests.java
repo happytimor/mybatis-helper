@@ -3,6 +3,7 @@ package io.github.happytimor.mybatis.helper.single.database.test;
 import com.alibaba.fastjson.JSONObject;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
+import io.github.happytimor.mybatis.helper.core.method.SelectCount;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectJoinWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
@@ -253,7 +254,7 @@ public class MethodTests {
             assert dbCount.intValue() == userList.size();
 
             Number dbMaxAge = this.userService.selectSingleValue(new SelectWrapper<User>()
-                    .select(SqlFunction.max(User::getAge))
+                    .select(SqlFunction.max(User::getAge), SqlFunction.sum(User::getAge, User::getAge))
                     .eq(User::getFlag, flag));
             assert dbMaxAge.intValue() == maxAge;
 
@@ -299,6 +300,42 @@ public class MethodTests {
                     .eq(User::getFlag, flag)
             );
             assert localDateTimeList.size() == 1000;
+        });
+    }
+
+    @Test
+    public void groupTest() {
+        generateService.generateBatch(5000, (flag, userList) -> {
+            Random random = new Random();
+            int randomAgeStart = random.nextInt(5);
+            int randomAgeEnd = randomAgeStart + 20;
+
+            int randomUserGradeStart = random.nextInt(50);
+            int randomUserGradeEnd = randomUserGradeStart + 20;
+
+            Page<User> page = this.userService.selectPage(1, 10, new SelectWrapper<User>()
+                    .select(User::getAge, SqlFunction.sum(User::getUserGrade, User::getSumUserGrade))
+                    .between(User::getAge, randomAgeStart, randomAgeEnd)
+                    .between(User::getUserGrade, randomUserGradeStart, randomUserGradeEnd)
+                    .groupBy(User::getAge)
+            );
+
+            Map<Integer, Long> verifyData = new HashMap<>();
+            for (int age = randomAgeStart; age <= randomAgeEnd; age++) {
+                Number sumUserGrade = this.userService.selectSingleValue(new SelectWrapper<User>()
+                        .select(SqlFunction.sum(User::getUserGrade))
+                        .eq(User::getAge, age)
+                        .between(User::getUserGrade, randomUserGradeStart, randomUserGradeEnd)
+                );
+                if (sumUserGrade == null) {
+                    continue;
+                }
+                verifyData.put(age, sumUserGrade.longValue());
+            }
+            List<User> records = page.getRecords();
+            for (User record : records) {
+                assert Objects.equals(verifyData.get(record.getAge()), record.getSumUserGrade());
+            }
         });
     }
 

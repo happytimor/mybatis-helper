@@ -21,7 +21,7 @@ public class SqlFunction {
         return as(columnFunction, ColumnUtils.getFieldName(columnFunction));
     }
 
-    public static <T, M> ColumnFunction<T, ?> as(ColumnFunction<T, ?> columnFunction, ColumnFunction<M, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> as(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return as(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -35,7 +35,7 @@ public class SqlFunction {
         return distinct(columnFunction, "");
     }
 
-    public static <T, M> ColumnFunction<T, ?> distinct(ColumnFunction<T, ?> columnFunction, ColumnFunction<M, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> distinct(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return distinct(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -52,7 +52,7 @@ public class SqlFunction {
         return max(columnFunction, "");
     }
 
-    public static <T, M> ColumnFunction<T, ?> max(ColumnFunction<T, ?> columnFunction, ColumnFunction<M, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> max(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return max(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -69,7 +69,7 @@ public class SqlFunction {
         return min(columnFunction, "");
     }
 
-    public static <T, M> ColumnFunction<T, ?> min(ColumnFunction<T, ?> columnFunction, ColumnFunction<M, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> min(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return min(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -86,7 +86,7 @@ public class SqlFunction {
         return avg(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> avg(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> avg(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return avg(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -103,7 +103,7 @@ public class SqlFunction {
         return sum(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> sum(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> sum(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return sum(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -120,7 +120,7 @@ public class SqlFunction {
         return count(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> count(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> count(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return count(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -137,7 +137,7 @@ public class SqlFunction {
         return length(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> length(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> length(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return length(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -154,7 +154,7 @@ public class SqlFunction {
         return upper(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> upper(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> upper(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return upper(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -171,7 +171,7 @@ public class SqlFunction {
         return lower(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> lower(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> lower(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return lower(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -188,7 +188,7 @@ public class SqlFunction {
         return ceil(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> ceil(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> ceil(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return ceil(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -205,7 +205,7 @@ public class SqlFunction {
         return abs(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> abs(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> abs(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return abs(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -222,7 +222,7 @@ public class SqlFunction {
         return year(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> year(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> year(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return year(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -239,7 +239,7 @@ public class SqlFunction {
         return month(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> month(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> month(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return month(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -256,7 +256,7 @@ public class SqlFunction {
         return week(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> week(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> week(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return week(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -273,7 +273,7 @@ public class SqlFunction {
         return hour(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> hour(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> hour(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return hour(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -290,7 +290,7 @@ public class SqlFunction {
         return minute(columnFunction, "");
     }
 
-    public static <T> ColumnFunction<T, ?> minute(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> minute(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return minute(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -316,7 +316,7 @@ public class SqlFunction {
         return columnFunction;
     }
 
-    public static <T> ColumnFunction<T, ?> weekday(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> weekday(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return weekday(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
@@ -333,7 +333,7 @@ public class SqlFunction {
         return columnFunction;
     }
 
-    public static <T> ColumnFunction<T, ?> dayname(ColumnFunction<T, ?> columnFunction, ColumnFunction<?, ?> alias) {
+    public static <T, ALIAS> ColumnFunction<T, ?> dayname(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return dayname(columnFunction, ColumnUtils.getFieldName(alias));
     }
 

@@ -24,6 +24,7 @@ public class GroupWrapper<T> extends HavingWrapper<T> {
      */
     @SafeVarargs
     public final GroupWrapper<T> groupBy(ColumnFunction<T, ?>... columnFunctions) {
+        super.hasGrouping = true;
         groupList.addAll(Arrays.asList(columnFunctions));
         return this;
     }
@@ -37,7 +38,6 @@ public class GroupWrapper<T> extends HavingWrapper<T> {
         if (groupList.isEmpty()) {
             return "";
         }
-
         return " GROUP BY " + groupList.stream().map(this::getColumnName).collect(Collectors.joining(","));
     }
 }

@@ -64,7 +64,7 @@ public enum SqlMethod {
     /**
      * 自定义条件查找总数
      */
-    SELECT_COUNT("selectCount", "查询总数", "<script>\nSELECT COUNT(*) FROM `%s` %s %s %s %s %s %s\n</script>"),
+    SELECT_COUNT("selectCount", "查询总数", "<script>\n%sSELECT COUNT(*) FROM `%s` %s %s %s %s%s%s\n</script>"),
     /**
      * 查询一条数据
      */

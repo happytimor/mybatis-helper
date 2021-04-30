@@ -27,6 +27,9 @@ public class User {
      */
     private String flag;
 
+    @TableColumn(exist = false)
+    private Long sumUserGrade;
+
     public User() {
     }
 
@@ -156,5 +159,13 @@ public class User {
 
     public void setFlag(String flag) {
         this.flag = flag;
+    }
+
+    public Long getSumUserGrade() {
+        return sumUserGrade;
+    }
+
+    public void setSumUserGrade(Long sumUserGrade) {
+        this.sumUserGrade = sumUserGrade;
     }
 }

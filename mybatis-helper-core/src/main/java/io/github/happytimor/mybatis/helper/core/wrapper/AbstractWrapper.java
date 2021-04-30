@@ -25,6 +25,10 @@ public abstract class AbstractWrapper<T> {
     protected Map<String, Object> paramNameValuePairs;
     protected AtomicInteger counter;
     /**
+     * 是否包含分组, 如果包含分组, selectPage里面的selectCount需要做特殊处理
+     */
+    protected boolean hasGrouping = false;
+    /**
      * 排序字段以及排序方式
      */
     protected final List<OrderWrapper.Order> orderList = new ArrayList<>();
@@ -88,7 +92,13 @@ public abstract class AbstractWrapper<T> {
         return stringBuilder.toString();
     }
 
-
+    /**
+     * 获取表别名
+     *
+     * @param clazz     表对应对象类
+     * @param appendDot 是否直接"."
+     * @return 表别名
+     */
     protected String getTableAlias(Class<?> clazz, boolean appendDot) {
         if (subTable.isEmpty()) {
             return "";
@@ -127,6 +137,30 @@ public abstract class AbstractWrapper<T> {
         stringBuffer.append(tableAlias).append(order.getColumn()).append(" ").append(order.getOrderType());
 
         return stringBuffer.toString();
+    }
+
+    /**
+     * selectPage进行group分组是, selectCount方法要做前后包裹指定sql
+     *
+     * @return 前包裹sql
+     */
+    public String getSelectCountWrapperForBegin() {
+        if (!hasGrouping) {
+            return "";
+        }
+        return "SELECT COUNT(*) FROM (";
+    }
+
+    /**
+     * selectPage进行group分组是, selectCount方法要做前后包裹指定sql
+     *
+     * @return 后包裹sql
+     */
+    public String getSelectCountWrapperForEnd() {
+        if (!hasGrouping) {
+            return "";
+        }
+        return ") a";
     }
 
     public String getWhereSegment(boolean hasKeyWord) {
