@@ -128,6 +128,7 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
 - 与既有xml文件的方法不会冲突(如果方法名已存在则跳过此方法的注入)
 - 支持多数据源以及动态数据源
 - 支持分表查询(例如: user_01), 支持无主键表
+- 支持join操作
 - 全程lambda表达式链式调用 (需要jdk1.8+)
 - 自动对数据库字段进行包裹(例如: `order`)
 
