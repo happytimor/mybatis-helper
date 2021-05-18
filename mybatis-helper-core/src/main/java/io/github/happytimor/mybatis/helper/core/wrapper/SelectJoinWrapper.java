@@ -52,7 +52,7 @@ public class SelectJoinWrapper<T> extends JoinWrapper<T> {
 
     public final <E, M> SelectJoinWrapper<T> selectAs(ColumnFunction<E, ?> columnFunction, ColumnFunction<M, ?> alias) {
         Map<ColumnFunction<?, ?>, ColumnWrapper> columnFunctionColumnWrapperMap
-                = SqlFunction.ensureMap(columnFunction);
+                = SqlFunction.ensureMap();
         columnFunctionColumnWrapperMap.put(columnFunction,
                 new ColumnWrapper(SqlFunctionName.AS, ColumnUtils.getFieldName(alias)));
         selectColumnList.add(new SelectColumn(columnFunction));

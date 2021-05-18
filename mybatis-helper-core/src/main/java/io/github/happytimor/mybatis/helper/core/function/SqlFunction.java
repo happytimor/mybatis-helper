@@ -17,16 +17,12 @@ import java.util.Map;
  * @author chenpeng
  */
 public class SqlFunction {
-    public static <T> ColumnFunction<T, ?> as(ColumnFunction<T, ?> columnFunction) {
-        return as(columnFunction, ColumnUtils.getFieldName(columnFunction));
-    }
-
     public static <T, ALIAS> ColumnFunction<T, ?> as(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return as(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
     public static <T> ColumnFunction<T, ?> as(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.AS, alias));
         return columnFunction;
     }
@@ -40,7 +36,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> distinct(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.DISTINCT, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -57,7 +53,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> max(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.MAX, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -74,7 +70,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> min(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.MIN, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -91,7 +87,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> avg(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.AVG, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -108,7 +104,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> sum(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.SUM, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -125,7 +121,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> count(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.COUNT, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -142,7 +138,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> length(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.LENGTH, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -159,7 +155,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> upper(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.UPPER, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -176,7 +172,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> lower(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.LOWER, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -193,7 +189,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> ceil(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.CEIL, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -210,7 +206,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> abs(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.ABS, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -227,7 +223,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> year(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.YEAR, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -244,7 +240,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> month(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.MONTH, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -261,7 +257,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> week(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.WEEK, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -278,7 +274,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> hour(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.HOUR, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -295,7 +291,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> minute(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.MINUTE, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -308,7 +304,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> weekday(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.WEEK_DAY, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -325,7 +321,7 @@ public class SqlFunction {
     }
 
     public static <T> ColumnFunction<T, ?> dayname(ColumnFunction<T, ?> columnFunction, String alias) {
-        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap(columnFunction);
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.DAY_NAME, alias));
         if (innerWrapper != null) {
             functionMap.get(columnFunction).setChildWrapper(innerWrapper);
@@ -337,7 +333,7 @@ public class SqlFunction {
         return dayname(columnFunction, ColumnUtils.getFieldName(alias));
     }
 
-    public static <T> Map<ColumnFunction<?, ?>, ColumnWrapper> ensureMap(ColumnFunction<T, ?> columnFunction) {
+    public static Map<ColumnFunction<?, ?>, ColumnWrapper> ensureMap() {
         Map<ColumnFunction<?, ?>, ColumnWrapper> columnFuncationMap = Constants.THREAD_COLUMN_FUNCTION.get();
         if (columnFuncationMap == null) {
             columnFuncationMap = new HashMap<>();

@@ -36,11 +36,11 @@ public class SerializedLambda implements Serializable {
         try (ObjectInputStream objIn = new ObjectInputStream(new ByteArrayInputStream(SerializationUtils.serialize(lambda))) {
             @Override
             protected Class<?> resolveClass(ObjectStreamClass objectStreamClass) throws IOException, ClassNotFoundException {
-                Class clazz;
+                Class<?> clazz;
                 try {
                     clazz = toClassConfident(objectStreamClass.getName());
                 } catch (Exception ex) {
-                    clazz = (Class) super.resolveClass(objectStreamClass);
+                    clazz = super.resolveClass(objectStreamClass);
                 }
                 return clazz == java.lang.invoke.SerializedLambda.class ? SerializedLambda.class : clazz;
             }
