@@ -1,6 +1,7 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.metadata.DefaultHavingWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,69 +9,88 @@ import java.util.List;
 /**
  * @author chenpeng
  */
-public class HavingWrapper<T> extends OrderWrapper<T> {
+public class HavingWrapper<T> extends OrderWrapper<T> implements DefaultHavingWrapper<T> {
 
     private final List<HavingCondition<T>> havingConditionList = new ArrayList<>();
 
-    public HavingWrapper<T> havingLt(ColumnFunction<T, ?> columnFunction, Object value) {
-        this.havingConditionList.add(new HavingCondition<T>(columnFunction, "<", value));
+    @Override
+    public HavingWrapper<T> havingLt(boolean execute, ColumnFunction<T, ?> columnFunction, Object value) {
+        return this.havingLt(execute, this.parseColumnName(columnFunction), value);
+    }
+
+    @Override
+    public HavingWrapper<T> havingLt(boolean execute, String columnName, Object value) {
+        if (execute) {
+            this.havingConditionList.add(new HavingCondition<>(columnName, "<", value));
+        }
         return this;
     }
 
-    public HavingWrapper<T> havingLt(String columnName, Object value) {
-        this.havingConditionList.add(new HavingCondition<T>(columnName, "<", value));
+    @Override
+    public HavingWrapper<T> havingLe(boolean execute, ColumnFunction<T, ?> columnFunction, Object value) {
+        return this.havingLe(execute, this.parseColumnName(columnFunction), value);
+    }
+
+    @Override
+    public HavingWrapper<T> havingLe(boolean execute, String columnName, Object value) {
+        if (execute) {
+            this.havingConditionList.add(new HavingCondition<>(columnName, "<=", value));
+        }
         return this;
     }
 
-    public HavingWrapper<T> havingLe(ColumnFunction<T, ?> columnFunction, Object value) {
-        this.havingConditionList.add(new HavingCondition<T>(columnFunction, "<=", value));
+    @Override
+    public HavingWrapper<T> havingEq(boolean execute, ColumnFunction<T, ?> columnFunction, Object value) {
+        return this.havingEq(execute, this.parseColumnName(columnFunction), value);
+    }
+
+    @Override
+    public HavingWrapper<T> havingEq(boolean execute, String columnName, Object value) {
+        if (execute) {
+            this.havingConditionList.add(new HavingCondition<>(columnName, "=", value));
+        }
         return this;
     }
 
-    public HavingWrapper<T> havingLe(String columnName, Object value) {
-        this.havingConditionList.add(new HavingCondition<T>(columnName, "<=", value));
+    @Override
+    public HavingWrapper<T> havingGe(boolean execute, ColumnFunction<T, ?> columnFunction, Object value) {
+        return this.havingGe(execute, this.parseColumnName(columnFunction), value);
+    }
+
+    @Override
+    public HavingWrapper<T> havingGe(boolean execute, String columnName, Object value) {
+        if (execute) {
+            this.havingConditionList.add(new HavingCondition<>(columnName, ">=", value));
+        }
         return this;
     }
 
-    public HavingWrapper<T> havingEq(ColumnFunction<T, ?> columnFunction, Object value) {
-        this.havingConditionList.add(new HavingCondition<T>(columnFunction, "=", value));
+    @Override
+    public HavingWrapper<T> havingGt(boolean execute, ColumnFunction<T, ?> columnFunction, Object value) {
+        return this.havingGt(execute, this.parseColumnName(columnFunction), value);
+    }
+
+    @Override
+    public HavingWrapper<T> havingGt(boolean execute, String columnName, Object value) {
+        if (execute) {
+            this.havingConditionList.add(new HavingCondition<>(columnName, ">", value));
+        }
         return this;
     }
 
-    public HavingWrapper<T> havingEq(String columnName, Object value) {
-        this.havingConditionList.add(new HavingCondition<T>(columnName, "=", value));
+    @Override
+    public HavingWrapper<T> havingNe(boolean execute, ColumnFunction<T, ?> columnFunction, Object value) {
+        return this.havingNe(execute, this.parseColumnName(columnFunction), value);
+    }
+
+    @Override
+    public HavingWrapper<T> havingNe(boolean execute, String columnName, Object value) {
+        if (execute) {
+            this.havingConditionList.add(new HavingCondition<>(columnName, "<>", value));
+        }
         return this;
     }
 
-    public HavingWrapper<T> havingGe(ColumnFunction<T, ?> columnFunction, Object value) {
-        this.havingConditionList.add(new HavingCondition<T>(columnFunction, ">=", value));
-        return this;
-    }
-
-    public HavingWrapper<T> havingGe(String columnName, Object value) {
-        this.havingConditionList.add(new HavingCondition<T>(columnName, ">=", value));
-        return this;
-    }
-
-    public HavingWrapper<T> havingGt(ColumnFunction<T, ?> columnFunction, Object value) {
-        this.havingConditionList.add(new HavingCondition<>(columnFunction, ">", value));
-        return this;
-    }
-
-    public HavingWrapper<T> havingGt(String columnName, Object value) {
-        this.havingConditionList.add(new HavingCondition<>(columnName, ">", value));
-        return this;
-    }
-
-    public HavingWrapper<T> havingNe(ColumnFunction<T, ?> columnFunction, Object value) {
-        this.havingConditionList.add(new HavingCondition<T>(columnFunction, "<>", value));
-        return this;
-    }
-
-    public HavingWrapper<T> havingNe(String columnName, Object value) {
-        this.havingConditionList.add(new HavingCondition<T>(columnName, "<>", value));
-        return this;
-    }
 
     static class HavingCondition<T> {
         private ColumnFunction<T, ?> columnFunction;
@@ -148,7 +168,7 @@ public class HavingWrapper<T> extends OrderWrapper<T> {
                 stringBuilder.append(" AND ");
             }
         }
-        return " HAVING " + stringBuilder.toString();
+        return " HAVING " + stringBuilder;
     }
 
 
