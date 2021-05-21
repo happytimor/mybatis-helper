@@ -243,7 +243,10 @@ public abstract class AbstractWrapper<T> {
                 return tableAlias + columnName + " ";
             }).collect(Collectors.joining(","));
         } finally {
-            Constants.THREAD_COLUMN_FUNCTION.remove();
+            Map<ColumnFunction<?, ?>, ColumnWrapper> map = Constants.THREAD_COLUMN_FUNCTION.get();
+            if (map != null && map.isEmpty()) {
+                Constants.THREAD_COLUMN_FUNCTION.remove();
+            }
         }
     }
 

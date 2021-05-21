@@ -9,6 +9,8 @@ import io.github.happytimor.mybatis.helper.single.database.test.service.Generate
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
@@ -27,12 +29,53 @@ import java.util.stream.Collectors;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SyntaxTests {
-
+    private final static Logger logger = LoggerFactory.getLogger(SyntaxTests.class);
     @Resource
     private GenerateService generateService;
 
     @Resource
     private UserService userService;
+
+    /**
+     * 单个select的as测试
+     */
+    @Test
+    public void as() {
+        this.generateService.generateBatch((flag, userList) -> {
+            List<Map<String, Object>> mapList = this.userService.selectMapList(new SelectWrapper<User>()
+                    .select(SqlFunction.as(User::getGradeOfMath, "yourGrade"), User::getGradeOfMath,
+                            SqlFunction.as(User::getGradeOfMath, User::getGradeOfMath))
+                    .eq(User::getFlag, flag)
+            );
+
+            for (Map<String, Object> data : mapList) {
+                assert Objects.equals(data.get("grade_of_math"), data.get("gradeOfMath"))
+                        && Objects.equals(data.get("grade_of_math"), data.get("yourGrade"));
+            }
+        });
+    }
+
+    /**
+     * 多个select的as测试
+     */
+    @Test
+    public void as1() {
+        this.generateService.generateBatch((flag, userList) -> {
+            List<Map<String, Object>> mapList = this.userService.selectMapList(new SelectWrapper<User>()
+                    .select(SqlFunction.as(User::getGradeOfMath, "yourGrade"), User::getGradeOfMath,
+                            SqlFunction.as(User::getGradeOfMath, User::getGradeOfMath))
+                    .in(User::getId, t -> t.applySelectWrapper(User.class)
+                            .select(User::getId)
+                            .gt(User::getId, 0))
+                    .eq(User::getFlag, flag)
+            );
+
+            for (Map<String, Object> data : mapList) {
+                assert Objects.equals(data.get("grade_of_math"), data.get("gradeOfMath"))
+                        && Objects.equals(data.get("grade_of_math"), data.get("yourGrade"));
+            }
+        });
+    }
 
     /**
      * 大于
