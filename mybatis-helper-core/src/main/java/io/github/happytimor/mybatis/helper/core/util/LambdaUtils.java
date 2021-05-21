@@ -122,11 +122,8 @@ public final class LambdaUtils {
 
                 //覆盖默认主键
                 if (tableColumn != null && tableColumn.primaryKey()) {
-                    if ("".equals(tableColumn.value())) {
-                        throw new RuntimeException(String.format("the value should be assigned when setting primary key " +
-                                "for %s.java with @TableColumn", modelClass.getSimpleName()));
-                    }
-                    tableInfo.setKeyColumn(tableColumn.value());
+                    String keyColumn = "".equals(tableColumn.value()) ? fieldName : tableColumn.value();
+                    tableInfo.setKeyColumn(keyColumn);
                     tableInfo.setKeyProperty(fieldName);
                 }
             }
