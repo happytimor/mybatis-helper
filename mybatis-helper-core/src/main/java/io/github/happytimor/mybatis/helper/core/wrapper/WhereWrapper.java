@@ -29,9 +29,10 @@ public class WhereWrapper<T> extends GroupWrapper<T>
 
     }
 
-    public WhereWrapper(Map<String, Object> paramNameValuePairs, AtomicInteger counter) {
+    public WhereWrapper(Map<String, Object> paramNameValuePairs, AtomicInteger counter, Map<Class<?>, Integer> subTable) {
         this.paramNameValuePairs = paramNameValuePairs;
         this.counter = counter;
+        this.subTable = subTable;
     }
 
 
@@ -46,7 +47,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public WhereWrapper<T> and(boolean execute, Function<WhereWrapper<T>, WhereWrapper<T>> function) {
         if (execute) {
-            WhereWrapper<T> apply = function.apply(new WhereWrapper<>(this.paramNameValuePairs, counter));
+            WhereWrapper<T> apply = function.apply(new WhereWrapper<>(this.paramNameValuePairs, counter, subTable));
             String whereSegment = apply.getWhereSegment(false);
             this.conditionList.add(new Condition("AND", "(" + whereSegment + ")"));
         }

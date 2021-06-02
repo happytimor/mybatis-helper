@@ -370,6 +370,9 @@ public class MethodTests {
                 .selectAll(Student.class)
                 .selectAs(CourseInfo::getName, Student::getCourseName)
                 .leftJoin(CourseInfo.class, CourseInfo::getId, Student::getId)
+                .and(t -> t.ge(CourseInfo::getId, 0).or().lt(CourseInfo::getId, 100))
+                .ge(CourseInfo::getId, 0)
+                .ge(Student::getId, 0)
                 .orderByAsc(CourseInfo::getId)
                 .orderByDesc(Student::getId)
         );
