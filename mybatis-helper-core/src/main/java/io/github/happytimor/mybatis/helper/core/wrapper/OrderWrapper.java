@@ -43,8 +43,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      */
     public <E> OrderWrapper<T> orderByAsc(boolean execute, ColumnFunction<E, ?> column, Boolean asc) {
         if (execute) {
-            Class<?> clazz = LambdaUtils.resolve(column).getInstantiatedType();
-            this.orderList.add(new Order(clazz, this.getColumnName(column), asc != null && asc ? "ASC" : "DESC"));
+            this.orderList.add(new Order(column, asc != null && asc ? "ASC" : "DESC"));
         }
         return this;
     }
@@ -68,8 +67,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      */
     public <E> OrderWrapper<T> orderByDesc(boolean execute, ColumnFunction<E, ?> column) {
         if (execute) {
-            Class<?> clazz = LambdaUtils.resolve(column).getInstantiatedType();
-            this.orderList.add(new Order(clazz, this.getColumnName(column), "DESC"));
+            this.orderList.add(new Order(column, "DESC"));
         }
         return this;
     }
@@ -84,8 +82,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      */
     public OrderWrapper<T> orderByDesc(boolean execute, ColumnFunction<T, ?> column, Boolean desc) {
         if (execute) {
-            Class<?> clazz = LambdaUtils.resolve(column).getInstantiatedType();
-            this.orderList.add(new Order(clazz, this.getColumnName(column), desc != null && desc ? "DESC" : "ASC"));
+            this.orderList.add(new Order(column, desc != null && desc ? "DESC" : "ASC"));
         }
         return this;
     }
@@ -109,46 +106,38 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * @return children
      */
     public OrderWrapper<T> orderByRandom() {
-        this.orderList.add(new Order("RAND()", ""));
+        this.orderList.add(new Order("RAND()"));
         return this;
     }
 
 
     static class Order {
-        private Class<?> clazz;
         /**
          * 字段名
          */
-        private String column;
+        private ColumnFunction<?, ?> column;
+
+        private String columnName;
         /**
          * ASC/DESC 升序或降序
          */
         private String orderType;
 
-        public Order(String column, String orderType) {
+        public Order(ColumnFunction<?, ?> column, String orderType) {
             this.column = column;
             this.orderType = orderType;
         }
 
-        public Order(Class<?> clazz, String column, String orderType) {
-            this.clazz = clazz;
-            this.column = column;
-            this.orderType = orderType;
+        public Order(String columnName) {
+            this.columnName = columnName;
+            this.orderType = "";
         }
 
-        public Class<?> getClazz() {
-            return clazz;
-        }
-
-        public void setClazz(Class<?> clazz) {
-            this.clazz = clazz;
-        }
-
-        public String getColumn() {
+        public ColumnFunction<?, ?> getColumn() {
             return column;
         }
 
-        public void setColumn(String column) {
+        public void setColumn(ColumnFunction<?, ?> column) {
             this.column = column;
         }
 
@@ -158,6 +147,14 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
 
         public void setOrderType(String orderType) {
             this.orderType = orderType;
+        }
+
+        public String getColumnName() {
+            return columnName;
+        }
+
+        public void setColumnName(String columnName) {
+            this.columnName = columnName;
         }
     }
 }

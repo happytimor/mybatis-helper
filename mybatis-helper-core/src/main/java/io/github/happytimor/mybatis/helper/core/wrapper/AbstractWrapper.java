@@ -10,6 +10,7 @@ import io.github.happytimor.mybatis.helper.core.metadata.Condition;
 import io.github.happytimor.mybatis.helper.core.metadata.JoinInfo;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 import io.github.happytimor.mybatis.helper.core.util.LambdaUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -112,14 +113,25 @@ public abstract class AbstractWrapper<T> {
         stringBuffer.append("ORDER BY ");
         for (int i = 0; i < orderList.size() - 1; i++) {
             OrderWrapper.Order order = orderList.get(i);
-            String tableAlias = ColumnUtils.getTableAlias(this.subTable, order.getClazz(), true);
-            stringBuffer.append(tableAlias).append(order.getColumn()).append(" ").append(order.getOrderType()).append(", ");
+            String columnName = order.getColumnName();
+            if (StringUtils.isEmpty(columnName)) {
+                columnName = this.getColumnName(order.getColumn());
+            }
+            if (order.getColumn() != null) {
+                columnName = ColumnUtils.getTableAlias(this.subTable, order.getColumn()) + columnName;
+            }
+
+            stringBuffer.append(columnName).append(" ").append(order.getOrderType()).append(", ");
         }
         OrderWrapper.Order order = orderList.get(orderList.size() - 1);
-        String tableAlias = ColumnUtils.getTableAlias(this.subTable, order.getClazz(), true);
-
-        stringBuffer.append(tableAlias).append(order.getColumn()).append(" ").append(order.getOrderType());
-
+        String columnName = order.getColumnName();
+        if (StringUtils.isEmpty(columnName)) {
+            columnName = this.getColumnName(order.getColumn());
+        }
+        if (order.getColumn() != null) {
+            columnName = ColumnUtils.getTableAlias(this.subTable, order.getColumn()) + columnName;
+        }
+        stringBuffer.append(columnName).append(" ").append(order.getOrderType());
         return stringBuffer.toString();
     }
 

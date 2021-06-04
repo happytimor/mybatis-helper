@@ -172,7 +172,7 @@ public class ColumnUtils {
     }
 
     public static String getTableAlias(Map<Class<?>, Integer> subTable, ColumnFunction<?, ?> column) {
-        if (subTable == null || subTable.isEmpty()) {
+        if (subTable == null || subTable.isEmpty() || column == null) {
             return "";
         }
         Class<?> clazz = LambdaUtils.resolve(column).getInstantiatedType();
