@@ -10,6 +10,7 @@ import java.beans.Introspector;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -152,5 +153,31 @@ public class ColumnUtils {
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * 获取表别名
+     *
+     * @param clazz     表对应对象类
+     * @param appendDot 是否直接"."
+     * @return 表别名
+     */
+    public static String getTableAlias(Map<Class<?>, Integer> subTable, Class<?> clazz, boolean appendDot) {
+        if (subTable == null || subTable.isEmpty()) {
+            return "";
+        }
+        int index = subTable.getOrDefault(clazz, 1);
+        String tableAlias = "t" + index;
+        return tableAlias + (appendDot ? "." : "");
+    }
+
+    public static String getTableAlias(Map<Class<?>, Integer> subTable, ColumnFunction<?, ?> column) {
+        if (subTable == null || subTable.isEmpty()) {
+            return "";
+        }
+        Class<?> clazz = LambdaUtils.resolve(column).getInstantiatedType();
+        int index = subTable.getOrDefault(clazz, 1);
+        String tableAlias = "t" + index;
+        return tableAlias + ".";
     }
 }

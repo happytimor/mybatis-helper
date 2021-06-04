@@ -81,32 +81,15 @@ public abstract class AbstractWrapper<T> {
                     .append(" ")
                     .append(this.getTableName(joinInfo.getJoinClazz()))
                     .append(" ")
-                    .append(this.getTableAlias(joinInfo.getJoinClazz(), false))
+                    .append(ColumnUtils.getTableAlias(this.subTable, joinInfo.getJoinClazz(), false))
                     .append(" ON ")
-                    .append(this.getTableAlias(joinInfo.getJoinClazz(), true))
+                    .append(ColumnUtils.getTableAlias(this.subTable, joinInfo.getJoinClazz(), true))
                     .append(this.getColumnName(joinInfo.getLeftColumn()))
                     .append(" = ")
-                    .append(this.getTableAlias(LambdaUtils.resolve(joinInfo.getRightColumn()).getInstantiatedType(), true))
+                    .append(ColumnUtils.getTableAlias(this.subTable, joinInfo.getRightColumn()))
                     .append(this.getColumnName(joinInfo.getRightColumn()));
         }
         return stringBuilder.toString();
-    }
-
-    /**
-     * 获取表别名
-     *
-     * @param clazz     表对应对象类
-     * @param appendDot 是否直接"."
-     * @return 表别名
-     */
-    protected String getTableAlias(Class<?> clazz, boolean appendDot) {
-        if (subTable.isEmpty()) {
-            return "";
-        }
-        int index = subTable.getOrDefault(clazz, 1);
-        String tableAlias = "t" + index;
-        return tableAlias + (appendDot ? "." : "");
-
     }
 
     protected String getTableName(Class<?> clazz) {
@@ -129,11 +112,11 @@ public abstract class AbstractWrapper<T> {
         stringBuffer.append("ORDER BY ");
         for (int i = 0; i < orderList.size() - 1; i++) {
             OrderWrapper.Order order = orderList.get(i);
-            String tableAlias = this.getTableAlias(order.getClazz(), true);
+            String tableAlias = ColumnUtils.getTableAlias(this.subTable, order.getClazz(), true);
             stringBuffer.append(tableAlias).append(order.getColumn()).append(" ").append(order.getOrderType()).append(", ");
         }
         OrderWrapper.Order order = orderList.get(orderList.size() - 1);
-        String tableAlias = this.getTableAlias(order.getClazz(), true);
+        String tableAlias = ColumnUtils.getTableAlias(this.subTable, order.getClazz(), true);
 
         stringBuffer.append(tableAlias).append(order.getColumn()).append(" ").append(order.getOrderType());
 
@@ -240,7 +223,7 @@ public abstract class AbstractWrapper<T> {
                 }
                 Class<?> clazz = selectColumn.getClazz() != null ?
                         selectColumn.getClazz() : this.parseClazz(selectColumn.getColumnFunction());
-                String tableAlias = this.getTableAlias(clazz, true);
+                String tableAlias = ColumnUtils.getTableAlias(this.subTable, clazz, true);
                 return tableAlias + columnName + " ";
             }).collect(Collectors.joining(","));
         } finally {
@@ -283,7 +266,7 @@ public abstract class AbstractWrapper<T> {
     protected <E> String parseColumnName(ColumnFunction<E, ?> columnFunction, boolean appendAlias) {
         String columnName = this.getColumnName(columnFunction);
         if (appendAlias) {
-            String tableAlias = getTableAlias(LambdaUtils.resolve(columnFunction).getInstantiatedType(), true);
+            String tableAlias = ColumnUtils.getTableAlias(this.subTable, columnFunction);
             columnName = tableAlias + columnName;
         }
         Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = Constants.THREAD_COLUMN_FUNCTION.get();

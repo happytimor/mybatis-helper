@@ -2,6 +2,7 @@ package io.github.happytimor.mybatis.helper.core.wrapper;
 
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.DefaultHavingWrapper;
+import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 import io.github.happytimor.mybatis.helper.core.util.LambdaUtils;
 
 import java.util.ArrayList;
