@@ -38,6 +38,7 @@ public class GroupWrapper<T> extends HavingWrapper<T> {
         if (groupList.isEmpty()) {
             return "";
         }
-        return " GROUP BY " + groupList.stream().map(this::getColumnName).collect(Collectors.joining(","));
+        return " GROUP BY " + groupList.stream().map(column -> this.parseColumnName(column, true))
+                .collect(Collectors.joining(","));
     }
 }
