@@ -111,8 +111,9 @@ public abstract class AbstractWrapper<T> {
 
     protected String getTableName(Class<?> clazz) {
         TableName tableNameAnnotation = clazz.getAnnotation(TableName.class);
-        return tableNameAnnotation != null ? tableNameAnnotation.value() :
+        String tableName = tableNameAnnotation != null ? tableNameAnnotation.value() :
                 ColumnUtils.camelCaseToUnderscore(clazz.getSimpleName());
+        return "`" + tableName + "`";
     }
 
     /**
