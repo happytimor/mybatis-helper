@@ -270,7 +270,22 @@ public abstract class AbstractWrapper<T> {
      * @return 字段名
      */
     protected <E> String parseColumnName(ColumnFunction<E, ?> columnFunction) {
+        return this.parseColumnName(columnFunction, false);
+    }
+
+    /**
+     * 解析字段名
+     *
+     * @param columnFunction 字段函数
+     * @param appendAlias    true-字段带上别名, false-不带上别名
+     * @return 字段名
+     */
+    protected <E> String parseColumnName(ColumnFunction<E, ?> columnFunction, boolean appendAlias) {
         String columnName = this.getColumnName(columnFunction);
+        if (appendAlias) {
+            String tableAlias = getTableAlias(LambdaUtils.resolve(columnFunction).getInstantiatedType(), true);
+            columnName = tableAlias + columnName;
+        }
         Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = Constants.THREAD_COLUMN_FUNCTION.get();
         if (functionMap != null) {
             ColumnWrapper columnWrapper = functionMap.remove(columnFunction);

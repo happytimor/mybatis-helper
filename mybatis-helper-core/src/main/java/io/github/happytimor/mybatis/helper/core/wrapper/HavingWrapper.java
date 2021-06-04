@@ -178,9 +178,7 @@ public class HavingWrapper<T> extends OrderWrapper<T> implements DefaultHavingWr
             HavingCondition<T> havingCondition = havingConditionList.get(i);
             String columnName = havingCondition.getColumnName();
             if (columnName == null || "".equals(columnName)) {
-                Class<?> clazz = LambdaUtils.resolve(havingCondition.getColumnFunction()).getInstantiatedType();
-                String tableAlias = super.getTableAlias(clazz, true);
-                columnName = tableAlias + this.parseColumnName(havingCondition.getColumnFunction());
+                columnName = this.parseColumnName(havingCondition.getColumnFunction(), true);
             }
 
             stringBuilder.append(columnName).append(" ").append(havingCondition.getConnector())
