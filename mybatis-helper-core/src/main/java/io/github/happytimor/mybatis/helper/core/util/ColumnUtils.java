@@ -180,4 +180,13 @@ public class ColumnUtils {
         String tableAlias = "t" + index;
         return tableAlias + ".";
     }
+
+    public static <E> String getColumnName(ColumnFunction<E, ?> column) {
+        return getColumnName(column, true);
+    }
+
+    public static <E> String getColumnName(ColumnFunction<E, ?> column, boolean wrap) {
+        String columnName = ColumnUtils.camelCaseToUnderscore(column);
+        return wrap ? "`" + columnName + "`" : columnName;
+    }
 }

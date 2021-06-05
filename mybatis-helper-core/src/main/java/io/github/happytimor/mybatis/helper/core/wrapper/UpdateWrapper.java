@@ -4,6 +4,7 @@ package io.github.happytimor.mybatis.helper.core.wrapper;
 import io.github.happytimor.mybatis.helper.core.common.Operation;
 import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -263,7 +264,7 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
 
     private UpdateWrapper<T> atomicOperation(boolean execute, ColumnFunction<T, ?> column, String operation, Object value) {
         if (execute) {
-            String columnName = this.getColumnName(column, false);
+            String columnName = ColumnUtils.getColumnName(column, false);
             int count = counter.incrementAndGet();
             String key = "params_" + count + "_" + columnName;
             paramNameValuePairs.put(key, value);
@@ -282,7 +283,7 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
      */
     private UpdateWrapper<T> setValue(boolean execute, ColumnFunction<T, ?> column, Object value) {
         if (execute) {
-            String columnName = this.getColumnName(column, false);
+            String columnName = ColumnUtils.getColumnName(column, false);
             int count = counter.incrementAndGet();
             String key = "params_" + count + "_" + columnName;
             paramNameValuePairs.put(key, value);
@@ -300,7 +301,7 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
      */
     private UpdateWrapper<T> setColumnValue(boolean execute, ColumnFunction<T, ?> column, Operation<?> operation) {
         if (execute) {
-            String columnName = this.getColumnName(column, false);
+            String columnName = ColumnUtils.getColumnName(column, false);
             set.add(wrapColumnName(columnName) + " = " + operation.getOperationStr());
         }
         return this;

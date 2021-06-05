@@ -37,6 +37,42 @@ public class SyntaxTests {
     private UserService userService;
 
     /**
+     * diySql测试1, 普通diysql测试
+     */
+    @Test
+    public void andDiySql1() {
+        this.generateService.generateBatch((flag, userList) -> {
+            Integer minId = userList.get(0).getId();
+            long count1 = this.userService.selectCount(new SelectWrapper<User>()
+                    .gt(User::getId, 0)
+                    .andDiySql(t -> t.applyDiySqlWrapper(User.class)
+                            .setExpression("{} > {} + " + minId)
+                            .setColumns(User::getId, User::getAge))
+                    .andDiySql(t -> t.applyDiySqlWrapper(User.class)
+                            .setExpression("{} > {} + " + minId)
+                            .setColumns(User::getId, User::getUserGrade))
+                    .eq(User::getFlag, flag)
+            );
+
+            int count2 = 0;
+            for (User user : userList) {
+                if ((user.getId() > user.getAge() + minId) && (user.getId() > user.getUserGrade() + minId)) {
+                    count2++;
+                }
+            }
+
+            assert count1 == count2;
+        });
+    }
+
+    @Test
+    public void setDiySqlTest1() {
+        this.generateService.generateBatch((flag, userList) -> {
+            
+        });
+    }
+
+    /**
      * 单个select的as测试
      */
     @Test

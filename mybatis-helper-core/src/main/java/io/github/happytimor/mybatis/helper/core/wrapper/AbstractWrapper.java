@@ -85,10 +85,10 @@ public abstract class AbstractWrapper<T> {
                     .append(ColumnUtils.getTableAlias(this.subTable, joinInfo.getJoinClazz(), false))
                     .append(" ON ")
                     .append(ColumnUtils.getTableAlias(this.subTable, joinInfo.getJoinClazz(), true))
-                    .append(this.getColumnName(joinInfo.getLeftColumn()))
+                    .append(ColumnUtils.getColumnName(joinInfo.getLeftColumn()))
                     .append(" = ")
                     .append(ColumnUtils.getTableAlias(this.subTable, joinInfo.getRightColumn()))
-                    .append(this.getColumnName(joinInfo.getRightColumn()));
+                    .append(ColumnUtils.getColumnName(joinInfo.getRightColumn()));
         }
         return stringBuilder.toString();
     }
@@ -115,7 +115,7 @@ public abstract class AbstractWrapper<T> {
             OrderWrapper.Order order = orderList.get(i);
             String columnName = order.getColumnName();
             if (StringUtils.isEmpty(columnName)) {
-                columnName = this.getColumnName(order.getColumn());
+                columnName = ColumnUtils.getColumnName(order.getColumn());
             }
             if (order.getColumn() != null) {
                 columnName = ColumnUtils.getTableAlias(this.subTable, order.getColumn()) + columnName;
@@ -126,7 +126,7 @@ public abstract class AbstractWrapper<T> {
         OrderWrapper.Order order = orderList.get(orderList.size() - 1);
         String columnName = order.getColumnName();
         if (StringUtils.isEmpty(columnName)) {
-            columnName = this.getColumnName(order.getColumn());
+            columnName = ColumnUtils.getColumnName(order.getColumn());
         }
         if (order.getColumn() != null) {
             columnName = ColumnUtils.getTableAlias(this.subTable, order.getColumn()) + columnName;
@@ -182,15 +182,6 @@ public abstract class AbstractWrapper<T> {
             }
         }
         return stringBuilder.toString();
-    }
-
-    protected <E> String getColumnName(ColumnFunction<E, ?> column) {
-        return getColumnName(column, true);
-    }
-
-    protected <E> String getColumnName(ColumnFunction<E, ?> column, boolean wrap) {
-        String columnName = ColumnUtils.camelCaseToUnderscore(column);
-        return wrap ? "`" + columnName + "`" : columnName;
     }
 
     protected String wrapColumnName(String columnName) {
@@ -276,7 +267,7 @@ public abstract class AbstractWrapper<T> {
      * @return 字段名
      */
     protected <E> String parseColumnName(ColumnFunction<E, ?> columnFunction, boolean appendAlias) {
-        String columnName = this.getColumnName(columnFunction);
+        String columnName = ColumnUtils.getColumnName(columnFunction);
         if (appendAlias) {
             String tableAlias = ColumnUtils.getTableAlias(this.subTable, columnFunction);
             columnName = tableAlias + columnName;

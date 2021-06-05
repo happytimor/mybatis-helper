@@ -1,6 +1,7 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
 
+import io.github.happytimor.mybatis.helper.core.common.DiySql;
 import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Condition;
@@ -53,6 +54,20 @@ public class WhereWrapper<T> extends GroupWrapper<T>
             this.conditionList.add(new Condition("AND", "(" + whereSegment + ")"));
         }
         return this;
+    }
+
+    @Override
+    public WhereWrapper<T> andDiySql(boolean execute, Function<WhereWrapper<T>, DiySql<T>> function) {
+        if (execute) {
+            DiySql<?> diySql = function.apply(this);
+            String sql = diySql.getSql();
+            this.conditionList.add(new Condition("AND", "(" + sql + ")"));
+        }
+        return this;
+    }
+
+    public <MODEL> DiySql<MODEL> applyDiySqlWrapper(Class<MODEL> modelClass) {
+        return new DiySql<>(subTable);
     }
 
     @Override
@@ -779,7 +794,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     public <R> WhereWrapper<T> isNull(boolean execute, ColumnFunction<R, ?> column) {
         if (execute) {
             String tableAlias = ColumnUtils.getTableAlias(this.subTable, column);
-            conditionList.add(new Condition(tableAlias + this.getColumnName(column) + " IS NULL"));
+            conditionList.add(new Condition(tableAlias + ColumnUtils.getColumnName(column) + " IS NULL"));
         }
         return this;
     }
@@ -788,7 +803,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     public <R> WhereWrapper<T> isNotNull(boolean execute, ColumnFunction<R, ?> column) {
         if (execute) {
             String tableAlias = ColumnUtils.getTableAlias(this.subTable, column);
-            conditionList.add(new Condition(tableAlias + this.getColumnName(column) + " IS NOT NULL"));
+            conditionList.add(new Condition(tableAlias + ColumnUtils.getColumnName(column) + " IS NOT NULL"));
         }
         return this;
     }
@@ -797,7 +812,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     public <R> WhereWrapper<T> isEmpty(boolean execute, ColumnFunction<R, ?> column) {
         if (execute) {
             String tableAlias = ColumnUtils.getTableAlias(this.subTable, column);
-            conditionList.add(new Condition(tableAlias + this.getColumnName(column) + " = ''"));
+            conditionList.add(new Condition(tableAlias + ColumnUtils.getColumnName(column) + " = ''"));
         }
         return this;
     }
@@ -806,7 +821,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     public <R> WhereWrapper<T> isNotEmpty(boolean execute, ColumnFunction<R, ?> column) {
         if (execute) {
             String tableAlias = ColumnUtils.getTableAlias(this.subTable, column);
-            conditionList.add(new Condition(tableAlias + this.getColumnName(column) + " != ''"));
+            conditionList.add(new Condition(tableAlias + ColumnUtils.getColumnName(column) + " != ''"));
         }
         return this;
     }
@@ -868,7 +883,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
      * in 和not in查询
      */
     private <R> void nestedExpression(ColumnFunction<R, ?> column, String operator, Collection<?> values) {
-        String columnName = this.getColumnName(column, false);
+        String columnName = ColumnUtils.getColumnName(column, false);
         String tableAlias = ColumnUtils.getTableAlias(this.subTable, column);
 
         //如果只有一个元素,退化成 = 或者 !=
@@ -891,7 +906,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     private <R> void nestedExpression(ColumnFunction<R, ?> column, String operator, AbstractWrapper<?> selectWrapper) {
-        String columnName = this.getColumnName(column, true);
+        String columnName = ColumnUtils.getColumnName(column, true);
         String segment = String.format("%s %s (SELECT %s FROM `%s` %s %s %s)", columnName, operator,
                 selectWrapper.getSelectSegment(),
                 selectWrapper.getTableName(),
@@ -902,7 +917,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     private <E> void addCondition(ColumnFunction<E, ?> column, String operator, Object value) {
-        String columnName = this.getColumnName(column, false);
+        String columnName = ColumnUtils.getColumnName(column, false);
         String tableAlias = ColumnUtils.getTableAlias(this.subTable, column);
         int count = counter.incrementAndGet();
         String key = "params_" + count + "_" + columnName;
@@ -914,13 +929,13 @@ public class WhereWrapper<T> extends GroupWrapper<T>
         String tableAlias1 = ColumnUtils.getTableAlias(this.subTable, column);
         String tableAlias2 = ColumnUtils.getTableAlias(this.subTable, value);
 
-        conditionList.add(new Condition(tableAlias1 + this.getColumnName(column, true)
+        conditionList.add(new Condition(tableAlias1 + ColumnUtils.getColumnName(column, true)
                 + " " + operator + " "
-                + tableAlias2 + this.getColumnName(value, true)));
+                + tableAlias2 + ColumnUtils.getColumnName(value, true)));
     }
 
     private <R> void addCondition(ColumnFunction<R, ?> column, String operator, Object start, String connector, Object end) {
-        String columnName = this.getColumnName(column, false);
+        String columnName = ColumnUtils.getColumnName(column, false);
         int count = counter.incrementAndGet();
 
         String startKey = "params_start_" + count + "_" + columnName;
