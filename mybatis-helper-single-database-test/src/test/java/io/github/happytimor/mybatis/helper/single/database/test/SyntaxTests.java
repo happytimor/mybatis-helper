@@ -40,17 +40,17 @@ public class SyntaxTests {
      * diySql测试1, 普通diysql测试
      */
     @Test
-    public void andDiySql1() {
+    public void andDiySqlTest1() {
         this.generateService.generateBatch((flag, userList) -> {
             Integer minId = userList.get(0).getId();
             long count1 = this.userService.selectCount(new SelectWrapper<User>()
-                    .gt(User::getId, 0)
                     .andDiySql(t -> t.applyDiySqlWrapper(User.class)
                             .setExpression("{} > {} + " + minId)
                             .setColumns(User::getId, User::getAge))
                     .andDiySql(t -> t.applyDiySqlWrapper(User.class)
                             .setExpression("{} > {} + " + minId)
                             .setColumns(User::getId, User::getUserGrade))
+                    .gt(User::getId, 0)
                     .eq(User::getFlag, flag)
             );
 
@@ -65,10 +65,32 @@ public class SyntaxTests {
         });
     }
 
+    /**
+     * DiySqlTest1
+     */
     @Test
     public void setDiySqlTest1() {
         this.generateService.generateBatch((flag, userList) -> {
-            
+            String name = "setDiySqlTest1";
+            int updateCount = this.userService.update(new UpdateWrapper<User>()
+                    .set(User::getMarried, true)
+                    .setDiySql(User::getAge, t -> t.applyDiySqlWrapper(User.class)
+                            .setExpression("{} - {} + 10")
+                            .setColumns(User::getId, User::getUserGrade))
+                    .setDiySql(User::getGradeOfMath, t -> t.applyDiySqlWrapper(User.class)
+                            .setExpression("{} - 100")
+                            .setColumns(User::getId))
+                    .set(User::getName, name)
+                    .eq(User::getFlag, flag)
+            );
+            assert updateCount > 0;
+            List<User> dbUserList = this.userService.selectList(new SelectWrapper<User>().eq(User::getFlag, flag));
+            for (User user : dbUserList) {
+                assert user.getMarried();
+                assert user.getAge() == user.getId() - user.getUserGrade() + 10;
+                assert user.getGradeOfMath() == user.getId() - 100;
+                assert name.equals(user.getName());
+            }
         });
     }
 

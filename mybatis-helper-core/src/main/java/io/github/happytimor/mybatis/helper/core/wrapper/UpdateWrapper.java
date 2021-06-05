@@ -1,9 +1,11 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
 
+import io.github.happytimor.mybatis.helper.core.common.DiySql;
 import io.github.happytimor.mybatis.helper.core.common.Operation;
 import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.metadata.Condition;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 
 import java.time.LocalDate;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author chenpeng
@@ -18,6 +21,34 @@ import java.util.List;
 public class UpdateWrapper<T> extends WhereWrapper<T> {
 
     private final List<String> set = new ArrayList<>();
+
+    /**
+     * 设置自定义sql
+     *
+     * @param execute  是否执行
+     * @param function 函数表达式
+     * @return updateWrapper
+     */
+    public UpdateWrapper<T> setDiySql(boolean execute, ColumnFunction<T, ?> column, Function<UpdateWrapper<T>, DiySql<T>> function) {
+        if (execute) {
+            DiySql<?> diySql = function.apply(this);
+            String sql = diySql.getSql();
+            String columnName = ColumnUtils.getColumnName(column, true);
+
+            this.set.add(columnName + " = (" + sql + ")");
+        }
+        return this;
+    }
+
+    /**
+     * 设置自定义sql
+     *
+     * @param function 函数表达式
+     * @return updateWrapper
+     */
+    public UpdateWrapper<T> setDiySql(ColumnFunction<T, ?> column, Function<UpdateWrapper<T>, DiySql<T>> function) {
+        return this.setDiySql(true, column, function);
+    }
 
     /**
      * 设置数据库字段值

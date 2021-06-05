@@ -21,7 +21,8 @@ public class SelectWrapper<T> extends WhereWrapper<T> {
 
     public SelectWrapper(Class<?> modelClass, Map<String, Object> paramNameValuePairs, AtomicInteger counter) {
         TableName tableNameAnnotation = modelClass.getAnnotation(TableName.class);
-        this.tableName = tableNameAnnotation != null ? tableNameAnnotation.value() : ColumnUtils.camelCaseToUnderscore(modelClass.getSimpleName());
+        this.tableName = tableNameAnnotation != null ? tableNameAnnotation.value() :
+                ColumnUtils.camelCaseToUnderscore(modelClass.getSimpleName());
         this.paramNameValuePairs = paramNameValuePairs;
         this.counter = counter;
     }

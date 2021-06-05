@@ -8,7 +8,6 @@ import io.github.happytimor.mybatis.helper.core.metadata.Condition;
 import io.github.happytimor.mybatis.helper.core.metadata.DefaultCompare;
 import io.github.happytimor.mybatis.helper.core.metadata.DefaultConnector;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
-import io.github.happytimor.mybatis.helper.core.util.LambdaUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
