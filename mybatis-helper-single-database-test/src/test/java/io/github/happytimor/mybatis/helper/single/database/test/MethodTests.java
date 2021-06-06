@@ -1,9 +1,7 @@
 package io.github.happytimor.mybatis.helper.single.database.test;
 
-import com.alibaba.fastjson.JSONObject;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
-import io.github.happytimor.mybatis.helper.core.method.SelectCount;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectJoinWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
@@ -282,7 +280,6 @@ public class MethodTests {
         });
 
         generateService.generateBatch(1000, (flag, userList) -> {
-            Map<Integer, User> userMap = userList.stream().collect(Collectors.toMap(User::getId, x -> x));
             List<Integer> integerList = userService.selectObjectList(Integer.class, new SelectWrapper<User>()
                     .select(User::getAge)
                     .eq(User::getFlag, flag)
@@ -492,6 +489,44 @@ public class MethodTests {
                     .eq(User::getFlag, flag)
             );
             assert Objects.equals(restCount.intValue(), userList.size() - deleteCount);
+        });
+    }
+
+    @Test
+    public void havingTest() {
+        this.generateService.generateBatch((flag, userList) -> {
+            long sumGradeOfMathOfMarried = 0L;
+            long sumGradeOfMathOfUnMarried = 0L;
+
+            long sumGradeOfScienceOfMarried = 0L;
+            long sumGradeOfScienceOfUnMarried = 0L;
+
+            for (User user : userList) {
+                if (user.getMarried()) {
+                    sumGradeOfMathOfMarried += user.getGradeOfMath();
+                    sumGradeOfScienceOfMarried += user.getGradeOfScience();
+                } else {
+                    sumGradeOfMathOfUnMarried += user.getGradeOfMath();
+                    sumGradeOfScienceOfUnMarried += user.getGradeOfScience();
+                }
+            }
+
+            long avgGradeOfMath = (sumGradeOfMathOfMarried + sumGradeOfMathOfUnMarried) / 2;
+            long maxGradeOfMath = Math.max(sumGradeOfMathOfMarried, sumGradeOfMathOfUnMarried);
+            int married = maxGradeOfMath == sumGradeOfMathOfMarried ? 1 : 0;
+            long minAvgGradeOfScience = Math.min(sumGradeOfScienceOfMarried, sumGradeOfScienceOfUnMarried) / userList.size();
+            List<Map<String, Object>> mapList = this.userService.selectMapList(new SelectWrapper<User>()
+                    .select(User::getMarried, SqlFunction.sum(User::getGradeOfMath, User::getGradeOfMath),
+                            SqlFunction.avg(User::getGradeOfScience, User::getGradeOfScience))
+                    .eq(User::getFlag, flag)
+                    .groupBy(User::getMarried)
+                    .havingGt(SqlFunction.sum(User::getGradeOfMath), avgGradeOfMath)
+                    .havingGe(SqlFunction.avg(User::getGradeOfScience), minAvgGradeOfScience)
+            );
+            for (Map<String, Object> stringObjectMap : mapList) {
+                assert maxGradeOfMath == ((Number) (stringObjectMap.get("gradeOfMath"))).longValue();
+                assert (int) stringObjectMap.get("married") == married;
+            }
         });
     }
 }

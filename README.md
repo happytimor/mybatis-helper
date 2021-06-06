@@ -84,7 +84,7 @@ WHERE t1.`deleted` = ? AND t2.`deleted` = ?
 <dependency>
     <groupId>io.github.happytimor</groupId>
     <artifactId>mybatis-helper-core</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.11</version>
 </dependency>
 ```
 
