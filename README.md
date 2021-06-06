@@ -77,6 +77,30 @@ LEFT JOIN teacher_info t3 ON t3.`id` = t2.`teacher_id`
 WHERE t1.`deleted` = ? AND t2.`deleted` = ? 
 ```
 
+### 1.5 自定义sql
+```
+this.userService.update(new UpdateWrapper<User>()
+    .setDiySql(User::getAge, t -> t.applyDiySqlWrapper(User.class)
+        .setExpression("{} - {} + 10")
+        .setColumns(User::getId, User::getUserGrade))
+    .eq(User::getFlag, flag)
+);
+```
+```
+UPDATE `user` SET `age` = (`id` - `user_grade` + 10) WHERE `flag` = ? 
+```
+
+```
+this.userService.selectCount(new SelectWrapper<User>()
+    .andDiySql(t -> t.applyDiySqlWrapper(User.class)
+        .setExpression("{} > {} + 100")
+        .setColumns(User::getId, User::getAge))
+    .eq(User::getFlag, flag)
+);
+```
+```
+SELECT COUNT(*) FROM `user` WHERE (`id` > `age` + 100) AND `flag` = ? 
+```
 ## 2.如何使用
 ### 2.1 引入maven依赖
 ``` xml
