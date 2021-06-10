@@ -25,7 +25,8 @@ public class SelectSingleValue extends AbstractMethod {
                 "${" + Params.WRAPPER + ".groupSegment}",
                 "${" + Params.WRAPPER + ".orderSegment}",
                 "${" + Params.WRAPPER + ".havingSegment}",
-                "${" + Params.WRAPPER + ".limitSegment}");
+                "${" + Params.WRAPPER + ".limitSegment}",
+                "${" + Params.WRAPPER + ".forUpdateSegment}");
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, Object.class);
         return this.addMappedStatement(sqlMethod.getMethod(), sqlSource, Object.class);
     }

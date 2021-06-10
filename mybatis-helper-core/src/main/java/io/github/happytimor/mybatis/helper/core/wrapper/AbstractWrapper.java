@@ -53,6 +53,11 @@ public abstract class AbstractWrapper<T> {
      */
     protected String limit = "";
 
+    /**
+     * select for update
+     */
+    protected String forUpdateSegment = "";
+
     public AbstractWrapper() {
         this.paramNameValuePairs = new HashMap<>();
         this.counter = new AtomicInteger(0);
@@ -314,6 +319,14 @@ public abstract class AbstractWrapper<T> {
     }
 
     /**
+     * 追加" FOR UPDATE"
+     */
+    public AbstractWrapper<T> forUpdate() {
+        this.forUpdateSegment = " FOR UPDATE";
+        return this;
+    }
+
+    /**
      * 获取limit sql
      *
      * @return limit sql
@@ -321,4 +334,14 @@ public abstract class AbstractWrapper<T> {
     public final String getLimitSegment() {
         return limit;
     }
+
+    /**
+     * 获取for update sql
+     *
+     * @return for update
+     */
+    public final String getForUpdateSegment() {
+        return forUpdateSegment;
+    }
+
 }

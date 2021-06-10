@@ -24,7 +24,8 @@ public class SelectList extends AbstractMethod {
                 "${" + Params.WRAPPER + ".groupSegment}",
                 "${" + Params.WRAPPER + ".havingSegment}",
                 "${" + Params.WRAPPER + ".orderSegment}",
-                "${" + Params.WRAPPER + ".limitSegment}");
+                "${" + Params.WRAPPER + ".limitSegment}",
+                "${" + Params.WRAPPER + ".forUpdateSegment}");
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, Object.class);
         return this.addMappedStatement(sqlMethod.getMethod(), sqlSource, tableInfo.getModelClass());
     }

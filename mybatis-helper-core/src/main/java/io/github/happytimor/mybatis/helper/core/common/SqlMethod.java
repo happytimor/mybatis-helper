@@ -51,15 +51,15 @@ public enum SqlMethod {
     /**
      * 自定义条件查找
      */
-    SELECT_LIST("selectList", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s\n</script>"),
+    SELECT_LIST("selectList", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s %s\n</script>"),
     /**
      * 自定义条件查询单个值
      */
-    SELECT_SINGLE_VALUE("selectSingleValue", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s\n</script>"),
+    SELECT_SINGLE_VALUE("selectSingleValue", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s %s\n</script>"),
     /**
      * 自定义条件查找
      */
-    SELECT_MAP_LIST("selectMapList", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s`%s %s %s %s %s %s %s\n</script>"),
+    SELECT_MAP_LIST("selectMapList", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s`%s %s %s %s %s %s %s %s\n</script>"),
 
     /**
      * 自定义条件查找总数
@@ -68,11 +68,11 @@ public enum SqlMethod {
     /**
      * 查询一条数据
      */
-    SELECT_ONE("selectOne", "只返回一条记录", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s LIMIT 1\n</script>"),
+    SELECT_ONE("selectOne", "只返回一条记录", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s LIMIT 1 %s\n</script>"),
     /**
      * 直接查询map对象
      */
-    SELECT_MAP("selectMap", "返回自定义对象", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s\n</script>");
+    SELECT_MAP("selectMap", "返回自定义对象", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s %s\n</script>");
 
     private final String method;
     private final String desc;

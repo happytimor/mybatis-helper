@@ -23,7 +23,8 @@ public class SelectOne extends AbstractMethod {
                 "${" + Params.WRAPPER + ".whereSegment}",
                 "${" + Params.WRAPPER + ".groupSegment}",
                 "${" + Params.WRAPPER + ".havingSegment}",
-                "${" + Params.WRAPPER + ".orderSegment}");
+                "${" + Params.WRAPPER + ".orderSegment}",
+                "${" + Params.WRAPPER + ".forUpdateSegment}");
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, Object.class);
         return this.addMappedStatement(sqlMethod.getMethod(), sqlSource, tableInfo.getModelClass());
     }

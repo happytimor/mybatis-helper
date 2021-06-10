@@ -420,6 +420,18 @@ public class MethodTests {
         }
     }
 
+    @Test
+    public void forUpdateTest() {
+        this.generateService.generateBatch((flag, userList) -> {
+            List<User> list = this.userService.selectList(new SelectWrapper<User>()
+                    .eq(User::getFlag, flag)
+                    .orderByAsc(User::getId)
+                    .forUpdate()
+            );
+            assert list.size() == userList.size();
+        });
+    }
+
     /**
      * 分页测试
      */
