@@ -5,6 +5,7 @@ import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.UserNoKey;
 import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
 import org.junit.Test;
@@ -132,6 +133,56 @@ public class SyntaxTests {
                 assert Objects.equals(data.get("grade_of_math"), data.get("gradeOfMath"))
                         && Objects.equals(data.get("grade_of_math"), data.get("yourGrade"));
             }
+        });
+    }
+
+    /**
+     * in嵌套查询,同表
+     */
+    @Test
+    public void applySelectWrapperTest() {
+        this.generateService.generateBatch((flag, userList) -> {
+
+            for (User user : userList) {
+                user.setAge(user.getId());
+            }
+            this.userService.batchUpdateById(userList);
+
+            List<String> strangeNameList = Arrays.asList("name111", "name122");
+
+            List<String> nameList = new ArrayList<>(strangeNameList);
+            for (User user : userList) {
+                nameList.add(user.getName());
+                if (nameList.size() >= 100) {
+                    break;
+                }
+
+            }
+            long count1 = this.userService.selectCount(new SelectWrapper<User>()
+                    .select(User::getId)
+                    .in(User::getName, nameList)
+                    .ne(User::getStrangeName, strangeNameList.get(0))
+                    .notIn(User::getStrangeName, strangeNameList)
+                    .gt(User::getId, 0)
+                    .lt(User::getId, Integer.MAX_VALUE)
+                    .eq(User::getId, User::getAge)
+                    .eq(User::getFlag, flag)
+            );
+
+            long count2 = this.userService.selectCount(new SelectWrapper<User>()
+                    .in(User::getId, t -> t.applySelectWrapper(User.class)
+                            .select(User::getId)
+                            .in(User::getName, nameList)
+                            .ne(User::getStrangeName, strangeNameList.get(0))
+                            .notIn(User::getStrangeName, strangeNameList)
+                            .gt(User::getId, 0)
+                            .lt(User::getId, Integer.MAX_VALUE)
+                            .eq(User::getId, User::getAge)
+                    )
+                    .eq(User::getFlag, flag)
+            );
+            assert count1 > 0;
+            assert count1 == count2;
         });
     }
 

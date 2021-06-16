@@ -152,7 +152,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public <R, V> WhereWrapper<T> gt(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
         if (execute) {
-            this.addCondition(column, ">", value);
+            this.addConditionForColumn(column, ">", value);
         }
         return this;
     }
@@ -160,7 +160,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public <R, V> WhereWrapper<T> gtNotBlank(ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
         if (value != null) {
-            this.addCondition(column, ">", value);
+            this.addConditionForColumn(column, ">", value);
         }
         return this;
     }
@@ -257,7 +257,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public <R, V> WhereWrapper<T> ge(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
         if (execute) {
-            this.addCondition(column, ">=", value);
+            this.addConditionForColumn(column, ">=", value);
         }
         return this;
     }
@@ -370,7 +370,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public <R, V> WhereWrapper<T> eq(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
         if (execute) {
-            this.addCondition(column, "=", value);
+            this.addConditionForColumn(column, "=", value);
         }
         return this;
     }
@@ -467,7 +467,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public <R, V> WhereWrapper<T> le(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
         if (execute) {
-            this.addCondition(column, "<=", value);
+            this.addConditionForColumn(column, "<=", value);
         }
         return this;
     }
@@ -564,7 +564,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public <R, V> WhereWrapper<T> lt(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
         if (execute) {
-            this.addCondition(column, "<", value);
+            this.addConditionForColumn(column, "<", value);
         }
         return this;
     }
@@ -661,7 +661,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     @Override
     public <R, V> WhereWrapper<T> ne(boolean execute, ColumnFunction<R, ?> column, ColumnFunction<V, ?> value) {
         if (execute) {
-            this.addCondition(column, "<>", value);
+            this.addConditionForColumn(column, "<>", value);
         }
         return this;
     }
@@ -924,7 +924,7 @@ public class WhereWrapper<T> extends GroupWrapper<T>
         conditionList.add(new Condition(tableAlias + wrapColumnName(columnName) + " " + operator + " #{" + Params.WRAPPER + ".paramNameValuePairs." + key + "}"));
     }
 
-    private <R> void addCondition(ColumnFunction<R, ?> column, String operator, ColumnFunction<T, ?> value) {
+    private <R, V> void addConditionForColumn(ColumnFunction<R, ?> column, String operator, ColumnFunction<V, ?> value) {
         String tableAlias1 = ColumnUtils.getTableAlias(this.subTable, column);
         String tableAlias2 = ColumnUtils.getTableAlias(this.subTable, value);
 
