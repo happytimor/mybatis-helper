@@ -265,6 +265,31 @@ public class MethodTests {
     }
 
     /**
+     * selectObjectList 针对返回基本数据类型的返回测试
+     */
+    @Test
+    public void selectObjectListBasicTypeTest() {
+        this.generateService.generateBatch(1000, (flag, userList) -> {
+            List<String> nameList = userService.selectObjectList(String.class, new SelectWrapper<User>()
+                    .select(SqlFunction.distinct(User::getName))
+                    .eq(User::getFlag, flag)
+            );
+            List<Integer> ageList = userService.selectObjectList(Integer.class, new SelectWrapper<User>()
+                    .select(User::getAge)
+                    .eq(User::getFlag, flag)
+            );
+            List<LocalDateTime> timeList = userService.selectObjectList(LocalDateTime.class, new SelectWrapper<User>()
+                    .select(User::getLastLoginTime)
+                    .eq(User::getFlag, flag)
+            );
+
+            assert nameList.size() > 0;
+            assert ageList.size() > 0;
+            assert timeList.size() > 0;
+        });
+    }
+
+    /**
      * 对象转换测试
      */
     @Test
