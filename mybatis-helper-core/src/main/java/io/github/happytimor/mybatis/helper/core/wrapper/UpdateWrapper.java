@@ -27,6 +27,7 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
      *
      * @param execute  是否执行
      * @param function 函数表达式
+     * @param column   column
      * @return updateWrapper
      */
     public UpdateWrapper<T> setDiySql(boolean execute, ColumnFunction<T, ?> column, Function<UpdateWrapper<T>, DiySql<T>> function) {
@@ -44,6 +45,7 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
      * 设置自定义sql
      *
      * @param function 函数表达式
+     * @param column   column
      * @return updateWrapper
      */
     public UpdateWrapper<T> setDiySql(ColumnFunction<T, ?> column, Function<UpdateWrapper<T>, DiySql<T>> function) {

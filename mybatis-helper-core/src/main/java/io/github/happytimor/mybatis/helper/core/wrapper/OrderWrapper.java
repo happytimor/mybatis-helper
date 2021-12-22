@@ -16,6 +16,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * 升序
      *
      * @param column 字段名称
+     * @param <E>    E
      * @return children
      */
     public <E> OrderWrapper<T> orderByAsc(ColumnFunction<E, ?> column) {
@@ -27,6 +28,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      *
      * @param execute 是否执行
      * @param column  字段名称
+     * @param <E>     E
      * @return children
      */
     public <E> OrderWrapper<T> orderByAsc(boolean execute, ColumnFunction<E, ?> column) {
@@ -39,6 +41,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * @param execute 是否执行
      * @param column  字段名称
      * @param asc     是否升序 true-升序 false-降序
+     * @param <E>     E
      * @return children
      */
     public <E> OrderWrapper<T> orderByAsc(boolean execute, ColumnFunction<E, ?> column, Boolean asc) {
@@ -52,6 +55,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      * 降序
      *
      * @param column 字段名称
+     * @param <E>    E
      * @return children
      */
     public <E> OrderWrapper<T> orderByDesc(ColumnFunction<E, ?> column) {
@@ -63,6 +67,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      *
      * @param execute 是否执行
      * @param column  字段名称
+     * @param <E>     E
      * @return children
      */
     public <E> OrderWrapper<T> orderByDesc(boolean execute, ColumnFunction<E, ?> column) {

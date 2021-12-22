@@ -160,6 +160,7 @@ public class ColumnUtils {
      *
      * @param clazz     表对应对象类
      * @param appendDot 是否直接"."
+     * @param subTable  子表
      * @return 表别名
      */
     public static String getTableAlias(Map<Class<?>, Integer> subTable, Class<?> clazz, boolean appendDot) {

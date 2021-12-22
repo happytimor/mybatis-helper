@@ -320,6 +320,8 @@ public abstract class AbstractWrapper<T> {
 
     /**
      * 追加" FOR UPDATE"
+     *
+     * @return abstractWrapper
      */
     public AbstractWrapper<T> forUpdate() {
         this.forUpdateSegment = " FOR UPDATE";
