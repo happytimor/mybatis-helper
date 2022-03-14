@@ -1,8 +1,5 @@
 package io.github.happytimor.mybatis.helper.core;
 
-import io.github.happytimor.mybatis.helper.core.annotation.MultipleTableConnector;
-import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
-import io.github.happytimor.mybatis.helper.core.annotation.TableName;
 import io.github.happytimor.mybatis.helper.core.common.Config;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.handler.MybatisXmlLanguageDriver;
@@ -20,6 +17,7 @@ import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.apache.ibatis.reflection.MetaClass;
 import org.apache.ibatis.reflection.Reflector;
 import org.apache.ibatis.reflection.ReflectorFactory;
+import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +31,7 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -128,26 +126,59 @@ public class MybatisHelper implements ApplicationContextAware {
      * @param mapperSearchPath mapper类路径
      */
     public void registSingleDatabase(String mapperSearchPath) {
+        this.registSingleDatabase(mapperSearchPath, false);
+    }
+
+    /**
+     * 单数据库,可以拿到默认的 sqlSessionFactory, 直接指定 mapperSearchPath进行注入即可
+     *
+     * @param mapperSearchPath mapper类路径
+     * @param enableIdGenerate 启用id自动生成
+     */
+    public void registSingleDatabase(String mapperSearchPath, boolean enableIdGenerate) {
         this.registerIdentifierGenerator();
         SqlSessionFactory sqlSessionFactory = this.parseSqlSessionFactory();
         if (sqlSessionFactory == null || mapperSearchPath == null || "".equals(mapperSearchPath.trim())) {
             throw new RuntimeException("inject error");
         }
         try {
-            this.regist(sqlSessionFactory, mapperSearchPath);
+            this.regist(sqlSessionFactory, mapperSearchPath, enableIdGenerate);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * 针对sqlSessionFactory进行注册
+     *
+     * @param sqlSessionFactory sqlSessionFactory对象
+     * @param mapperSearchPath  mapper扫描路径
+     * @throws IOException IO异常
+     */
     public void regist(SqlSessionFactory sqlSessionFactory, String mapperSearchPath) throws IOException {
+        this.regist(sqlSessionFactory, mapperSearchPath, false);
+    }
+
+    /**
+     * 针对sqlSessionFactory进行注册
+     *
+     * @param sqlSessionFactory sqlSessionFactory对象
+     * @param mapperSearchPath  mapper扫描路径
+     * @param enableIdGenerate  是否启用id自动生成
+     * @throws IOException IO异常
+     */
+    public void regist(SqlSessionFactory sqlSessionFactory, String mapperSearchPath, boolean enableIdGenerate)
+            throws IOException {
         if (mapperSearchPath.contains(Constants.DOT)) {
             mapperSearchPath = mapperSearchPath.replace(Constants.DOT, "/");
         }
         mapperSearchPath = "classpath:" + mapperSearchPath + "/" + "*.class";
         if (this.config != null) {
-            sqlSessionFactory.getConfiguration().setMapUnderscoreToCamelCase(this.config.isMapUnderscoreToCamelCase());
-            sqlSessionFactory.getConfiguration().getLanguageRegistry().setDefaultDriverClass(MybatisXmlLanguageDriver.class);
+            Configuration configuration = sqlSessionFactory.getConfiguration();
+            configuration.setMapUnderscoreToCamelCase(this.config.isMapUnderscoreToCamelCase());
+            if (enableIdGenerate) {
+                configuration.getLanguageRegistry().setDefaultDriverClass(MybatisXmlLanguageDriver.class);
+            }
         }
         Set<Class<?>> mapperClassList = this.parseMapper(mapperSearchPath);
         Set<String> registed = new HashSet<>();

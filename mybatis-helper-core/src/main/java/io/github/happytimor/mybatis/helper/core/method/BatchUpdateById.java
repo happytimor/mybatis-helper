@@ -18,7 +18,7 @@ public class BatchUpdateById extends AbstractMethod {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         SqlMethod sqlMethod = SqlMethod.BATCH_UPDATE_BY_ID;
-        String sql = "update `" + this.parseTableName() + "` " + this.generateSetScript(tableInfo) + " WHERE `" + tableInfo.getKeyProperty() + "`=#{item." + tableInfo.getKeyProperty() + "}";
+        String sql = "UPDATE `" + this.parseTableName() + "` " + this.generateSetScript(tableInfo) + " WHERE `" + tableInfo.getKeyProperty() + "`=#{item." + tableInfo.getKeyProperty() + "}";
         String allScript = SqlScriptUtils.convertForeach(sql, Params.LIST, null, null, null, "item", ";");
         String script = String.format(sqlMethod.getSql(), allScript);
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, modelClass);

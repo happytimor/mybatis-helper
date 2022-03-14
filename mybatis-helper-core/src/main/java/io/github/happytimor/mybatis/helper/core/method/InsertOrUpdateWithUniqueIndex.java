@@ -1,5 +1,6 @@
 package io.github.happytimor.mybatis.helper.core.method;
 
+import io.github.happytimor.mybatis.helper.core.common.IdType;
 import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.common.SqlMethod;
 import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
@@ -30,12 +31,14 @@ public class InsertOrUpdateWithUniqueIndex extends AbstractMethod {
 
         String script = String.format(sqlMethod.getSql(), this.parseTableName(), columnScript, valuesScript, updateScript);
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, modelClass);
-        KeyGenerator keyGenerator = new NoKeyGenerator();
+        KeyGenerator keyGenerator = NoKeyGenerator.INSTANCE;
         String keyProperty = null;
         String keyColumn = null;
         // 表包含主键处理逻辑,如果不包含主键当普通字段处理
         if (tableInfo.getKeyProperty() != null && tableInfo.getKeyProperty().length() > 0) {
-            keyGenerator = new Jdbc3KeyGenerator();
+            if (tableInfo.getIdType() != IdType.DYNAMIC_GENERATE) {
+                keyGenerator = Jdbc3KeyGenerator.INSTANCE;
+            }
             boolean splitTable = MultipleTableMapper.class.isAssignableFrom(mapperClass);
             keyProperty = tableInfo.getKeyProperty();
             if (splitTable) {
