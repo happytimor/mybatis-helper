@@ -7,6 +7,7 @@ import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Condition;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -66,6 +67,17 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     /**
      * 设置数据库字段值
      *
+     * @param column 字段
+     * @param value  设置值
+     * @return updateWrapper
+     */
+    public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, String value) {
+        return this.set(!StringUtils.isEmpty(value), column, value);
+    }
+
+    /**
+     * 设置数据库字段值
+     *
      * @param execute 是否执行
      * @param column  字段
      * @param value   设置值
@@ -85,6 +97,17 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
      */
     public UpdateWrapper<T> set(ColumnFunction<T, ?> column, Number value) {
         return this.set(true, column, value);
+    }
+
+    /**
+     * 设置数据库字段值
+     *
+     * @param column 字段
+     * @param value  设置值
+     * @return updateWrapper
+     */
+    public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, Number value) {
+        return this.set(value != null, column, value);
     }
 
     /**
@@ -113,6 +136,17 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     /**
      * 设置数据库字段值
      *
+     * @param column 字段
+     * @param value  设置值
+     * @return updateWrapper
+     */
+    public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, Date value) {
+        return this.set(value != null, column, value);
+    }
+
+    /**
+     * 设置数据库字段值
+     *
      * @param execute 是否执行
      * @param column  字段
      * @param value   设置值
@@ -131,6 +165,17 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
      */
     public UpdateWrapper<T> set(ColumnFunction<T, ?> column, LocalDate value) {
         return this.set(true, column, value);
+    }
+
+    /**
+     * 设置数据库字段值
+     *
+     * @param column 字段
+     * @param value  设置值
+     * @return updateWrapper
+     */
+    public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, LocalDate value) {
+        return this.set(value != null, column, value);
     }
 
     /**
@@ -159,6 +204,17 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     /**
      * 设置数据库字段值
      *
+     * @param column 字段
+     * @param value  设置值
+     * @return updateWrapper
+     */
+    public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, LocalDateTime value) {
+        return this.set(value != null, column, value);
+    }
+
+    /**
+     * 设置数据库字段值
+     *
      * @param execute 是否执行
      * @param column  字段
      * @param value   设置值
@@ -177,6 +233,17 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
      */
     public UpdateWrapper<T> set(ColumnFunction<T, ?> column, Boolean value) {
         return this.set(true, column, value);
+    }
+
+    /**
+     * 设置数据库字段值
+     *
+     * @param column 字段
+     * @param value  设置值
+     * @return updateWrapper
+     */
+    public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, Boolean value) {
+        return this.set(value != null, column, value);
     }
 
     /**
