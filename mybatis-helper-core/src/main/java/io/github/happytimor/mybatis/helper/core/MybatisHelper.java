@@ -5,12 +5,15 @@ import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
 import io.github.happytimor.mybatis.helper.core.common.Config;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
+import io.github.happytimor.mybatis.helper.core.handler.MybatisXmlLanguageDriver;
 import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
 import io.github.happytimor.mybatis.helper.core.mapper.NoPrimaryKeyMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import io.github.happytimor.mybatis.helper.core.method.*;
+import io.github.happytimor.mybatis.helper.core.service.GlobalConfig;
+import io.github.happytimor.mybatis.helper.core.service.IdentifierGenerator;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 import io.github.happytimor.mybatis.helper.core.util.LambdaUtils;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
@@ -108,11 +111,24 @@ public class MybatisHelper implements ApplicationContextAware {
     }
 
     /**
+     * 注册IdentifierGenerator
+     */
+    public void registerIdentifierGenerator() {
+        String[] names = applicationContext.getBeanNamesForType(IdentifierGenerator.class);
+        if (names.length == 0) {
+            return;
+        }
+        IdentifierGenerator identifierGenerator = applicationContext.getBean(names[0], IdentifierGenerator.class);
+        GlobalConfig.setIdentifierGenerator(identifierGenerator);
+    }
+
+    /**
      * 单数据库,可以拿到默认的 sqlSessionFactory, 直接指定 mapperSearchPath进行注入即可
      *
      * @param mapperSearchPath mapper类路径
      */
     public void registSingleDatabase(String mapperSearchPath) {
+        this.registerIdentifierGenerator();
         SqlSessionFactory sqlSessionFactory = this.parseSqlSessionFactory();
         if (sqlSessionFactory == null || mapperSearchPath == null || "".equals(mapperSearchPath.trim())) {
             throw new RuntimeException("inject error");
@@ -125,12 +141,13 @@ public class MybatisHelper implements ApplicationContextAware {
     }
 
     public void regist(SqlSessionFactory sqlSessionFactory, String mapperSearchPath) throws IOException {
-        if (mapperSearchPath.contains(".")) {
-            mapperSearchPath = mapperSearchPath.replace(".", "/");
+        if (mapperSearchPath.contains(Constants.DOT)) {
+            mapperSearchPath = mapperSearchPath.replace(Constants.DOT, "/");
         }
         mapperSearchPath = "classpath:" + mapperSearchPath + "/" + "*.class";
         if (this.config != null) {
             sqlSessionFactory.getConfiguration().setMapUnderscoreToCamelCase(this.config.isMapUnderscoreToCamelCase());
+            sqlSessionFactory.getConfiguration().getLanguageRegistry().setDefaultDriverClass(MybatisXmlLanguageDriver.class);
         }
         Set<Class<?>> mapperClassList = this.parseMapper(mapperSearchPath);
         Set<String> registed = new HashSet<>();
@@ -193,6 +210,11 @@ public class MybatisHelper implements ApplicationContextAware {
             if (StringUtils.isEmpty(tableInfo.getKeyProperty())) {
                 tableInfo.setKeyProperty(Constants.DEFAULT_KEY_PROPERTY);
             }
+            try {
+                tableInfo.setKeyClass(modelClass.getDeclaredField(tableInfo.getKeyColumn()).getType());
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
         }
         tableInfo.setMultipleTable(MultipleTableMapper.class.isAssignableFrom(mapperClass));
         mapperBuilderAssistant.setCurrentNamespace(mapperClass.getName());
@@ -243,7 +265,7 @@ public class MybatisHelper implements ApplicationContextAware {
             caseInsensitivePropertyMapField.setAccessible(true);
             Map<String, String> caseInsensitivePropertyMap
                     = (Map<String, String>) caseInsensitivePropertyMapField.get(reflector);
-            Map<String, String> relation = new HashMap<>();
+            Map<String, String> relation = new HashMap<>(16);
             for (Result result : tableInfo.getResultList()) {
                 if (!result.isOverrideColumn()) {
                     continue;

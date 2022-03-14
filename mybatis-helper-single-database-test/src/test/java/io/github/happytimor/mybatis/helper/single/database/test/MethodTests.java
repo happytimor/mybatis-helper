@@ -69,6 +69,23 @@ public class MethodTests {
     }
 
     /**
+     * 批量插入测试
+     */
+    @Test
+    public void batchInsert() {
+        List<User> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            User user = this.generateService.generateOne();
+            assert user.getId() == null;
+            list.add(user);
+        }
+        this.userService.batchInsert(list);
+
+        List<Integer> idList = list.stream().map(User::getId).collect(Collectors.toList());
+        this.userService.deleteByIdList(idList);
+    }
+
+    /**
      * 单主键查询
      */
     @Test

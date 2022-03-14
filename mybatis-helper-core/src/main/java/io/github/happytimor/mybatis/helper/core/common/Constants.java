@@ -25,6 +25,7 @@ public interface Constants {
     String INNER_JOIN = "INNER JOIN";
     String JOIN = "JOIN";
 
+    String DOT = ".";
 
     /**
      * 字段映射关系 io.github.happytimor.mybatis.helper.single.database.test.domain.User.strangeName -&gt; aaa

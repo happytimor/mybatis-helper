@@ -44,7 +44,7 @@ public class ReflectUtils {
                     || Boolean.class.getName().equals(clz.getName())) {
                 return (M) castIfNotNull(map.values().toArray()[0], clz);
             }
-            Map<String, Object> extraMap = new HashMap<>();
+            Map<String, Object> extraMap = new HashMap<>(16);
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 String column = entry.getKey();
                 if (column.contains("_") && entry.getValue() != null) {

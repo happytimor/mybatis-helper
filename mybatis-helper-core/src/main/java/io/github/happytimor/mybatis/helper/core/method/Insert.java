@@ -31,7 +31,7 @@ public class Insert extends AbstractMethod {
 
         String script = String.format(sqlMethod.getSql(), this.parseTableName(), columnScript, valuesScript);
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, script, modelClass);
-        KeyGenerator keyGenerator = new NoKeyGenerator();
+        KeyGenerator keyGenerator = NoKeyGenerator.INSTANCE;
         String keyProperty = null;
         String keyColumn = null;
         // 表包含主键处理逻辑,如果不包含主键当普通字段处理

@@ -36,6 +36,9 @@ public class ColumnUtils {
         return stringBuilder.toString();
     }
 
+    private static final char littleCharacterStart = 'a';
+    private static final char littleCharacterEnd = 'z';
+
     /**
      * 首字母大写
      *
@@ -48,12 +51,15 @@ public class ColumnUtils {
         }
         char[] chars = str.toCharArray();
         char ch = chars[0];
-        if (ch >= 'a' && ch <= 'z') {
+        if (ch >= littleCharacterStart && ch <= littleCharacterEnd) {
             chars[0] -= 32;
             return new String(chars);
         }
         return str;
     }
+
+    private static final char bigCharacterStart = 'A';
+    private static final char bigCharacterEnd = 'Z';
 
     /**
      * 首字母小写
@@ -67,7 +73,7 @@ public class ColumnUtils {
         }
         char[] chars = str.toCharArray();
         char ch = chars[0];
-        if (ch >= 'A' && ch <= 'Z') {
+        if (ch >= bigCharacterStart && ch <= bigCharacterEnd) {
             chars[0] += 32;
             return new String(chars);
         }
@@ -97,7 +103,7 @@ public class ColumnUtils {
         return sb.toString();
     }
 
-    private static final Pattern linePattern = Pattern.compile("_(\\w)");
+    private static final Pattern LINE_PATTERN = Pattern.compile("_(\\w)");
 
     /**
      * underscore 2 camel
@@ -106,7 +112,7 @@ public class ColumnUtils {
      * @return camel string
      */
     public static String underscoreToCamelCase(String underscore) {
-        Matcher matcher = linePattern.matcher(underscore);
+        Matcher matcher = LINE_PATTERN.matcher(underscore);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             matcher.appendReplacement(sb, matcher.group(1).toUpperCase());

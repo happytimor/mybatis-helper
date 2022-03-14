@@ -1,6 +1,9 @@
 package io.github.happytimor.mybatis.helper.multiple.database.test.domain;
 
+import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
+import io.github.happytimor.mybatis.helper.core.annotation.TableIdType;
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
+import io.github.happytimor.mybatis.helper.core.common.IdType;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

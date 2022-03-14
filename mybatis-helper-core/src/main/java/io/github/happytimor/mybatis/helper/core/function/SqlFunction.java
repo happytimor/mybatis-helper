@@ -336,7 +336,7 @@ public class SqlFunction {
     public static Map<ColumnFunction<?, ?>, ColumnWrapper> ensureMap() {
         Map<ColumnFunction<?, ?>, ColumnWrapper> columnFuncationMap = Constants.THREAD_COLUMN_FUNCTION.get();
         if (columnFuncationMap == null) {
-            columnFuncationMap = new HashMap<>();
+            columnFuncationMap = new HashMap<>(16);
             Constants.THREAD_COLUMN_FUNCTION.set(columnFuncationMap);
         }
         return columnFuncationMap;

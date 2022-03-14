@@ -10,6 +10,7 @@ import java.util.Objects;
 /**
  * @author chenpeng
  */
+//@TableIdType(value = IdType.DYNAMIC_GENERATE, identity = "useraaa")
 public class User {
     private Integer id;
     private String name;
@@ -44,7 +45,9 @@ public class User {
 
         if (obj instanceof User) {
             User other = (User) obj;
-            if (this.lastLoginTime == null && other.lastLoginTime != null || this.lastLoginTime != null && other.lastLoginTime == null) {
+            boolean loginNameNotSame = this.lastLoginTime == null && other.lastLoginTime != null
+                    || this.lastLoginTime != null && other.lastLoginTime == null;
+            if (loginNameNotSame) {
                 return false;
             }
 

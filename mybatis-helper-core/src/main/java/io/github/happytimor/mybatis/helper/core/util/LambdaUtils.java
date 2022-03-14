@@ -2,7 +2,9 @@ package io.github.happytimor.mybatis.helper.core.util;
 
 import io.github.happytimor.mybatis.helper.core.annotation.MultipleTableConnector;
 import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
+import io.github.happytimor.mybatis.helper.core.annotation.TableIdType;
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
+import io.github.happytimor.mybatis.helper.core.common.IdType;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.SerializedLambda;
@@ -80,10 +82,14 @@ public final class LambdaUtils {
                 return tableInfo;
             }
             TableName tableNameAnnotation = modelClass.getAnnotation(TableName.class);
-
             //如果没有TableName注解, 则自动对model名称下划线处理, 拿到的表名(如果表名是t_user这种,则必须要有@TableName注解)
             String tableName = tableNameAnnotation != null
                     ? tableNameAnnotation.value() : ColumnUtils.camelCaseToUnderscore(modelClass.getSimpleName());
+
+            TableIdType tableIdType = modelClass.getAnnotation(TableIdType.class);
+            IdType idType = tableIdType != null ? tableIdType.value() : IdType.AUTO;
+            String identity = tableIdType != null ? tableIdType.identity() : modelClass.getSimpleName();
+
             //分表连接符
             MultipleTableConnector multipleTableConnector = modelClass.getAnnotation(MultipleTableConnector.class);
             tableInfo = new TableInfo();
@@ -91,8 +97,8 @@ public final class LambdaUtils {
 
             tableInfo.setModelClass(modelClass);
             tableInfo.setTableName(tableName);
-
-
+            tableInfo.setIdType(idType);
+            tableInfo.setIdentity(identity);
             List<Result> resultList = new ArrayList<>();
             List<Field> declaredFields = new ArrayList<>();
             parseAlldeclaredFields(modelClass, declaredFields);

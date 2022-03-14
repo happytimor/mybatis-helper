@@ -1,5 +1,7 @@
 package io.github.happytimor.mybatis.helper.core.annotation;
 
+import io.github.happytimor.mybatis.helper.core.common.IdType;
+
 import java.lang.annotation.*;
 
 /**

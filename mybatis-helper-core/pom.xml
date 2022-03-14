@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.happytimor</groupId>
     <artifactId>mybatis-helper-core</artifactId>
-    <version>1.0.11-SNAPSHOT</version>
+    <version>1.0.13-SNAPSHOT</version>
     <name>mybatis-helper-core</name>
     <packaging>jar</packaging>
     <url>https://happytimor.github.io/mybatis-helper/index.html</url>
@@ -30,7 +30,7 @@
     <licenses>
         <license>
             <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
             <comments>A business-friendly OSS license</comments>
         </license>

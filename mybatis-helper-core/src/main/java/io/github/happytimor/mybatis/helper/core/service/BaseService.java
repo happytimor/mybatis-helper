@@ -171,7 +171,7 @@ public class BaseService<M extends BaseMapper<T>, T> {
             selectWrapper = new SelectWrapper<>();
         }
         Map<String, Object> data = this.baseMapper.selectMap(selectWrapper);
-        return data != null ? data : new HashMap<>();
+        return data != null ? data : new HashMap<>(16);
     }
 
     /**

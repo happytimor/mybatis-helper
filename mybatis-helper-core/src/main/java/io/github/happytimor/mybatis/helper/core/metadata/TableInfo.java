@@ -1,5 +1,7 @@
 package io.github.happytimor.mybatis.helper.core.metadata;
 
+import io.github.happytimor.mybatis.helper.core.common.IdType;
+
 import java.util.List;
 
 /**
@@ -9,7 +11,6 @@ public class TableInfo {
     private Class<?> modelClass;
 
     private String tableName;
-
     /**
      * 表主键ID 字段名
      */
@@ -19,7 +20,18 @@ public class TableInfo {
      * 表主键ID 属性名
      */
     private String keyProperty;
-
+    /**
+     * 主键id类型
+     */
+    private Class<?> keyClass;
+    /**
+     * 主键生成策略
+     */
+    private IdType idType;
+    /**
+     * 主键区分
+     */
+    private String identity;
     /**
      * java字段映射sql字段
      */
@@ -100,5 +112,29 @@ public class TableInfo {
 
     public void setOverrideColumn(boolean overrideColumn) {
         this.overrideColumn = overrideColumn;
+    }
+
+    public Class<?> getKeyClass() {
+        return keyClass;
+    }
+
+    public void setKeyClass(Class<?> keyClass) {
+        this.keyClass = keyClass;
+    }
+
+    public IdType getIdType() {
+        return idType;
+    }
+
+    public void setIdType(IdType idType) {
+        this.idType = idType;
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
     }
 }
