@@ -5,82 +5,79 @@ package io.github.happytimor.mybatis.helper.core.common;
  */
 public enum SqlMethod {
     /**
-     * 插入
+     * insert one row
      */
-    INSERT_ONE("insert", "单条数据插入", "<script>\nINSERT INTO `%s` \n %s \n VALUES \n %s\n</script>"),
+    INSERT_ONE("insert", "<script>\nINSERT INTO `%s` \n %s \n VALUES \n %s\n</script>"),
     /**
-     * 插入或更新(唯一索引冲突时会改成更新)
+     * insert or update one row(update will replace insert when unique index conflict)
      */
-    INSERT_OR_UPDATE_WITH_UNIQUE_INDEX("insertOrUpdateWithUniqueIndex", "插入或更新", "<script>\nINSERT INTO `%s` \n %s \n VALUES \n %s\n on duplicate key update %s</script>"),
+    INSERT_OR_UPDATE_WITH_UNIQUE_INDEX("insertOrUpdateWithUniqueIndex", "<script>\nINSERT INTO `%s` \n %s \n VALUES \n %s\n on duplicate key update %s</script>"),
     /**
-     * 批量数据插入
+     * batch insert rows
      */
-    BATCH_INSERT("batchInsert", "批量数据插入", "<script>\nINSERT INTO `%s` %s VALUES %s\n</script>"),
+    BATCH_INSERT("batchInsert", "<script>\nINSERT INTO `%s` %s VALUES %s\n</script>"),
     /**
-     * 批量删除数据
+     * batch delete rows
      */
-    DELETE("delete", "批量删除数据", "<script>\nDELETE FROM `%s` %s %s %s\n</script>"),
+    DELETE("delete", "<script>\nDELETE FROM `%s` %s %s %s\n</script>"),
     /**
-     * 根据id删除数据
+     * delete row with id
      */
-    DELETE_BY_ID("deleteById", "根据ID删除数据", "<script>\nDELETE FROM `%s` WHERE %s=#{%s}\n</script>"),
+    DELETE_BY_ID("deleteById", "<script>\nDELETE FROM `%s` WHERE %s=#{%s}\n</script>"),
     /**
-     * 根据idList删除数据
+     * delete row with id list
      */
-    DELETE_BY_ID_LIST("deleteByIdList", "根据ID集合，批量删除数据", "<script>\nDELETE FROM `%s` WHERE %s IN %s\n</script>"),
+    DELETE_BY_ID_LIST("deleteByIdList", "<script>\nDELETE FROM `%s` WHERE %s IN %s\n</script>"),
     /**
-     * 更新
+     * update rows
      */
-    UPDATE("update", "更新", "<script>\nUPDATE `%s` %s %s %s %s\n</script>"),
+    UPDATE("update", "<script>\nUPDATE `%s` %s %s %s %s\n</script>"),
     /**
-     * 根据id更新数据
+     * update row with id
      */
-    UPDATE_BY_ID("updateById", "根据id更新数据", "<script>\nUPDATE `%s` %s WHERE %s=#{%s}\n</script>"),
+    UPDATE_BY_ID("updateById", "<script>\nUPDATE `%s` %s WHERE %s=#{%s}\n</script>"),
     /**
-     * 根据id批量更新数据
+     * batch update row with id
      */
-    BATCH_UPDATE_BY_ID("batchUpdateById", "根据主键批量更新数据", "<script>\n%s\n</script>"),
+    BATCH_UPDATE_BY_ID("batchUpdateById", "<script>\n%s\n</script>"),
     /**
-     * 根据id查找
+     * query one row with id
      */
-    SELECT_BY_ID("selectById", "根据ID 查询一条数据", "SELECT %s FROM `%s` WHERE %s=#{%s}"),
+    SELECT_BY_ID("selectById", "SELECT %s FROM `%s` WHERE %s=#{%s}"),
     /**
-     * 根据idList批量查找
+     * query batch row with id
      */
-    SELECT_BY_ID_LIST("selectByIdList", "根据ID集合，批量查询数据", "<script>\nSELECT %s FROM `%s` WHERE %s IN %s\n</script>"),
+    SELECT_BY_ID_LIST("selectByIdList", "<script>\nSELECT %s FROM `%s` WHERE %s IN %s\n</script>"),
     /**
-     * 自定义条件查找
+     * query rows with customized condition
      */
-    SELECT_LIST("selectList", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s %s\n</script>"),
+    SELECT_LIST("selectList", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s %s\n</script>"),
     /**
-     * 自定义条件查询单个值
+     * query one row with customized condition
      */
-    SELECT_SINGLE_VALUE("selectSingleValue", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s %s\n</script>"),
+    SELECT_SINGLE_VALUE("selectSingleValue", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s %s\n</script>"),
     /**
-     * 自定义条件查找
+     * query object map
      */
-    SELECT_MAP_LIST("selectMapList", "查询满足条件所有数据", "<script>\nSELECT %s FROM `%s`%s %s %s %s %s %s %s %s\n</script>"),
-
+    SELECT_MAP_LIST("selectMapList", "<script>\nSELECT %s FROM `%s`%s %s %s %s %s %s %s %s\n</script>"),
     /**
-     * 自定义条件查找总数
+     * query count with condition
      */
-    SELECT_COUNT("selectCount", "查询总数", "<script>\n%sSELECT COUNT(*) FROM `%s` %s %s %s %s%s%s\n</script>"),
+    SELECT_COUNT("selectCount", "<script>\n%sSELECT COUNT(*) FROM `%s` %s %s %s %s%s%s\n</script>"),
     /**
-     * 查询一条数据
+     * query one row
      */
-    SELECT_ONE("selectOne", "只返回一条记录", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s LIMIT 1 %s\n</script>"),
+    SELECT_ONE("selectOne", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s LIMIT 1 %s\n</script>"),
     /**
-     * 直接查询map对象
+     * query map object
      */
-    SELECT_MAP("selectMap", "返回自定义对象", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s %s\n</script>");
+    SELECT_MAP("selectMap", "<script>\nSELECT %s FROM `%s` %s %s %s %s %s %s %s %s\n</script>");
 
     private final String method;
-    private final String desc;
     private final String sql;
 
-    SqlMethod(String method, String desc, String sql) {
+    SqlMethod(String method, String sql) {
         this.method = method;
-        this.desc = desc;
         this.sql = sql;
     }
 
@@ -88,9 +85,6 @@ public enum SqlMethod {
         return method;
     }
 
-    public String getDesc() {
-        return desc;
-    }
 
     public String getSql() {
         return sql;

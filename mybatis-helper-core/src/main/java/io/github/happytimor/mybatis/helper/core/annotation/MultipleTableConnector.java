@@ -3,7 +3,7 @@ package io.github.happytimor.mybatis.helper.core.annotation;
 import java.lang.annotation.*;
 
 /**
- * 分表连接符
+ * split table connector
  *
  * @author chenpeng
  */

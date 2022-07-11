@@ -12,23 +12,36 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public interface Constants {
     /**
-     * 默认数据库主键
+     * default primary key column name
      */
     String DEFAULT_KEY_COLUMN = "id";
     /**
-     * 默认主键在对象的映射字段
+     * default primary key name in java
      */
     String DEFAULT_KEY_PROPERTY = "id";
-
+    /**
+     * left join keyword
+     */
     String LEFT_JOIN = "LEFT JOIN";
+    /**
+     * right join keyword
+     */
     String RIGHT_JOIN = "RIGHT JOIN";
+    /**
+     * inner join keyword
+     */
     String INNER_JOIN = "INNER JOIN";
+    /**
+     * join keyword
+     */
     String JOIN = "JOIN";
-
+    /**
+     * dot
+     */
     String DOT = ".";
 
     /**
-     * 字段映射关系 io.github.happytimor.mybatis.helper.single.database.test.domain.User.strangeName -&gt; aaa
+     * relation map: io.github.happytimor.mybatis.helper.single.database.test.domain.User.strangeName -&gt; aaa
      */
     Map<String, Map<String, String>> COLUMN_RELATION = new ConcurrentHashMap<>();
 

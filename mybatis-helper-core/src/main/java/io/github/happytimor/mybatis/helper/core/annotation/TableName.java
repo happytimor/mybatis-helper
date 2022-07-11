@@ -3,7 +3,7 @@ package io.github.happytimor.mybatis.helper.core.annotation;
 import java.lang.annotation.*;
 
 /**
- * 数据库表名注解
+ * database table name annotation
  *
  * @author chenpeng
  */

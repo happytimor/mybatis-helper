@@ -12,16 +12,17 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 public @interface TableIdType {
     /**
-     * 主键id类型
+     * primary key type
      *
      * @return 主键策略
      */
     IdType value() default IdType.DYNAMIC_GENERATE;
 
     /**
-     * 区分id
+     * identity id for primary key.
+     * can be used to return different value for primary key
      *
-     * @return string类型的区分id, 可以针对不同的表，给不同的增长策略
+     * @return identify id
      */
     String identity();
 }

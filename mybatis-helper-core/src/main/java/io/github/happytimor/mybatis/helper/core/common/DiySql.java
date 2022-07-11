@@ -6,7 +6,7 @@ import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 import java.util.*;
 
 /**
- * 构建自定义sql: update user set grade = grade_of_math + grade_of_science;
+ * customized sql, eg: update user set grade = grade_of_math + grade_of_science;
  *
  * @author chenpeng
  */

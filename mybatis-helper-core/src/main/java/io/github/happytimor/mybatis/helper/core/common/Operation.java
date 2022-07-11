@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 构造sql字段简单算法sql: update user set grade = grade_of_math + grade_of_science;
+ * operation sql: update user set grade = grade_of_math + grade_of_science;
  *
  * @author chenpeng
  */

@@ -1,7 +1,7 @@
 package io.github.happytimor.mybatis.helper.core.common;
 
 /**
- * sql函数名称合集
+ * sql function name dic
  *
  * @author chenpeng
  */

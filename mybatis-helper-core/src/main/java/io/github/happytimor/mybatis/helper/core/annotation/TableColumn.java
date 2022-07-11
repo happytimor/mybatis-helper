@@ -1,11 +1,9 @@
 package io.github.happytimor.mybatis.helper.core.annotation;
 
-import io.github.happytimor.mybatis.helper.core.common.IdType;
-
 import java.lang.annotation.*;
 
 /**
- * 数据库字段注解
+ * database table column annotation
  *
  * @author chenpeng
  */
@@ -14,21 +12,21 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 public @interface TableColumn {
     /**
-     * 对应数据库字段名
+     * column name
      *
-     * @return 数据库字段名
+     * @return marked java column to database column
      */
     String value() default "";
 
     /**
-     * 是否存在于数据库
+     * set if the column exist
      *
-     * @return true-存在 false-不存在
+     * @return false for non-exist column(just for business logic)
      */
     boolean exist() default true;
 
     /**
-     * 是否是主键
+     * set primark key
      *
      * @return true-is a primaryKey, false-is not a primary key
      */

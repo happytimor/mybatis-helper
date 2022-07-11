@@ -5,11 +5,11 @@ package io.github.happytimor.mybatis.helper.core.common;
  */
 public enum IdType {
     /**
-     * 数据库自增
+     * aoto increasement id
      */
     AUTO,
     /**
-     * 动态生成, 需要自定义主键生成算法(实现 IdentifierGenerator 接口)
+     * dynamic generate id (@see io.github.happytimor.mybatis.helper.core.service.IdentifierGenerator)
      */
     DYNAMIC_GENERATE;
 }

@@ -5,7 +5,7 @@ package io.github.happytimor.mybatis.helper.core.common;
  */
 public class Config {
     /**
-     * 开启驼峰转换
+     * open camel case
      */
     private boolean mapUnderscoreToCamelCase;
 

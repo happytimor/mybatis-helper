@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * sql函数合集
+ * sql function dic
  * <p>
- * 主要就是在select时候对函数进行包裹,加上 max、distinct等函数
+ * wrap select sql with `max`,`distinct` function grammar
  *
  * @author chenpeng
  */
