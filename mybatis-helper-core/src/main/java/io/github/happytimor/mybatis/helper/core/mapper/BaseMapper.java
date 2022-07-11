@@ -9,145 +9,145 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 基础mapper, 适用于单表，有主键的普通数据库表映射
+ * basic mapper for single ordinary table which contains auto-increment primary key
  *
  * @author chenpeng
  */
 public interface BaseMapper<T> {
 
     /**
-     * 数据插入
+     * insert one row
      *
-     * @param entity 对象
+     * @param entity insert object
      */
     void insert(@Param(Params.ENTITY) T entity);
 
     /**
-     * 批量插入
+     * batch insert rows
      *
-     * @param list 对象列表
+     * @param list insert object list
      */
     void batchInsert(@Param(Params.LIST) Collection<T> list);
 
     /**
-     * 根据主键删除
+     * delete one row by primary key
      *
-     * @param id 主键id
-     * @return 删除结果
+     * @param id primary key
+     * @return true if delete success
      */
     boolean deleteById(@Param(Params.ID) Number id);
 
     /**
-     * 根据主键删除
+     * delete rows by primary key list
      *
-     * @param idList 主键列表
-     * @return 删除结果
+     * @param idList primary id list
+     * @return delete count
      */
     int deleteByIdList(@Param(Params.ID_LIST) Collection<? extends Number> idList);
 
     /**
-     * 根据主键更新
+     * update row by primary key
      *
-     * @param entity 对象
-     * @return 更新结果
+     * @param entity object list
+     * @return true if update success
      */
     boolean updateById(@Param(Params.ENTITY) T entity);
 
     /**
-     * 根据主键批量更新
+     * batch update rows by primary key
      *
-     * @param list 对象列表
-     * @return 更新结果
+     * @param list update object list
+     * @return true if update success
      */
     boolean batchUpdateById(@Param(Params.LIST) Collection<T> list);
 
     /**
-     * 根据主键查询
+     * query one row by primary key
      *
-     * @param id 主键id
-     * @return 返回对象
+     * @param id primary key
+     * @return row object
      */
     T selectById(@Param(Params.ID) Number id);
 
     /**
-     * 根据主键列表查询
+     * query rows by primary key list
      *
-     * @param idList 主键列表
-     * @return 返回对象列表
+     * @param idList primary id list
+     * @return row list
      */
     List<T> selectByIdList(@Param(Params.ID_LIST) Collection<? extends Number> idList);
 
     /**
-     * 列表查询
+     * query rows by customized condition
      *
-     * @param selectWrapper 条件组合
-     * @return 返回结果
+     * @param selectWrapper select condition
+     * @return rows object
      */
     List<T> selectList(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
-     * 查询某个对象
+     * query map object
      *
-     * @param selectWrapper 条件组合
-     * @return 返回对象
+     * @param selectWrapper select condition
+     * @return map object
      */
     Map<String, Object> selectMap(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
-     * 查询某个对象列表
+     * query map object list
      *
-     * @param selectWrapper 条件组合
-     * @return 对象列表
+     * @param selectWrapper condition wrapper
+     * @return map list
      */
     List<Map<String, Object>> selectMapList(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
-     * 查询总数
+     * query total count
      *
-     * @param selectWrapper 查询条件
-     * @return 数据总数
+     * @param selectWrapper select condition
+     * @return total rows
      */
     long selectCount(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
-     * 最多返回一条
+     * query one row
      *
-     * @param selectWrapper 条件组合
-     * @return 返回结果
+     * @param selectWrapper select condition
+     * @return row object
      */
     T selectOne(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
-     * 单值查询
+     * query single value
      *
-     * @param selectWrapper selectWrapper
-     * @param <R>           返回类型
-     * @return 返回数据
+     * @param selectWrapper select condition
+     * @param <R>           type of return object
+     * @return single value
      */
     <R> R selectSingleValue(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
-     * 数据更新
+     * update row
      *
-     * @param updateWrapper 条件组合
-     * @return 更新条数
+     * @param updateWrapper update condition
+     * @return update count
      */
     int update(@Param(Params.WRAPPER) AbstractWrapper<T> updateWrapper);
 
     /**
-     * 数据删除
+     * delete rows with customized condition
      *
-     * @param deleteWrapper 条件组合
-     * @return 删除条数
+     * @param deleteWrapper delete condition
+     * @return delete count
      */
     int delete(@Param(Params.WRAPPER) AbstractWrapper<T> deleteWrapper);
 
     /**
-     * 有唯一索引的前提下插入或更新数据
-     * 主要依靠 duplicate key update 来实现
+     * insert or update one row
+     * depend on duplicate key update
      *
-     * @param entity 对象
-     * @return 操作是否成功
+     * @param entity object
+     * @return true if operate success
      */
     boolean insertOrUpdateWithUniqueIndex(@Param(Params.ENTITY) T entity);
 }

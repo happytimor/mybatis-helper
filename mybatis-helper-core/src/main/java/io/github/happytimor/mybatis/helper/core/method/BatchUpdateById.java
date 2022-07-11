@@ -10,7 +10,7 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
 
 /**
- * 根据主键批量更新
+ * bash method for bach update by primary key
  *
  * @author chenpeng
  */

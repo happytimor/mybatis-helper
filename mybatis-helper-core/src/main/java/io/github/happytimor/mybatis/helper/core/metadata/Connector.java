@@ -10,27 +10,27 @@ import java.util.function.Function;
  */
 public interface Connector<T, Children> {
     /**
-     * 显示使用and连接符 =&gt; and (xxx)
+     * use `and` connector, =&gt; and (xxx)
      *
-     * @param execute  是否执行片段
-     * @param function 嵌入的片段
+     * @param execute  will execute function if `execute` is true
+     * @param function basic function
      * @return children
      */
     Children and(boolean execute, Function<WhereWrapper<T>, WhereWrapper<T>> function);
 
     /**
-     * 显示使用and连接符 =&gt; and (xxx), 接入自定义sql
+     * use `and` connector, =&gt; and (xxx), and will append customized sql
      *
-     * @param execute  是否执行片段
-     * @param function 嵌入的片段
+     * @param execute  will execute function if `execute` is true
+     * @param function basic function
      * @return children
      */
     Children andDiySql(boolean execute, Function<WhereWrapper<T>, DiySql<T>> function);
 
     /**
-     * or连接符
+     * use `or` connector
      *
-     * @param execute 是否执行片段
+     * @param execute will execute function if `execute` is true
      * @return children
      */
     Children or(boolean execute);

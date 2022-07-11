@@ -11,9 +11,9 @@ import java.util.function.Function;
 public interface DefaultConnector<T, Children> extends Connector<T, Children> {
 
     /**
-     * 显示使用and连接符 =&gt; and (xxx)
+     * use `and` connector, =&gt; and (xxx)
      *
-     * @param function 嵌入的片段
+     * @param function basic function
      * @return children
      */
     default Children and(Function<WhereWrapper<T>, WhereWrapper<T>> function) {
@@ -21,9 +21,9 @@ public interface DefaultConnector<T, Children> extends Connector<T, Children> {
     }
 
     /**
-     * 显示使用and连接符 =&gt; and (xxx)
+     * use `and` connector =&gt; and (xxx)
      *
-     * @param function 嵌入的片段
+     * @param function basic function
      * @return children
      */
     default Children andDiySql(Function<WhereWrapper<T>, DiySql<T>> function) {
@@ -31,7 +31,7 @@ public interface DefaultConnector<T, Children> extends Connector<T, Children> {
     }
 
     /**
-     * or连接符
+     * user `or` connector
      *
      * @return children
      */

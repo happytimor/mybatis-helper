@@ -8,72 +8,72 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 无主键mapper, 适用于单表，无主键的数据库表映射
+ * for single table which has no primary key
  *
  * @author chenpeng
  */
 public interface NoPrimaryKeyMapper<T> {
 
     /**
-     * 数据插入
+     * insert one row
      *
-     * @param entity 对象
+     * @param entity insert object
      */
     void insert(@Param(Params.ENTITY) T entity);
 
     /**
-     * 批量插入
+     * batch insert rows
      *
-     * @param list 对象列表
+     * @param list insert row list
      */
     void batchInsert(@Param(Params.LIST) Collection<T> list);
 
     /**
-     * 列表查询
+     * query rows by customized condition
      *
-     * @param selectWrapper 条件组合
-     * @return 返回结果
+     * @param selectWrapper select condition
+     * @return object list
      */
     List<T> selectList(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
-     * 查询总数
+     * query total count
      *
-     * @param selectWrapper 查询条件
-     * @return 数据总数
+     * @param selectWrapper query condition
+     * @return total count
      */
     long selectCount(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
-     * 最多返回一条
+     * query one row
      *
-     * @param selectWrapper 条件组合
-     * @return 返回结果
+     * @param selectWrapper select condition
+     * @return single object
      */
     T selectOne(@Param(Params.WRAPPER) AbstractWrapper<T> selectWrapper);
 
     /**
-     * 数据更新
+     * update row
      *
-     * @param updateWrapper 条件组合
-     * @return 更新条数
+     * @param updateWrapper update condition
+     * @return update count
      */
     int update(@Param(Params.WRAPPER) AbstractWrapper<T> updateWrapper);
 
     /**
-     * 数据删除
+     * delete rows with customized condition
      *
-     * @param deleteWrapper 条件组合
-     * @return 删除条数
+     * @param deleteWrapper delete condition
+     * @return delete count
      */
     int delete(@Param(Params.WRAPPER) AbstractWrapper<T> deleteWrapper);
 
     /**
-     * 有唯一索引的前提下插入或更新数据
-     * 主要依靠 duplicate key update 来实现
+     * insert or update one row
+     * depend on duplicate key update
      *
-     * @param entity 对象
-     * @return 操作是否成功
+     * @param entity object
+     * @return true if operate success
      */
     boolean insertOrUpdateWithUniqueIndex(@Param(Params.ENTITY) T entity);
 }

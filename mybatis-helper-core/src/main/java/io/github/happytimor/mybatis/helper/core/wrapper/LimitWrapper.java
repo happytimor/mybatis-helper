@@ -10,8 +10,8 @@ public class LimitWrapper<T> extends AbstractWrapper<T> {
     /**
      * limit
      *
-     * @param startRow 开始行
-     * @param count    条数
+     * @param startRow start row
+     * @param count    limit count
      * @return wrapper
      */
     public final AbstractWrapper<T> limit(Number startRow, Number count) {
@@ -22,9 +22,9 @@ public class LimitWrapper<T> extends AbstractWrapper<T> {
     /**
      * limit
      *
-     * @param execute 是否执行
-     * @param startRow  开始行
-     * @param count     条数
+     * @param execute  will execute method if `execute` is true
+     * @param startRow start row
+     * @param count    limit count
      * @return wrapper
      */
     public final AbstractWrapper<T> limit(boolean execute, Number startRow, Number count) {
@@ -37,7 +37,7 @@ public class LimitWrapper<T> extends AbstractWrapper<T> {
     /**
      * limit
      *
-     * @param count 条数
+     * @param count limit count
      * @return wrapper
      */
     public final AbstractWrapper<T> limit(Number count) {
@@ -48,8 +48,8 @@ public class LimitWrapper<T> extends AbstractWrapper<T> {
     /**
      * limit
      *
-     * @param execute 是否执行
-     * @param count     条数
+     * @param execute will execute method if `execute` is true
+     * @param count   limit count
      * @return wrapper
      */
     public final AbstractWrapper<T> limit(boolean execute, Number count) {

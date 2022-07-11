@@ -11,7 +11,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingLt
      *
-     * @param execute        是否执行
+     * @param execute        will execute method if `execute` is true
      * @param columnFunction columnFunction
      * @param value          value
      * @return HavingWrapper
@@ -21,7 +21,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingLt
      *
-     * @param execute    是否执行
+     * @param execute    will execute method if `execute` is true
      * @param columnName columnFunction
      * @param value      value
      * @return HavingWrapper
@@ -31,7 +31,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingLe
      *
-     * @param execute        是否执行
+     * @param execute        will execute method if `execute` is true
      * @param columnFunction columnFunction
      * @param value          value
      * @return HavingWrapper
@@ -41,7 +41,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingLe
      *
-     * @param execute    是否执行
+     * @param execute    will execute method if `execute` is true
      * @param columnName columnName
      * @param value      value
      * @return HavingWrapper
@@ -51,7 +51,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingEq
      *
-     * @param execute        是否执行
+     * @param execute        will execute method if `execute` is true
      * @param columnFunction columnFunction
      * @param value          value
      * @return HavingWrapper
@@ -61,7 +61,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingEq
      *
-     * @param execute    是否执行
+     * @param execute    will execute method if `execute` is true
      * @param columnName columnName
      * @param value      value
      * @return HavingWrapper
@@ -71,7 +71,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingGe
      *
-     * @param execute        是否执行
+     * @param execute        will execute method if `execute` is true
      * @param columnFunction columnFunction
      * @param value          value
      * @return HavingWrapper
@@ -81,7 +81,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingGe
      *
-     * @param execute    是否执行
+     * @param execute    will execute method if `execute` is true
      * @param columnName columnName
      * @param value      value
      * @return HavingWrapper
@@ -91,7 +91,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingGt
      *
-     * @param execute        是否执行
+     * @param execute        will execute method if `execute` is true
      * @param columnFunction columnFunction
      * @param value          value
      * @return HavingWrapper
@@ -101,7 +101,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingGt
      *
-     * @param execute    是否执行
+     * @param execute    will execute method if `execute` is true
      * @param columnName columnName
      * @param value      value
      * @return HavingWrapper
@@ -111,7 +111,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingNe
      *
-     * @param execute        是否执行
+     * @param execute        will execute method if `execute` is true
      * @param columnFunction columnFunction
      * @param value          value
      * @return HavingWrapper
@@ -121,7 +121,7 @@ public interface HavingMethod<T> extends Serializable {
     /**
      * havingNe
      *
-     * @param execute    是否执行
+     * @param execute    will execute method if `execute` is true
      * @param columnName columnName
      * @param value      value
      * @return HavingWrapper

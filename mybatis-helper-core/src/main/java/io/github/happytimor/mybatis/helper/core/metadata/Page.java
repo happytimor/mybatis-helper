@@ -3,29 +3,29 @@ package io.github.happytimor.mybatis.helper.core.metadata;
 import java.util.List;
 
 /**
- * 分页对象
+ * paging object
  *
  * @author chenpeng
  */
 public class Page<T> {
     /**
-     * 数据分页-页码
+     * page no
      */
     private int pageNo;
     /**
-     * 数据分页-页面大小
+     * page size
      */
     private int pageSize;
     /**
-     * 起始行
+     * start row
      */
     private int startRow;
     /**
-     * 总条数
+     * total count
      */
     private long total;
     /**
-     * 数据详情
+     * record list
      */
     private List<T> records;
 

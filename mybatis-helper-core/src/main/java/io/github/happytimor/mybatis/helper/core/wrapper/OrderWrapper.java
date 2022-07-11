@@ -13,9 +13,9 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
 
 
     /**
-     * 升序
+     * asc order
      *
-     * @param column 字段名称
+     * @param column column name
      * @param <E>    E
      * @return children
      */
@@ -24,10 +24,10 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     }
 
     /**
-     * 升序
+     * asc order
      *
-     * @param execute 是否执行
-     * @param column  字段名称
+     * @param execute execute method if `execute` set true
+     * @param column  column name
      * @param <E>     E
      * @return children
      */
@@ -36,11 +36,11 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     }
 
     /**
-     * 升序
+     * asc order
      *
-     * @param execute 是否执行
-     * @param column  字段名称
-     * @param asc     是否升序 true-升序 false-降序
+     * @param execute execute method if `execute` set true
+     * @param column  column name
+     * @param asc     asc if true
      * @param <E>     E
      * @return children
      */
@@ -52,9 +52,9 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     }
 
     /**
-     * 降序
+     * desc order
      *
-     * @param column 字段名称
+     * @param column column name
      * @param <E>    E
      * @return children
      */
@@ -63,10 +63,10 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     }
 
     /**
-     * 降序
+     * desc order
      *
-     * @param execute 是否执行
-     * @param column  字段名称
+     * @param execute execute method if `execute` set true
+     * @param column  column name
      * @param <E>     E
      * @return children
      */
@@ -78,11 +78,11 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     }
 
     /**
-     * 降序
+     * desc order
      *
-     * @param execute 是否执行
-     * @param column  字段名称
-     * @param desc    是否降序 true-降序 false-升序
+     * @param execute execute method if `execute` set true
+     * @param column  column name
+     * @param desc    desc if true
      * @return children
      */
     public OrderWrapper<T> orderByDesc(boolean execute, ColumnFunction<T, ?> column, Boolean desc) {
@@ -93,9 +93,9 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     }
 
     /**
-     * 降序
+     * desc order
      *
-     * @param execute 是否执行
+     * @param execute execute method if `execute` set true
      * @return children
      */
     public OrderWrapper<T> orderByRandom(boolean execute) {
@@ -106,7 +106,7 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     }
 
     /**
-     * 随机排序
+     * random order
      *
      * @return children
      */
@@ -118,13 +118,13 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
 
     static class Order {
         /**
-         * 字段名
+         * column name
          */
         private ColumnFunction<?, ?> column;
 
         private String columnName;
         /**
-         * ASC/DESC 升序或降序
+         * ASC/DESC
          */
         private String orderType;
 

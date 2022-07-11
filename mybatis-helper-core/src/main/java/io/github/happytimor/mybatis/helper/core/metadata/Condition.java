@@ -5,11 +5,11 @@ package io.github.happytimor.mybatis.helper.core.metadata;
  */
 public class Condition {
     /**
-     * 连接符
+     * connector for multiple
      */
     private String connector;
     /**
-     * sql片段
+     * sql segment
      */
     private String segment;
 

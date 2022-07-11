@@ -11,7 +11,7 @@ public interface JoinMethod<Children> extends Serializable {
     /**
      * leftJoin
      *
-     * @param execute     是否执行
+     * @param execute     will execute method if `execute` is true
      * @param leftClazz   leftClazz
      * @param leftColumn  leftColumn
      * @param rightColumn rightColumn
@@ -24,7 +24,7 @@ public interface JoinMethod<Children> extends Serializable {
     /**
      * rightJoin
      *
-     * @param execute     是否执行
+     * @param execute     will execute method if `execute` is true
      * @param leftClazz   leftClazz
      * @param leftColumn  leftColumn
      * @param rightColumn rightColumn
@@ -37,7 +37,7 @@ public interface JoinMethod<Children> extends Serializable {
     /**
      * innerJoin
      *
-     * @param execute     是否执行
+     * @param execute     will execute method if `execute` is true
      * @param leftClazz   leftClazz
      * @param leftColumn  leftColumn
      * @param rightColumn rightColumn
@@ -50,7 +50,7 @@ public interface JoinMethod<Children> extends Serializable {
     /**
      * join
      *
-     * @param execute     是否执行
+     * @param execute     will execute method if `execute` is true
      * @param leftClazz   leftClazz
      * @param leftColumn  leftColumn
      * @param rightColumn rightColumn

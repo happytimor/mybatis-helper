@@ -52,9 +52,9 @@ public class SerializedLambda implements Serializable {
     }
 
     /**
-     * 获取接口 class
+     * obtain interface class
      *
-     * @return 返回 class 名称
+     * @return class name of interface
      */
     public String getFunctionalInterfaceClassName() {
         return normalizedName(functionalInterfaceClass);

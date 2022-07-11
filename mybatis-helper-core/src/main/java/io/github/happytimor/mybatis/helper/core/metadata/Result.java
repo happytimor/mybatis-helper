@@ -3,30 +3,30 @@ package io.github.happytimor.mybatis.helper.core.metadata;
 import org.apache.ibatis.type.JdbcType;
 
 /**
- * 数据库与对象的映射
+ * relation between database table and java object
  *
  * @author chenpeng
  */
 public class Result {
     /**
-     * 字段名称
+     * java object property name
      */
     private String property;
     /**
-     * 对应数据库字段名称
+     * database column name
      */
     private String column;
     /**
-     * java类型
+     * java object type
      */
     private Class<?> javaType;
     /**
-     * 数据库类型
+     * database jdbc type
      */
     private JdbcType jdbcType;
 
     /**
-     * 重新分配字段名
+     * override column name
      */
     private boolean overrideColumn;
 

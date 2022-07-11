@@ -24,10 +24,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     private final List<String> set = new ArrayList<>();
 
     /**
-     * 设置自定义sql
+     * set customized sql
      *
-     * @param execute  是否执行
-     * @param function 函数表达式
+     * @param execute  will execute method if `execute` is true
+     * @param function value function
      * @param column   column
      * @return updateWrapper
      */
@@ -43,9 +43,9 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置自定义sql
+     * set customized sql
      *
-     * @param function 函数表达式
+     * @param function value function
      * @param column   column
      * @return updateWrapper
      */
@@ -54,10 +54,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  string value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(ColumnFunction<T, ?> column, String value) {
@@ -65,10 +65,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column only if the value is not blank
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  string value
      * @return updateWrapper
      */
     public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, String value) {
@@ -76,11 +76,11 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param execute 是否执行
-     * @param column  字段
-     * @param value   设置值
+     * @param execute will execute method if `execute` is true
+     * @param column  database column
+     * @param value   string value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(boolean execute, ColumnFunction<T, ?> column, String value) {
@@ -89,10 +89,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
 
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  numberic value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(ColumnFunction<T, ?> column, Number value) {
@@ -100,10 +100,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  numberic value
      * @return updateWrapper
      */
     public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, Number value) {
@@ -111,11 +111,11 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param execute 是否执行
-     * @param column  字段
-     * @param value   设置值
+     * @param execute will execute method if `execute` is true
+     * @param column  database column
+     * @param value   numberic value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(boolean execute, ColumnFunction<T, ?> column, Number value) {
@@ -123,10 +123,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  date value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(ColumnFunction<T, ?> column, Date value) {
@@ -134,10 +134,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column only if value is not null
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  date value
      * @return updateWrapper
      */
     public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, Date value) {
@@ -145,11 +145,11 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param execute 是否执行
-     * @param column  字段
-     * @param value   设置值
+     * @param execute will execute method if `execute` is true
+     * @param column  database column
+     * @param value   date value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(boolean execute, ColumnFunction<T, ?> column, Date value) {
@@ -157,10 +157,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  localDate value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(ColumnFunction<T, ?> column, LocalDate value) {
@@ -168,10 +168,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  localDate value
      * @return updateWrapper
      */
     public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, LocalDate value) {
@@ -179,11 +179,11 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param execute 是否执行
-     * @param column  字段
-     * @param value   设置值
+     * @param execute will execute method if `execute` is true
+     * @param column  database column
+     * @param value   localDate value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(boolean execute, ColumnFunction<T, ?> column, LocalDate value) {
@@ -191,10 +191,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  localDateTime value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(ColumnFunction<T, ?> column, LocalDateTime value) {
@@ -202,10 +202,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  localDateTime value
      * @return updateWrapper
      */
     public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, LocalDateTime value) {
@@ -213,11 +213,11 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param execute 是否执行
-     * @param column  字段
-     * @param value   设置值
+     * @param execute will execute method if `execute` is true
+     * @param column  database column
+     * @param value   localDateTime value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(boolean execute, ColumnFunction<T, ?> column, LocalDateTime value) {
@@ -225,10 +225,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  boolean value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(ColumnFunction<T, ?> column, Boolean value) {
@@ -236,10 +236,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  boolean value
      * @return updateWrapper
      */
     public UpdateWrapper<T> setNotBlank(ColumnFunction<T, ?> column, Boolean value) {
@@ -247,11 +247,11 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param execute 是否执行
-     * @param column  字段
-     * @param value   设置值
+     * @param execute will execute method if `execute` is true
+     * @param column  database column
+     * @param value   boolean value
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(boolean execute, ColumnFunction<T, ?> column, Boolean value) {
@@ -259,11 +259,11 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param execute   是否执行
-     * @param column    字段
-     * @param operation 设置值
+     * @param execute   will execute method if `execute` is true
+     * @param column    database column
+     * @param operation value operation
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(boolean execute, ColumnFunction<T, ?> column, Operation<?> operation) {
@@ -272,10 +272,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
 
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column    字段
-     * @param operation 设置值
+     * @param column    database column
+     * @param operation value operation
      * @return updateWrapper
      */
     public UpdateWrapper<T> set(ColumnFunction<T, ?> column, Operation<?> operation) {
@@ -284,10 +284,10 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
 
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param column 字段
-     * @param value  设置值
+     * @param column database column
+     * @param value  any value
      * @return updateWrapper
      */
     public UpdateWrapper<T> setObject(ColumnFunction<T, ?> column, Object value) {
@@ -295,11 +295,11 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param execute 是否执行
-     * @param column  字段
-     * @param value   设置值
+     * @param execute will execute method if `execute` is true
+     * @param column  database column
+     * @param value   any value
      * @return updateWrapper
      */
     public UpdateWrapper<T> setObject(boolean execute, ColumnFunction<T, ?> column, Object value) {
@@ -307,46 +307,46 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 字段自增操作
+     * plus operation for one column
      *
-     * @param column 字段名称
-     * @param value  值
-     * @return UpdateWrapper 对象
+     * @param column database column
+     * @param value  numberic value
+     * @return updateWrapper object
      */
     public UpdateWrapper<T> plus(ColumnFunction<T, ?> column, Number value) {
         return this.plus(true, column, value);
     }
 
     /**
-     * 字段自减操作
+     * minus operation for one column
      *
-     * @param column 字段名称
-     * @param value  值
-     * @return UpdateWrapper 对象
+     * @param column database column
+     * @param value  numberic value
+     * @return UpdateWrapper object
      */
     public UpdateWrapper<T> minus(ColumnFunction<T, ?> column, Number value) {
         return this.minus(true, column, value);
     }
 
     /**
-     * 字段自增操作
+     * plus operation for one column
      *
-     * @param execute 是否执行
-     * @param column  字段名称
-     * @param value   值
-     * @return UpdateWrapper 对象
+     * @param execute will execute method if `execute` is true
+     * @param column  database column
+     * @param value   numberic value
+     * @return UpdateWrapper object
      */
     public UpdateWrapper<T> plus(boolean execute, ColumnFunction<T, ?> column, Number value) {
         return this.atomicOperation(execute, column, "+", value);
     }
 
     /**
-     * 字段自减操作
+     * minus operation for one column
      *
-     * @param execute 是否执行
-     * @param column  字段名称
-     * @param value   值
-     * @return UpdateWrapper 对象
+     * @param execute will execute method if `execute` is true
+     * @param column  database column
+     * @param value   numberic value
+     * @return UpdateWrapper object
      */
     public UpdateWrapper<T> minus(boolean execute, ColumnFunction<T, ?> column, Number value) {
         return this.atomicOperation(execute, column, "-", value);
@@ -374,12 +374,12 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param execute 是否执行
-     * @param column  字段
-     * @param value   设置值
-     * @return updateWrapper
+     * @param execute will execute method if `execute` is true
+     * @param column  database column
+     * @param value   any value
+     * @return updateWrapper object
      */
     private UpdateWrapper<T> setValue(boolean execute, ColumnFunction<T, ?> column, Object value) {
         if (execute) {
@@ -393,11 +393,11 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
     }
 
     /**
-     * 设置数据库字段值
+     * set value for one column
      *
-     * @param execute 是否执行
-     * @param column  字段
-     * @return updateWrapper
+     * @param execute will execute method if `execute` is true
+     * @param column  database column
+     * @return updateWrapper object
      */
     private UpdateWrapper<T> setColumnValue(boolean execute, ColumnFunction<T, ?> column, Operation<?> operation) {
         if (execute) {

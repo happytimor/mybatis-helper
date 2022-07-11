@@ -5,6 +5,8 @@ import io.github.happytimor.mybatis.helper.core.common.IdType;
 import java.util.List;
 
 /**
+ * database table info
+ *
  * @author chenpeng
  */
 public class TableInfo {
