@@ -12,6 +12,6 @@ public class MyHelper extends MybatisHelper implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        this.registSingleDatabase("io.github.happytimor.mybatis.helper.single.database.test.mapper");
+        this.registerSingleDatabase("io.github.happytimor.mybatis.helper.single.database.test.mapper");
     }
 }

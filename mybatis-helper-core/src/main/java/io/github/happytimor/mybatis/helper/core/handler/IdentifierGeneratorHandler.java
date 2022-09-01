@@ -25,10 +25,10 @@ public class IdentifierGeneratorHandler {
     }
 
     /**
-     * 参数填充
+     * process parameter
      *
-     * @param parameter      参数对象
-     * @param sqlCommandType sql类型, 只针对insert和batchInsert进行主键替换
+     * @param parameter      patameter object
+     * @param sqlCommandType sql type, only work for SqlCommandType.INSERT
      */
     public void processParameter(Object parameter, SqlCommandType sqlCommandType) {
         if (parameter == null || SqlCommandType.INSERT != sqlCommandType) {
@@ -59,7 +59,7 @@ public class IdentifierGeneratorHandler {
     }
 
     /**
-     * 主键key填充
+     * fill primary key
      *
      * @param entity    entity
      * @param tableInfo table information
@@ -73,7 +73,7 @@ public class IdentifierGeneratorHandler {
         Class<?> keyType = tableInfo.getKeyClass();
         Object idValue = metaObject.getValue(keyProperty);
         if (idValue != null) {
-            //已填充主键，不需要重新填充
+            //the primarky key is already filled
             return;
         }
 
@@ -96,9 +96,9 @@ public class IdentifierGeneratorHandler {
 
 
     /**
-     * 获取参数对象列表
+     * get parameters
      *
-     * @return 集合参数
+     * @return parameter list
      */
     protected Object getParameters(Object parameterObject) {
         if (parameterObject instanceof Map) {

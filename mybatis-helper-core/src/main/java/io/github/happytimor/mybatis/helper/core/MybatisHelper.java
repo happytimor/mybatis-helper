@@ -78,7 +78,7 @@ public class MybatisHelper implements ApplicationContextAware {
     );
 
     /**
-     * 无主键mapper跳过方法
+     * skipped method list for no primary key mapper
      */
     private final List<String> skipMethodListForNoPrimaryKeyMapper = Arrays.asList(
             DeleteById.class.getSimpleName(),
@@ -95,7 +95,7 @@ public class MybatisHelper implements ApplicationContextAware {
     }
 
     /**
-     * 单数据库获取sqlSessionFactory
+     * sqlSessionFactory for single database
      *
      * @return SqlSessionFactory
      */
@@ -109,7 +109,7 @@ public class MybatisHelper implements ApplicationContextAware {
     }
 
     /**
-     * 注册IdentifierGenerator
+     * register IdentifierGenerator
      */
     public void registerIdentifierGenerator() {
         String[] names = applicationContext.getBeanNamesForType(IdentifierGenerator.class);
@@ -125,8 +125,8 @@ public class MybatisHelper implements ApplicationContextAware {
      *
      * @param mapperSearchPath mapper类路径
      */
-    public void registSingleDatabase(String mapperSearchPath) {
-        this.registSingleDatabase(mapperSearchPath, false);
+    public void registerSingleDatabase(String mapperSearchPath) {
+        this.registerSingleDatabase(mapperSearchPath, false);
     }
 
     /**
@@ -135,7 +135,7 @@ public class MybatisHelper implements ApplicationContextAware {
      * @param mapperSearchPath mapper类路径
      * @param enableIdGenerate 启用id自动生成
      */
-    public void registSingleDatabase(String mapperSearchPath, boolean enableIdGenerate) {
+    public void registerSingleDatabase(String mapperSearchPath, boolean enableIdGenerate) {
         this.registerIdentifierGenerator();
         SqlSessionFactory sqlSessionFactory = this.parseSqlSessionFactory();
         if (sqlSessionFactory == null || mapperSearchPath == null || "".equals(mapperSearchPath.trim())) {
@@ -221,9 +221,9 @@ public class MybatisHelper implements ApplicationContextAware {
     }
 
     /**
-     * 方法注入
+     * inject mapper class
      *
-     * @param mapperClass            mapper类
+     * @param mapperClass            mapper class
      * @param mapperBuilderAssistant mapperBuilderAssistant
      */
     private void inject(Class<?> mapperClass, MapperBuilderAssistant mapperBuilderAssistant) {
@@ -277,8 +277,8 @@ public class MybatisHelper implements ApplicationContextAware {
     /**
      * 动态注入非标准字段映射
      *
-     * @param modelClass       类名
-     * @param tableInfo        解析出的表信息
+     * @param modelClass       domain class name
+     * @param tableInfo        table info
      * @param reflectorFactory reflectorFactory
      */
     private void injectFieldRelation(Class<?> modelClass, TableInfo tableInfo, ReflectorFactory reflectorFactory) {
