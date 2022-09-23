@@ -35,12 +35,7 @@ public class BatchInsert extends AbstractMethod {
             if (tableInfo.getIdType() != IdType.DYNAMIC_GENERATE) {
                 keyGenerator = Jdbc3KeyGenerator.INSTANCE;
             }
-            keyProperty = tableInfo.getKeyProperty();
-            boolean splitTable = MultipleTableMapper.class.isAssignableFrom(mapperClass);
-            if (splitTable) {
-                keyProperty = Params.ENTITY + Constants.DOT + keyProperty;
-            }
-
+            keyProperty = Params.LIST + Constants.DOT + tableInfo.getKeyProperty();
             keyColumn = tableInfo.getKeyColumn();
         }
 
