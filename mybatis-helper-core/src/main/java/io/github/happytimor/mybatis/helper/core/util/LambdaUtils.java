@@ -101,7 +101,7 @@ public final class LambdaUtils {
             tableInfo.setIdentity(identity);
             List<Result> resultList = new ArrayList<>();
             List<Field> declaredFields = new ArrayList<>();
-            parseAlldeclaredFields(modelClass, declaredFields);
+            parseAlldeclaredFields(modelClass, declaredFields, new HashSet<>());
             for (Field declaredField : declaredFields) {
                 //跳过final修饰变量
                 if (java.lang.reflect.Modifier.isFinal(declaredField.getModifiers())) {
@@ -140,15 +140,42 @@ public final class LambdaUtils {
     }
 
     /**
-     * 解析对象里面的字段, 如果是继承对象, 会遍历父级字段
+     * get all field of clazz and will visit super class
      *
-     * @param clz  class类
-     * @param list field容器
+     * @param clz  given class
+     * @param list field list
      */
-    private static void parseAlldeclaredFields(Class<?> clz, List<Field> list) {
-        list.addAll(Arrays.asList(clz.getDeclaredFields()));
-        if (clz.getSuperclass() != Object.class) {
-            parseAlldeclaredFields(clz.getSuperclass(), list);
+    private static void parseAlldeclaredFields(Class<?> clz, List<Field> list, Set<String> repeatSet) {
+        Field[] fieldList = clz.getDeclaredFields();
+        for (Field field : fieldList) {
+            if (repeatSet.add(field.getName())) {
+                list.add(field);
+            }
         }
+        if (clz.getSuperclass() != Object.class) {
+            parseAlldeclaredFields(clz.getSuperclass(), list, repeatSet);
+        }
+    }
+
+    public static List<Field> getAllFields(Class<?> clazz) {
+        Field[] fieldList = clazz.getDeclaredFields();
+        List<Field> list = new ArrayList<>(Arrays.asList(fieldList));
+        if (clazz.getSuperclass() != Object.class) {
+            list.addAll(getAllFields(clazz.getSuperclass()));
+        }
+        return list;
+    }
+
+    public static Field getFiledByName(Class<?> clz, String fieldName) {
+        Field[] fieldList = clz.getDeclaredFields();
+        for (Field field : fieldList) {
+            if (fieldName.equals(field.getName())) {
+                return field;
+            }
+        }
+        if (clz.getSuperclass() != Object.class) {
+            return getFiledByName(clz.getSuperclass(), fieldName);
+        }
+        return null;
     }
 }

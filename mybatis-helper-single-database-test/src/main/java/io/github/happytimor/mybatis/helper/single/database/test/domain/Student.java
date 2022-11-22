@@ -7,13 +7,22 @@ import io.github.happytimor.mybatis.helper.core.annotation.TableColumn;
  */
 public class Student {
     private Integer id;
+    private Integer teacherId;
     private String name;
     private Integer age;
-    private Integer courseId;
-
+    private Integer bestCourseId;
     @TableColumn(exist = false)
     private String courseName;
     private Boolean deleted;
+
+    public Student() {
+
+    }
+
+    public Student(String name, Integer bestCourseId) {
+        this.name = name;
+        this.bestCourseId = bestCourseId;
+    }
 
     public Integer getId() {
         return id;
@@ -39,12 +48,12 @@ public class Student {
         this.age = age;
     }
 
-    public Integer getCourseId() {
-        return courseId;
+    public Integer getBestCourseId() {
+        return bestCourseId;
     }
 
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
+    public void setBestCourseId(Integer bestCourseId) {
+        this.bestCourseId = bestCourseId;
     }
 
     public Boolean getDeleted() {
@@ -61,5 +70,13 @@ public class Student {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
     }
 }

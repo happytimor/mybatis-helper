@@ -9,6 +9,10 @@ public class CourseInfo {
     private Integer teacherId;
     private Boolean deleted;
 
+    public CourseInfo(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

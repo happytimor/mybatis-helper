@@ -1,11 +1,9 @@
 package io.github.happytimor.mybatis.helper.single.database.test;
 
-import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
-import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.wrapper.DeleteWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
-import io.github.happytimor.mybatis.helper.single.database.test.domain.AgeInfo;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.TeacherInfo;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.single.database.test.mapper.UserMapper;
 import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
@@ -19,8 +17,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 /**
  * 测试环境: 单表,有主键且主键就是id
@@ -39,6 +39,33 @@ public class SingleDatabaseBasicUseTests {
 
     @Resource
     private GenerateService generateService;
+
+    @Test
+    public void insertOrg() {
+        User user = new User();
+        user.setName("zhangsan");
+        userMapper.insertOrg(user);
+        System.out.println(user.getId());
+    }
+
+    @Test
+    public void testBatchInsert() {
+        List<User> userList = Arrays.asList(new User("zhangsan"), new User("lisi"));
+        userMapper.batchInsertDemo("", userList);
+        System.out.println(userList.size());
+    }
+
+    @Test
+    public void testNested() {
+        List<TeacherInfo> teacherInfos = this.userMapper.selectTeacherInfo();
+        for (TeacherInfo teacherInfo : teacherInfos) {
+            System.out.println(teacherInfo.toString());
+        }
+        System.out.println("老师数量: " + teacherInfos.size());
+//        System.out.println("老师 " + teacherInfos.get(0).getId() + " 有学生: " + teacherInfos.get(0).hasStudent());
+//        System.out.println("老师 " + teacherInfos.get(0).getId() + " 的学生数量: "
+//                + teacherInfos.get(0).getStudentList().size());
+    }
 
     /**
      * 插入孔对象

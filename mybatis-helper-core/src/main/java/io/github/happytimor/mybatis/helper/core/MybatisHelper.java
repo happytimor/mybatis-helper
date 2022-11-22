@@ -242,9 +242,14 @@ public class MybatisHelper implements ApplicationContextAware {
                 tableInfo.setKeyProperty(Constants.DEFAULT_KEY_PROPERTY);
             }
             try {
-                tableInfo.setKeyClass(modelClass.getDeclaredField(tableInfo.getKeyColumn()).getType());
+                Field keyField = LambdaUtils.getFiledByName(modelClass, tableInfo.getKeyColumn());
+                if (keyField != null) {
+                    tableInfo.setKeyClass(keyField.getType());
+                } else {
+                    logger.warn("the class {} has no field named {}", modelClass.getName(), tableInfo.getKeyColumn());
+                }
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                logger.error("class: " + modelClass.getName() + "error: " + e.getMessage(), e);
             }
         }
         tableInfo.setMultipleTable(MultipleTableMapper.class.isAssignableFrom(mapperClass));
@@ -307,11 +312,18 @@ public class MybatisHelper implements ApplicationContextAware {
                 caseInsensitivePropertyMap.put(column, result.getProperty());
                 relation.put(result.getProperty(), result.getColumn());
             }
-            Constants.COLUMN_RELATION.put(modelClass.getName().replaceAll("\\.", "/"), relation);
+            putColumnRelation(modelClass, relation);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             logger.error(e.getMessage(), e);
         }
     }
 
+    private void putColumnRelation(Class<?> modelClass, Map<String, String> relation) {
+        Constants.COLUMN_RELATION.put(modelClass.getName().replaceAll("\\.", "/"), relation);
+        if (modelClass.getSuperclass() != Object.class) {
+            putColumnRelation(modelClass.getSuperclass(), relation);
+        }
+
+    }
 
 }

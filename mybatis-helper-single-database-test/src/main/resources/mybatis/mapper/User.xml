@@ -2,23 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="io.github.happytimor.mybatis.helper.single.database.test.mapper.UserMapper">
     <insert id="insertOrg" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO `user`
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            `id`,
-            <if test="entity.name != null">`name`,</if>
-            <if test="entity.age != null">`age`,</if>
-            <if test="entity.married != null">`married`,</if>
-            <if test="entity.userGrade != null">`user_grade`,</if>
-            <if test="entity.lastLoginTime != null">`last_login_time`,</if>
-        </trim>
-        VALUES
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            #{entity.id},
-            <if test="entity.name != null">#{entity.name},</if>
-            <if test="entity.age != null">#{entity.age},</if>
-            <if test="entity.married != null">#{entity.married},</if>
-            <if test="entity.userGrade != null">#{entity.userGrade},</if>
-            <if test="entity.lastLoginTime != null">#{entity.lastLoginTime},</if>
-        </trim>
+        INSERT INTO `user` (`name`) values (#{entity.name})
     </insert>
+
+    <insert id="batchInsertDemo" useGeneratedKeys="true" keyProperty="list.id">
+        INSERT INTO `user${tableNum}` (`name`) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name})
+        </foreach>
+    </insert>
+
+
+    <select id="selectFirstStudentByTeacherId" parameterType="java.lang.Integer"
+            resultType="io.github.happytimor.mybatis.helper.single.database.test.domain.Student">
+        select * from student where teacher_id = #{teacherId} order by id asc limit 1
+    </select>
+
+    <select id="selectStudentByTeacherId" parameterType="java.lang.Integer"
+            resultType="io.github.happytimor.mybatis.helper.single.database.test.domain.Student">
+        select * from student where teacher_id = #{teacherId}
+    </select>
+    <resultMap id="teacherFullInfo" type="io.github.happytimor.mybatis.helper.single.database.test.domain.TeacherInfo">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="deleted" column="deleted"/>
+
+        <collection property="studentList"
+                    ofType="io.github.happytimor.mybatis.helper.single.database.test.domain.Student" column="id"
+                    select="io.github.happytimor.mybatis.helper.single.database.test.mapper.UserMapper.selectStudentByTeacherId"
+                    fetchType="lazy"
+        >
+        </collection>
+
+        <!--<association property="firstStudent"
+                     column="id"
+                     javaType="io.github.happytimor.mybatis.helper.single.database.test.domain.Student"
+                     select="io.github.happytimor.mybatis.helper.single.database.test.mapper.UserMapper.selectFirstStudentByTeacherId">
+        </association>-->
+    </resultMap>
+    <select id="selectTeacherInfo" resultMap="teacherFullInfo">
+        select * from teacher_info
+    </select>
 </mapper>

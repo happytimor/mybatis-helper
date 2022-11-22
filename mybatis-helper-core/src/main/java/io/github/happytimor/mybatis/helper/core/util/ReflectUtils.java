@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,7 +54,7 @@ public class ReflectUtils {
                 }
             }
             M obj = clz.newInstance();
-            Field[] declaredFields = obj.getClass().getDeclaredFields();
+            List<Field> declaredFields = LambdaUtils.getAllFields(obj.getClass());
             for (Field field : declaredFields) {
                 int mod = field.getModifiers();
                 if (Modifier.isStatic(mod) || Modifier.isFinal(mod)) {
