@@ -95,6 +95,24 @@ public class SqlFunction {
         return columnFunction;
     }
 
+    public static <T> ColumnFunction<T, ?> dateFormat(ColumnFunction<T, ?> columnFunction, String format) {
+        return dateFormat(columnFunction, format, "");
+    }
+
+    public static <T, ALIAS> ColumnFunction<T, ?> dateFormat(ColumnFunction<T, ?> columnFunction, String format, ColumnFunction<ALIAS, ?> alias) {
+        return dateFormat(columnFunction, format, ColumnUtils.getFieldName(alias));
+    }
+
+    public static <T> ColumnFunction<T, ?> dateFormat(ColumnFunction<T, ?> columnFunction, String format, String alias) {
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
+        ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.DATE_FORMAT, format, alias));
+        if (innerWrapper != null) {
+            functionMap.get(columnFunction).setChildWrapper(innerWrapper);
+        }
+        return columnFunction;
+    }
+
+
     public static <T> ColumnFunction<T, ?> sum(ColumnFunction<T, ?> columnFunction) {
         return sum(columnFunction, "");
     }

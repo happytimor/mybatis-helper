@@ -298,7 +298,7 @@ public abstract class AbstractWrapper<T> {
     }
 
     /**
-     * 解析带函数字段名
+     * analysis sql function name
      *
      * @param columnWrapper 函数wrapper
      * @param columnName    字段名
@@ -315,7 +315,11 @@ public abstract class AbstractWrapper<T> {
         if (columnWrapper.getChildWrapper() != null) {
             columnName = this.wrapperFunctionColumn(columnWrapper.getChildWrapper(), columnName);
         }
-        return function + "(" + columnName + ")" + alias;
+        String parameter = columnWrapper.getParameter();
+        if ("".equals(parameter)) {
+            return function + "(" + columnName + ")" + alias;
+        }
+        return function + "(" + columnName + "," + "'" + parameter + "')" + alias;
     }
 
     /**

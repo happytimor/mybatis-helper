@@ -12,6 +12,10 @@ public interface SqlFunctionName {
     String MIN = "MIN";
     String AVG = "AVG";
     String SUM = "SUM";
+    /**
+     * date_format
+     */
+    String DATE_FORMAT = "DATE_FORMAT";
     String COUNT = "COUNT";
     String LENGTH = "LENGTH";
     String UPPER = "UPPER";

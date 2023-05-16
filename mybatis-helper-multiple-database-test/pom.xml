@@ -33,7 +33,7 @@
         <dependency>
             <groupId>io.github.happytimor</groupId>
             <artifactId>mybatis-helper-core</artifactId>
-            <version>1.0.13-SNAPSHOT</version>
+            <version>1.0.14-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
