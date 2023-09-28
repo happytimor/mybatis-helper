@@ -466,6 +466,18 @@ public interface DefaultCompare<Children> extends Compare<Children> {
     }
 
     /**
+     * ne method(eg: where `flag` != true)
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @param <R>    given lambda class type
+     * @return chain object
+     */
+    default <R> Children ne(ColumnFunction<R, ?> column, Boolean value) {
+        return ne(true, column, value);
+    }
+
+    /**
      * ne method for String
      *
      * @param column lambda column name

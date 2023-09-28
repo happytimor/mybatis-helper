@@ -702,6 +702,16 @@ public interface Compare<Children> extends Serializable {
     <R> Children ne(boolean execute, ColumnFunction<R, ?> column, Number value);
 
     /**
+     * ne method(eg: where `flag` != true)
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column  lambda column name
+     * @param value   given object
+     * @param <R>     given lambda class type
+     * @return chain object
+     */
+    <R> Children ne(boolean execute, ColumnFunction<R, ?> column, Boolean value);
+    /**
      * ne method(eg: where `id` &lt;&gt; 1)(execute only if value is not null)
      *
      * @param column lambda column name

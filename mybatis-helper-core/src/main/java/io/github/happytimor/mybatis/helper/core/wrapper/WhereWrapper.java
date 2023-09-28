@@ -587,6 +587,14 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public <R> WhereWrapper<T> ne(boolean execute, ColumnFunction<R, ?> column, Boolean value) {
+        if (execute) {
+            this.addCondition(column, "<>", value);
+        }
+        return this;
+    }
+
+    @Override
     public <R> WhereWrapper<T> neNotBlank(ColumnFunction<R, ?> column, Number value) {
         if (value != null) {
             this.addCondition(column, "<>", value);
