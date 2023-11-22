@@ -159,29 +159,6 @@ public class UserUidTests {
     }
 
     /**
-     * 唯一索引冲突更新测试
-     */
-    @Test
-    public void insertOrUpdateWithUniqueIndex() {
-        String name = "mybatis-helper-" + System.currentTimeMillis();
-        UserUid userUid = new UserUid();
-        userUid.setName(name);
-        userUidService.insert(userUid);
-        assert userUid.getUid() != null;
-
-
-        //唯一索引冲突更新测试
-        userUid.setName("mybatis-helper");
-        boolean updateSuccess = userUidService.insertOrUpdateWithUniqueIndex(userUid);
-        assert updateSuccess;
-        UserUid dbUser = userUidService.selectById(userUid.getUid());
-        assert "mybatis-helper".equals(dbUser.getName());
-
-        boolean deleteSuccess = userUidService.deleteById(dbUser.getUid());
-        assert deleteSuccess;
-    }
-
-    /**
      * 批量插入、根据主键批量删除、根据主键批量更新联合测试
      */
     @Test

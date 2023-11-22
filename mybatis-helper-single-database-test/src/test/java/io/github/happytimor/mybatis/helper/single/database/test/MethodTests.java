@@ -238,25 +238,6 @@ public class MethodTests {
     }
 
     /**
-     * 唯一索引冲突更新测试
-     */
-    @Test
-    public void insertOrUpdateWithUniqueIndex() {
-        this.generateService.generateBatch((flag, userList) -> {
-            List<User> dbUserList = this.userService.selectList(new SelectWrapper<User>().eq(User::getFlag, flag));
-            for (User user : dbUserList) {
-                //唯一索引冲突更新测试(id冲突)
-                User newUser = this.generateService.generateOne(flag);
-                newUser.setId(user.getId());
-                this.userService.insertOrUpdateWithUniqueIndex(newUser);
-
-                User dbNewUser = this.userService.selectById(user.getId());
-                assert Objects.equals(dbNewUser, newUser);
-            }
-        });
-    }
-
-    /**
      * 单值查询
      */
     @Test

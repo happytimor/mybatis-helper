@@ -149,16 +149,6 @@ public interface MultipleTableMapper<T> {
     int delete(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.WRAPPER) AbstractWrapper<T> deleteWrapper);
 
     /**
-     * insert or update one row
-     * depend on duplicate key update
-     *
-     * @param tableNum table index
-     * @param entity   operate object
-     * @return true if operation success
-     */
-    boolean insertOrUpdateWithUniqueIndex(@Param(Params.TABLE_NUM) String tableNum, @Param(Params.ENTITY) T entity);
-
-    /**
      * query single value
      *
      * @param tableNum      table index

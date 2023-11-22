@@ -141,13 +141,4 @@ public interface BaseMapper<T> {
      * @return delete count
      */
     int delete(@Param(Params.WRAPPER) AbstractWrapper<T> deleteWrapper);
-
-    /**
-     * insert or update one row
-     * depend on duplicate key update
-     *
-     * @param entity object
-     * @return true if operate success
-     */
-    boolean insertOrUpdateWithUniqueIndex(@Param(Params.ENTITY) T entity);
 }

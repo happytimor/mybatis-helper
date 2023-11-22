@@ -156,29 +156,6 @@ public class Datasource1Tests {
     }
 
     /**
-     * 唯一索引冲突更新测试
-     */
-    @Test
-    public void insertOrUpdateWithUniqueIndex() {
-        String name = "mybatis-helper-" + System.currentTimeMillis();
-        UserInfo userInfo = new UserInfo();
-        userInfo.setName(name);
-        userInfoService.insert(userInfo);
-        assert userInfo.getId() != null;
-
-
-        //唯一索引冲突更新测试
-        userInfo.setName("mybatis-helper");
-        boolean updateSuccess = userInfoService.insertOrUpdateWithUniqueIndex(userInfo);
-        assert updateSuccess;
-        UserInfo dbUserInfo = userInfoService.selectById(userInfo.getId());
-        assert "mybatis-helper".equals(dbUserInfo.getName());
-
-        boolean deleteSuccess = userInfoService.deleteById(dbUserInfo.getId());
-        assert deleteSuccess;
-    }
-
-    /**
      * 批量插入、根据主键批量删除、根据主键批量更新联合测试
      */
     @Test

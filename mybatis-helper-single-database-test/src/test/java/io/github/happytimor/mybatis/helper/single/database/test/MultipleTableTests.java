@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -161,29 +160,6 @@ public class MultipleTableTests {
         );
 
         User dbUser = multipleUserService.selectById(tableNum, user.getId());
-        boolean deleteSuccess = multipleUserService.deleteById(tableNum, dbUser.getId());
-        assert deleteSuccess;
-    }
-
-    /**
-     * 唯一索引冲突更新测试
-     */
-    @Test
-    public void insertOrUpdateWithUniqueIndex() {
-        String name = "mybatis-helper-" + System.currentTimeMillis();
-        User user = new User();
-        user.setName(name);
-        multipleUserService.insert(tableNum, user);
-        assert user.getId() != null;
-
-
-        //唯一索引冲突更新测试
-        user.setName("mybatis-helper");
-        boolean updateSuccess = multipleUserService.insertOrUpdateWithUniqueIndex(tableNum, user);
-        assert updateSuccess;
-        User dbUser = multipleUserService.selectById(tableNum, user.getId());
-        assert "mybatis-helper".equals(dbUser.getName());
-
         boolean deleteSuccess = multipleUserService.deleteById(tableNum, dbUser.getId());
         assert deleteSuccess;
     }

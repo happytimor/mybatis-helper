@@ -6,6 +6,7 @@ import io.github.happytimor.mybatis.helper.core.handler.MybatisXmlLanguageDriver
 import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
 import io.github.happytimor.mybatis.helper.core.mapper.NoPrimaryKeyMapper;
+import io.github.happytimor.mybatis.helper.core.mapper.UniqueIndexEnhanceMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import io.github.happytimor.mybatis.helper.core.method.*;
@@ -73,10 +74,17 @@ public class MybatisHelper implements ApplicationContextAware {
 
             new SelectMap(),
             new SelectMapList(),
-            new SelectSingleValue(),
-            new InsertOrUpdateWithUniqueIndex()
+            new SelectSingleValue()
     );
 
+    /**
+     * extra method list for unique index mapper to register
+     */
+    private final List<AbstractMethod> uniqueIndexMethodList = Arrays.asList(
+            new ReplaceInto(),
+            new InsertIgnoreInto(),
+            new InsertOrUpdateWithUniqueIndex()
+    );
     /**
      * skipped method list for no primary key mapper
      */
@@ -88,6 +96,7 @@ public class MybatisHelper implements ApplicationContextAware {
             SelectById.class.getSimpleName(),
             SelectByIdList.class.getSimpleName()
     );
+
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -207,7 +216,8 @@ public class MybatisHelper implements ApplicationContextAware {
                 for (String interfaceName : interfaceNames) {
                     if (Objects.equals(interfaceName, BaseMapper.class.getName())
                             || Objects.equals(interfaceName, MultipleTableMapper.class.getName())
-                            || Objects.equals(interfaceName, NoPrimaryKeyMapper.class.getName())) {
+                            || Objects.equals(interfaceName, NoPrimaryKeyMapper.class.getName())
+                            || Objects.equals(interfaceName, UniqueIndexEnhanceMapper.class.getName())) {
                         classNameSet.add(Class.forName(metadataReader.getClassMetadata().getClassName()));
                         break;
                     }
@@ -232,6 +242,8 @@ public class MybatisHelper implements ApplicationContextAware {
             return;
         }
         boolean isNoPrimaryKeyMapper = NoPrimaryKeyMapper.class.isAssignableFrom(mapperClass);
+
+        boolean isUniqueIndexMapper = UniqueIndexEnhanceMapper.class.isAssignableFrom(mapperClass);
 
         TableInfo tableInfo = LambdaUtils.parseTableInfo(modelClass);
         if (!isNoPrimaryKeyMapper) {
@@ -262,21 +274,38 @@ public class MybatisHelper implements ApplicationContextAware {
                     logger.debug("{} has no primary key, skip inject", mapperClass.getName());
                 }
             }
-            String mapperdStatementId = mapperClass.getName() + "." + ColumnUtils.makeFirstCharacterLower(abstractMethod.getClass().getSimpleName());
-            if (mappedStatementNames.contains(mapperdStatementId)) {
-                if (logger.isWarnEnabled()) {
-                    logger.warn("{} already contains method {}, skip inject", mapperClass.getName(), abstractMethod.getClass().getSimpleName());
-                }
-                continue;
-            }
-            if (logger.isDebugEnabled()) {
-                logger.info("inject {} method for {}", abstractMethod.getClass().getSimpleName(), mapperClass.getName());
-            }
-            abstractMethod.inject(mapperBuilderAssistant, mapperClass, modelClass, tableInfo);
+            registerMethod(mapperClass, mapperBuilderAssistant, modelClass, tableInfo, mappedStatementNames, abstractMethod);
         }
 
+        if (isUniqueIndexMapper) {
+            for (AbstractMethod abstractMethod : uniqueIndexMethodList) {
+                registerMethod(mapperClass, mapperBuilderAssistant, modelClass, tableInfo, mappedStatementNames, abstractMethod);
+            }
+        }
         this.injectFieldRelation(modelClass, tableInfo, mapperBuilderAssistant.getConfiguration().getReflectorFactory());
 
+    }
+
+    /**
+     * @param mapperClass            mapper
+     * @param mapperBuilderAssistant assistant
+     * @param modelClass             model class, such as User.java
+     * @param tableInfo              table info for User.java
+     * @param mappedStatementNames   mappedStatementName
+     * @param abstractMethod         method to inject
+     */
+    private static void registerMethod(Class<?> mapperClass, MapperBuilderAssistant mapperBuilderAssistant, Class<?> modelClass, TableInfo tableInfo, Collection<String> mappedStatementNames, AbstractMethod abstractMethod) {
+        String mapperdStatementId = mapperClass.getName() + "." + ColumnUtils.makeFirstCharacterLower(abstractMethod.getClass().getSimpleName());
+        if (mappedStatementNames.contains(mapperdStatementId)) {
+            if (logger.isWarnEnabled()) {
+                logger.warn("{} already contains method {}, skip inject", mapperClass.getName(), abstractMethod.getClass().getSimpleName());
+            }
+            return;
+        }
+        if (logger.isDebugEnabled()) {
+            logger.info("inject {} method for {}", abstractMethod.getClass().getSimpleName(), mapperClass.getName());
+        }
+        abstractMethod.inject(mapperBuilderAssistant, mapperClass, modelClass, tableInfo);
     }
 
     /**

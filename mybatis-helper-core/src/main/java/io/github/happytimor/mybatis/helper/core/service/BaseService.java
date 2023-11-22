@@ -3,7 +3,10 @@ package io.github.happytimor.mybatis.helper.core.service;
 import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.util.ReflectUtils;
-import io.github.happytimor.mybatis.helper.core.wrapper.*;
+import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.OrderWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.SelectJoinWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -356,19 +359,5 @@ public class BaseService<M extends BaseMapper<T>, T> {
             throw new RuntimeException("deleteWrapper can not be null");
         }
         return this.baseMapper.delete(deleteWrapper);
-    }
-
-    /**
-     * 有唯一索引的前提下插入或更新数据
-     * 主要依靠 duplicate key update 来实现
-     *
-     * @param entity 对象
-     * @return 操作是否成功
-     */
-    public boolean insertOrUpdateWithUniqueIndex(T entity) {
-        if (entity == null) {
-            return false;
-        }
-        return this.baseMapper.insertOrUpdateWithUniqueIndex(entity);
     }
 }

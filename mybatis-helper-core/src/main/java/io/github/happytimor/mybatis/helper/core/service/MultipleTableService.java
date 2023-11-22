@@ -3,7 +3,9 @@ package io.github.happytimor.mybatis.helper.core.service;
 import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.util.ReflectUtils;
-import io.github.happytimor.mybatis.helper.core.wrapper.*;
+import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.OrderWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -330,17 +332,5 @@ public class MultipleTableService<M extends MultipleTableMapper<T>, T> {
             throw new RuntimeException("deleteWrapper can not be null");
         }
         return this.multipleTableMapper.delete(tableNum, deleteWrapper);
-    }
-
-    /**
-     * 有唯一索引的前提下插入或更新数据
-     * 主要依靠 duplicate key update 来实现
-     *
-     * @param tableNum 表号
-     * @param entity   对象
-     * @return 操作是否成功
-     */
-    public boolean insertOrUpdateWithUniqueIndex(String tableNum, T entity) {
-        return this.multipleTableMapper.insertOrUpdateWithUniqueIndex(tableNum, entity);
     }
 }
