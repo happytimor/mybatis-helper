@@ -14,6 +14,7 @@ public interface UniqueIndexEnhanceMapper<T> extends BaseMapper<T> {
      * insert one row if not exists
      *
      * @param entity insert object
+     * @return true if success
      */
     boolean insertIgnoreInto(@Param(Params.ENTITY) T entity);
 
@@ -21,6 +22,7 @@ public interface UniqueIndexEnhanceMapper<T> extends BaseMapper<T> {
      * insert override
      *
      * @param entity insert object
+     * @return true if success
      */
     boolean replaceInto(@Param(Params.ENTITY) T entity);
 
