@@ -1,5 +1,6 @@
 package io.github.happytimor.mybatis.helper.core.service;
 
+import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.util.ReflectUtils;
@@ -272,6 +273,7 @@ public class BaseService<M extends BaseMapper<T>, T> {
         page.setTotal(total);
         if (total <= 0) {
             page.setRecords(new ArrayList<>());
+            Constants.THREAD_COLUMN_FUNCTION.remove();
             return page;
         }
         if (selectWrapper instanceof OrderWrapper) {
