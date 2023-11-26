@@ -1,9 +1,13 @@
 package io.github.happytimor.mybatis.helper.core.service;
 
+import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import io.github.happytimor.mybatis.helper.core.util.ReflectUtils;
-import io.github.happytimor.mybatis.helper.core.wrapper.*;
+import io.github.happytimor.mybatis.helper.core.wrapper.AbstractWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.OrderWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.SelectJoinWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -269,6 +273,7 @@ public class BaseService<M extends BaseMapper<T>, T> {
         page.setTotal(total);
         if (total <= 0) {
             page.setRecords(new ArrayList<>());
+            Constants.THREAD_COLUMN_FUNCTION.remove();
             return page;
         }
         if (selectWrapper instanceof OrderWrapper) {
