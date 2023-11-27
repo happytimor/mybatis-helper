@@ -12,7 +12,6 @@ import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 import io.github.happytimor.mybatis.helper.core.util.LambdaUtils;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -45,7 +44,7 @@ public class SelectJoinWrapper<T> extends JoinWrapper<T> {
         TableInfo tableInfo = LambdaUtils.parseTableInfo(clazz);
         List<Result> resultList = tableInfo.getResultList();
         for (Result result : resultList) {
-            selectColumnList.add(new SelectColumn(clazz,result.getColumn()));
+            selectColumnList.add(new SelectColumn(clazz, result.getColumn()));
         }
         return this;
     }
