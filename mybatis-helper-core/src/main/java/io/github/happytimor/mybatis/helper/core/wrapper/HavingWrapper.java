@@ -1,12 +1,13 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
+import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.metadata.ColumnWrapper;
 import io.github.happytimor.mybatis.helper.core.metadata.DefaultHavingWrapper;
-import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
-import io.github.happytimor.mybatis.helper.core.util.LambdaUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author chenpeng
@@ -174,21 +175,28 @@ public class HavingWrapper<T> extends OrderWrapper<T> implements DefaultHavingWr
         }
 
 
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < havingConditionList.size(); i++) {
-            HavingCondition<T> havingCondition = havingConditionList.get(i);
-            String columnName = havingCondition.getColumnName();
-            if (columnName == null || "".equals(columnName)) {
-                columnName = this.parseColumnName(havingCondition.getColumnFunction(), true);
-            }
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < havingConditionList.size(); i++) {
+                HavingCondition<T> havingCondition = havingConditionList.get(i);
+                String columnName = havingCondition.getColumnName();
+                if (columnName == null || "".equals(columnName)) {
+                    columnName = this.parseColumnName(havingCondition.getColumnFunction(), true);
+                }
 
-            stringBuilder.append(columnName).append(" ").append(havingCondition.getConnector())
-                    .append(" ").append(havingCondition.getValue());
-            if (i != havingConditionList.size() - 1) {
-                stringBuilder.append(" AND ");
+                stringBuilder.append(columnName).append(" ").append(havingCondition.getConnector())
+                        .append(" ").append(havingCondition.getValue());
+                if (i != havingConditionList.size() - 1) {
+                    stringBuilder.append(" AND ");
+                }
+            }
+            return " HAVING " + stringBuilder;
+        } finally {
+            Map<ColumnFunction<?, ?>, ColumnWrapper> map = Constants.THREAD_COLUMN_FUNCTION.get();
+            if (map != null && map.isEmpty()) {
+                Constants.THREAD_COLUMN_FUNCTION.remove();
             }
         }
-        return " HAVING " + stringBuilder;
     }
 
 

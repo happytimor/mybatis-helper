@@ -225,8 +225,8 @@ public abstract class AbstractWrapper<T> {
             }
             return selectColumnList.stream().map(selectColumn -> {
                 String columnName = selectColumn.getColumnFunction() != null ?
-                        this.parseColumnName(selectColumn.getColumnFunction()) : selectColumn.getColumnName();
-                if (subTable.isEmpty()) {
+                        this.parseColumnName(selectColumn.getColumnFunction(), !subTable.isEmpty()) : selectColumn.getColumnName();
+                if (subTable.isEmpty() || columnName.contains(".")) {
                     return columnName;
                 }
                 Class<?> clazz = selectColumn.getClazz() != null ?
@@ -235,7 +235,11 @@ public abstract class AbstractWrapper<T> {
                 return tableAlias + columnName + " ";
             }).collect(Collectors.joining(","));
         } finally {
-            Constants.THREAD_COLUMN_FUNCTION.remove();
+            Map<ColumnFunction<?, ?>, ColumnWrapper> map = Constants.THREAD_COLUMN_FUNCTION.get();
+            if (map != null && map.isEmpty()) {
+                //having 会自己往map里面加数据, 所以要等到having结束后(如果有having的话)才能remove
+                Constants.THREAD_COLUMN_FUNCTION.remove();
+            }
         }
     }
 

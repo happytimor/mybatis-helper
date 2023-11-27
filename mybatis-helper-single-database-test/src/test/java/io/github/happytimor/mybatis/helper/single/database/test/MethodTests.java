@@ -448,8 +448,39 @@ public class MethodTests {
             this.courseInfoService.delete(new DeleteWrapper<>());
             this.studentService.delete(new DeleteWrapper<>());
         }
+    }
 
+    @Test
+    public void joinWithGroup() {
+        try {
+            int studentCount = 50, courseCount = 10;
+            //generate 10 course
+            List<CourseInfo> courseInfoList = Stream.iterate(1, num -> num + 1)
+                    .limit(courseCount)
+                    .map(id -> "course_" + id)
+                    .map(CourseInfo::new).collect(Collectors.toList());
+            this.courseInfoService.batchInsert(courseInfoList);
 
+            List<Student> studentList = Stream.iterate(1, num -> num + 1)
+                    .limit(studentCount)
+                    .map(id -> "stu_" + id)
+                    .map(name -> {
+                        int index = ThreadLocalRandom.current().nextInt(courseInfoList.size());
+                        CourseInfo courseInfo = courseInfoList.get(index);
+                        return new Student(name, courseInfo.getId());
+                    }).collect(Collectors.toList());
+            this.studentService.batchInsert(studentList);
+
+            this.studentService.selectJoinPage(Student.class, 1, 10, new SelectJoinWrapper<Student>()
+                    .select(SqlFunction.sum(Student::getAge))
+                    .leftJoin(CourseInfo.class, CourseInfo::getId, Student::getBestCourseId)
+                    .groupBy(Student::getName)
+
+            );
+        } finally {
+            this.courseInfoService.delete(new DeleteWrapper<>());
+            this.studentService.delete(new DeleteWrapper<>());
+        }
     }
 
     @Test
