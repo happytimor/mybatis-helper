@@ -117,6 +117,15 @@ CREATE TABLE `user_unique_index` (
   UNIQUE KEY `uni_card_no` (`card_no`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `user_unique_index_01` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `card_no` varchar(32) DEFAULT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uni_card_no` (`card_no`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
 INSERT INTO `course_info` (`id`, `name`, `teacher_id`, `deleted`) VALUES
 ('1', '语文', '1', '0'),
 ('2', '数学', '2', '0'),

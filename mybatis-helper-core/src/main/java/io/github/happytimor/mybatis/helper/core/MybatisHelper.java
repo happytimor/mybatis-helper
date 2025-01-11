@@ -3,10 +3,7 @@ package io.github.happytimor.mybatis.helper.core;
 import io.github.happytimor.mybatis.helper.core.common.Config;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.handler.MybatisXmlLanguageDriver;
-import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
-import io.github.happytimor.mybatis.helper.core.mapper.MultipleTableMapper;
-import io.github.happytimor.mybatis.helper.core.mapper.NoPrimaryKeyMapper;
-import io.github.happytimor.mybatis.helper.core.mapper.UniqueIndexEnhanceMapper;
+import io.github.happytimor.mybatis.helper.core.mapper.*;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
 import io.github.happytimor.mybatis.helper.core.method.*;
@@ -217,7 +214,8 @@ public class MybatisHelper implements ApplicationContextAware {
                     if (Objects.equals(interfaceName, BaseMapper.class.getName())
                             || Objects.equals(interfaceName, MultipleTableMapper.class.getName())
                             || Objects.equals(interfaceName, NoPrimaryKeyMapper.class.getName())
-                            || Objects.equals(interfaceName, UniqueIndexEnhanceMapper.class.getName())) {
+                            || Objects.equals(interfaceName, UniqueIndexEnhanceMapper.class.getName())
+                            || Objects.equals(interfaceName, UniqueIndexEnhanceForMultipleTableMapper.class.getName())) {
                         classNameSet.add(Class.forName(metadataReader.getClassMetadata().getClassName()));
                         break;
                     }
@@ -244,6 +242,7 @@ public class MybatisHelper implements ApplicationContextAware {
         boolean isNoPrimaryKeyMapper = NoPrimaryKeyMapper.class.isAssignableFrom(mapperClass);
 
         boolean isUniqueIndexMapper = UniqueIndexEnhanceMapper.class.isAssignableFrom(mapperClass);
+        boolean isUniqueIndexForMultipleTableMapper = UniqueIndexEnhanceForMultipleTableMapper.class.isAssignableFrom(mapperClass);
 
         TableInfo tableInfo = LambdaUtils.parseTableInfo(modelClass);
         if (!isNoPrimaryKeyMapper) {
@@ -264,7 +263,7 @@ public class MybatisHelper implements ApplicationContextAware {
                 logger.error("class: " + modelClass.getName() + "error: " + e.getMessage(), e);
             }
         }
-        tableInfo.setMultipleTable(MultipleTableMapper.class.isAssignableFrom(mapperClass));
+        tableInfo.setMultipleTable(MultipleTableMapper.class.isAssignableFrom(mapperClass) || UniqueIndexEnhanceForMultipleTableMapper.class.isAssignableFrom(mapperClass));
         mapperBuilderAssistant.setCurrentNamespace(mapperClass.getName());
 
         Collection<String> mappedStatementNames = mapperBuilderAssistant.getConfiguration().getMappedStatementNames();
@@ -277,7 +276,7 @@ public class MybatisHelper implements ApplicationContextAware {
             registerMethod(mapperClass, mapperBuilderAssistant, modelClass, tableInfo, mappedStatementNames, abstractMethod);
         }
 
-        if (isUniqueIndexMapper) {
+        if (isUniqueIndexMapper || isUniqueIndexForMultipleTableMapper) {
             for (AbstractMethod abstractMethod : uniqueIndexMethodList) {
                 registerMethod(mapperClass, mapperBuilderAssistant, modelClass, tableInfo, mappedStatementNames, abstractMethod);
             }

@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.happytimor</groupId>
     <artifactId>mybatis-helper-core</artifactId>
-    <version>1.0.15-SNAPSHOT</version>
+    <version>1.0.16-SNAPSHOT</version>
     <name>mybatis-helper-core</name>
     <packaging>jar</packaging>
     <url>https://happytimor.github.io/mybatis-helper/index.html</url>
@@ -128,13 +128,17 @@
     </build>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>oss</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
         <repository>
-            <id>oss</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>rdc-releases</id>
+            <name>rdc-releases</name>
+            <url>https://packages.aliyun.com/maven/repository/2042687-release-ePoaZn/</url>
+            <layout>default</layout>
         </repository>
+        <snapshotRepository>
+            <id>rdc-snapshots</id>
+            <name>rdc-snapshots</name>
+            <url>https://packages.aliyun.com/maven/repository/2042687-snapshot-igp0zF/</url>
+            <layout>default</layout>
+        </snapshotRepository>
     </distributionManagement>
 </project>
