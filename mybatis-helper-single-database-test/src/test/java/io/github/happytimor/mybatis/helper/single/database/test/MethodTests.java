@@ -62,7 +62,7 @@ public class MethodTests {
         assert user.getId() != null;
 
         String strangeName = user.getStrangeName();
-        assert strangeName != null && !strangeName.equals("");
+        assert strangeName != null && !strangeName.isEmpty();
 
         User dbExistsUser = this.userService.selectById(user.getId());
         assert Objects.equals(user, dbExistsUser);
@@ -289,9 +289,9 @@ public class MethodTests {
                     .eq(User::getFlag, flag)
             );
 
-            assert nameList.size() > 0;
-            assert ageList.size() > 0;
-            assert timeList.size() > 0;
+            assert !nameList.isEmpty();
+            assert !ageList.isEmpty();
+            assert !timeList.isEmpty();
         });
     }
 
@@ -424,7 +424,7 @@ public class MethodTests {
                     .orderByAsc(CourseInfo::getId)
                     .orderByDesc(Student::getId)
             );
-            assert list.size() > 0;
+            assert !list.isEmpty();
         } finally {
             this.courseInfoService.delete(new DeleteWrapper<>());
             this.studentService.delete(new DeleteWrapper<>());

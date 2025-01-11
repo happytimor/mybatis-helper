@@ -33,7 +33,7 @@ public class MultipleTableTests {
     private MultipleUserService multipleUserService;
 
 
-    private String tableNum = "01";
+    private final String tableNum = "01";
 
     String name = "mybatis-helper-";
 
@@ -155,12 +155,16 @@ public class MultipleTableTests {
         );
         assert updateCount == 0;
 
-        updateCount = multipleUserService.update(tableNum, new UpdateWrapper<User>().set(User::getAge, 12).set(User::getMarried, true).set(User::getLastLoginTime, "2019-09-09")
+        updateCount = this.multipleUserService.update(tableNum, new UpdateWrapper<User>()
+                .set(User::getAge, 12)
+                .set(User::getMarried, true)
+                .set(User::getLastLoginTime, "2019-09-09")
                 .eq(User::getName, newName)
         );
+        assert updateCount > 0;
 
-        User dbUser = multipleUserService.selectById(tableNum, user.getId());
-        boolean deleteSuccess = multipleUserService.deleteById(tableNum, dbUser.getId());
+        User dbUser = this.multipleUserService.selectById(tableNum, user.getId());
+        boolean deleteSuccess = this.multipleUserService.deleteById(tableNum, dbUser.getId());
         assert deleteSuccess;
     }
 
@@ -176,13 +180,13 @@ public class MultipleTableTests {
         for (int i = 0; i < total; i++) {
             list.add(new User(name + now + i));
         }
-        multipleUserService.batchInsert(tableNum, list);
-        List<User> userList = multipleUserService.selectList(tableNum, new SelectWrapper<User>().select(User::getId).likeLeft(User::getName, "mybatis-helper-" + now));
+        this.multipleUserService.batchInsert(tableNum, list);
+        List<User> userList = this.multipleUserService.selectList(tableNum, new SelectWrapper<User>().select(User::getId).likeLeft(User::getName, "mybatis-helper-" + now));
         assert userList.size() == total;
 
         //批量查找
         List<Integer> userIdList = userList.stream().map(User::getId).distinct().collect(Collectors.toList());
-        userList = multipleUserService.selectByIdList(tableNum, userIdList);
+        userList = this.multipleUserService.selectByIdList(tableNum, userIdList);
         assert userList.size() == total;
 
 
@@ -190,21 +194,21 @@ public class MultipleTableTests {
         for (User user : userList) {
             user.setName(name);
         }
-        boolean updateSuucess = multipleUserService.batchUpdateById(tableNum, userList);
+        boolean updateSuucess = this.multipleUserService.batchUpdateById(tableNum, userList);
         assert updateSuucess;
-        userList = multipleUserService.selectByIdList(tableNum, userIdList);
+        userList = this.multipleUserService.selectByIdList(tableNum, userIdList);
         for (User user : userList) {
             assert name.equals(user.getName());
         }
 
 
         //根据id批量删除
-        int deleteCount = multipleUserService.deleteByIdList(tableNum, userIdList);
+        int deleteCount = this.multipleUserService.deleteByIdList(tableNum, userIdList);
         assert deleteCount == total;
 
         //校验批量删除是否成功
-        userList = multipleUserService.selectByIdList(tableNum, userIdList);
-        assert userList.size() == 0;
+        userList = this.multipleUserService.selectByIdList(tableNum, userIdList);
+        assert userList.isEmpty();
 
     }
 
@@ -219,17 +223,17 @@ public class MultipleTableTests {
         user.setAge(11);
         user.setMarried(true);
         user.setLastLoginTime(LocalDateTime.now());
-        multipleUserService.insert(tableNum, user);
+        this.multipleUserService.insert(tableNum, user);
         assert user.getId() != null;
 
-        int deleteCount = multipleUserService.delete(tableNum, new DeleteWrapper<User>()
+        int deleteCount = this.multipleUserService.delete(tableNum, new DeleteWrapper<User>()
                 .eq(User::getName, name)
                 .likeLeft(User::getName, name)
                 .eq(User::getAge, 11)
         );
         assert deleteCount == 1;
 
-        user = multipleUserService.selectById(tableNum, user.getId());
+        user = this.multipleUserService.selectById(tableNum, user.getId());
         assert user == null;
     }
 
@@ -244,15 +248,15 @@ public class MultipleTableTests {
         for (int i = 0; i < total; i++) {
             list.add(new User(name + now + i));
         }
-        multipleUserService.batchInsert(tableNum, list);
-        List<User> userList = multipleUserService.selectList(tableNum, new SelectWrapper<User>()
+        this.multipleUserService.batchInsert(tableNum, list);
+        List<User> userList = this.multipleUserService.selectList(tableNum, new SelectWrapper<User>()
                 .select(User::getId)
                 .likeLeft(User::getName, name + now)
         );
         assert userList.size() == total;
 
         //总数查询测试
-        long count = multipleUserService.selectCount(tableNum, new SelectWrapper<User>().likeLeft(User::getName, "mybatis-helper-" + now));
+        long count = this.multipleUserService.selectCount(tableNum, new SelectWrapper<User>().likeLeft(User::getName, "mybatis-helper-" + now));
         assert count == total;
 
 
@@ -260,7 +264,7 @@ public class MultipleTableTests {
         assert userIdList.size() == total;
 
         //根据id批量删除
-        int deleteCount = multipleUserService.deleteByIdList(tableNum, userIdList);
+        int deleteCount = this.multipleUserService.deleteByIdList(tableNum, userIdList);
         assert deleteCount == total;
     }
 
@@ -275,14 +279,14 @@ public class MultipleTableTests {
         for (int i = 0; i < total; i++) {
             list.add(new User(name + now + i));
         }
-        multipleUserService.batchInsert(tableNum, list);
+        this.multipleUserService.batchInsert(tableNum, list);
 
-        Page<User> page = multipleUserService.selectPage(tableNum, 1, 10, new SelectWrapper<User>()
+        Page<User> page = this.multipleUserService.selectPage(tableNum, 1, 10, new SelectWrapper<User>()
                 .likeLeft(User::getName, name + now)
         );
         assert page.getRecords().size() == 10 && page.getTotal() == total;
 
-        List<User> userList = multipleUserService.selectList(tableNum, new SelectWrapper<User>()
+        List<User> userList = this.multipleUserService.selectList(tableNum, new SelectWrapper<User>()
                 .select(User::getId)
                 .likeLeft(User::getName, name + now)
         );
@@ -292,7 +296,7 @@ public class MultipleTableTests {
         List<Integer> userIdList = userList.stream().map(User::getId).distinct().collect(Collectors.toList());
         assert userIdList.size() == total;
 
-        multipleUserService.deleteByIdList(tableNum, userIdList);
+        this.multipleUserService.deleteByIdList(tableNum, userIdList);
     }
 
     /**
@@ -302,12 +306,12 @@ public class MultipleTableTests {
     public void sqlInject() {
         User user = new User();
         user.setName(name);
-        multipleUserService.insert(tableNum, user);
+        this.multipleUserService.insert(tableNum, user);
         assert user.getId() != null;
 
         String injectSql = "mybatis-helper or 1=1";
 
-        List<User> users = multipleUserService.selectList(tableNum, new SelectWrapper<User>()
+        List<User> users = this.multipleUserService.selectList(tableNum, new SelectWrapper<User>()
                 .eq(User::getName, injectSql)
                 .or().like(User::getName, injectSql)
                 .or().likeLeft(User::getName, injectSql)
@@ -316,7 +320,7 @@ public class MultipleTableTests {
 
         assert users.isEmpty();
 
-        boolean deleteSuccess = multipleUserService.deleteById(tableNum, user.getId());
+        boolean deleteSuccess = this.multipleUserService.deleteById(tableNum, user.getId());
         assert deleteSuccess;
     }
 }
