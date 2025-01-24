@@ -9,7 +9,7 @@ mybatis:
 #配置数据源
 spring:
   datasource:
-    url: jdbc:h2:mem:mybatis_helper_demo
+    url: jdbc:h2:mem:mybatis_helper_demo;MODE=MySQL
     username: sa
     password: password
     driver-class-name: org.h2.Driver

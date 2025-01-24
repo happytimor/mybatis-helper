@@ -11,12 +11,12 @@ spring:
       path: /h2-console
   datasource:
     datasource1:
-      jdbc-url: "jdbc:h2:mem:mybatis_helper_database1"
+      jdbc-url: "jdbc:h2:mem:mybatis_helper_database1;MODE=MySQL"
       username: "sa" # H2 默认用户名为 sa
       password: ""   # H2 默认密码为空
       driver-class-name: "org.h2.Driver"
     datasource2:
-      jdbc-url: "jdbc:h2:mem:mybatis_helper_database2"
+      jdbc-url: "jdbc:h2:mem:mybatis_helper_database2;MODE=MySQL"
       username: "sa" # H2 默认用户名为 sa
       password: ""   # H2 默认密码为空
       driver-class-name: "org.h2.Driver"
