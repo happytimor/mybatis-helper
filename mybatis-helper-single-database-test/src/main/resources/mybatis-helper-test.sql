@@ -109,20 +109,20 @@ CREATE TABLE `teacher_info` (
   PRIMARY KEY (`id`)
 ) ;
 
--- CREATE TABLE `user_unique_index` (
---   `id` bigint(20)  NOT NULL AUTO_INCREMENT,
---   `card_no` varchar(32) DEFAULT NULL,
---   `name` varchar(32) DEFAULT NULL,
---   PRIMARY KEY (`id`),
---   UNIQUE KEY `uni_card_no` (`card_no`)
--- ) ;
+CREATE TABLE `user_unique_index` (
+  `id` bigint(20)  NOT NULL AUTO_INCREMENT,
+  `card_no` varchar(32) DEFAULT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uni_card_no` (`card_no`)
+) ;
 
 CREATE TABLE `user_unique_index_01` (
   `id` bigint(20)  NOT NULL AUTO_INCREMENT,
   `card_no` varchar(32) DEFAULT NULL,
   `name` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uni_card_no` (`card_no`) 
+  UNIQUE KEY `uni_card_no_01` (`card_no`)
 ) ;
 
 
