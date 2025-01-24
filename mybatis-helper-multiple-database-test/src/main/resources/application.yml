@@ -5,14 +5,29 @@ logging.level.io.github.happytimor.mybatis.helper.multiple.database.test.mapper:
 
 #配置数据源
 spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   datasource:
     datasource1:
-      jdbc-url: "jdbc:mysql://localhost:3306/mybatis_helper_database1?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
-      username: "root"
-      password: "123456"
-      driver-class-name: "com.mysql.cj.jdbc.Driver"
+      jdbc-url: "jdbc:h2:mem:mybatis_helper_database1"
+      username: "sa" # H2 默认用户名为 sa
+      password: ""   # H2 默认密码为空
+      driver-class-name: "org.h2.Driver"
     datasource2:
-      jdbc-url: "jdbc:mysql://localhost:3306/mybatis_helper_database2?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
-      username: "root"
-      password: "123456"
-      driver-class-name: "com.mysql.cj.jdbc.Driver"
+      jdbc-url: "jdbc:h2:mem:mybatis_helper_database2"
+      username: "sa" # H2 默认用户名为 sa
+      password: ""   # H2 默认密码为空
+      driver-class-name: "org.h2.Driver"
+#  datasource:
+#    datasource1:
+#      jdbc-url: "jdbc:mysql://localhost:3306/mybatis_helper_database1?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
+#      username: "root"
+#      password: "123456"
+#      driver-class-name: "com.mysql.cj.jdbc.Driver"
+#    datasource2:
+#      jdbc-url: "jdbc:mysql://localhost:3306/mybatis_helper_database2?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
+#      username: "root"
+#      password: "123456"
+#      driver-class-name: "com.mysql.cj.jdbc.Driver"
