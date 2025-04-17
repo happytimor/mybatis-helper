@@ -316,6 +316,15 @@ public abstract class AbstractWrapper<T> {
         if (columnWrapper.getChildWrapper() != null) {
             columnName = this.wrapperFunctionColumn(columnWrapper.getChildWrapper(), columnName);
         }
+        String[] parameterArray = columnWrapper.getParameterArray();
+        if (parameterArray != null && parameterArray.length > 0) {
+            StringJoiner joiner = new StringJoiner(",");
+            for (String param : parameterArray) {
+                joiner.add(" '" + param + "'");
+            }
+            return function + "(" + columnName + "," + joiner + ")" + alias;
+        }
+
         String parameter = columnWrapper.getParameter();
         if ("".equals(parameter)) {
             return function + "(" + columnName + ")" + alias;

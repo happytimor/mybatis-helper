@@ -8,6 +8,10 @@ package io.github.happytimor.mybatis.helper.core.common;
 public interface SqlFunctionName {
     String AS = "AS";
     String DISTINCT = "DISTINCT";
+    /**
+     * 文本替换
+     */
+    String REPLACE = "REPLACE";
     String MAX = "MAX";
     String MIN = "MIN";
     String AVG = "AVG";

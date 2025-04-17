@@ -11,6 +11,7 @@ public class ColumnWrapper {
      * extra parameter, eg: DATE_FORMAT(`date`, '%y')
      */
     private String parameter;
+    private String[] parameterArray;
     private ColumnWrapper childWrapper;
 
     public ColumnWrapper(String function) {
@@ -26,6 +27,11 @@ public class ColumnWrapper {
     public ColumnWrapper(String function, String parameter, String alias) {
         this.function = function;
         this.parameter = parameter;
+        this.alias = alias;
+    }
+    public ColumnWrapper(String function, String[] parameterArray, String alias) {
+        this.function = function;
+        this.parameterArray = parameterArray;
         this.alias = alias;
     }
 
@@ -59,5 +65,9 @@ public class ColumnWrapper {
 
     public void setParameter(String parameter) {
         this.parameter = parameter;
+    }
+
+    public String[] getParameterArray() {
+        return parameterArray;
     }
 }

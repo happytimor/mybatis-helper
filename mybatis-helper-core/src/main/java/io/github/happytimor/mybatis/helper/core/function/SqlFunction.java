@@ -17,6 +17,20 @@ import java.util.Map;
  * @author chenpeng
  */
 public class SqlFunction {
+
+    public static <T, ALIAS> ColumnFunction<T, ?> replace(ColumnFunction<T, ?> columnFunction, String source, String target, ColumnFunction<ALIAS, ?> alias) {
+        return replace(columnFunction, source, target, ColumnUtils.getFieldName(alias));
+    }
+
+    public static <T> ColumnFunction<T, ?> replace(ColumnFunction<T, ?> columnFunction, String source, String target, String alias) {
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
+        ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.REPLACE, new String[]{source, target}, alias));
+        if (innerWrapper != null) {
+            functionMap.get(columnFunction).setChildWrapper(innerWrapper);
+        }
+        return columnFunction;
+    }
+
     public static <T, ALIAS> ColumnFunction<T, ?> as(ColumnFunction<T, ?> columnFunction, ColumnFunction<ALIAS, ?> alias) {
         return as(columnFunction, ColumnUtils.getFieldName(alias));
     }

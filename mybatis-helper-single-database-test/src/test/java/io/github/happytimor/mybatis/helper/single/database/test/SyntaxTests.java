@@ -5,7 +5,6 @@ import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
-import io.github.happytimor.mybatis.helper.single.database.test.domain.UserNoKey;
 import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
 import org.junit.Test;
@@ -92,6 +91,20 @@ public class SyntaxTests {
                 assert user.getGradeOfMath() == user.getId() - 100;
                 assert name.equals(user.getName());
             }
+        });
+    }
+
+    /**
+     * 单个select的as测试
+     */
+    @Test
+    public void replaceTest() {
+        this.generateService.generateBatch((flag, userList) -> {
+            List<Map<String, Object>> mapList = this.userService.selectMapList(new SelectWrapper<User>()
+                    .select(SqlFunction.replace(User::getName, "yourGrade", "newGrade", User::getName))
+                    .eq(User::getFlag, flag)
+                    .limit(1)
+            );
         });
     }
 

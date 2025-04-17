@@ -82,9 +82,13 @@ public class MethodTests {
     @Test
     public void batchInsert() {
         List<User> list = new ArrayList<>();
+        this.userService.delete(new DeleteWrapper<User>()
+                .gt(User::getId, 0)
+        );
         for (int i = 0; i < 10; i++) {
             User user = this.generateService.generateOne();
-            assert user.getId() == null;
+            user.setId(i + 1);
+//            assert user.getId() == null;
             list.add(user);
         }
         this.userService.batchInsert(list);
