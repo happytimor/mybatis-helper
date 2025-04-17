@@ -22,6 +22,15 @@ public class SqlFunction {
         return replace(columnFunction, source, target, ColumnUtils.getFieldName(alias));
     }
 
+    public static <T> ColumnFunction<T, ?> replace(ColumnFunction<T, ?> columnFunction, String source, String target) {
+        Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
+        ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.REPLACE, new String[]{source, target}, ""));
+        if (innerWrapper != null) {
+            functionMap.get(columnFunction).setChildWrapper(innerWrapper);
+        }
+        return columnFunction;
+    }
+
     public static <T> ColumnFunction<T, ?> replace(ColumnFunction<T, ?> columnFunction, String source, String target, String alias) {
         Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = ensureMap();
         ColumnWrapper innerWrapper = functionMap.put(columnFunction, new ColumnWrapper(SqlFunctionName.REPLACE, new String[]{source, target}, alias));

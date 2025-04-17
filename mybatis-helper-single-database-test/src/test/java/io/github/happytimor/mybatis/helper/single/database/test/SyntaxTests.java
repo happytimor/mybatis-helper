@@ -105,6 +105,11 @@ public class SyntaxTests {
                     .eq(User::getFlag, flag)
                     .limit(1)
             );
+
+            this.userService.update(new UpdateWrapper<User>()
+                    .set(User::getName, SqlFunction.replace(User::getName, "yourGrade", "newGrade"))
+                    .eq(User::getFlag, flag)
+            );
         });
     }
 

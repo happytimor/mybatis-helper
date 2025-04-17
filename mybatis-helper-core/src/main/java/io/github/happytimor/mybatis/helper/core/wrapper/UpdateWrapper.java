@@ -5,7 +5,6 @@ import io.github.happytimor.mybatis.helper.core.common.DiySql;
 import io.github.happytimor.mybatis.helper.core.common.Operation;
 import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
-import io.github.happytimor.mybatis.helper.core.metadata.Condition;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 import org.springframework.util.StringUtils;
 
@@ -87,6 +86,28 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
         return this.setValue(execute, column, value);
     }
 
+    /**
+     * set function value for one column
+     *
+     * @param column         database column
+     * @param columnFunction string value
+     * @return updateWrapper
+     */
+    public UpdateWrapper<T> set(ColumnFunction<T, ?> column, ColumnFunction<?, ?> columnFunction) {
+        return this.set(true, column, columnFunction);
+    }
+
+    /**
+     * set function value for one column(update table set name = replace(`name`, 'a', 'n') where ...)
+     *
+     * @param execute        will execute method if `execute` is true
+     * @param column         database column
+     * @param columnFunction string value
+     * @return updateWrapper
+     */
+    public UpdateWrapper<T> set(boolean execute, ColumnFunction<T, ?> column, ColumnFunction<?, ?> columnFunction) {
+        return this.seColumnFunction(execute, column, columnFunction);
+    }
 
     /**
      * set value for one column
@@ -388,6 +409,23 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
             String key = "params_" + count + "_" + columnName;
             paramNameValuePairs.put(key, value);
             set.add(wrapColumnName(columnName) + " = #{" + Params.WRAPPER + ".paramNameValuePairs." + key + "}");
+        }
+        return this;
+    }
+
+    /**
+     * set value for one column
+     *
+     * @param execute        will execute method if `execute` is true
+     * @param column         database column
+     * @param columnFunction any value
+     * @return updateWrapper object
+     */
+    private UpdateWrapper<T> seColumnFunction(boolean execute, ColumnFunction<T, ?> column, ColumnFunction<?, ?> columnFunction) {
+        if (execute) {
+            String columnName = ColumnUtils.getColumnName(column, false);
+            String value = this.parseColumnName(columnFunction, false);
+            set.add(wrapColumnName(columnName) + " = " + value);
         }
         return this;
     }
