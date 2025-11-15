@@ -1,10 +1,12 @@
 package io.github.happytimor.mybatis.helper.core.wrapper;
 
 
+import io.github.happytimor.mybatis.helper.core.common.Constants;
 import io.github.happytimor.mybatis.helper.core.common.DiySql;
 import io.github.happytimor.mybatis.helper.core.common.Operation;
 import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.metadata.ColumnWrapper;
 import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 import org.springframework.util.StringUtils;
 
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -426,6 +429,12 @@ public class UpdateWrapper<T> extends WhereWrapper<T> {
             String columnName = ColumnUtils.getColumnName(column, false);
             String value = this.parseColumnName(columnFunction, false);
             set.add(wrapColumnName(columnName) + " = " + value);
+        } else {
+            //remove useless function
+            Map<ColumnFunction<?, ?>, ColumnWrapper> functionMap = Constants.THREAD_COLUMN_FUNCTION.get();
+            if (functionMap != null) {
+                functionMap.remove(columnFunction);
+            }
         }
         return this;
     }
