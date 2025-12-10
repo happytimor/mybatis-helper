@@ -733,6 +733,22 @@ public class WhereWrapper<T> extends GroupWrapper<T>
     }
 
     @Override
+    public <R> WhereWrapper<T> notLikeLeft(boolean execute, ColumnFunction<R, ?> column, String value) {
+        if (execute) {
+            this.addCondition(column, "NOT LIKE", value + "%");
+        }
+        return this;
+    }
+
+    @Override
+    public <R> WhereWrapper<T> notLikeRight(boolean execute, ColumnFunction<R, ?> column, String value) {
+        if (execute) {
+            this.addCondition(column, "NOT LIKE", "%" + value);
+        }
+        return this;
+    }
+
+    @Override
     public <R> WhereWrapper<T> between(boolean execute, ColumnFunction<R, ?> column, Number start, Number end) {
         if (execute) {
             this.addCondition(column, "BETWEEN", start, "AND", end);

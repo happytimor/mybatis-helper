@@ -893,6 +893,28 @@ public interface Compare<Children> extends Serializable {
     <R> Children notLike(boolean execute, ColumnFunction<R, ?> column, String value);
 
     /**
+     * not like method(eq: where `name` not like 'zhangsan%')
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column  lambda column name
+     * @param value   given object
+     * @param <R>     given lambda class type
+     * @return chain object
+     */
+    <R> Children notLikeLeft(boolean execute, ColumnFunction<R, ?> column, String value);
+
+    /**
+     * not like method(eq: where `name` not like '%zhangsan')
+     *
+     * @param execute true: execute the method, false: skip execution
+     * @param column  lambda column name
+     * @param value   given object
+     * @param <R>     given lambda class type
+     * @return chain object
+     */
+    <R> Children notLikeRight(boolean execute, ColumnFunction<R, ?> column, String value);
+
+    /**
      * between method(eg: where `age` between 20 and 30)
      *
      * @param execute true: execute the method, false: skip execution

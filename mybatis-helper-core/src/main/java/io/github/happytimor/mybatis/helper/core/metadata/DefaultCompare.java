@@ -600,6 +600,30 @@ public interface DefaultCompare<Children> extends Compare<Children> {
     }
 
     /**
+     * not like method(eq: where `name` not like 'zhangsan%')
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @param <R>    given lambda class type
+     * @return chain object
+     */
+    default <R> Children notLikeLeft(ColumnFunction<R, ?> column, String value) {
+        return notLikeLeft(true, column, value);
+    }
+
+    /**
+     * not like method(eq: where `name` not like '%zhangsan')
+     *
+     * @param column lambda column name
+     * @param value  given object
+     * @param <R>    given lambda class type
+     * @return chain object
+     */
+    default <R> Children notLikeRight(ColumnFunction<R, ?> column, String value) {
+        return notLikeRight(true, column, value);
+    }
+
+    /**
      * between method(eg: where `age` between 20 and 30)
      *
      * @param column lambda column name
