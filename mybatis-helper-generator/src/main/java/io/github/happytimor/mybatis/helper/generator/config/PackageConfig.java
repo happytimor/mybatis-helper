@@ -46,7 +46,7 @@ public class PackageConfig {
     private String controller = "controller";
 
     /**
-     * 通用返回体包名
+     * 通用返回体包名+类名(针对不同使用者各自项目规范)
      */
     private String result = "common.Result";
 
@@ -121,7 +121,7 @@ public class PackageConfig {
     }
 
     /**
-     * 设置通用返回体包名
+     * 设置通用返回体包名+类名(针对不同使用者各自项目规范)
      *
      * @param result 通用返回体包名
      * @return 包配置

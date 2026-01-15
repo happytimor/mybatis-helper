@@ -87,14 +87,24 @@ public class VelocityTemplateEngine implements TemplateEngine {
 
                 // 从数据库获取表列信息
                 List<GenTableColumn> genTableColumns = getGenTableColumnsFromDatabase(tableName);
-                // 初始化列字段信息
+                
+                // 过滤掉不需要的字段
+                List<GenTableColumn> filteredColumns = new ArrayList<>();
                 for (GenTableColumn column : genTableColumns) {
+                    // 跳过gmt_modified字段
+                    if (!"gmt_modified".equalsIgnoreCase(column.getColumnName())) {
+                        filteredColumns.add(column);
+                    }
+                }
+                
+                // 初始化列字段信息
+                for (GenTableColumn column : filteredColumns) {
                     GenUtils.initColumnField(column);
                 }
-                genTable.setColumns(genTableColumns);
+                genTable.setColumns(filteredColumns);
 
                 // 设置主键列
-                for (GenTableColumn column : genTableColumns) {
+                for (GenTableColumn column : filteredColumns) {
                     if (column.isPk()) {
                         genTable.setPkColumn(column);
                         break;
