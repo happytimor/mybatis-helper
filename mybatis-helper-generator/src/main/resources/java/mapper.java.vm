@@ -1,0 +1,13 @@
+package ${packageName}.${mapper};
+
+import ${packageName}.${entity}.${ClassName};
+import io.github.happytimor.mybatis.helper.core.mapper.BaseMapper;
+
+/**
+ * ${ClassName}Mapper
+ * 
+ * @author ${author}
+ */
+public interface ${ClassName}Mapper extends BaseMapper<${ClassName}> {
+
+}
