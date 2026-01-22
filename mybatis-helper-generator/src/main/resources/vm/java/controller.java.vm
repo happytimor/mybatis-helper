@@ -6,6 +6,7 @@ import ${packageName}.domain.vo.request.${ClassName}EditReq;
 import ${packageName}.domain.vo.request.${ClassName}QueryReq;
 import ${packageName}.domain.vo.response.${ClassName}Resp;
 import ${packageName}.service.${ClassName}Service;
+import io.github.gaomingyuan666.base.exception.BizException;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import org.springframework.web.bind.annotation.*;
 import jakarta.annotation.Resource;
@@ -58,7 +59,7 @@ public class ${ClassName}Controller {
     public ${responseClassName}<Object> edit${ClassName}(@RequestBody ${ClassName}EditReq ${className}EditReq) {
         boolean updateSuccess = this.${className}Service.edit${ClassName}(${className}EditReq);
         if (!updateSuccess) {
-            return ${responseClassName}.error("更新失败");
+            throw new BizException("修改失败");
         }
         return new ${responseClassName}<>();
     }
