@@ -6,6 +6,7 @@ import ${packageName}.domain.vo.request.${ClassName}EditReq;
 import ${packageName}.domain.vo.request.${ClassName}QueryReq;
 import ${packageName}.domain.vo.response.${ClassName}Resp;
 import ${packageName}.service.${ClassName}Service;
+import ${packageName}.domain.entity.convertor.${ClassName}Convertor;
 import io.github.gaomingyuan666.base.exception.BizException;
 import io.github.happytimor.mybatis.helper.core.metadata.Page;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,14 @@ public class ${ClassName}Controller {
         Page<${ClassName}Resp> page = this.${className}Service.queryPage(${className}QueryReq);
         ${responseClassName}.setData(page);
         return ${responseClassName};
+    }
+
+    /**
+     * 详情
+     */
+    @GetMapping("/get")
+    public ${responseClassName}<${ClassName}Resp> get(@RequestParam("id") Integer id) {
+        return ${responseClassName}.success(${ClassName}Convertor.INSTANCE.mapTo${ClassName}Resp(this.${className}Service.selectById(id)));
     }
 
     /**
