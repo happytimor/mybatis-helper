@@ -229,6 +229,26 @@ public class BaseService<M extends BaseMapper<T>, T> {
     }
 
     /**
+     * 自定义对象列表查询(关联查询)
+     *
+     * @param resultType    返回对象类型
+     * @param selectWrapper 条件组合
+     * @param <R>           动态返回对象
+     * @return 返回map
+     */
+    public <R> List<R> selectJoinObjectList(Class<R> resultType, AbstractWrapper<T> selectWrapper) {
+        if (selectWrapper == null) {
+            selectWrapper = new SelectJoinWrapper<>();
+        }
+        List<R> list = new ArrayList<>();
+        List<Map<String, Object>> mapList = this.selectMapList(selectWrapper);
+        for (Map<String, Object> map : mapList) {
+            list.add(ReflectUtils.map2Obj(map, resultType));
+        }
+        return list;
+    }
+
+    /**
      * 单值查询
      *
      * @param selectWrapper 条件组合

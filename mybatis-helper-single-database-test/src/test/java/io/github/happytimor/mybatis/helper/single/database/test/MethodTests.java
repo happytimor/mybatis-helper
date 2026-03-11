@@ -508,6 +508,44 @@ public class MethodTests {
     }
 
     @Test
+    public void joinObjectList() {
+        try {
+            int studentCount = 50, courseCount = 10;
+            Map<String, String> bestCourseMatch = new HashMap<>();
+            //generate 10 course
+            List<CourseInfo> courseInfoList = Stream.iterate(1, num -> num + 1)
+                    .limit(courseCount)
+                    .map(id -> "course_" + id)
+                    .map(CourseInfo::new).collect(Collectors.toList());
+            this.courseInfoService.batchInsert(courseInfoList);
+
+            List<Student> studentList = Stream.iterate(1, num -> num + 1)
+                    .limit(studentCount)
+                    .map(id -> "stu_" + id)
+                    .map(name -> {
+                        int index = ThreadLocalRandom.current().nextInt(courseInfoList.size());
+                        CourseInfo courseInfo = courseInfoList.get(index);
+                        bestCourseMatch.put(name, courseInfo.getName());
+                        return new Student(name, courseInfo.getId());
+                    }).collect(Collectors.toList());
+            this.studentService.batchInsert(studentList);
+
+
+            List<JoinResultVO> voList = this.studentService.selectJoinObjectList(JoinResultVO.class, new SelectJoinWrapper<Student>()
+                    .selectAs(Student::getName, JoinResultVO::getStudentName)
+                    .selectAs(CourseInfo::getName, JoinResultVO::getCourseName)
+                    .leftJoin(CourseInfo.class, CourseInfo::getId, Student::getBestCourseId)
+            );
+            for (JoinResultVO joinResultVO : voList) {
+                assert bestCourseMatch.get(joinResultVO.getStudentName()).equals(joinResultVO.getCourseName());
+            }
+        } finally {
+            this.courseInfoService.delete(new DeleteWrapper<>());
+            this.studentService.delete(new DeleteWrapper<>());
+        }
+    }
+
+    @Test
     public void forUpdateTest() {
         this.generateService.generateBatch((flag, userList) -> {
             List<User> list = this.userService.selectList(new SelectWrapper<User>()

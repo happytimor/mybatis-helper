@@ -2,8 +2,10 @@ package io.github.happytimor.mybatis.helper.single.database.test;
 
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
+import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
+import io.github.happytimor.mybatis.helper.single.database.test.service.MultipleUserService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Random;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -26,6 +29,8 @@ public class OomTests {
 
     @Resource
     private UserService userService;
+    @Resource
+    private MultipleUserService multipleUserService;
 
     @Test
     public void bigQuery() {
@@ -68,6 +73,54 @@ public class OomTests {
                     );
                     atomicInteger.incrementAndGet();
                 }).start();
+            }
+
+            while (atomicInteger.get() != loopCount) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }));
+    }
+
+    /**
+     * 多线程并发测试
+     */
+    @Test
+    public void multipleThreadTestForReplace() {
+        generateService.generateBatch(((flag, userList) -> {
+            AtomicInteger atomicInteger = new AtomicInteger(0);
+            ThreadPoolExecutor executor
+                    = new ThreadPoolExecutor(10, 10, 0, java.util.concurrent.TimeUnit.MILLISECONDS, new java.util.concurrent.ArrayBlockingQueue<>(500),
+                    new ThreadPoolExecutor.CallerRunsPolicy());
+            int loopCount = 1;
+            for (int i = 0; i < loopCount; i++) {
+//                executor.execute(() -> {
+                try {
+                    Thread.sleep(new Random().nextInt(5));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    int table = new Random().nextInt(2) + 1;
+                    this.multipleUserService.update("0" + table, new UpdateWrapper<User>()
+                                .set(User::getMarried, true)
+                                .set(User::getStrangeName, "daff")
+                                    .set(false, User::getName, SqlFunction.replace(User::getName, "【】", "【】"))
+                                    .set(false, User::getName, SqlFunction.replace(User::getName, "", ""))
+                                    .set(false, User::getName, SqlFunction.replace(User::getName, "【xxx】", "【aaaa】"))
+                                    .set(User::getName, SqlFunction.replace(User::getName, "【yourGrade】", "【newGrade】"))
+                                .set(true, User::getName, SqlFunction.replace(SqlFunction.replace(SqlFunction.replace(User::getName, "yourGrade" + System.currentTimeMillis(), "newGrade" + (System.currentTimeMillis() + 1)), "", ""), "", ""))
+                                    .eq(User::getAge, new Random().nextInt(20))
+                                    .eq(User::getFlag, flag)
+                    );
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                atomicInteger.incrementAndGet();
+//                });
             }
 
             while (atomicInteger.get() != loopCount) {
