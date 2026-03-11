@@ -25,6 +25,14 @@ mybatis-helper-generator是一个用于生成mybatis-helper CRUD代码的工具�
     <artifactId>mybatis-helper-generator</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
+
+<!-- 代码生成 -->
+<dependency>
+    <groupId>org.apache.velocity</groupId>
+    <artifactId>velocity-engine-core</artifactId>
+    <version>2.3</version>
+    <scope>test</scope>
+</dependency>
 ```
 
 ### 2. 编写代码生成器
