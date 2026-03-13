@@ -1,0 +1,21 @@
+package ${packageName}.${request};
+
+import lombok.EqualsAndHashCode;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * ${ClassName}EditRequest
+ * 
+ * @author ${author}
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+public class ${ClassName}EditReq extends ${ClassName}AddReq {
+
+    /**
+     * $pkColumn.columnComment
+     */
+    private $pkColumn.javaType $pkColumn.javaField;
+}

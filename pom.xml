@@ -44,6 +44,7 @@
     </build>
     <modules>
         <module>mybatis-helper-core</module>
+        <module>mybatis-helper-generator</module>
         <module>mybatis-helper-single-database-test</module>
         <module>mybatis-helper-multiple-database-test</module>
     </modules>
