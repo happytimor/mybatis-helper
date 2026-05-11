@@ -1,0 +1,36 @@
+package ${packageName}.${entity}.convertor;
+
+import ${packageName}.domain.entity.${ClassName};
+import ${packageName}.domain.vo.request.${ClassName}AddReq;
+import ${packageName}.domain.vo.response.${ClassName}Resp;
+import org.mapstruct.Mapper;
+import org.mapstruct.NullValueCheckStrategy;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
+/**
+ * ${ClassName}Convertor
+ *
+ * @author ${author}
+ */
+@Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+public interface ${ClassName}Convertor {
+
+    ${ClassName}Convertor INSTANCE = Mappers.getMapper(${ClassName}Convertor.class);
+
+    /**
+     * 转换为resp
+     */
+    public ${ClassName}Resp mapTo${ClassName}Resp(${ClassName} ${className});
+
+    /**
+     * 转换为实体
+     */
+    public ${ClassName} mapTo${ClassName}(${ClassName}AddReq addReq);
+
+    /**
+     * 转换为resp列表
+     */
+    public List<${ClassName}Resp> mapTo${ClassName}RespList(List<${ClassName}> ${className}List);
+}

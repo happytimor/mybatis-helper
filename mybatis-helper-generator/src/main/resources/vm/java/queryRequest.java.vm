@@ -1,0 +1,29 @@
+package ${packageName}.${request};
+
+import lombok.EqualsAndHashCode;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * ${ClassName}QueryRequest
+ * 
+ * @author ${author}
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+public class ${ClassName}QueryReq extends ${ClassName}AddReq {
+
+    /**
+     * 页数
+     */
+    private Integer pageNo;
+    /**
+     * 条数
+     */
+    private Integer pageSize;
+    /**
+     * $pkColumn.columnComment
+     */
+    private $pkColumn.javaType $pkColumn.javaField;
+}

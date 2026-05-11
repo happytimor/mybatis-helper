@@ -1,0 +1,87 @@
+package ${packageName}.${controller};
+
+import ${packageName}.${responseClassPackage};
+import ${packageName}.domain.vo.request.${ClassName}AddReq;
+import ${packageName}.domain.vo.request.${ClassName}EditReq;
+import ${packageName}.domain.vo.request.${ClassName}QueryReq;
+import ${packageName}.domain.vo.response.${ClassName}Resp;
+import ${packageName}.service.${ClassName}Service;
+import ${packageName}.domain.entity.convertor.${ClassName}Convertor;
+import io.github.gaomingyuan666.base.exception.BizException;
+import io.github.happytimor.mybatis.helper.core.metadata.Page;
+import org.springframework.web.bind.annotation.*;
+import jakarta.annotation.Resource;
+
+/**
+ * ${ClassName}Controller
+ *
+ * @author ${author}
+ */
+@RestController
+@RequestMapping("/api/${className}")
+public class ${ClassName}Controller {
+
+    @Resource
+    private ${ClassName}Service ${className}Service;
+
+    /**
+     * 列表
+     *
+     * @param ${className}QueryReq 查询请求类
+     * @return ${responseClassName}
+     */
+    @GetMapping("/${className}Page")
+    public ${responseClassName}<Page<${ClassName}Resp>> ${className}Page(${ClassName}QueryReq ${className}QueryReq) {
+        ${responseClassName}<Page<${ClassName}Resp>> ${responseClassName} = new ${responseClassName}<>();
+        Page<${ClassName}Resp> page = this.${className}Service.queryPage(${className}QueryReq);
+        ${responseClassName}.setData(page);
+        return ${responseClassName};
+    }
+
+    /**
+     * 详情
+     */
+    @GetMapping("/get")
+    public ${responseClassName}<${ClassName}Resp> get(@RequestParam("id") Integer id) {
+        return ${responseClassName}.success(${ClassName}Convertor.INSTANCE.mapTo${ClassName}Resp(this.${className}Service.selectById(id)));
+    }
+
+    /**
+     * 新增
+     *
+     * @param ${className}AddReq 新增请求类
+     * @return ${responseClassName}
+     */
+    @PostMapping("/add${ClassName}")
+    public ${responseClassName}<Object> add${ClassName}(@RequestBody ${ClassName}AddReq ${className}AddReq) {
+        this.${className}Service.add${ClassName}(${className}AddReq);
+        return new ${responseClassName}<>();
+    }
+
+    /**
+     * 修改
+     *
+     * @param ${className}EditReq 编辑请求类
+     * @return ${responseClassName}
+     */
+    @PostMapping("/edit${ClassName}")
+    public ${responseClassName}<Object> edit${ClassName}(@RequestBody ${ClassName}EditReq ${className}EditReq) {
+        boolean updateSuccess = this.${className}Service.edit${ClassName}(${className}EditReq);
+        if (!updateSuccess) {
+            throw new BizException("修改失败");
+        }
+        return new ${responseClassName}<>();
+    }
+
+    /**
+     * 删除
+     *
+     * @param id id
+     * @return ${responseClassName}
+     */
+    @PostMapping("/delete${ClassName}")
+    public ${responseClassName}<Object> delete${ClassName}(@RequestParam("id") Integer id) {
+        this.${className}Service.delete${ClassName}(id);
+        return new ${responseClassName}<>();
+    }
+}

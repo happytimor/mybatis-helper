@@ -1,0 +1,31 @@
+package ${packageName}.${request};
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * ${ClassName}AddRequest
+ * 
+ * @author ${author}
+ */
+@Data
+@NoArgsConstructor
+public class ${ClassName}AddReq {
+#foreach ($column in $columns)
+#if(!$table.isSuperColumn($column.javaField) && !$column.isPk() && $column.javaField != "gmtCreated")
+
+    /**
+     * $column.columnComment
+     */
+#set($isDateField=$column.javaType == 'LocalDateTime' || $column.javaType == 'Date')
+#if($isDateField)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "GMT+8")
+#end
+    private $column.javaType $column.javaField;
+#end
+#end
+}
