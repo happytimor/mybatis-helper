@@ -91,8 +91,8 @@ public class ReflectUtils {
                 return ((BigDecimal) returnObject).intValue();
             }
         }
-        if (returnObject.getClass() == java.lang.Integer.class && type == java.lang.Boolean.class) {
-            return (Integer) returnObject == 1;
+        if (type == java.lang.Boolean.class && returnObject instanceof Number) {
+            return ((Number) returnObject).intValue() != 0;
         }
         if (returnObject.getClass() == java.math.BigInteger.class) {
             if (type == java.lang.Integer.class) {

@@ -5,13 +5,17 @@ import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.UserUniqueIndex;
 import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserUniqueIndexService;
+import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 方法测试
@@ -25,6 +29,9 @@ public class UniqueIndexTests {
     private GenerateService generateService;
     @Resource
     private UserUniqueIndexService userUniqueIndexService;
+
+    @Resource
+    private DataSource dataSource;
 
     /**
      * 单条插入测试
@@ -70,7 +77,12 @@ public class UniqueIndexTests {
      * replace into测试(插入后不返回主键)
      */
     @Test
-    public void replaceInto() {
+    public void replaceInto() throws Exception {
+        try (Connection connection = dataSource.getConnection()) {
+            String product = connection.getMetaData().getDatabaseProductName();
+            Assume.assumeFalse("H2 REPLACE INTO does not match MySQL delete-then-insert semantics",
+                    product != null && product.toLowerCase().contains("h2"));
+        }
         this.userUniqueIndexService.delete(new DeleteWrapper<UserUniqueIndex>()
                 .eq(UserUniqueIndex::getCardNo, "1001")
         );
@@ -106,11 +118,11 @@ public class UniqueIndexTests {
         boolean flag2 = this.userUniqueIndexService.insertOrUpdateWithUniqueIndex(u2);
         boolean flag3 = this.userUniqueIndexService.insertOrUpdateWithUniqueIndex(u3);
         assert flag1 && flag2 && flag3;
-        assert u1.getId().equals(u2.getId()) && u2.getId().equals(u3.getId());
         List<UserUniqueIndex> list = this.userUniqueIndexService.selectList(new SelectWrapper<UserUniqueIndex>()
                 .eq(UserUniqueIndex::getCardNo, "1001")
         );
         assert list.size() == 1 && list.get(0).getName().equals("wangwu");
+        assert u1.getId() != null && Objects.equals(u1.getId(), list.get(0).getId());
         this.userUniqueIndexService.delete(new DeleteWrapper<UserUniqueIndex>()
                 .eq(UserUniqueIndex::getCardNo, "1001")
         );

@@ -7,12 +7,15 @@ import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.MultipleUserService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
+import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.util.Random;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -31,6 +34,9 @@ public class OomTests {
     private UserService userService;
     @Resource
     private MultipleUserService multipleUserService;
+
+    @Resource
+    private DataSource dataSource;
 
     @Test
     public void bigQuery() {
@@ -89,7 +95,12 @@ public class OomTests {
      * 多线程并发测试
      */
     @Test
-    public void multipleThreadTestForReplace() {
+    public void multipleThreadTestForReplace() throws Exception {
+        try (Connection connection = dataSource.getConnection()) {
+            String product = connection.getMetaData().getDatabaseProductName();
+            Assume.assumeFalse("H2 does not allow duplicate SET column assignments (MySQL applies them sequentially)",
+                    product != null && product.toLowerCase().contains("h2"));
+        }
         generateService.generateBatch(((flag, userList) -> {
             AtomicInteger atomicInteger = new AtomicInteger(0);
             ThreadPoolExecutor executor

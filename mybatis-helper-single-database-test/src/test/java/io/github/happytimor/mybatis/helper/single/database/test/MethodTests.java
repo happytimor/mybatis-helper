@@ -396,9 +396,15 @@ public class MethodTests {
         });
     }
 
+    private void clearStudentAndCourseFixture() {
+        this.studentService.delete(new DeleteWrapper<>());
+        this.courseInfoService.delete(new DeleteWrapper<>());
+    }
+
     @Test
     public void joinSelectAll() {
         try {
+            clearStudentAndCourseFixture();
             int studentCount = 50, courseCount = 10;
             //generate 10 course
             List<CourseInfo> courseInfoList = Stream.iterate(1, num -> num + 1)
@@ -438,6 +444,7 @@ public class MethodTests {
     @Test
     public void joinWithGroup() {
         try {
+            clearStudentAndCourseFixture();
             int studentCount = 50, courseCount = 10;
             //generate 10 course
             List<CourseInfo> courseInfoList = Stream.iterate(1, num -> num + 1)
@@ -471,6 +478,7 @@ public class MethodTests {
     @Test
     public void joinPage() {
         try {
+            clearStudentAndCourseFixture();
             int studentCount = 50, courseCount = 10;
             Map<String, String> bestCourseMatch = new HashMap<>();
             //generate 10 course
@@ -510,6 +518,7 @@ public class MethodTests {
     @Test
     public void joinObjectList() {
         try {
+            clearStudentAndCourseFixture();
             int studentCount = 50, courseCount = 10;
             Map<String, String> bestCourseMatch = new HashMap<>();
             //generate 10 course
@@ -662,7 +671,7 @@ public class MethodTests {
             );
             for (Map<String, Object> stringObjectMap : mapList) {
                 assert maxGradeOfMath == ((Number) (stringObjectMap.get("gradeOfMath"))).longValue();
-                assert (int) stringObjectMap.get("married") == married;
+                assert ((Number) stringObjectMap.get("married")).intValue() == married;
             }
         });
     }

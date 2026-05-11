@@ -307,7 +307,7 @@ public abstract class AbstractWrapper<T> {
      */
     protected String wrapperFunctionColumn(ColumnWrapper columnWrapper, String columnName) {
         String function = columnWrapper.getFunction();
-        String alias = "".equals(columnWrapper.getAlias()) ? "" : " AS '" + columnWrapper.getAlias() + "'";
+        String alias = "".equals(columnWrapper.getAlias()) ? "" : " AS `" + columnWrapper.getAlias() + "`";
         if (Objects.equals(function, SqlFunctionName.AS)) {
             return columnName + alias;
         }

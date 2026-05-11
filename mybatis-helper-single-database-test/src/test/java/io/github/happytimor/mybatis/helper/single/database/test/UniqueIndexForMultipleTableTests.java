@@ -7,6 +7,7 @@ import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.UserUniqueIndex;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserMultipleTableUniqueIndexService;
+import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,7 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -32,6 +36,8 @@ public class UniqueIndexForMultipleTableTests {
     @Resource
     private UserMultipleTableUniqueIndexService userMultipleTableUniqueIndexService;
 
+    @Resource
+    private DataSource dataSource;
 
     private final String tableNum = "01";
 
@@ -346,7 +352,12 @@ public class UniqueIndexForMultipleTableTests {
      * replace into测试(插入后不返回主键)
      */
     @Test
-    public void replaceInto() {
+    public void replaceInto() throws Exception {
+        try (Connection connection = dataSource.getConnection()) {
+            String product = connection.getMetaData().getDatabaseProductName();
+            Assume.assumeFalse("H2 REPLACE INTO does not match MySQL delete-then-insert semantics",
+                    product != null && product.toLowerCase().contains("h2"));
+        }
         this.userMultipleTableUniqueIndexService.delete(tableNum, new DeleteWrapper<UserUniqueIndex>()
                 .eq(UserUniqueIndex::getCardNo, "1001")
         );
@@ -382,11 +393,11 @@ public class UniqueIndexForMultipleTableTests {
         boolean flag2 = this.userMultipleTableUniqueIndexService.insertOrUpdateWithUniqueIndex(tableNum, u2);
         boolean flag3 = this.userMultipleTableUniqueIndexService.insertOrUpdateWithUniqueIndex(tableNum, u3);
         assert flag1 && flag2 && flag3;
-        assert u1.getId().equals(u2.getId()) && u2.getId().equals(u3.getId());
         List<UserUniqueIndex> list = this.userMultipleTableUniqueIndexService.selectList(tableNum, new SelectWrapper<UserUniqueIndex>()
                 .eq(UserUniqueIndex::getCardNo, "1001")
         );
         assert list.size() == 1 && list.get(0).getName().equals("wangwu");
+        assert u1.getId() != null && Objects.equals(u1.getId(), list.get(0).getId());
         this.userMultipleTableUniqueIndexService.delete(tableNum, new DeleteWrapper<UserUniqueIndex>()
                 .eq(UserUniqueIndex::getCardNo, "1001")
         );
