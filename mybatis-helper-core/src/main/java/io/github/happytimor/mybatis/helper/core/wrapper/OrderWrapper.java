@@ -115,12 +115,48 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
         return this;
     }
 
+    /**
+     * divide order
+     *
+     * @param numerator   numerator column
+     * @param denominator denominator column
+     * @param asc         asc if true
+     * @param <N>         numerator model
+     * @param <D>         denominator model
+     * @return children
+     */
+    public <N, D> OrderWrapper<T> orderByDivide(ColumnFunction<N, ?> numerator, ColumnFunction<D, ?> denominator, Boolean asc) {
+        return orderByDivide(true, numerator, denominator, asc);
+    }
+
+    /**
+     * divide order
+     *
+     * @param execute     execute method if `execute` set true
+     * @param numerator   numerator column
+     * @param denominator denominator column
+     * @param asc         asc if true
+     * @param <N>         numerator model
+     * @param <D>         denominator model
+     * @return children
+     */
+    public <N, D> OrderWrapper<T> orderByDivide(boolean execute, ColumnFunction<N, ?> numerator, ColumnFunction<D, ?> denominator, Boolean asc) {
+        if (execute) {
+            this.orderList.add(new Order(numerator, denominator, asc != null && asc ? "ASC" : "DESC"));
+        }
+        return this;
+    }
+
 
     static class Order {
         /**
          * column name
          */
         private ColumnFunction<?, ?> column;
+
+        private ColumnFunction<?, ?> numerator;
+
+        private ColumnFunction<?, ?> denominator;
 
         private String columnName;
         /**
@@ -138,12 +174,34 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
             this.orderType = "";
         }
 
+        public Order(ColumnFunction<?, ?> numerator, ColumnFunction<?, ?> denominator, String orderType) {
+            this.numerator = numerator;
+            this.denominator = denominator;
+            this.orderType = orderType;
+        }
+
         public ColumnFunction<?, ?> getColumn() {
             return column;
         }
 
         public void setColumn(ColumnFunction<?, ?> column) {
             this.column = column;
+        }
+
+        public ColumnFunction<?, ?> getNumerator() {
+            return numerator;
+        }
+
+        public void setNumerator(ColumnFunction<?, ?> numerator) {
+            this.numerator = numerator;
+        }
+
+        public ColumnFunction<?, ?> getDenominator() {
+            return denominator;
+        }
+
+        public void setDenominator(ColumnFunction<?, ?> denominator) {
+            this.denominator = denominator;
         }
 
         public String getOrderType() {

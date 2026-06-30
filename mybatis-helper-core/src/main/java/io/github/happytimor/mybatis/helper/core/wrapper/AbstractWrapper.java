@@ -118,17 +118,17 @@ public abstract class AbstractWrapper<T> {
         stringBuffer.append("ORDER BY ");
         for (int i = 0; i < orderList.size() - 1; i++) {
             OrderWrapper.Order order = orderList.get(i);
-            String columnName = order.getColumnName();
-            if (StringUtils.isEmpty(columnName)) {
-                columnName = ColumnUtils.getColumnName(order.getColumn());
-            }
-            if (order.getColumn() != null) {
-                columnName = ColumnUtils.getTableAlias(this.subTable, order.getColumn()) + columnName;
-            }
-
-            stringBuffer.append(columnName).append(" ").append(order.getOrderType()).append(", ");
+            stringBuffer.append(getOrderColumnSegment(order)).append(" ").append(order.getOrderType()).append(", ");
         }
         OrderWrapper.Order order = orderList.get(orderList.size() - 1);
+        stringBuffer.append(getOrderColumnSegment(order)).append(" ").append(order.getOrderType());
+        return stringBuffer.toString();
+    }
+
+    private String getOrderColumnSegment(OrderWrapper.Order order) {
+        if (order.getNumerator() != null && order.getDenominator() != null) {
+            return "(" + getOrderColumnName(order.getNumerator()) + " / " + getOrderColumnName(order.getDenominator()) + ")";
+        }
         String columnName = order.getColumnName();
         if (StringUtils.isEmpty(columnName)) {
             columnName = ColumnUtils.getColumnName(order.getColumn());
@@ -136,8 +136,11 @@ public abstract class AbstractWrapper<T> {
         if (order.getColumn() != null) {
             columnName = ColumnUtils.getTableAlias(this.subTable, order.getColumn()) + columnName;
         }
-        stringBuffer.append(columnName).append(" ").append(order.getOrderType());
-        return stringBuffer.toString();
+        return columnName;
+    }
+
+    private String getOrderColumnName(ColumnFunction<?, ?> column) {
+        return ColumnUtils.getTableAlias(this.subTable, column) + ColumnUtils.getColumnName(column);
     }
 
     /**

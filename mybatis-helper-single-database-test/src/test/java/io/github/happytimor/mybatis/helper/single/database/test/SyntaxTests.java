@@ -704,6 +704,17 @@ public class SyntaxTests {
     }
 
     /**
+     * 除法排序测试
+     */
+    @Test
+    public void orderByDivide() {
+        String orderSegment = new SelectWrapper<User>()
+                .orderByDivide(User::getAge, User::getUserGrade, false)
+                .getOrderSegment();
+        assert "ORDER BY (`age` / `user_grade`) DESC".equals(orderSegment);
+    }
+
+    /**
      * 随机排序测试
      */
     @Test
