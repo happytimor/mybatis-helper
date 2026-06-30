@@ -47,9 +47,6 @@ public class JoinWrapper<T> extends WhereWrapper<T>
             if (subTable.putIfAbsent(leftClazz, tableIndex) == null) {
                 tableIndex++;
             }
-            if (subTable.putIfAbsent(leftClazz, tableIndex) == null) {
-                tableIndex++;
-            }
             joinInfoList.add(new JoinInfo(keyword, leftClazz, leftColumn, rightColumn));
         }
         return this;

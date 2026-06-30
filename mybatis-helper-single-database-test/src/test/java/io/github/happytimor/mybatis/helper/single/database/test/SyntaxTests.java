@@ -2,8 +2,12 @@ package io.github.happytimor.mybatis.helper.single.database.test;
 
 import io.github.happytimor.mybatis.helper.core.common.Operation;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
+import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.wrapper.SelectJoinWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.CourseInfo;
+import io.github.happytimor.mybatis.helper.single.database.test.domain.Student;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.User;
 import io.github.happytimor.mybatis.helper.single.database.test.service.GenerateService;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserService;
@@ -711,7 +715,36 @@ public class SyntaxTests {
         String orderSegment = new SelectWrapper<User>()
                 .orderByDivide(User::getAge, User::getUserGrade, false)
                 .getOrderSegment();
-        assert "ORDER BY (`age` / `user_grade`) DESC".equals(orderSegment);
+        assert "ORDER BY (`age` / NULLIF(`user_grade`, 0)) DESC".equals(orderSegment);
+    }
+
+    /**
+     * 除法排序空字段测试
+     */
+    @Test
+    public void orderByDivideWithNullColumn() {
+        assertOrderByDivideIllegalArgument(null, User::getUserGrade);
+        assertOrderByDivideIllegalArgument(User::getAge, null);
+    }
+
+    /**
+     * join别名测试
+     */
+    @Test
+    public void joinAlias() {
+        String joinSegment = new SelectJoinWrapper<Student>()
+                .leftJoin(CourseInfo.class, CourseInfo::getId, Student::getBestCourseId)
+                .getJoinSegment();
+        assert "LEFT JOIN `course_info` t2 ON t2.`id` = t1.`best_course_id`".equals(joinSegment);
+    }
+
+    private void assertOrderByDivideIllegalArgument(ColumnFunction<User, ?> numerator, ColumnFunction<User, ?> denominator) {
+        try {
+            new SelectWrapper<User>().orderByDivide(numerator, denominator, true);
+        } catch (IllegalArgumentException e) {
+            return;
+        }
+        throw new RuntimeException("orderByDivide should reject null column");
     }
 
     /**

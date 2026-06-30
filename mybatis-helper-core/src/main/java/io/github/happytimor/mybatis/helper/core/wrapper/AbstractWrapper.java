@@ -127,7 +127,7 @@ public abstract class AbstractWrapper<T> {
 
     private String getOrderColumnSegment(OrderWrapper.Order order) {
         if (order.getNumerator() != null && order.getDenominator() != null) {
-            return "(" + getOrderColumnName(order.getNumerator()) + " / " + getOrderColumnName(order.getDenominator()) + ")";
+            return "(" + getOrderColumnName(order.getNumerator()) + " / NULLIF(" + getOrderColumnName(order.getDenominator()) + ", 0))";
         }
         String columnName = order.getColumnName();
         if (StringUtils.isEmpty(columnName)) {

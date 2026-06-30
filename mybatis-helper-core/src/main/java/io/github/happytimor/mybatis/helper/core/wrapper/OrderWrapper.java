@@ -142,6 +142,12 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      */
     public <N, D> OrderWrapper<T> orderByDivide(boolean execute, ColumnFunction<N, ?> numerator, ColumnFunction<D, ?> denominator, Boolean asc) {
         if (execute) {
+            if (numerator == null) {
+                throw new IllegalArgumentException("numerator column can not be null");
+            }
+            if (denominator == null) {
+                throw new IllegalArgumentException("denominator column can not be null");
+            }
             this.orderList.add(new Order(numerator, denominator, asc != null && asc ? "ASC" : "DESC"));
         }
         return this;
