@@ -11,8 +11,6 @@ import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author chenpeng
@@ -103,22 +101,45 @@ public class ColumnUtils {
         return sb.toString();
     }
 
-    private static final Pattern LINE_PATTERN = Pattern.compile("_(\\w)");
-
     /**
-     * underscore 2 camel
+     * 下划线转驼峰
      *
-     * @param underscore underscore string
-     * @return camel string
+     * @param underscore 下划线字段名称
+     * @return 驼峰名称
      */
     public static String underscoreToCamelCase(String underscore) {
-        Matcher matcher = LINE_PATTERN.matcher(underscore);
-        StringBuffer sb = new StringBuffer();
-        while (matcher.find()) {
-            matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
+        if (underscore == null || underscore.trim().isEmpty()) {
+            throw new RuntimeException("underscoreToCamelCase error, underscore is empty");
         }
-        matcher.appendTail(sb);
+
+        int len = underscore.length();
+        StringBuilder sb = new StringBuilder(len);
+        boolean upperNext = false;
+        for (int i = 0; i < len; i++) {
+            char c = underscore.charAt(i);
+            if (c == '_') {
+                upperNext = true;
+                continue;
+            }
+            if (upperNext) {
+                sb.append(Character.toUpperCase(c));
+                upperNext = false;
+                continue;
+            }
+            sb.append(c);
+        }
         return sb.toString();
+    }
+
+    /**
+     * 下划线转驼峰
+     *
+     * @param column 字段名称
+     * @return 驼峰名称
+     */
+    public static String underscoreToCamelCase(ColumnFunction<?, ?> column) {
+        LambdaColumn lambdaColumn = getFieldNameColumn(column);
+        return underscoreToCamelCase(lambdaColumn.getName());
     }
 
     /**
