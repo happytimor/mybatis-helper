@@ -2,6 +2,7 @@ package io.github.happytimor.mybatis.helper.core.wrapper;
 
 import io.github.happytimor.mybatis.helper.core.annotation.TableName;
 import io.github.happytimor.mybatis.helper.core.common.Constants;
+import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.common.SelectColumn;
 import io.github.happytimor.mybatis.helper.core.common.SqlFunctionName;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
@@ -323,7 +324,7 @@ public abstract class AbstractWrapper<T> {
         if (parameterArray != null && parameterArray.length > 0) {
             StringJoiner joiner = new StringJoiner(",");
             for (String param : parameterArray) {
-                joiner.add(" '" + param + "'");
+                joiner.add(this.bindSqlFunctionParameter(param));
             }
             return function + "(" + columnName + "," + joiner + ")" + alias;
         }
@@ -332,7 +333,13 @@ public abstract class AbstractWrapper<T> {
         if ("".equals(parameter)) {
             return function + "(" + columnName + ")" + alias;
         }
-        return function + "(" + columnName + "," + "'" + parameter + "')" + alias;
+        return function + "(" + columnName + "," + this.bindSqlFunctionParameter(parameter) + ")" + alias;
+    }
+
+    private String bindSqlFunctionParameter(Object value) {
+        String key = "params_func_" + counter.incrementAndGet();
+        paramNameValuePairs.put(key, value);
+        return "#{" + Params.WRAPPER + ".paramNameValuePairs." + key + "}";
     }
 
     /**

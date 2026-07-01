@@ -272,6 +272,7 @@ public class MybatisHelper implements ApplicationContextAware {
                 if (logger.isDebugEnabled()) {
                     logger.debug("{} has no primary key, skip inject", mapperClass.getName());
                 }
+                continue;
             }
             registerMethod(mapperClass, mapperBuilderAssistant, modelClass, tableInfo, mappedStatementNames, abstractMethod);
         }

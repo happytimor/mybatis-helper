@@ -37,6 +37,27 @@ public class MultipleTableTests {
 
     String name = "mybatis-helper-";
 
+    @Test
+    public void rejectIllegalTableNum() {
+        try {
+            multipleUserService.selectList(tableNum + " where 1=1", new SelectWrapper<User>());
+        } catch (RuntimeException e) {
+            assert hasCauseMessage(e, "tableNum contains illegal characters");
+            return;
+        }
+        throw new RuntimeException("illegal tableNum should be rejected");
+    }
+
+    private boolean hasCauseMessage(Throwable throwable, String message) {
+        while (throwable != null) {
+            if (throwable.getMessage() != null && throwable.getMessage().contains(message)) {
+                return true;
+            }
+            throwable = throwable.getCause();
+        }
+        return false;
+    }
+
     /**
      * 单条插入、根据主键查找、根据主键删除联合测试
      */

@@ -7,6 +7,7 @@ public class SqlScriptUtils {
     private static final String QUOTE = "\"";
     private static final String NEWLINE = "\n";
     private static final String RIGHT_CHEV = ">";
+    private static final String TABLE_NUM_PATTERN = "[A-Za-z0-9_]+";
 
     /**
      * 生成 foreach 标签的脚本
@@ -71,5 +72,18 @@ public class SqlScriptUtils {
 
     private static boolean isNotEmpty(String str) {
         return str != null && str.length() != 0;
+    }
+
+    /**
+     * Validate split-table suffixes before they are interpolated into SQL.
+     *
+     * @param tableNum split-table suffix
+     * @return validated suffix
+     */
+    public static String safeTableNum(String tableNum) {
+        if (!isNotEmpty(tableNum) || !tableNum.matches(TABLE_NUM_PATTERN)) {
+            throw new IllegalArgumentException("tableNum contains illegal characters");
+        }
+        return tableNum;
     }
 }

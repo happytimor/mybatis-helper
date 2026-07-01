@@ -78,47 +78,49 @@ public class VelocityTemplateEngine implements TemplateEngine {
 
             // 遍历需要生成的表
             for (String tableName : strategyConfig.getTableNames()) {
-                // 从数据库获取表信息
-                GenTable genTable = getGenTableFromDatabase(tableName);
-                if (genTable == null) {
-                    log.warn("表 {} 不存在，跳过生成", tableName);
-                    continue;
-                }
-
-                // 从数据库获取表列信息
-                List<GenTableColumn> genTableColumns = getGenTableColumnsFromDatabase(tableName);
-                
-                // 过滤掉不需要的字段
-                List<GenTableColumn> filteredColumns = new ArrayList<>();
-                for (GenTableColumn column : genTableColumns) {
-                    // 跳过gmt_modified字段
-                    if (!"gmt_modified".equalsIgnoreCase(column.getColumnName())) {
-                        filteredColumns.add(column);
+                try (Connection connection = DriverManager.getConnection(dataSourceUrl, dataSourceUsername, dataSourcePassword)) {
+                    // 从数据库获取表信息
+                    GenTable genTable = getGenTableFromDatabase(connection, tableName);
+                    if (genTable == null) {
+                        log.warn("表 {} 不存在，跳过生成", tableName);
+                        continue;
                     }
-                }
-                
-                // 初始化列字段信息
-                for (GenTableColumn column : filteredColumns) {
-                    GenUtils.initColumnField(column);
-                }
-                genTable.setColumns(filteredColumns);
 
-                // 设置主键列
-                for (GenTableColumn column : filteredColumns) {
-                    if (column.isPk()) {
-                        genTable.setPkColumn(column);
-                        break;
+                    // 从数据库获取表列信息
+                    List<GenTableColumn> genTableColumns = getGenTableColumnsFromDatabase(connection, tableName);
+
+                    // 过滤掉不需要的字段
+                    List<GenTableColumn> filteredColumns = new ArrayList<>();
+                    for (GenTableColumn column : genTableColumns) {
+                        // 跳过gmt_modified字段
+                        if (!"gmt_modified".equalsIgnoreCase(column.getColumnName())) {
+                            filteredColumns.add(column);
+                        }
                     }
+
+                    // 初始化列字段信息
+                    for (GenTableColumn column : filteredColumns) {
+                        GenUtils.initColumnField(column);
+                    }
+                    genTable.setColumns(filteredColumns);
+
+                    // 设置主键列
+                    for (GenTableColumn column : filteredColumns) {
+                        if (column.isPk()) {
+                            genTable.setPkColumn(column);
+                            break;
+                        }
+                    }
+
+                    // 初始化表信息
+                    initGenTable(genTable, globalConfig, packageConfig, strategyConfig);
+
+                    // 准备Velocity上下文
+                    VelocityContext context = prepareContext(genTable, packageConfig);
+
+                    // 生成代码
+                    generateCodeFiles(genTable, context, globalConfig, strategyConfig);
                 }
-
-                // 初始化表信息
-                initGenTable(genTable, globalConfig, packageConfig, strategyConfig);
-
-                // 准备Velocity上下文
-                VelocityContext context = prepareContext(genTable, packageConfig);
-
-                // 生成代码
-                generateCodeFiles(genTable, context, globalConfig, strategyConfig);
             }
 
             log.info("代码生成完成");
@@ -143,32 +145,18 @@ public class VelocityTemplateEngine implements TemplateEngine {
      * @param tableName 表名
      * @return 表信息
      */
-    private GenTable getGenTableFromDatabase(String tableName) {
+    private GenTable getGenTableFromDatabase(Connection connection, String tableName) throws SQLException {
         GenTable genTable = null;
-        Connection connection = null;
-        ResultSet resultSet = null;
-        DatabaseMetaData metaData = null;
-
-        try {
-            connection = DriverManager.getConnection(dataSourceUrl, dataSourceUsername, dataSourcePassword);
-            metaData = connection.getMetaData();
-
-            // 获取当前连接的目录和模式
-            String catalog = connection.getCatalog();
-            String schema = connection.getSchema();
-
-            // 使用实际的目录和模式查询表，避免查询所有数据库
-            resultSet = metaData.getTables(catalog, schema, tableName, new String[]{"TABLE"});
-
+        DatabaseMetaData metaData = connection.getMetaData();
+        String catalog = connection.getCatalog();
+        String schema = connection.getSchema();
+        // 使用实际的目录和模式查询表，避免查询所有数据库
+        try (ResultSet resultSet = metaData.getTables(catalog, schema, tableName, new String[]{"TABLE"})) {
             if (resultSet.next()) {
                 genTable = new GenTable();
                 genTable.setTableName(resultSet.getString("TABLE_NAME"));
                 genTable.setTableComment(resultSet.getString("REMARKS"));
             }
-        } catch (SQLException e) {
-            log.error("获取表信息失败：{}", e.getMessage(), e);
-        } finally {
-            closeResources(resultSet, null, connection);
         }
 
         return genTable;
@@ -180,30 +168,21 @@ public class VelocityTemplateEngine implements TemplateEngine {
      * @param tableName 表名
      * @return 表列信息列表
      */
-    private List<GenTableColumn> getGenTableColumnsFromDatabase(String tableName) {
+    private List<GenTableColumn> getGenTableColumnsFromDatabase(Connection connection, String tableName) throws SQLException {
         List<GenTableColumn> columns = new ArrayList<>();
-        Connection connection = null;
-        ResultSet resultSet = null;
-        DatabaseMetaData metaData = null;
+        DatabaseMetaData metaData = connection.getMetaData();
+        String catalog = connection.getCatalog();
+        String schema = connection.getSchema();
 
-        try {
-            connection = DriverManager.getConnection(dataSourceUrl, dataSourceUsername, dataSourcePassword);
-            metaData = connection.getMetaData();
-
-            // 获取当前连接的目录和模式
-            String catalog = connection.getCatalog();
-            String schema = connection.getSchema();
-
-            // 先查主键
-            Set<String> pkSet = new HashSet<>();
-            try (ResultSet pkRs = metaData.getPrimaryKeys(catalog, schema, tableName)) {
-                while (pkRs.next()) {
-                    pkSet.add(pkRs.getString("COLUMN_NAME"));
-                }
+        // 先查主键
+        Set<String> pkSet = new HashSet<>();
+        try (ResultSet pkRs = metaData.getPrimaryKeys(catalog, schema, tableName)) {
+            while (pkRs.next()) {
+                pkSet.add(pkRs.getString("COLUMN_NAME"));
             }
+        }
 
-            resultSet = metaData.getColumns(catalog, schema, tableName, null);
-
+        try (ResultSet resultSet = metaData.getColumns(catalog, schema, tableName, null)) {
             while (resultSet.next()) {
                 GenTableColumn column = new GenTableColumn();
                 String columnName = resultSet.getString("COLUMN_NAME");
@@ -213,10 +192,6 @@ public class VelocityTemplateEngine implements TemplateEngine {
                 column.setPk(pkSet.contains(columnName));
                 columns.add(column);
             }
-        } catch (SQLException e) {
-            log.error("获取表列信息失败：{}", e.getMessage(), e);
-        } finally {
-            closeResources(resultSet, null, connection);
         }
 
         return columns;
@@ -319,26 +294,4 @@ public class VelocityTemplateEngine implements TemplateEngine {
         }
     }
 
-    /**
-     * 关闭资源
-     *
-     * @param resultSet  结果集
-     * @param statement  语句
-     * @param connection 连接
-     */
-    private void closeResources(ResultSet resultSet, Statement statement, Connection connection) {
-        try {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            log.error("关闭资源失败：{}", e.getMessage(), e);
-        }
-    }
 }

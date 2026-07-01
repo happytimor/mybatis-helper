@@ -117,6 +117,27 @@ public class SyntaxTests {
         });
     }
 
+    @Test
+    public void replaceFunctionParameterShouldBeBound() {
+        User user = this.generateService.generateOne();
+        String sourceName = "mybatis-helper-' or 1=1";
+        String targetName = "mybatis-helper-safe";
+        user.setName(sourceName);
+        this.userService.insert(user);
+
+        try {
+            int updateCount = this.userService.update(new UpdateWrapper<User>()
+                    .set(User::getName, SqlFunction.replace(User::getName, sourceName, targetName))
+                    .eq(User::getId, user.getId())
+            );
+            User dbUser = this.userService.selectById(user.getId());
+            assert updateCount == 1;
+            assert targetName.equals(dbUser.getName());
+        } finally {
+            this.userService.deleteById(user.getId());
+        }
+    }
+
     /**
      * 单个select的as测试
      */

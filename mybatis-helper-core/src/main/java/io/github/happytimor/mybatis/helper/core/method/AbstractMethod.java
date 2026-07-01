@@ -3,6 +3,7 @@ package io.github.happytimor.mybatis.helper.core.method;
 import io.github.happytimor.mybatis.helper.core.common.Params;
 import io.github.happytimor.mybatis.helper.core.metadata.Result;
 import io.github.happytimor.mybatis.helper.core.metadata.TableInfo;
+import io.github.happytimor.mybatis.helper.core.util.SqlScriptUtils;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
 import org.apache.ibatis.executor.keygen.NoKeyGenerator;
@@ -142,7 +143,9 @@ public abstract class AbstractMethod {
      */
     protected String parseTableName() {
         if (this.tableInfo.isMultipleTable()) {
-            return this.tableInfo.getTableName() + this.tableInfo.getMultipleTableConnector() + "${" + Params.TABLE_NUM + "}";
+            return this.tableInfo.getTableName()
+                    + this.tableInfo.getMultipleTableConnector()
+                    + "${@" + SqlScriptUtils.class.getName() + "@safeTableNum(" + Params.TABLE_NUM + ")}";
         }
         return this.tableInfo.getTableName();
     }

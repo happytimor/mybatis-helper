@@ -5,7 +5,10 @@ import io.github.happytimor.mybatis.helper.core.wrapper.DeleteWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
 import io.github.happytimor.mybatis.helper.single.database.test.domain.UserNoKey;
+import io.github.happytimor.mybatis.helper.single.database.test.mapper.UserNoKeyMapper;
 import io.github.happytimor.mybatis.helper.single.database.test.service.UserNoKeyService;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -30,6 +33,21 @@ public class UserNoKeyTests {
     private final static Logger logger = LoggerFactory.getLogger(UserNoKeyTests.class);
     @Resource
     private UserNoKeyService userNoKeyService;
+    @Resource
+    private SqlSessionFactory sqlSessionFactory;
+
+    @Test
+    public void shouldNotInjectIdMethods() {
+        Configuration configuration = sqlSessionFactory.getConfiguration();
+        String mapperName = UserNoKeyMapper.class.getName();
+
+        assert !configuration.hasStatement(mapperName + ".deleteById", false);
+        assert !configuration.hasStatement(mapperName + ".deleteByIdList", false);
+        assert !configuration.hasStatement(mapperName + ".updateById", false);
+        assert !configuration.hasStatement(mapperName + ".batchUpdateById", false);
+        assert !configuration.hasStatement(mapperName + ".selectById", false);
+        assert !configuration.hasStatement(mapperName + ".selectByIdList", false);
+    }
 
     /**
      * 单条插入、根据主键查找、根据主键删除联合测试
