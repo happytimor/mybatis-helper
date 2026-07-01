@@ -13,6 +13,19 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
 
 
     /**
+     * merge order conditions from another wrapper
+     *
+     * @param orderWrapper order wrapper
+     * @return children
+     */
+    public OrderWrapper<T> orderMerge(OrderWrapper<?> orderWrapper) {
+        if (orderWrapper != null) {
+            this.orderList.addAll(orderWrapper.orderList);
+        }
+        return this;
+    }
+
+    /**
      * asc order
      *
      * @param column column name

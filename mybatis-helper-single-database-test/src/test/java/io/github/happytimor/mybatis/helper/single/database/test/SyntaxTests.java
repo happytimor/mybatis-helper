@@ -3,6 +3,7 @@ package io.github.happytimor.mybatis.helper.single.database.test;
 import io.github.happytimor.mybatis.helper.core.common.Operation;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.wrapper.OrderWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectJoinWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.UpdateWrapper;
@@ -726,6 +727,24 @@ public class SyntaxTests {
                 assert dbUserList.get(i).getId().equals(idUserList.get(i).getId());
             }
         });
+    }
+
+    @Test
+    public void orderMerge() {
+        OrderWrapper<User> orderWrapper = new OrderWrapper<User>()
+                .orderByAsc(User::getAge)
+                .orderByDesc(User::getId);
+
+        String orderSegment = new SelectWrapper<User>()
+                .orderByDesc(User::getUserGrade)
+                .orderMerge(orderWrapper)
+                .getOrderSegment();
+        assert "ORDER BY `user_grade` DESC, `age` ASC, `id` DESC".equals(orderSegment);
+
+        String emptyOrderSegment = new SelectWrapper<User>()
+                .orderMerge(null)
+                .getOrderSegment();
+        assert "".equals(emptyOrderSegment);
     }
 
     /**
