@@ -39,6 +39,16 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     /**
      * asc order
      *
+     * @param columnName column name
+     * @return children
+     */
+    public OrderWrapper<T> orderByAsc(String columnName) {
+        return orderByAsc(true, columnName);
+    }
+
+    /**
+     * asc order
+     *
      * @param execute execute method if `execute` set true
      * @param column  column name
      * @param <E>     E
@@ -46,6 +56,17 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      */
     public <E> OrderWrapper<T> orderByAsc(boolean execute, ColumnFunction<E, ?> column) {
         return this.orderByAsc(execute, column, true);
+    }
+
+    /**
+     * asc order
+     *
+     * @param execute    execute method if `execute` set true
+     * @param columnName column name
+     * @return children
+     */
+    public OrderWrapper<T> orderByAsc(boolean execute, String columnName) {
+        return this.orderByAsc(execute, columnName, true);
     }
 
     /**
@@ -65,6 +86,21 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     }
 
     /**
+     * asc order
+     *
+     * @param execute    execute method if `execute` set true
+     * @param columnName column name
+     * @param asc        asc if true
+     * @return children
+     */
+    public OrderWrapper<T> orderByAsc(boolean execute, String columnName, Boolean asc) {
+        if (execute) {
+            this.orderList.add(new Order(columnName, asc != null && asc ? "ASC" : "DESC"));
+        }
+        return this;
+    }
+
+    /**
      * desc order
      *
      * @param column column name
@@ -73,6 +109,16 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
      */
     public <E> OrderWrapper<T> orderByDesc(ColumnFunction<E, ?> column) {
         return orderByDesc(true, column);
+    }
+
+    /**
+     * desc order
+     *
+     * @param columnName column name
+     * @return children
+     */
+    public OrderWrapper<T> orderByDesc(String columnName) {
+        return orderByDesc(true, columnName);
     }
 
     /**
@@ -93,6 +139,20 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     /**
      * desc order
      *
+     * @param execute    execute method if `execute` set true
+     * @param columnName column name
+     * @return children
+     */
+    public OrderWrapper<T> orderByDesc(boolean execute, String columnName) {
+        if (execute) {
+            this.orderList.add(new Order(columnName, "DESC"));
+        }
+        return this;
+    }
+
+    /**
+     * desc order
+     *
      * @param execute execute method if `execute` set true
      * @param column  column name
      * @param desc    desc if true
@@ -101,6 +161,21 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     public OrderWrapper<T> orderByDesc(boolean execute, ColumnFunction<T, ?> column, Boolean desc) {
         if (execute) {
             this.orderList.add(new Order(column, desc != null && desc ? "DESC" : "ASC"));
+        }
+        return this;
+    }
+
+    /**
+     * desc order
+     *
+     * @param execute    execute method if `execute` set true
+     * @param columnName column name
+     * @param desc       desc if true
+     * @return children
+     */
+    public OrderWrapper<T> orderByDesc(boolean execute, String columnName, Boolean desc) {
+        if (execute) {
+            this.orderList.add(new Order(columnName, desc != null && desc ? "DESC" : "ASC"));
         }
         return this;
     }
@@ -191,6 +266,11 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
         public Order(String columnName) {
             this.columnName = columnName;
             this.orderType = "";
+        }
+
+        public Order(String columnName, String orderType) {
+            this.columnName = columnName;
+            this.orderType = orderType;
         }
 
         public Order(ColumnFunction<?, ?> numerator, ColumnFunction<?, ?> denominator, String orderType) {

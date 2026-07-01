@@ -747,6 +747,15 @@ public class SyntaxTests {
         assert "".equals(emptyOrderSegment);
     }
 
+    @Test
+    public void orderByColumnName() {
+        String orderSegment = new SelectWrapper<User>()
+                .orderByAsc("sumAge")
+                .orderByDesc("maxUserGrade")
+                .getOrderSegment();
+        assert "ORDER BY sumAge ASC, maxUserGrade DESC".equals(orderSegment);
+    }
+
     /**
      * 除法排序测试
      */
