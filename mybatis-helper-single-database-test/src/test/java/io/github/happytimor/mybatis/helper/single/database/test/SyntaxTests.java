@@ -3,6 +3,7 @@ package io.github.happytimor.mybatis.helper.single.database.test;
 import io.github.happytimor.mybatis.helper.core.common.Operation;
 import io.github.happytimor.mybatis.helper.core.function.SqlFunction;
 import io.github.happytimor.mybatis.helper.core.metadata.ColumnFunction;
+import io.github.happytimor.mybatis.helper.core.util.ColumnUtils;
 import io.github.happytimor.mybatis.helper.core.wrapper.OrderWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectJoinWrapper;
 import io.github.happytimor.mybatis.helper.core.wrapper.SelectWrapper;
@@ -751,9 +752,9 @@ public class SyntaxTests {
     public void orderByColumnName() {
         String orderSegment = new SelectWrapper<User>()
                 .orderByAsc("sumAge")
-                .orderByDesc("maxUserGrade")
+                .orderByDesc(ColumnUtils.underscoreToCamelCase(User::getUserGrade))
                 .getOrderSegment();
-        assert "ORDER BY sumAge ASC, maxUserGrade DESC".equals(orderSegment);
+        assert "ORDER BY sumAge ASC, userGrade DESC".equals(orderSegment);
     }
 
     /**
@@ -763,8 +764,9 @@ public class SyntaxTests {
     public void orderByDivide() {
         String orderSegment = new SelectWrapper<User>()
                 .orderByDivide(User::getAge, User::getUserGrade, false)
+                .orderByDivide("sumAge", "countUser", true)
                 .getOrderSegment();
-        assert "ORDER BY (`age` / NULLIF(`user_grade`, 0)) DESC".equals(orderSegment);
+        assert "ORDER BY (`age` / NULLIF(`user_grade`, 0)) DESC, (sumAge / NULLIF(countUser, 0)) ASC".equals(orderSegment);
     }
 
     /**
@@ -774,6 +776,10 @@ public class SyntaxTests {
     public void orderByDivideWithNullColumn() {
         assertOrderByDivideIllegalArgument(null, User::getUserGrade);
         assertOrderByDivideIllegalArgument(User::getAge, null);
+        assertOrderByDivideIllegalArgument(null, "countUser");
+        assertOrderByDivideIllegalArgument("sumAge", null);
+        assertOrderByDivideIllegalArgument("", "countUser");
+        assertOrderByDivideIllegalArgument("sumAge", "");
     }
 
     /**
@@ -794,6 +800,15 @@ public class SyntaxTests {
             return;
         }
         throw new RuntimeException("orderByDivide should reject null column");
+    }
+
+    private void assertOrderByDivideIllegalArgument(String numerator, String denominator) {
+        try {
+            new SelectWrapper<User>().orderByDivide(numerator, denominator, true);
+        } catch (IllegalArgumentException e) {
+            return;
+        }
+        throw new RuntimeException("orderByDivide should reject empty column");
     }
 
     /**

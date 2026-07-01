@@ -130,6 +130,9 @@ public abstract class AbstractWrapper<T> {
         if (order.getNumerator() != null && order.getDenominator() != null) {
             return "(" + getOrderColumnName(order.getNumerator()) + " / NULLIF(" + getOrderColumnName(order.getDenominator()) + ", 0))";
         }
+        if (!StringUtils.isEmpty(order.getNumeratorColumnName()) && !StringUtils.isEmpty(order.getDenominatorColumnName())) {
+            return "(" + order.getNumeratorColumnName() + " / NULLIF(" + order.getDenominatorColumnName() + ", 0))";
+        }
         String columnName = order.getColumnName();
         if (StringUtils.isEmpty(columnName)) {
             columnName = ColumnUtils.getColumnName(order.getColumn());

@@ -137,7 +137,7 @@ public class ColumnUtils {
      * @param column 字段名称
      * @return 驼峰名称
      */
-    public static String underscoreToCamelCase(ColumnFunction<?, ?> column) {
+    public static <T> String underscoreToCamelCase(ColumnFunction<T, ?> column) {
         LambdaColumn lambdaColumn = getFieldNameColumn(column);
         return underscoreToCamelCase(lambdaColumn.getName());
     }

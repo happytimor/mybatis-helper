@@ -220,6 +220,18 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
     /**
      * divide order
      *
+     * @param numerator   numerator column
+     * @param denominator denominator column
+     * @param asc         asc if true
+     * @return children
+     */
+    public OrderWrapper<T> orderByDivide(String numerator, String denominator, Boolean asc) {
+        return orderByDivide(true, numerator, denominator, asc);
+    }
+
+    /**
+     * divide order
+     *
      * @param execute     execute method if `execute` set true
      * @param numerator   numerator column
      * @param denominator denominator column
@@ -241,6 +253,28 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
         return this;
     }
 
+    /**
+     * divide order
+     *
+     * @param execute     execute method if `execute` set true
+     * @param numerator   numerator column
+     * @param denominator denominator column
+     * @param asc         asc if true
+     * @return children
+     */
+    public OrderWrapper<T> orderByDivide(boolean execute, String numerator, String denominator, Boolean asc) {
+        if (execute) {
+            if (numerator == null || "".equals(numerator)) {
+                throw new IllegalArgumentException("numerator column can not be null");
+            }
+            if (denominator == null || "".equals(denominator)) {
+                throw new IllegalArgumentException("denominator column can not be null");
+            }
+            this.orderList.add(new Order(numerator, denominator, asc != null && asc ? "ASC" : "DESC"));
+        }
+        return this;
+    }
+
 
     static class Order {
         /**
@@ -251,6 +285,10 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
         private ColumnFunction<?, ?> numerator;
 
         private ColumnFunction<?, ?> denominator;
+
+        private String numeratorColumnName;
+
+        private String denominatorColumnName;
 
         private String columnName;
         /**
@@ -270,6 +308,12 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
 
         public Order(String columnName, String orderType) {
             this.columnName = columnName;
+            this.orderType = orderType;
+        }
+
+        public Order(String numeratorColumnName, String denominatorColumnName, String orderType) {
+            this.numeratorColumnName = numeratorColumnName;
+            this.denominatorColumnName = denominatorColumnName;
             this.orderType = orderType;
         }
 
@@ -301,6 +345,22 @@ public class OrderWrapper<T> extends LimitWrapper<T> {
 
         public void setDenominator(ColumnFunction<?, ?> denominator) {
             this.denominator = denominator;
+        }
+
+        public String getNumeratorColumnName() {
+            return numeratorColumnName;
+        }
+
+        public void setNumeratorColumnName(String numeratorColumnName) {
+            this.numeratorColumnName = numeratorColumnName;
+        }
+
+        public String getDenominatorColumnName() {
+            return denominatorColumnName;
+        }
+
+        public void setDenominatorColumnName(String denominatorColumnName) {
+            this.denominatorColumnName = denominatorColumnName;
         }
 
         public String getOrderType() {
