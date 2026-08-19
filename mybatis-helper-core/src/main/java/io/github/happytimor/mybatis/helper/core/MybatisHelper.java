@@ -79,8 +79,11 @@ public class MybatisHelper implements ApplicationContextAware {
      */
     private final List<AbstractMethod> uniqueIndexMethodList = Arrays.asList(
             new ReplaceInto(),
+            new BatchReplaceInto(),
             new InsertIgnoreInto(),
-            new InsertOrUpdateWithUniqueIndex()
+            new BatchInsertIgnoreInto(),
+            new InsertOrUpdateWithUniqueIndex(),
+            new BatchInsertOrUpdateWithUniqueIndex()
     );
     /**
      * skipped method list for no primary key mapper

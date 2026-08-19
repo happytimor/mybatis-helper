@@ -13,13 +13,25 @@ public enum SqlMethod {
      */
     INSERT_OR_UPDATE_WITH_UNIQUE_INDEX("insertOrUpdateWithUniqueIndex", "<script>\nINSERT INTO `%s` \n %s \n VALUES \n %s\n on duplicate key update %s</script>"),
     /**
+     * batch insert or update rows(update will replace insert when unique index conflict)
+     */
+    BATCH_INSERT_OR_UPDATE_WITH_UNIQUE_INDEX("batchInsertOrUpdateWithUniqueIndex", "<script>\nINSERT INTO `%s` %s VALUES %s ON DUPLICATE KEY UPDATE %s\n</script>"),
+    /**
      * insert ignore into
      */
     INSERT_IGNORE_INTO("insertIgnoreInto", "<script>\nINSERT IGNORE INTO `%s` \n %s \n VALUES \n %s\n</script>"),
     /**
+     * batch insert rows and ignore unique index conflicts
+     */
+    BATCH_INSERT_IGNORE_INTO("batchInsertIgnoreInto", "<script>\nINSERT IGNORE INTO `%s` %s VALUES %s\n</script>"),
+    /**
      * insert replace into
      */
     REPLACE_INTO("replaceInto", "<script>\nREPLACE INTO `%s` \n %s \n VALUES \n %s\n</script>"),
+    /**
+     * batch replace rows
+     */
+    BATCH_REPLACE_INTO("batchReplaceInto", "<script>\nREPLACE INTO `%s` %s VALUES %s\n</script>"),
     /**
      * batch insert rows
      */

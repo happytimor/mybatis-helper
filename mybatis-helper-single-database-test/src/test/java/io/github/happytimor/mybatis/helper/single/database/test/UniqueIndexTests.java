@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,6 +75,32 @@ public class UniqueIndexTests {
     }
 
     /**
+     * batch insert ignore into 语法测试
+     */
+    @Test
+    public void batchInsertIgnoreInto() {
+        this.userUniqueIndexService.delete(new DeleteWrapper<UserUniqueIndex>()
+                .in(UserUniqueIndex::getCardNo, Arrays.asList("batch-ignore-1", "batch-ignore-2"))
+        );
+        this.userUniqueIndexService.batchInsertIgnoreInto(Arrays.asList(
+                new UserUniqueIndex("batch-ignore-1", "zhangsan"),
+                new UserUniqueIndex("batch-ignore-1", "lisi"),
+                new UserUniqueIndex("batch-ignore-2", "wangwu")
+        ), 2);
+
+        List<UserUniqueIndex> list = this.userUniqueIndexService.selectList(new SelectWrapper<UserUniqueIndex>()
+                .in(UserUniqueIndex::getCardNo, Arrays.asList("batch-ignore-1", "batch-ignore-2"))
+                .orderByAsc(UserUniqueIndex::getCardNo)
+        );
+        assert list.size() == 2;
+        assert list.get(0).getName().equals("zhangsan");
+        assert list.get(1).getName().equals("wangwu");
+        this.userUniqueIndexService.delete(new DeleteWrapper<UserUniqueIndex>()
+                .in(UserUniqueIndex::getCardNo, Arrays.asList("batch-ignore-1", "batch-ignore-2"))
+        );
+    }
+
+    /**
      * replace into测试(插入后不返回主键)
      */
     @Test
@@ -125,6 +152,32 @@ public class UniqueIndexTests {
         assert u1.getId() != null && Objects.equals(u1.getId(), list.get(0).getId());
         this.userUniqueIndexService.delete(new DeleteWrapper<UserUniqueIndex>()
                 .eq(UserUniqueIndex::getCardNo, "1001")
+        );
+    }
+
+    /**
+     * 批量唯一索引冲突更新测试
+     */
+    @Test
+    public void batchInsertOrUpdateWithUniqueIndex() {
+        this.userUniqueIndexService.delete(new DeleteWrapper<UserUniqueIndex>()
+                .in(UserUniqueIndex::getCardNo, Arrays.asList("batch-upsert-1", "batch-upsert-2"))
+        );
+        this.userUniqueIndexService.insert(new UserUniqueIndex("batch-upsert-1", "old-name"));
+        this.userUniqueIndexService.batchInsertOrUpdateWithUniqueIndex(Arrays.asList(
+                new UserUniqueIndex("batch-upsert-1", "new-name"),
+                new UserUniqueIndex("batch-upsert-2", "second-user")
+        ));
+
+        List<UserUniqueIndex> list = this.userUniqueIndexService.selectList(new SelectWrapper<UserUniqueIndex>()
+                .in(UserUniqueIndex::getCardNo, Arrays.asList("batch-upsert-1", "batch-upsert-2"))
+                .orderByAsc(UserUniqueIndex::getCardNo)
+        );
+        assert list.size() == 2;
+        assert list.get(0).getName().equals("new-name");
+        assert list.get(1).getName().equals("second-user");
+        this.userUniqueIndexService.delete(new DeleteWrapper<UserUniqueIndex>()
+                .in(UserUniqueIndex::getCardNo, Arrays.asList("batch-upsert-1", "batch-upsert-2"))
         );
     }
 }

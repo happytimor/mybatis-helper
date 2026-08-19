@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.List;
 import java.util.Random;
@@ -400,6 +401,34 @@ public class UniqueIndexForMultipleTableTests {
         assert u1.getId() != null && Objects.equals(u1.getId(), list.get(0).getId());
         this.userMultipleTableUniqueIndexService.delete(tableNum, new DeleteWrapper<UserUniqueIndex>()
                 .eq(UserUniqueIndex::getCardNo, "1001")
+        );
+    }
+
+    /**
+     * 分表批量唯一索引冲突更新测试
+     */
+    @Test
+    public void batchInsertOrUpdateWithUniqueIndex() {
+        List<String> cardNoList = Arrays.asList("multiple-batch-upsert-1", "multiple-batch-upsert-2");
+        this.userMultipleTableUniqueIndexService.delete(tableNum, new DeleteWrapper<UserUniqueIndex>()
+                .in(UserUniqueIndex::getCardNo, cardNoList)
+        );
+        this.userMultipleTableUniqueIndexService.insert(tableNum,
+                new UserUniqueIndex("multiple-batch-upsert-1", "old-name"));
+        this.userMultipleTableUniqueIndexService.batchInsertOrUpdateWithUniqueIndex(tableNum, Arrays.asList(
+                new UserUniqueIndex("multiple-batch-upsert-1", "new-name"),
+                new UserUniqueIndex("multiple-batch-upsert-2", "second-user")
+        ));
+
+        List<UserUniqueIndex> list = this.userMultipleTableUniqueIndexService.selectList(tableNum,
+                new SelectWrapper<UserUniqueIndex>()
+                        .in(UserUniqueIndex::getCardNo, cardNoList)
+                        .orderByAsc(UserUniqueIndex::getCardNo));
+        assert list.size() == 2;
+        assert list.get(0).getName().equals("new-name");
+        assert list.get(1).getName().equals("second-user");
+        this.userMultipleTableUniqueIndexService.delete(tableNum, new DeleteWrapper<UserUniqueIndex>()
+                .in(UserUniqueIndex::getCardNo, cardNoList)
         );
     }
 }
