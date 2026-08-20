@@ -10,7 +10,7 @@ import java.util.Date;
  * @author chenpeng
  */
 public class UserUid {
-    @TableColumn(primaryKey = true)
+    @TableColumn(value = "user_uid", primaryKey = true)
     private Integer uid;
     private String name;
     @TableColumn(value = "greater_then_60s_a_b_c_3_A_NN_axiba")

@@ -103,10 +103,11 @@ public final class LambdaUtils {
             List<Field> declaredFields = new ArrayList<>();
             parseAlldeclaredFields(modelClass, declaredFields, new HashSet<>());
             for (Field declaredField : declaredFields) {
-                //跳过final修饰变量
-                if (java.lang.reflect.Modifier.isFinal(declaredField.getModifiers())) {
+                //跳过不属于实体实例数据的字段
+                int modifiers = declaredField.getModifiers();
+                if (Modifier.isFinal(modifiers) || Modifier.isStatic(modifiers)) {
                     if (logger.isDebugEnabled()) {
-                        logger.debug("skip final field:{}.{}", modelClass.getSimpleName(), declaredField.getName());
+                        logger.debug("skip static or final field:{}.{}", modelClass.getSimpleName(), declaredField.getName());
                     }
                     continue;
                 }
@@ -128,8 +129,7 @@ public final class LambdaUtils {
 
                 //覆盖默认主键
                 if (tableColumn != null && tableColumn.primaryKey()) {
-                    String keyColumn = "".equals(tableColumn.value()) ? fieldName : tableColumn.value();
-                    tableInfo.setKeyColumn(keyColumn);
+                    tableInfo.setKeyColumn(columnName);
                     tableInfo.setKeyProperty(fieldName);
                 }
             }

@@ -188,6 +188,8 @@ public class VelocityTemplateEngine implements TemplateEngine {
                 String columnName = resultSet.getString("COLUMN_NAME");
                 column.setColumnName(columnName);
                 column.setColumnType(resultSet.getString("TYPE_NAME"));
+                column.setColumnSize(resultSet.getInt("COLUMN_SIZE"));
+                column.setDecimalDigits(resultSet.getInt("DECIMAL_DIGITS"));
                 column.setColumnComment(resultSet.getString("REMARKS"));
                 column.setPk(pkSet.contains(columnName));
                 columns.add(column);

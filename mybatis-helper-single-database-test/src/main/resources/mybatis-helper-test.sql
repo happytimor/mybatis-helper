@@ -69,7 +69,7 @@ CREATE TABLE `user_02` (
 
 -- 主键名不为id测试用到(UserUidTests.java)
 CREATE TABLE `user_uid` (
-  `uid` int(11)  NOT NULL AUTO_INCREMENT,
+  `user_uid` int(11)  NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT '',
   `greater_then_60s_a_b_c_3_A_NN_axiba` varchar(64) DEFAULT '',
   `age` int(11) DEFAULT '-1',
@@ -80,7 +80,7 @@ CREATE TABLE `user_uid` (
   `grade_of_science` int(11) DEFAULT '0',
   `last_login_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `flag` varchar(64) DEFAULT '',
-  PRIMARY KEY (`uid`)
+  PRIMARY KEY (`user_uid`)
 ) ;
 
 -- 无主键测试(UserNoKeyTests.java)

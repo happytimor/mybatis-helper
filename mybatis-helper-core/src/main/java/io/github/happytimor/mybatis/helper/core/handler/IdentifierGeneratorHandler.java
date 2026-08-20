@@ -40,6 +40,9 @@ public class IdentifierGeneratorHandler {
         }
         if (parameters instanceof List) {
             List<?> list = (List<?>) parameters;
+            if (list.isEmpty()) {
+                return;
+            }
             Object firstEntity = list.get(0);
             TableInfo tableInfo = LambdaUtils.parseTableInfo(firstEntity.getClass());
             if (tableInfo != null && tableInfo.getIdType() == IdType.DYNAMIC_GENERATE) {

@@ -83,6 +83,10 @@ abstract class AbstractBatchUniqueIndexMethod extends AbstractMethod {
             sql.append('`').append(result.getColumn()).append("`=VALUES(`")
                     .append(result.getColumn()).append("`),");
         }
+        if (sql.length() == 0) {
+            String keyColumn = tableInfo.getKeyColumn();
+            return '`' + keyColumn + "`=VALUES(`" + keyColumn + "`)";
+        }
         sql.deleteCharAt(sql.length() - 1);
         return sql.toString();
     }

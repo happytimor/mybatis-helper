@@ -25,8 +25,8 @@ public class GenConstants {
     /**
      * 数据库数字类型
      */
-    public static final String[] COLUMNTYPE_NUMBER = {"tinyint", "smallint", "mediumint", "int", "number", "integer",
-            "bit", "bigint", "float", "double", "decimal"};
+    public static final String[] COLUMNTYPE_NUMBER = {"tinyint", "smallint", "mediumint", "int", "number", "numeric",
+            "integer", "bit", "bigint", "float", "double", "real", "decimal"};
 
     /**
      * 字符串类型

@@ -27,6 +27,16 @@ public class GenTableColumn {
     private String columnType;
 
     /**
+     * 列长度或数字精度
+     */
+    private Integer columnSize;
+
+    /**
+     * 数字小数位数
+     */
+    private Integer decimalDigits;
+
+    /**
      * JAVA类型
      */
     private String javaType;

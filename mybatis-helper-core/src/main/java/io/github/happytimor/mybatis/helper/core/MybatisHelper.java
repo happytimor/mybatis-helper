@@ -256,11 +256,11 @@ public class MybatisHelper implements ApplicationContextAware {
                 tableInfo.setKeyProperty(Constants.DEFAULT_KEY_PROPERTY);
             }
             try {
-                Field keyField = LambdaUtils.getFiledByName(modelClass, tableInfo.getKeyColumn());
+                Field keyField = LambdaUtils.getFiledByName(modelClass, tableInfo.getKeyProperty());
                 if (keyField != null) {
                     tableInfo.setKeyClass(keyField.getType());
                 } else {
-                    logger.warn("the class {} has no field named {}", modelClass.getName(), tableInfo.getKeyColumn());
+                    logger.warn("the class {} has no field named {}", modelClass.getName(), tableInfo.getKeyProperty());
                 }
             } catch (Exception e) {
                 logger.error("class: " + modelClass.getName() + "error: " + e.getMessage(), e);

@@ -28,33 +28,26 @@ public class GenUtils {
 
         if (arraysContains(GenConstants.COLUMNTYPE_STR, dataType) || arraysContains(GenConstants.COLUMNTYPE_TEXT, dataType)) {
             // 字符串长度超过500设置为文本域
-            Integer columnLength = getColumnLength(column.getColumnType());
+            Integer columnLength = column.getColumnSize() != null
+                    ? column.getColumnSize() : getColumnLength(column.getColumnType());
             if (columnLength >= 500 || arraysContains(GenConstants.COLUMNTYPE_TEXT, dataType)) {
                 column.setQueryType(GenConstants.QUERY_LIKE);
             }
         } else if (arraysContains(GenConstants.COLUMNTYPE_TIME, dataType)) {
             column.setJavaType(GenConstants.TYPE_DATE);
         } else if (arraysContains(GenConstants.COLUMNTYPE_NUMBER, dataType)) {
-            // 如果是浮点型 统一用BigDecimal
-            String[] str = null;
-            String columnType = column.getColumnType();
-            if (StringUtils.indexOf(columnType, "(") > 0) {
-                String precisionStr = StringUtils.substringBetween(columnType, "(", ")");
-                if (precisionStr != null) {
-                    str = StringUtils.split(precisionStr, ",");
-                }
-            }
-            // 如果是浮点型（带有小数位）
-            if (str != null && str.length == 2 && Integer.parseInt(str[1]) > 0) {
+            Integer columnSize = column.getColumnSize();
+            Integer decimalDigits = column.getDecimalDigits();
+            boolean decimalType = arraysContains(new String[]{"number", "numeric", "float", "double", "real", "decimal"}, dataType);
+            // 浮点和高精度数字统一使用BigDecimal，避免精度丢失
+            if (decimalType || (decimalDigits != null && decimalDigits > 0)) {
                 column.setJavaType(GenConstants.TYPE_BIGDECIMAL);
             }
-            // 如果是小整数（长度<=10）
-            else if (str != null && str.length == 1 && Integer.parseInt(str[0]) <= 10) {
+            // bigint始终使用Long，其余不超过10位的整数使用Integer
+            else if (!"bigint".equals(dataType) && columnSize != null && columnSize <= 10) {
                 column.setJavaType(GenConstants.TYPE_INTEGER);
             }
-            // 对于没有括号的类型（如int, integer, bigint等）或大整数
             else {
-                // 直接根据数据类型判断
                 if (arraysContains(new String[]{"tinyint", "smallint", "mediumint", "int", "integer"}, dataType)) {
                     column.setJavaType(GenConstants.TYPE_INTEGER);
                 } else {
