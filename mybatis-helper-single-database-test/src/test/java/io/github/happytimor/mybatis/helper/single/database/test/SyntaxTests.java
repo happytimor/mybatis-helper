@@ -27,6 +27,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 /**
  * 语法单元测试
  *
@@ -740,12 +743,12 @@ public class SyntaxTests {
                 .orderByDesc(User::getUserGrade)
                 .orderMerge(orderWrapper)
                 .getOrderSegment();
-        assert "ORDER BY `user_grade` DESC, `age` ASC, `id` DESC".equals(orderSegment);
+        assertEquals("ORDER BY `user_grade` DESC, `age` ASC, `id` DESC", orderSegment);
 
         String emptyOrderSegment = new SelectWrapper<User>()
                 .orderMerge(null)
                 .getOrderSegment();
-        assert "".equals(emptyOrderSegment);
+        assertEquals("", emptyOrderSegment);
     }
 
     @Test
@@ -754,7 +757,7 @@ public class SyntaxTests {
                 .orderByAsc("sumAge")
                 .orderByDesc(ColumnUtils.underscoreToCamelCase(User::getUserGrade))
                 .getOrderSegment();
-        assert "ORDER BY sumAge ASC, userGrade DESC".equals(orderSegment);
+        assertEquals("ORDER BY sumAge ASC, userGrade DESC", orderSegment);
     }
 
     /**
@@ -766,7 +769,8 @@ public class SyntaxTests {
                 .orderByDivide(User::getAge, User::getUserGrade, false)
                 .orderByDivide("sumAge", "countUser", true)
                 .getOrderSegment();
-        assert "ORDER BY (`age` / NULLIF(`user_grade`, 0)) DESC, (sumAge / NULLIF(countUser, 0)) ASC".equals(orderSegment);
+        assertEquals("ORDER BY (`age` / NULLIF(`user_grade`, 0)) DESC, "
+                + "(sumAge / NULLIF(countUser, 0)) ASC", orderSegment);
     }
 
     /**
@@ -790,7 +794,7 @@ public class SyntaxTests {
         String joinSegment = new SelectJoinWrapper<Student>()
                 .leftJoin(CourseInfo.class, CourseInfo::getId, Student::getBestCourseId)
                 .getJoinSegment();
-        assert "LEFT JOIN `course_info` t2 ON t2.`id` = t1.`best_course_id`".equals(joinSegment);
+        assertEquals("LEFT JOIN `course_info` t2 ON t2.`id` = t1.`best_course_id`", joinSegment);
     }
 
     private void assertOrderByDivideIllegalArgument(ColumnFunction<User, ?> numerator, ColumnFunction<User, ?> denominator) {
@@ -799,7 +803,7 @@ public class SyntaxTests {
         } catch (IllegalArgumentException e) {
             return;
         }
-        throw new RuntimeException("orderByDivide should reject null column");
+        fail("orderByDivide should reject null column");
     }
 
     private void assertOrderByDivideIllegalArgument(String numerator, String denominator) {
@@ -808,7 +812,7 @@ public class SyntaxTests {
         } catch (IllegalArgumentException e) {
             return;
         }
-        throw new RuntimeException("orderByDivide should reject empty column");
+        fail("orderByDivide should reject empty column");
     }
 
     /**
